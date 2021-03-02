@@ -6,7 +6,7 @@ import (
 	"github.com/swaggo/http-swagger"
 	"log"
 	"net/http"
-	_ "playground/docs"
+	_ "playground-backend/docs"
 )
 
 // @title Playground REST server

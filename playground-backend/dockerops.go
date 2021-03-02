@@ -77,12 +77,14 @@ func runCode(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// extract immudb state
-	err = extractTarball(bytes.NewReader(req.Immudb),dir)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		log.Printf("Error: %s", err.Error())
-		return
-	}
+	if len(req.Immudb)>0 {
+		err = extractTarball(bytes.NewReader(req.Immudb),dir)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			log.Printf("Error: %s", err.Error())
+			return
+		}
+        }
 	// launch the container
 	err = runContainer(cli, dir)
 	if err != nil {
@@ -189,8 +191,14 @@ func extractTarball(tarball io.Reader, dir string) error {
 					return err
 				}
 			case tar.TypeReg:
-				log.Printf("Extracting file %s",path.Join(dir,header.Name))
-				outFile, err := os.Create(path.Join(dir,header.Name))
+				fname := path.Join(dir,header.Name)
+				log.Printf("Extracting file %s",fname)
+				err = os.MkdirAll(path.Dir(fname), 0755)
+				if err != nil {
+					log.Printf("Error while extracting tarball: %s", err.Error())
+					return err
+				}
+				outFile, err := os.Create(fname)
 				if err != nil {
 					outFile.Close()
 					log.Printf("Error while extracting tarball: %s", err.Error())
