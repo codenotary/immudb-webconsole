@@ -14,6 +14,7 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"time"
 )
 
 type runRequest struct {
@@ -23,7 +24,8 @@ type runRequest struct {
 type runResponse struct {
 	Stdout string `json:"stdout"`
 	Stderr string `json:"stderr"`
-	Immdub []byte `json:"immudb"`
+	Immudb []byte `json:"immudb"`
+	Tree   []byte `json:"tree"`
 }
 
 // runCode ...
@@ -101,27 +103,39 @@ func runContainer(cli *client.Client, dir string) (err error) {
 				{Type: mount.TypeBind, Source: dir, Target: "/tmp"},
 			},
 		},
-		nil,      //net config
-		nil,      // platform
-		"Mennea") // name
+		nil,    //net config
+		nil,    // platform
+		"")     // name
+	c_id := resp.ID
 	if err != nil {
 		log.Printf("Error: %s", err.Error())
 		return
 	}
-	defer cli.ContainerRemove(ctx, resp.ID, types.ContainerRemoveOptions{})
-	err = cli.ContainerStart(ctx, resp.ID, types.ContainerStartOptions{})
+	defer cli.ContainerRemove(ctx, c_id, types.ContainerRemoveOptions{})
+	err = cli.ContainerStart(ctx, c_id, types.ContainerStartOptions{})
 	if err != nil {
 		log.Printf("Error: %s", err.Error())
 		return
 	}
-	statusCh, errCh := cli.ContainerWait(ctx, resp.ID, container.WaitConditionNotRunning)
+	log.Printf("Started container %s",c_id)
+	start_time := time.Now()
+	statusCh, errCh := cli.ContainerWait(ctx, c_id, container.WaitConditionNotRunning)
 	select {
-	case err = <-errCh:
-		if err != nil {
-			log.Printf("Error: %s", err.Error())
-			return
-		}
-	case <-statusCh:
+		case <-time.After(5 * time.Second):
+			log.Printf("Timeout expired, killing container %s",c_id)
+			killtimeout := 3*time.Second
+			err = cli.ContainerStop(ctx, c_id, &killtimeout)
+			if err != nil {
+				log.Printf("Unable to kill container %s",c_id)
+				return
+			}
+		case err = <-errCh:
+			if err != nil {
+				log.Printf("Error: %s", err.Error())
+				return
+			}
+		case <-statusCh:
+			log.Printf("Container %s ended in %s",c_id,time.Since(start_time))
 	}
 	err = doTarball(ctx, dir, path.Join(dir, "data"), path.Join(dir, "data.tar.gz"))
 	if err != nil {
@@ -148,6 +162,11 @@ func readback(dir string) (response runResponse, err error) {
 		log.Printf("Error while reding immudb data archive: %s", err.Error())
 		return
 	}
-	response = runResponse{string(stdout), string(stderr), immudb}
+	dump, err := ioutil.ReadFile(path.Join(dir, "dump.json.gz"))
+	if err != nil {
+		log.Printf("Error while reding immudb dump: %s", err.Error())
+		return
+	}
+	response = runResponse{string(stdout), string(stderr), immudb, dump}
 	return
 }

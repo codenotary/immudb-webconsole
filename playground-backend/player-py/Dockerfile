@@ -18,5 +18,6 @@ RUN apk update && apk add --no-cache libstdc++
 COPY --from=builder1 /app /app
 COPY --from=builder2 /src/immudb/immudb /usr/sbin/immudb
 ADD start.sh /start.sh
-RUN chmod +x /start.sh /usr/sbin/immudb
+ADD immudumper /usr/local/bin/immudumper
+RUN chmod +x /start.sh /usr/sbin/immudb /usr/local/bin/immudumper
 ENTRYPOINT /start.sh

@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+        "flag"
 	"log"
 
 	"encoding/json"
@@ -44,11 +45,20 @@ func getSize(client immuclient.ImmuClient, ctx context.Context) uint64 {
 	return s.TxId
 }
 
+var config struct {
+    outfile string
+}
+
+func init() {
+    flag.StringVar(&config.outfile, "outfile", "dump.json.gz", "output filename")
+    flag.Parse()
+}
+
 func main() {
 	client, ctx := connect()
 	var i uint64
 	size := getSize(client, ctx)
-	f_out := zfile.CreateZFile("dump.json.gz")
+	f_out := zfile.CreateZFile(config.outfile)
 	defer f_out.Close()
 	f_out.WriteString("[\n")
 	for i = 1; i <= size; i++ {
