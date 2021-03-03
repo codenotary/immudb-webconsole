@@ -9,5 +9,5 @@ V_LDFLAGS := -X "main.Version=$(V_VERSION)"\
 
 all: playground-backend
 
-playground-backend: dockerops.go main.go docs
+playground-backend: dockerops.go main.go tarfunc.go docs
 	go build -ldflags '$(V_LDFLAGS)' playground-backend
