@@ -35,14 +35,14 @@ func extractTarball(tarball io.Reader, dir string) error {
 
 		switch header.Typeflag {
 		case tar.TypeDir:
-			log.Printf("Extracting dir %s", path.Join(dir, header.Name))
+			// 			log.Printf("Extracting dir %s", path.Join(dir, header.Name))
 			if err := os.Mkdir(path.Join(dir, header.Name), 0755); err != nil {
 				log.Printf("Error while extracting tarball: %s", err.Error())
 				return err
 			}
 		case tar.TypeReg:
 			fname := path.Join(dir, header.Name)
-			log.Printf("Extracting file %s", fname)
+			// 			log.Printf("Extracting file %s", fname)
 			err = os.MkdirAll(path.Dir(fname), 0755)
 			if err != nil {
 				log.Printf("Error while extracting tarball: %s", err.Error())

@@ -102,10 +102,14 @@ func runContainer(cli *client.Client, dir string) (err error) {
 			Mounts: []mount.Mount{
 				{Type: mount.TypeBind, Source: dir, Target: "/tmp"},
 			},
+			Resources: container.Resources{
+				Memory: 1048576 * 100, // 100 MBytes
+				// CPUQuota: 20_000, // 20% of available CPU (cfs)
+			},
 		},
-		nil,    //net config
-		nil,    // platform
-		"")     // name
+		nil, //net config
+		nil, // platform
+		"")  // name
 	c_id := resp.ID
 	if err != nil {
 		log.Printf("Error: %s", err.Error())
@@ -117,25 +121,25 @@ func runContainer(cli *client.Client, dir string) (err error) {
 		log.Printf("Error: %s", err.Error())
 		return
 	}
-	log.Printf("Started container %s",c_id)
+	log.Printf("Started container %s", c_id[0:12])
 	start_time := time.Now()
 	statusCh, errCh := cli.ContainerWait(ctx, c_id, container.WaitConditionNotRunning)
 	select {
-		case <-time.After(5 * time.Second):
-			log.Printf("Timeout expired, killing container %s",c_id)
-			killtimeout := 3*time.Second
-			err = cli.ContainerStop(ctx, c_id, &killtimeout)
-			if err != nil {
-				log.Printf("Unable to kill container %s",c_id)
-				return
-			}
-		case err = <-errCh:
-			if err != nil {
-				log.Printf("Error: %s", err.Error())
-				return
-			}
-		case <-statusCh:
-			log.Printf("Container %s ended in %s",c_id,time.Since(start_time))
+	case <-time.After(5 * time.Second):
+		log.Printf("Timeout expired, killing container %s", c_id)
+		killtimeout := 3 * time.Second
+		err = cli.ContainerStop(ctx, c_id, &killtimeout)
+		if err != nil {
+			log.Printf("Unable to kill container %s", c_id)
+			return
+		}
+	case err = <-errCh:
+		if err != nil {
+			log.Printf("Error: %s", err.Error())
+			return
+		}
+	case <-statusCh:
+		log.Printf("Container %s ended in %s", c_id[0:12], time.Since(start_time))
 	}
 	err = doTarball(ctx, dir, path.Join(dir, "data"), path.Join(dir, "data.tar.gz"))
 	if err != nil {
