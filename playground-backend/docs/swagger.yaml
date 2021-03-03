@@ -19,6 +19,10 @@ definitions:
         type: string
       stdout:
         type: string
+      tree:
+        items:
+          type: integer
+        type: array
     type: object
   main.versionInfo:
     properties:

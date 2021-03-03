@@ -122,6 +122,12 @@ var doc = `{
                 },
                 "stdout": {
                     "type": "string"
+                },
+                "tree": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
                 }
             }
         },
