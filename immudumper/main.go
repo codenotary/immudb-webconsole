@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-        "flag"
+	"flag"
 	"log"
 
 	"encoding/json"
@@ -46,12 +46,12 @@ func getSize(client immuclient.ImmuClient, ctx context.Context) uint64 {
 }
 
 var config struct {
-    outfile string
+	outfile string
 }
 
 func init() {
-    flag.StringVar(&config.outfile, "outfile", "dump.json.gz", "output filename")
-    flag.Parse()
+	flag.StringVar(&config.outfile, "outfile", "", "output filename (gzipped). If none given, will print to stdout.")
+	flag.Parse()
 }
 
 func main() {

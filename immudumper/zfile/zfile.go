@@ -7,13 +7,23 @@ import (
 	"os"
 )
 
+type Outputter interface {
+	Write(b []byte) (int, error)
+	WriteString(s string) (int, error)
+	Close() error
+}
+
 type zfile struct {
 	f  *os.File
 	gf *gzip.Writer
 	fw *bufio.Writer
 }
 
-func CreateZFile(s string) (zf zfile) {
+func CreateZFile(s string) Outputter {
+	if s == "" {
+		return os.Stdout
+	}
+	zf := zfile{}
 	var err error
 	zf.f, err = os.OpenFile(s, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0660)
 	if err != nil {
@@ -21,19 +31,19 @@ func CreateZFile(s string) (zf zfile) {
 	}
 	zf.gf = gzip.NewWriter(zf.f)
 	zf.fw = bufio.NewWriter(zf.gf)
-	return
+	return &zf
 }
 
-func (zf *zfile) Write(b []byte) {
-	zf.fw.Write(b)
+func (zf *zfile) Write(b []byte) (int, error) {
+	return zf.fw.Write(b)
 }
 
-func (zf *zfile) WriteString(s string) {
-	zf.fw.WriteString(s)
+func (zf *zfile) WriteString(s string) (int, error) {
+	return zf.fw.WriteString(s)
 }
 
-func (zf *zfile) Close() {
+func (zf *zfile) Close() error {
 	zf.fw.Flush()
 	zf.gf.Close()
-	zf.f.Close()
+	return zf.f.Close()
 }
