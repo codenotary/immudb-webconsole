@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+    playgroundbackend:
+        container_name: playgroundbackend
+        build:
+            context: playground-backend
+            args:
+                - V_COMMIT=nocommit
+            
+        ports: ["7771:7771"]
+        networks:
+            - appliance_internal_net
+
+networks:
+    appliance_internal_net:
+        external: true
