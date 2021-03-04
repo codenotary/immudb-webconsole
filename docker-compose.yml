@@ -9,8 +9,24 @@ services:
             
         ports: ["7771:7771"]
         networks:
-            - appliance_internal_net
+            - lc_internal_net
+        labels:
+          - "traefik.enable=true"
+          - traefik.http.services.playground.loadbalancer.server.port=7771
+          - traefik.http.routers.playrouter.rule=Host(`play.codenotary.com`) && PathPrefix(`/api/`)
+          - traefik.http.routers.playrouter.service=playground
+          - traefik.http.routers.playrouter.entrypoints=http
+          - traefik.http.routers.playroutertls.rule=Host(`play.codenotary.com`) && PathPrefix(`/api/`)
+          - traefik.http.routers.playroutertls.service=playground
+          - traefik.http.routers.playroutertls.entrypoints=https
+          - traefik.http.routers.playroutertls.tls=true
+          - traefik.http.routers.playroutertls.tls.certresolver=myresolver
+
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+          - /var/tmp:/var/tmp
+
 
 networks:
-    appliance_internal_net:
+    lc_internal_net:
         external: true
