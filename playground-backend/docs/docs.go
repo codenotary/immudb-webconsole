@@ -158,7 +158,7 @@ type swaggerInfo struct {
 var SwaggerInfo = swaggerInfo{
 	Version:     "1.0",
 	Host:        "",
-	BasePath:    "/v1",
+	BasePath:    "/api/v1",
 	Schemes:     []string{},
 	Title:       "Playground REST server",
 	Description: "This is a PoC playground rest server",
