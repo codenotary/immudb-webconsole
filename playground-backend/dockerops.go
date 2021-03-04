@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+        "errors"
 	"fmt"
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
@@ -131,8 +132,9 @@ func runContainer(cli *client.Client, dir string) (err error) {
 		err = cli.ContainerStop(ctx, c_id, &killtimeout)
 		if err != nil {
 			log.Printf("Unable to kill container %s", c_id)
-			return
+			return 
 		}
+		return errors.New("Run time exceeded")
 	case err = <-errCh:
 		if err != nil {
 			log.Printf("Error: %s", err.Error())
@@ -151,26 +153,27 @@ func runContainer(cli *client.Client, dir string) (err error) {
 }
 
 func readback(dir string) (response runResponse, err error) {
-	stdout, err := ioutil.ReadFile(path.Join(dir, "stdout"))
-	if err != nil {
+        var stdout, stderr, immudb, dump []byte
+	stdout, err = ioutil.ReadFile(path.Join(dir, "stdout"))
+	if err != nil && !os.IsNotExist(err) {
 		log.Printf("Error while reding immudb data archive: %s", err.Error())
 		return
 	}
-	stderr, err := ioutil.ReadFile(path.Join(dir, "stderr"))
-	if err != nil {
+	stderr, err = ioutil.ReadFile(path.Join(dir, "stderr"))
+	if err != nil && !os.IsNotExist(err) {
 		log.Printf("Error while reding immudb data archive: %s", err.Error())
 		return
 	}
-	immudb, err := ioutil.ReadFile(path.Join(dir, "data.tar.gz"))
-	if err != nil {
+	immudb, err = ioutil.ReadFile(path.Join(dir, "data.tar.gz"))
+	if err != nil && !os.IsNotExist(err) {
 		log.Printf("Error while reding immudb data archive: %s", err.Error())
 		return
 	}
-	dump, err := ioutil.ReadFile(path.Join(dir, "dump.json.gz"))
-	if err != nil {
+	dump, err = ioutil.ReadFile(path.Join(dir, "dump.json.gz"))
+	if err != nil && !os.IsNotExist(err) {
 		log.Printf("Error while reding immudb dump: %s", err.Error())
 		return
 	}
 	response = runResponse{string(stdout), string(stderr), immudb, dump}
-	return
+	return response, nil
 }
