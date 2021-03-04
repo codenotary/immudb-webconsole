@@ -6,3 +6,4 @@ all: build
 .PHONY: build
 build:
 	docker-compose build $(VARS)
+	make -C player-py
