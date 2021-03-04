@@ -1,0 +1,56 @@
+// TYPOGRAPHY
+$title-font: 'Roboto';
+$body-font-family: 'Roboto';
+
+.v-application {
+	font-family: $body-font-family, sans-serif !important;
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	.display-4,
+	.display-3,
+	.display-2,
+	.display-1,
+	.headline,
+	.subtitle-1,
+	.subtitle-2,
+	.title,
+	.v-card__title {
+		font-family: $title-font, sans-serif !important;
+	}
+
+	.v-card__text,
+	.toasted {
+		font-family: $body-font-family, sans-serif !important;
+	}
+
+	.break-all {
+		word-break: break-all !important;
+	}
+
+	.break-word {
+		word-break: break-word !important;
+	}
+
+	.font-weight- {
+		&100 {
+			font-weight: 100 !important;
+		}
+
+		&400 {
+			font-weight: 400 !important;
+		}
+
+		&500 {
+			font-weight: 500 !important;
+		}
+
+		&700 {
+			font-weight: 700 !important;
+		}
+	}
+}

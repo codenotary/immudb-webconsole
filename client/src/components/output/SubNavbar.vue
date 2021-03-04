@@ -1,0 +1,108 @@
+<template>
+	<v-card
+		class="ma-0 pa-0 fill-width bg"
+		tile
+		:elevation="0"
+	>
+		<v-card-text
+			class="ma-0 pa-0"
+			style="box-shadow: none !important;"
+		>
+			<v-tabs
+				id="OutputSubNavbar"
+				v-model="activeTab"
+				class="sub-navbar"
+				slider-color="primary"
+				show-arrows
+				dense
+			>
+				<v-tab>
+					<v-icon
+						class="ml-2 gray--text text--lighten-1"
+						dense
+					>
+						{{ mdiText }}
+					</v-icon>
+					<span class="ml-2 body-2 text-capitalize">
+						{{ $t('output.stdout.title') }}
+					</span>
+				</v-tab>
+				<v-tab>
+					<v-icon
+						class="ml-2 gray--text text--lighten-1"
+						dense
+					>
+						{{ mdiAlertCircleOutline }}
+					</v-icon>
+					<span class="ml-2 body-2 text-capitalize">
+						{{ $t('output.stderr.title') }}
+					</span>
+				</v-tab>
+				<v-tab>
+					<v-icon
+						class="ml-2 gray--text text--lighten-1"
+						dense
+					>
+						{{ mdiFamilyTree }}
+					</v-icon>
+					<span class="ml-2 body-2 text-capitalize">
+						{{ $t('output.merkleTree.title') }}
+					</span>
+				</v-tab>
+			</v-tabs>
+		</v-card-text>
+	</v-card>
+</template>
+
+<script>
+import {
+	mdiText,
+	mdiAlertCircleOutline,
+	mdiFamilyTree,
+} from '@mdi/js';
+
+export default {
+	name: 'OutputSubNavbar',
+	props: {
+		tab: { type: Number, default: 0 },
+	},
+	data () {
+		return {
+			mdiText,
+			mdiAlertCircleOutline,
+			mdiFamilyTree,
+			activeTab: 0,
+		};
+	},
+	watch: {
+		activeTab (newVal) {
+			this.$emit('update:tab', newVal);
+		},
+	},
+};
+</script>
+
+<style lang="scss">
+#OutputSubNavbar {
+	background-color: inherit !important;
+
+	.v-item-group {
+		background-color: inherit !important;
+
+		.v-tabs-slider {
+			position: relative;
+
+			&::after {
+				content: '';
+				position: absolute;
+				top: 2px;
+				left: 0;
+				right: 0;
+				height: 2px;
+				background-color: red;
+				z-index: 20;
+			}
+		}
+	}
+}
+</style>

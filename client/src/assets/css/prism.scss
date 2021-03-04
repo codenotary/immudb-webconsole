@@ -1,0 +1,134 @@
+@import "@/assets/css/typography.scss";
+
+$prismHeight: 30px;
+
+.prism-editor-wrapper {
+	display: flex;
+	width: 100%;
+	height: 100% !important;
+	padding: 0 !important;
+	border: none !important;
+	align-items: flex-start;
+	overflow: auto;
+	tab-size: 1.5em;
+	border-radius: 4px;
+
+	.prism-editor__line-numbers {
+		height: 100%;
+		flex-shrink: 0;
+		padding-top: 4px;
+		margin-top: 0;
+		overflow: hidden;
+		background-color: transparent !important;
+	}
+
+	.prism-editor__line-number {
+		text-align: right;
+		white-space: nowrap;
+	}
+
+	.prism-editor__code {
+		margin-top: 0 !important;
+		margin-bottom: 0 !important;
+		flex-grow: 2;
+		min-height: 100%;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+		tab-size: 4;
+		outline: none;
+		background-color: transparent !important;
+
+		pre.prism-editor__code {
+			background-color: transparent !important;
+
+			&:focus {
+				outline: none !important;
+			}
+		}
+
+		:not(pre) > code[class*="language-"],
+		pre[class*="language-"] {
+			background-color: transparent !important;
+		}
+
+		code[class*="language-"],
+		pre[class*="language-"] {
+			background-color: transparent !important;
+			text-align: left !important;
+			white-space: pre-wrap !important;
+			word-spacing: normal !important;
+			word-break: break-word !important;
+			overflow-wrap: break-word !important;
+			-webkit-user-modify: read-write-plaintext-only !important;
+			font-family: $body-font-family, monospace !important;
+			font-size: 14px !important;
+			font-weight: 500 !important;
+			text-shadow: none !important;
+			tab-size: 4 !important;
+			hyphens: none !important;
+			outline: none !important;
+
+			span {
+				text-shadow: none !important;
+			}
+
+			&::-moz-selection {
+				text-shadow: none;
+				background: #45475b !important;
+			}
+
+			&::selection {
+				text-shadow: none;
+				background: #45475b !important;
+			}
+
+			&::before,
+			&::after {
+				content: '';
+			}
+		}
+
+		pre[class*="language-"] {
+			position: relative;
+			margin: 0 !important;
+			padding: 0 16px !important;
+			border-radius: 4px;
+			outline-offset: -2px;
+			overflow: hidden !important;
+
+			@media (max-width: 480px) {
+				max-height: 480px !important;
+			}
+		}
+
+		code[class*="language-"] {
+			display: inline !important;
+			margin: 0 !important;
+			padding: 0 !important;
+			min-height: $prismHeight;
+			max-height: $prismHeight;
+			line-height: $prismHeight / 2;
+			font-family: inherit !important;
+
+			.token {
+				&.operator {
+					background-color: transparent !important;
+				}
+
+				&::-moz-selection {
+					text-shadow: none;
+					background: #45475b !important;
+				}
+
+				&::selection {
+					text-shadow: none;
+					background: #45475b !important;
+				}
+			}
+		}
+
+		[class*="language-"] .namespace {
+			opacity: 0.7;
+		}
+	}
+}
