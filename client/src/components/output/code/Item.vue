@@ -1,20 +1,31 @@
 <template>
 	<div
 		id="OutputCodeItem"
-		:class="`my-2 mx-0 pa-0 pl-4 fill-height bar-${ flux }`"
+		class="my-2 mx-0 pa-0 pl-4 fill-height"
 	>
-		<span class="ma-0 pa-0 caption grey--text text--lighten-1">
-			{{ timestamp }}
-		</span>
-		<span class="my-0 mx-2 pa-0">
-			{{ separator }}
-		</span>
-		<span :class="`ma-0 mr-2 pa-0 caption stdx ${ flux }`">
-			{{ flux }}
-		</span>
-		<span class="ma-0 pa-0 caption grey--text text--lighten-1">
-			{{ line }}
-		</span>
+		<div v-if="divider">
+			<v-divider
+				class="my-2 mx-0"
+				style="opacity: 0.55;"
+			/>
+		</div>
+		<div
+			v-else
+			:class="`bar-${ flux }`"
+		>
+			<span class="ma-0 pa-0 caption grey--text text--lighten-1">
+				{{ timestamp }}
+			</span>
+			<span class="my-0 mx-2 pa-0">
+				{{ separator }}
+			</span>
+			<span :class="`ma-0 mr-2 pa-0 caption stdx ${ flux }`">
+				{{ flux }}
+			</span>
+			<span class="ma-0 pa-0 caption grey--text text--lighten-1">
+				{{ line }}
+			</span>
+		</div>
 	</div>
 </template>
 
@@ -49,6 +60,13 @@ export default {
 				return this.timestampToString(timestamp * 1000);
 			}
 			return '';
+		},
+		divider () {
+			if (this.item) {
+				const { divider } = this.item;
+				return divider;
+			}
+			return false;
 		},
 	},
 };

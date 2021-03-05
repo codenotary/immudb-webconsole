@@ -35,7 +35,11 @@ export default {
 		if (payload) {
 			const { output } = payload;
 			if (output && output.length) {
-				output && (state.output = [...state.output, ...output]);
+				output && (state.output = [
+					...state.output,
+					...output,
+					{ divider: true },
+				]);
 			}
 		}
 	},
