@@ -1,0 +1,211 @@
+// @import "~@/assets/css/github-markdown";
+
+.github-markdown {
+	a {
+		color: $primary !important;
+		text-decoration: none !important;
+
+		// &:visited {
+		// 	color:$color-secondary !important;
+		// }
+
+		&:hover {
+			color: $secondary !important;
+		}
+
+		&:active {
+			color: $warning !important;
+		}
+
+		&:focus {
+			outline: thin dotted !important;
+		}
+
+		&::-moz-selection {
+			background: rgba(255, 255, 0, 0.3) !important;
+			color: $primary !important;
+		}
+
+		&::selection {
+			background: rgba(255, 255, 0, 0.3) !important;
+			color: $primary !important;
+		}
+	}
+
+	a:hover,
+	a:active {
+		outline: 0 !important;
+	}
+
+	::-moz-selection {
+		background: rgba(255, 255, 0, 0.3) !important;
+		color: #000 !important;
+	}
+
+	::selection {
+		background: rgba(255, 255, 0, 0.3) !important;
+		color: #000 !important;
+	}
+
+	p {
+		margin: 1em 0 !important;
+	}
+
+	img {
+		max-width: 100% !important;
+		border: 0 !important;
+		-ms-interpolation-mode: bicubic !important;
+		vertical-align: middle !important;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-weight: normal !important;
+		color: #111 !important;
+		line-height: 1em !important;
+	}
+
+	h4,
+	h5,
+	h6 {
+		font-weight: bold !important;
+	}
+
+	h1 {
+		margin: 0 0 16px 0 !important;
+		padding: 0 0 0.3em 0 !important;
+		font-size: 2.5em !important;
+	}
+
+	h2 {
+		margin: 24px 0 16px 0 !important;
+		padding: 0 0 0.3em 0 !important;
+		font-size: 2em !important;
+	}
+
+	h3 {
+		margin: 24px 0 16px 0 !important;
+		padding: 0 0 0 0 !important;
+		font-size: 1.5em !important;
+	}
+
+	h4 {
+		margin: 24px 0 16px 0 !important;
+		padding: 0 0 0 0 !important;
+		font-size: 1.2em !important;
+	}
+
+	h5 {
+		margin: 24px 0 16px 0 !important;
+		padding: 0 0 0 0 !important;
+		font-size: 1em !important;
+	}
+
+	h6 {
+		margin: 24px 0 0 0 !important;
+		padding: 0 0 0 0 !important;
+		font-size: 0.9em !important;
+	}
+
+	blockquote {
+		color: #666 !important;
+		margin: 0 !important;
+		padding-left: 3em !important;
+		border-left: 0.5em #eee solid !important;
+	}
+
+	hr {
+		display: block !important;
+		border: 0 !important;
+		border-top: 1px solid #aaa !important;
+		border-bottom: 1px solid #eee !important;
+		margin: 1em 0 !important;
+		padding: 0 !important;
+		height: 1px !important;
+	}
+
+	pre,
+	code,
+	kbd,
+	samp {
+		color: #000 !important;
+		font-family: monospace !important;
+		_font-family: 'courier new', monospace !important;
+		font-size: 0.96em !important;
+	}
+
+	pre {
+		white-space: pre !important;
+		white-space: pre-wrap !important;
+		word-wrap: break-word !important;
+	}
+
+	b,
+	strong {
+		font-weight: bold !important;
+	}
+
+	dfn {
+		font-style: italic !important;
+	}
+
+	ins {
+		background: #ff9 !important;
+		color: #000 !important;
+		text-decoration: none !important;
+	}
+
+	mark {
+		background: #ff0 !important;
+		color: #000 !important;
+		font-style: italic !important;
+		font-weight: bold !important;
+	}
+
+	sub,
+	sup {
+		font-size: 75% !important;
+		line-height: 0 !important;
+		position: relative !important;
+		vertical-align: baseline !important;
+	}
+
+	sup {
+		top: -0.5em !important;
+	}
+
+	sub {
+		bottom: -0.25em !important;
+	}
+
+	ul,
+	ol {
+		margin: 1em 0 !important;
+		padding: 0 0 0 2em !important;
+	}
+
+	li {
+		p {
+			&:last-child {
+				margin: 0 !important;
+			}
+		}
+	}
+
+	dd {
+		margin: 0 0 0 2em !important;
+	}
+
+	table {
+		border-collapse: collapse !important;
+		border-spacing: 0 !important;
+	}
+
+	td {
+		vertical-align: top !important;
+	}
+}

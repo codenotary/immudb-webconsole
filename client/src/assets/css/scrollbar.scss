@@ -1,0 +1,102 @@
+// Custom Scrollbar
+$dark-track-color: #0e1023;
+$dark-thumb-color: #424353;
+$light-track-color: #dfe6ed;
+$light-thumb-color: #fff;
+
+body {
+	&::-webkit-scrollbar-track,
+	&::-webkit-scrollbar {
+		width: 8px !important;
+		background-color: $dark-track-color !important;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: $dark-thumb-color !important;
+		border: 1px solid rgba(0, 0, 0, 0) !important;
+		background-clip: padding-box !important;
+		border-radius: 8px !important;
+	}
+
+	.custom-scrollbar,
+	.v-dialog,
+	.v-menu__content,
+	.menuable__content__active,
+	.v-navigation-drawer__content,
+	.v-date-picker,
+	.v-date-picker-years,
+	.v-card__content,
+	.v-card__text {
+		&::-webkit-scrollbar-track {
+			-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3) !important;
+			box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3) !important;
+		}
+
+		&::-webkit-scrollbar {
+			position: absolute;
+			width: 8px !important;
+		}
+
+		&::-webkit-scrollbar-thumb {
+			border: 1px solid rgba(0, 0, 0, 0) !important;
+			background-clip: padding-box !important;
+			border-radius: 8px !important;
+		}
+
+		::-webkit-scrollbar-button {
+			width: 0;
+			height: 0;
+			display: none;
+		}
+
+		::-webkit-scrollbar-corner {
+			background-color: transparent;
+		}
+	}
+
+	.v-application {
+		&.theme--dark {
+			.custom-scrollbar,
+			.v-dialog,
+			.v-menu__content,
+			.menuable__content__active,
+			.v-navigation-drawer__content,
+			.v-date-picker,
+			.v-date-picker-years,
+			.v-card__content,
+			.v-card__text {
+				overflow: auto !important;
+
+				&::-webkit-scrollbar-track,
+				&::-webkit-scrollbar {
+					background-color: $dark-track-color !important;
+				}
+
+				&::-webkit-scrollbar-thumb {
+					background-color: $dark-thumb-color !important;
+				}
+			}
+		}
+
+		&.theme--light {
+			.custom-scrollbar,
+			.v-dialog,
+			.v-menu__content,
+			.menuable__content__active,
+			.v-navigation-drawer__content,
+			.v-date-picker,
+			.v-date-picker-years,
+			.v-card__content,
+			.v-card__text {
+				&::-webkit-scrollbar-track,
+				&::-webkit-scrollbar {
+					background-color: $light-track-color !important;
+				}
+
+				&::-webkit-scrollbar-thumb {
+					background-color: $light-thumb-color !important;
+				}
+			}
+		}
+	}
+}

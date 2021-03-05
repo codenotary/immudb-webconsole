@@ -21,12 +21,21 @@ services:
           - traefik.http.routers.playroutertls.entrypoints=https
           - traefik.http.routers.playroutertls.tls=true
           - traefik.http.routers.playroutertls.tls.certresolver=myresolver
-
         volumes:
           - /var/run/docker.sock:/var/run/docker.sock
           - /var/tmp:/var/tmp
 
+    playgroundfrontend:
+        container_name: playgroundfrontend
+        build:
+            context: client
+            args:
+                - V_COMMIT=nocommit
+            
+        ports: ["44080:44080"]
+        networks:
+            - lc_internal_net
 
 networks:
     lc_internal_net:
-        external: true
+        external: false
