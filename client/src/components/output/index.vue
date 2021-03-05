@@ -25,6 +25,7 @@
 			<OutputMerkleTree
 				v-else-if="tab === 2"
 				class="ma-0 pa-0"
+				:merkleTree="merkleTree"
 			/>
 		</v-card-text>
 	</v-card>
@@ -35,6 +36,7 @@ import { mapGetters } from 'vuex';
 import {
 	CODE_MODULE,
 	CODE_OUTPUT,
+	MERKLE_TREE,
 } from '@/store/code/constants';
 import { mdiViewList } from '@mdi/js';
 
@@ -49,6 +51,7 @@ export default {
 	computed: {
 		...mapGetters(CODE_MODULE, {
 			codeOutput: CODE_OUTPUT,
+			merkleTree: MERKLE_TREE,
 		}),
 		stdout () {
 			return this.codeOutput && this.codeOutput.stdout;

@@ -30,10 +30,11 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import {
 	CODE_MODULE,
 	RUN_CODE,
+	IMMUDB,
 } from '@/store/code/constants';
 
 const ITEMS_TYPES = {
@@ -56,6 +57,9 @@ export default {
 		};
 	},
 	computed: {
+		...mapGetters(CODE_MODULE, {
+			immudb: IMMUDB,
+		}),
 		code () {
 			if (this.example) {
 				return this.example.code;
@@ -104,7 +108,7 @@ export default {
 		onSubmit () {
 			this.code && this.runCode({
 				code: this.code,
-				immudb: [],
+				immudb: this.immudb || '',
 			});
 		},
 	},
@@ -116,7 +120,6 @@ export default {
 	&.v-card {
 		.v-card__text {
 			position: relative;
-			z-index: 5;
 
 			&::before {
 				content: '';
@@ -127,7 +130,6 @@ export default {
 				right: 0;
 				height: 4px;
 				box-shadow: 0 4px 1px rgba(0, 0, 0, 0.25) inset;
-				z-index: 6;
 			}
 		}
 	}

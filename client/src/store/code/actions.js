@@ -28,7 +28,7 @@ export default {
 
 					const params = {
 						code,
-						immudb: immudb || [],
+						immudb: immudb || '',
 					};
 
 					const { data } = await CodeService.runCode(params);

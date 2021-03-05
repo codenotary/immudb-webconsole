@@ -35,11 +35,11 @@ export default {
 			title: 'Merkle tree',
 		},
 		stdout: {
-			title: 'Code output',
+			title: 'Standard output',
 			empty: 'There is standard output yet...',
 		},
 		stderr: {
-			title: 'Code error',
+			title: 'Standard error',
 			empty: 'There is error output yet...',
 		},
 	},
