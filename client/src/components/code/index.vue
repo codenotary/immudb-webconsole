@@ -116,7 +116,6 @@ export default {
 	&.v-card {
 		.v-card__text {
 			position: relative;
-			z-index: 5;
 
 			&::before {
 				content: '';
@@ -127,7 +126,6 @@ export default {
 				right: 0;
 				height: 4px;
 				box-shadow: 0 4px 1px rgba(0, 0, 0, 0.25) inset;
-				z-index: 6;
 			}
 		}
 	}
