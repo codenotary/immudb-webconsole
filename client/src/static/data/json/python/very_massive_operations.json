@@ -1,6 +1,0 @@
-{
-	"title": "Very massive operations",
-	"description": "This example is similar to the 'massive operations' but the number operations has been increased",
-	"github": "https://github.com/codenotary/immudb-playground/blob/master/src/static/data/examples/python/very_massive_operations.py",
-	"url": "/python/very_massive_operations.py"
-}

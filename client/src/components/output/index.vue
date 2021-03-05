@@ -25,7 +25,7 @@
 			<OutputMerkleTree
 				v-else-if="tab === 2"
 				class="ma-0 pa-0"
-				:merkle-tree="merkleTree"
+				:merkle-tree="merkleTree || []"
 			/>
 		</v-card-text>
 	</v-card>

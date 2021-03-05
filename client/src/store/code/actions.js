@@ -1,3 +1,5 @@
+import decompress from '@/helpers/decompress';
+import { CodeService } from '@/services/code';
 import {
 	VIEW_MODULE,
 	PUSH_LOADING,
@@ -10,7 +12,6 @@ import {
 	SET_MERKLE_TREE,
 	SET_CODE_OUTPUT,
 } from './constants';
-import { CodeService } from '~/services/code';
 
 export default {
 	async [RUN_CODE]({ commit }, payload) {
@@ -40,8 +41,9 @@ export default {
 							immudb,
 						});
 
+						const decompressedTree = decompress(tree) || '';
 						commit(SET_MERKLE_TREE, {
-							merkleTree: tree,
+							merkleTree: decompressedTree && JSON.parse(decompressedTree),
 						});
 
 						commit(SET_CODE_OUTPUT, {

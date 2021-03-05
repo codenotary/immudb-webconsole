@@ -7,7 +7,7 @@ export const API_CONFIG = {
 	paramsSerializer: params => qs.stringify(params, { indices: false }),
 	headers: {
 		common: {
-			'Content-Encoding': 'gzip',
+			'Content-Encoding': 'gz',
 			'Cache-Control': 'no-cache, no-store, must-revalidate',
 			'Content-Type': 'application/json',
 			Pragma: 'no-cache',
@@ -21,12 +21,3 @@ export const ApiService = axios.create({
 	...API_CONFIG,
 	baseURL: process.env.API_URL,
 });
-
-export const ApiServiceFetch = (method, url, data, config) => {
-	return fetch(`${ API_CONFIG.baseURL }${ url }`, {
-		method,
-		headers: ApiService.defaults.headers.common,
-		body: JSON.stringify(data),
-		...config,
-	});
-};

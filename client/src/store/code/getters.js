@@ -10,7 +10,7 @@ export default {
 		return state.immudb || '';
 	},
 	[MERKLE_TREE](state) {
-		return state.merkleTree || '';
+		return state.merkleTree || [];
 	},
 	[CODE_OUTPUT](state) {
 		return state.codeOutput || '';
