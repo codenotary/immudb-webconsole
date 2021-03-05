@@ -11,7 +11,7 @@
 				cols="12"
 			>
 				<prism-editor
-					v-model="code"
+					v-model="editableCode"
 					class="code command ma-0 mb-2 py-0 px-2 fill-width"
 					language="python"
 					line-numbers
@@ -26,10 +26,11 @@ export default {
 	name: 'Block',
 	props: {
 		code: { type: String, default: '' },
-		full: { type: Boolean, deafault: '' },
+		full: { type: Boolean, deafault: false },
 	},
 	data () {
 		return {
+			editableCode: '',
 			plugins: [
 				'command-line',
 				'match-braces',
@@ -38,6 +39,20 @@ export default {
 				'show-language',
 			],
 		};
+	},
+	watch: {
+		editableCode: {
+			deep: true,
+			immediate: false,
+			handler (newVal, oldVal) {
+				if (newVal !== oldVal) {
+					this.$emit('update', newVal);
+				}
+			},
+		},
+	},
+	mounted () {
+		this.editableCode = this.code;
 	},
 };
 </script>

@@ -7,7 +7,7 @@
 			v-if="output && output.length"
 		>
 			<OutputCodeItem
-				v-for="(item, idx) in parseItems"
+				v-for="(item, idx) in output"
 				:key="`output-${ idx }`"
 				:item="item"
 			/>
@@ -38,19 +38,6 @@ export default {
 				'command-line',
 			],
 		};
-	},
-	computed: {
-		parseItems () {
-			if (this.output) {
-				return this.output
-						.slice()
-						.sort((_) => {
-							console.log(_);
-							return 1;
-						});
-			}
-			return [];
-		},
 	},
 };
 </script>

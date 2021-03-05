@@ -3,6 +3,7 @@ import {
 	SET_IMMUDB,
 	SET_MERKLE_TREE,
 	SET_CODE_OUTPUT,
+	APPEND_CODE_OUTPUT,
 } from './constants';
 
 export default {
@@ -28,6 +29,14 @@ export default {
 		if (payload) {
 			const { output } = payload;
 			output && (state.output = output);
+		}
+	},
+	[APPEND_CODE_OUTPUT](state, payload) {
+		if (payload) {
+			const { output } = payload;
+			if (output && output.length) {
+				output && (state.output = [...state.output, ...output]);
+			}
 		}
 	},
 };

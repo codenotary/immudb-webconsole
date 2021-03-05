@@ -13,10 +13,12 @@
 			class="ma-0 pa-0 bg-secondary fill-height custom-scrollbar"
 		>
 			<div class="ma-0 pa-0">
+				{{ example }}
 				<CodeBlock
 					v-if="!loading"
 					class="ma-0 pa-0"
-					:code="code"
+					:code="example && example.code"
+					@update="onUpdate"
 				/>
 				<CodeSkeleton
 					v-else
@@ -28,6 +30,7 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 import {
 	CODE_MODULE,
@@ -57,12 +60,6 @@ export default {
 		...mapGetters(CODE_MODULE, {
 			immudb: IMMUDB,
 		}),
-		code () {
-			if (this.example) {
-				return this.example.code;
-			}
-			return 'Example is empty.';
-		},
 	},
 	watch: {
 		codePath: {
@@ -102,9 +99,15 @@ export default {
 		...mapActions(CODE_MODULE, {
 			runCode: RUN_CODE,
 		}),
+		onUpdate (data) {
+			if (data) {
+				Vue.set(this.example, 'code', data);
+			}
+		},
 		onSubmit () {
-			this.code && this.runCode({
-				code: this.code,
+			const { code } = this.example;
+			code && this.runCode({
+				code,
 				immudb: this.immudb || '',
 			});
 		},

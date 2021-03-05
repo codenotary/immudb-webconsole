@@ -10,7 +10,7 @@ import {
 	APPEND_CODE_HISTORY,
 	SET_IMMUDB,
 	SET_MERKLE_TREE,
-	SET_CODE_OUTPUT,
+	APPEND_CODE_OUTPUT,
 } from './constants';
 
 export default {
@@ -46,7 +46,7 @@ export default {
 							merkleTree: decompressedTree && JSON.parse(decompressedTree),
 						});
 
-						commit(SET_CODE_OUTPUT, {
+						commit(APPEND_CODE_OUTPUT, {
 							output,
 						});
 					}
