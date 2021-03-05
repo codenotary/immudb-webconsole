@@ -65,9 +65,9 @@ export default {
 			&::before {
 				content: '';
 				position: absolute;
-				top: 10%;
+				top: 5%;
 				left: 0;
-				height: 80%;
+				height: 90%;
 				width: 2px;
 			}
 		}

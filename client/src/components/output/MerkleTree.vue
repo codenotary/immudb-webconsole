@@ -5,7 +5,7 @@
 	>
 		<div
 			v-if="merkleTree && merkleTree.length"
-			class="ma-4 pa-0 custom-scrollbar"
+			class="ma-4 pa-0 pb-12"
 		>
 			<span class="body-2">
 				<vue-json-pretty

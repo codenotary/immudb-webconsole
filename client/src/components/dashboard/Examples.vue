@@ -14,7 +14,7 @@
 				{{ $t('examples.title') }}
 			</h4>
 		</v-card-title>
-		<v-card-text class="ma-0 py-1 px-0 bg-secondary fill-height">
+		<v-card-text class="ma-0 py-1 px-0 bg-secondary">
 			<v-treeview
 				v-model="tree"
 				:open="initiallyOpen"
@@ -134,6 +134,7 @@ export default {
 #Examples {
 	&.v-card {
 		.v-card__text {
+			height: calc(100% - 44px) !important;
 			box-shadow: 0 4px 1px rgba(0, 0, 0, 0.25) inset;
 		}
 	}

@@ -9,7 +9,7 @@
 				:tab.sync="tab"
 			/>
 		</v-card-title>
-		<v-card-text class="ma-0 pa-2 bg-secondary fill-height custom-scrollbar">
+		<v-card-text class="ma-0 pa-2 bg-secondary custom-scrollbar">
 			<OutputCode
 				v-if="tab === 0"
 				class="ma-0 pa-0"
@@ -55,6 +55,9 @@ export default {
 #Output {
 	&.v-card {
 		.v-card__text {
+			height: calc(100% - 44px) !important;
+			overflow-y: auto;
+			overflow-x: hidden;
 			box-shadow: 0 4px 1px rgba(0, 0, 0, 0.25) inset;
 		}
 	}

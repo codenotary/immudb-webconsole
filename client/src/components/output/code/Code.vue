@@ -5,6 +5,7 @@
 	>
 		<div
 			v-if="output && output.length"
+			class='pb-12'
 		>
 			<OutputCodeItem
 				v-for="(item, idx) in output"
@@ -44,6 +45,6 @@ export default {
 
 <style lang="scss">
 #OutputCode {
-	overflow: hidden;
+	//
 }
 </style>

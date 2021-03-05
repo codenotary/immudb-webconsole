@@ -10,10 +10,9 @@
 			/>
 		</v-card-title>
 		<v-card-text
-			class="ma-0 pa-0 bg-secondary fill-height custom-scrollbar"
+			class="ma-0 pa-0 bg-secondary custom-scrollbar"
 		>
 			<div class="ma-0 pa-0">
-				{{ example }}
 				<CodeBlock
 					v-if="!loading"
 					class="ma-0 pa-0"
@@ -119,6 +118,7 @@ export default {
 #Code {
 	&.v-card {
 		.v-card__text {
+			height: calc(100% - 44px) !important;
 			position: relative;
 
 			&::before {
