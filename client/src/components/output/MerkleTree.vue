@@ -5,7 +5,7 @@
 	>
 		<div
 			v-if="merkleTree && merkleTree.length"
-			class="ma-4 pa-0"
+			class="ma-4 pa-0 pb-8"
 		>
 			<span class="body-2">
 				<vue-json-pretty
@@ -39,6 +39,6 @@ export default {
 
 <style lang="scss">
 #OutputMerkleTree {
-	overflow: hidden;
+	//
 }
 </style>
