@@ -1,40 +1,40 @@
 <template>
-	<div class="ma-0 pt-0 pr-3 pl-0 d-flex flex-column fill-height">
-		<splitpanes
-			class="playground-theme fill-height"
-			horizontal
-			:push-other-panes="false"
+	<splitpanes
+		class="playground-theme"
+		horizontal
+		:push-other-panes="false"
+	>
+		<pane
+			min-size="20"
+			max-size="100"
 		>
-			<pane
-				min-size="20"
+			<splitpanes
+				:push-other-panes="false"
+				@resize="resizeFirstPanes"
 			>
-				<splitpanes
-					:push-other-panes="false"
-					@resize="resizeFirstPanes"
+				<pane
+					:size="navPaneSizes"
+					min-size="20"
+					max-size="60"
 				>
-					<pane
-						:size="navPaneSizes"
-						min-size="20"
-						max-size="60"
-					>
-						<DashboardExamples />
-					</pane>
-					<pane>
-						<Code
-							:size="codePaneSizes"
-							:code-path="codePath"
-						/>
-					</pane>
-				</splitpanes>
-			</pane>
-			<pane
-				:size="outputPaneSizes"
-				min-size="20"
-			>
-				<Output />
-			</pane>
-		</splitpanes>
-	</div>
+					<DashboardExamples />
+				</pane>
+				<pane>
+					<Code
+						:size="codePaneSizes"
+						:code-path="codePath"
+					/>
+				</pane>
+			</splitpanes>
+		</pane>
+		<pane
+			:size="outputPaneSizes"
+			min-size="20"
+			max-size="100"
+		>
+			<Output />
+		</pane>
+	</splitpanes>
 </template>
 
 <script>
@@ -94,11 +94,15 @@ export default {
 
 <style lang="scss">
 .playground-theme {
+	height: calc(100% - #{$spacer-2}) !important;
+	max-height: calc(100% - #{$spacer-2}) !important;
+	padding: 0 $spacer-3 0 0;
+	margin: 0;
+
 	&.splitpanes {
 		background-color: inherit;
 
 		.splitpanes__splitter {
-			// background-color: #161616;
 			min-height: 16px;
 			min-width: 8px;
 			position: relative;

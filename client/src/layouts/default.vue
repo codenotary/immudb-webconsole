@@ -38,6 +38,10 @@ export default {
 </script>
 
 <style lang="scss">
+	.v-main {
+		max-height: calc(100vh - #{$spacer-12});
+	}
+
 	.v-content {
 		transition: none !important;
 	}
