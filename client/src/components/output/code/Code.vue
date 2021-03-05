@@ -6,21 +6,17 @@
 		<div
 			v-if="output && output.length"
 		>
-			<p
-				v-for="(item, idx) in output"
+			<OutputCodeItem
+				v-for="(item, idx) in parseItems"
 				:key="`output-${ idx }`"
-				class="body-2"
-			>
-				{{ item }}
-			</p>
+				:item="item"
+			/>
 		</div>
 		<div
 			v-else
 			class="ma-4 pa-0"
 		>
 			<span
-				v-for="(item, idx) in output"
-				:key="`output-${ idx }`"
 				class="body-2"
 			>
 				{{ $t(emptyMessage) }}
@@ -42,6 +38,19 @@ export default {
 				'command-line',
 			],
 		};
+	},
+	computed: {
+		parseItems () {
+			if (this.output) {
+				return this.output
+						.slice()
+						.sort((_) => {
+							console.log(_);
+							return 1;
+						});
+			}
+			return [];
+		},
 	},
 };
 </script>
