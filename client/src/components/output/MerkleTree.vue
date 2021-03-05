@@ -19,23 +19,10 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import {
-	CODE_MODULE,
-	MERKLE_TREE,
-} from '@/store/code/constants';
-
 export default {
 	name: 'OutputMerkleTree',
-	data () {
-		return {
-			//
-		};
-	},
-	computed: {
-		...mapGetters(CODE_MODULE, {
-			merkleTree: MERKLE_TREE,
-		}),
+	props: {
+		merkleTree: { type: Object, default: () => {} },
 	},
 };
 </script>

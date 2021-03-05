@@ -108,7 +108,7 @@ export default {
 		onSubmit () {
 			this.code && this.runCode({
 				code: this.code,
-				immudb: this.immudb || [],
+				immudb: this.immudb || '',
 			});
 		},
 	},
