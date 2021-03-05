@@ -71,10 +71,6 @@ export default {
 		width: 100% !important;
 	}
 
-	.v-card__text {
-		position: relative;
-	}
-
 	.prism-editor-wrapper {
 		overflow: hidden !important;
 	}

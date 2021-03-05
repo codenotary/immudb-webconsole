@@ -1,7 +1,7 @@
 <template>
 	<v-card
 		id="Output"
-		class="ma-0 pt-0 pb-1 px-1 bg fill-height"
+		class="ma-0 pt-0 pb-1 px-1 bg shadow fill-height"
 		elevation="0"
 	>
 		<v-card-title class="ma-0 pa-0 d-flex justify-start align-center">
@@ -53,12 +53,13 @@ export default {
 
 <style lang="scss">
 #Output {
+	min-height: 100% !important;
+
 	&.v-card {
 		.v-card__text {
 			height: calc(100% - 44px) !important;
 			overflow-y: auto;
 			overflow-x: hidden;
-			box-shadow: 0 4px 1px rgba(0, 0, 0, 0.25) inset;
 		}
 	}
 }

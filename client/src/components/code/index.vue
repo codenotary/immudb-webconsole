@@ -1,7 +1,7 @@
 <template>
 	<v-card
 		id="Code"
-		class="ma-0 pt-0 pb-1 px-1 bg fill-height"
+		class="ma-0 pt-0 pb-1 px-1 bg fill-height shadow"
 		elevation="0"
 	>
 		<v-card-title class="ma-0 py-2 px-0 d-flex justify-start align-center">
@@ -119,18 +119,6 @@ export default {
 	&.v-card {
 		.v-card__text {
 			height: calc(100% - 44px) !important;
-			position: relative;
-
-			&::before {
-				content: '';
-				display: block;
-				position: sticky;
-				top: 0;
-				left: 0;
-				right: 0;
-				height: 4px;
-				box-shadow: 0 4px 1px rgba(0, 0, 0, 0.25) inset;
-			}
 		}
 	}
 }

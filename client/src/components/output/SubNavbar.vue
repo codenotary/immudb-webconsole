@@ -78,18 +78,11 @@ export default {
 	.v-item-group {
 		background-color: inherit !important;
 
-		.v-tabs-slider {
-			position: relative;
+		.v-tabs-slider-wrapper {
+			height: 4px !important;
 
-			&::after {
-				content: '';
-				position: absolute;
-				top: 2px;
-				left: 0;
-				right: 0;
-				height: 2px;
-				background-color: red;
-				z-index: 20;
+			.v-tabs-slider {
+				position: relative;
 			}
 		}
 	}
