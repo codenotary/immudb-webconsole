@@ -165,7 +165,7 @@ func readback(dir string) (response runResponse, err error) {
 		log.Printf("Error while reading python output: %s", err.Error())
 		return
 	}
-	if err = json.Unmarshal(bOutput, jOutput); err != nil {
+	if err = json.Unmarshal(bOutput, &jOutput); err != nil {
 		log.Printf("Error while decoding python output: %s", err.Error())
 		return
 	}
