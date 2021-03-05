@@ -10,6 +10,14 @@ html {
 	&.theme--light {
 		background: #dfe6ed !important;
 	}
+
+	.v-card {
+		.v-card__title {
+			min-height: $spacer-11 !important;
+		}
+
+		border-radius: 0 !important;
+	}
 }
 
 .container {
