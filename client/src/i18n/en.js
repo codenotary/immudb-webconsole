@@ -34,9 +34,9 @@ export default {
 		merkleTree: {
 			title: 'Merkle tree',
 		},
-		stdout: {
-			title: 'Standard output',
-			empty: 'There is standard output yet...',
+		code: {
+			title: 'Output',
+			empty: 'There is no code output yet...',
 		},
 		stderr: {
 			title: 'Standard error',

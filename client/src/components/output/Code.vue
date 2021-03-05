@@ -4,27 +4,28 @@
 		class="ma-0 pa-0 px-1 fill-height"
 	>
 		<div
-			v-if="!code"
+			v-if="output && output.length"
+		>
+			<p
+				v-for="(item, idx) in output"
+				:key="`output-${ idx }`"
+				class="body-2"
+			>
+				{{ item }}
+			</p>
+		</div>
+		<div
+			v-else
 			class="ma-4 pa-0"
 		>
-			<span class="body-2">
+			<span
+				v-for="(item, idx) in output"
+				:key="`output-${ idx }`"
+				class="body-2"
+			>
 				{{ $t(emptyMessage) }}
 			</span>
 		</div>
-		<span
-			v-else
-			class="body-2"
-		>
-			<prism-editor
-				class="code command command-line ma-0 mb-2 pa-0 fill-width"
-				:code="code"
-				language="python"
-				:plugins="plugins"
-				data-user="root"
-				data-host="host"
-				readonly
-			/>
-		</span>
 	</div>
 </template>
 
@@ -32,7 +33,7 @@
 export default {
 	name: 'OutputCode',
 	props: {
-		code: { type: String, default: '' },
+		output: { type: Array, default: () => {} },
 		emptyMessage: { type: String, default: 'output.stdout.empty' },
 	},
 	data () {

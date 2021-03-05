@@ -21,15 +21,13 @@ export default {
 	[SET_MERKLE_TREE](state, payload) {
 		if (payload) {
 			const { merkleTree } = payload;
-			console.log(typeof merkleTree);
 			state.merkleTree = merkleTree;
 		}
 	},
 	[SET_CODE_OUTPUT](state, payload) {
 		if (payload) {
-			const { stderr, stdout } = payload;
-			stdout && (state.codeOutput.stdout = stdout);
-			stderr && (state.codeOutput.stderr = stderr);
+			const { output } = payload;
+			output && (state.output = output);
 		}
 	},
 };

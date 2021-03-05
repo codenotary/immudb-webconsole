@@ -13,17 +13,11 @@
 			<OutputCode
 				v-if="tab === 0"
 				class="ma-0 pa-0"
-				:code="stdout"
-				:empty-message="'output.stdout.empty'"
-			/>
-			<OutputCode
-				v-else-if="tab === 1"
-				class="ma-0 pa-0"
-				:code="stderr"
-				:empty-message="'output.stderr.empty'"
+				:output="output || []"
+				:empty-message="'output.code.empty'"
 			/>
 			<OutputMerkleTree
-				v-else-if="tab === 2"
+				v-else-if="tab === 1"
 				class="ma-0 pa-0"
 				:merkle-tree="merkleTree || []"
 			/>
@@ -50,15 +44,9 @@ export default {
 	},
 	computed: {
 		...mapGetters(CODE_MODULE, {
-			codeOutput: CODE_OUTPUT,
+			output: CODE_OUTPUT,
 			merkleTree: MERKLE_TREE,
 		}),
-		stdout () {
-			return this.codeOutput && this.codeOutput.stdout;
-		},
-		stderr () {
-			return this.codeOutput && this.codeOutput.stderr;
-		},
 	},
 };
 </script>

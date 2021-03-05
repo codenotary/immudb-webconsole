@@ -24,18 +24,7 @@
 						{{ mdiText }}
 					</v-icon>
 					<span class="ml-2 body-2 text-capitalize">
-						{{ $t('output.stdout.title') }}
-					</span>
-				</v-tab>
-				<v-tab>
-					<v-icon
-						class="ml-2 gray--text text--lighten-1"
-						dense
-					>
-						{{ mdiAlertCircleOutline }}
-					</v-icon>
-					<span class="ml-2 body-2 text-capitalize">
-						{{ $t('output.stderr.title') }}
+						{{ $t('output.code.title') }}
 					</span>
 				</v-tab>
 				<v-tab>

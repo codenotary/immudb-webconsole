@@ -13,7 +13,7 @@ export default {
 		return state.merkleTree || [];
 	},
 	[CODE_OUTPUT](state) {
-		return state.codeOutput || '';
+		return state.output || [];
 	},
 	[CODE_HISTORY](state) {
 		return state.codeHistory || [];

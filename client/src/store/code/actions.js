@@ -35,7 +35,7 @@ export default {
 					const { data } = await CodeService.runCode(params);
 
 					if (data) {
-						const { immudb, tree, stdout, stderr } = data;
+						const { immudb, tree, output } = data;
 
 						commit(SET_IMMUDB, {
 							immudb,
@@ -47,8 +47,7 @@ export default {
 						});
 
 						commit(SET_CODE_OUTPUT, {
-							stderr,
-							stdout,
+							output,
 						});
 					}
 
