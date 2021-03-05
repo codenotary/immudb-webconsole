@@ -21,6 +21,7 @@ export default {
 	[SET_MERKLE_TREE](state, payload) {
 		if (payload) {
 			const { merkleTree } = payload;
+			console.log(typeof merkleTree);
 			state.merkleTree = merkleTree;
 		}
 	},

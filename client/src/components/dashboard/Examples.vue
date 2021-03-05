@@ -122,16 +122,6 @@ export default {
 								},
 							},
 						},
-						{
-							id: 206,
-							name: 'Very massive operations',
-							to: {
-								path: '/',
-								query: {
-									code: '/python/very_massive_operations',
-								},
-							},
-						},
 					],
 				},
 			],

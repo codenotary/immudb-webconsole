@@ -25,6 +25,7 @@
 		"nuxt": "^2.14.0",
 		"nuxt-font-loader-strategy": "^1.1.6",
 		"nuxt-i18n": "^6.15.1",
+		"pako": "^1.0.11",
 		"pretty-bytes": "^5.4.1",
 		"prism-themes": "^1.4.0",
 		"qs": "^6.9.4",

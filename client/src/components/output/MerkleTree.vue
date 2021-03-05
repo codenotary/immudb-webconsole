@@ -1,20 +1,24 @@
 <template>
 	<div
 		id="OutputMerkleTree"
-		class="ma-0 py-2 px-2 px-1 fill-height"
+		class="ma-0 pa-0 px-1 fill-height"
 	>
-		<span
-			v-if="merkleTree"
-			class="body-2"
+		<div
+			v-if="!merkleTree"
+			class="ma-4 pa-0"
 		>
-			There is no merkle tree yet...
-		</span>
-		<span
+			<span class="body-2">
+				There is no merkle tree yet...
+			</span>
+		</div>
+		<div
 			v-else
-			class="body-2"
+			class="ma-4 pa-0 custom-scrollbar"
 		>
-			{{ merkleTree }}
-		</span>
+			<span class="body-2">
+				{{ merkleTree }}
+			</span>
+		</div>
 	</div>
 </template>
 
@@ -22,7 +26,7 @@
 export default {
 	name: 'OutputMerkleTree',
 	props: {
-		merkleTree: { type: Object, default: () => {} },
+		merkleTree: { type: Array, default: () => {} },
 	},
 };
 </script>
