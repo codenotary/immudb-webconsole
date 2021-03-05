@@ -19,5 +19,6 @@ COPY --from=builder1 /app /app
 COPY --from=builder2 /src/immudb/immudb /usr/sbin/immudb
 ADD start.sh /start.sh
 ADD immudumper /usr/local/bin/immudumper
-RUN chmod +x /start.sh /usr/sbin/immudb /usr/local/bin/immudumper
+ADD jts /usr/local/bin/jts
+RUN chmod +x /start.sh /usr/sbin/immudb /usr/local/bin/immudumper /usr/local/bin/jts
 ENTRYPOINT /start.sh
