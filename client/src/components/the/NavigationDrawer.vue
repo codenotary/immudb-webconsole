@@ -73,6 +73,7 @@
 						<v-list-item
 							class="py-1 d-flex justify-xs-center"
 							:to="item.to ? item.to : undefined"
+							:href="undefined"
 							:ripple="true"
 							nuxt
 							v-bind="attrs"
@@ -164,14 +165,14 @@ export default {
 				{
 					title: 'sidebar.dashboard',
 					icon: mdiXml,
-					to: this.localePath({ name: 'index' }),
+					to: this.localePath({ path: '/' }),
 					hidden: false,
 				},
 				{
 					title: 'sidebar.documentation',
 					icon: mdiBookOpenOutline,
 					href: 'https://docs.immudb.io/master',
-					hidden: false,
+					hidden: true,
 				},
 				{
 					title: 'sidebar.analytics',
@@ -183,7 +184,7 @@ export default {
 					title: 'sidebar.download',
 					icon: mdiCloudDownloadOutline,
 					href: 'https://github.com/codenotary/immudb-py',
-					hidden: false,
+					hidden: true,
 				},
 			];
 		});

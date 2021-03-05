@@ -165,7 +165,7 @@ export default {
 			position: relative;
 
 			.v-treeview-node__root {
-				min-height: $spacer-6;
+				min-height: $spacer-8;
 				margin: 0;
 				padding: 0;
 
@@ -176,6 +176,8 @@ export default {
 			}
 
 			.v-treeview-node__content {
+				margin: 0;
+
 				.v-treeview-node__label {
 					height: 100%;
 					width: 100%;
@@ -192,7 +194,7 @@ export default {
 						justify-content: flex-start;
 						align-items: center;
 						min-height: $spacer-8;
-						padding: 0 $spacer-2 0 $spacer-8;
+						padding: 0 $spacer-1 0 $spacer-8 !important;
 
 						&.nuxt-link-exact-active {
 							color: $primary !important;
