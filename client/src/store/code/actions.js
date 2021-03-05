@@ -33,18 +33,22 @@ export default {
 
 					const { data } = await CodeService.runCode(params);
 
-					commit(SET_IMMUDB, {
-						immudb: data && data.immudb,
-					});
+					if (data) {
+						const { immudb, tree, stdout, stderr } = data;
 
-					commit(SET_MERKLE_TREE, {
-						merkleTree: data && data.tree,
-					});
+						commit(SET_IMMUDB, {
+							immudb,
+						});
 
-					commit(SET_CODE_OUTPUT, {
-						stderr: data && data.stderr,
-						stdout: data && data.stdout,
-					});
+						commit(SET_MERKLE_TREE, {
+							merkleTree: tree,
+						});
+
+						commit(SET_CODE_OUTPUT, {
+							stderr,
+							stdout,
+						});
+					}
 
 					commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
 

@@ -1,5 +1,5 @@
 export default () => ({
-	merkleTree: {},
+	merkleTree: '',
 	immudb: '',
 	codeOutput: {
 		stdout: null,
