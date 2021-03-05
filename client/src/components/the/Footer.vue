@@ -41,12 +41,23 @@
 				</v-col>
 				<v-spacer />
 				<v-col
-					v-if="isDevMode"
 					class="ma-0 ml-4 pa-0 d-flex justify-space-between align-center font-weight-normal"
 					cols="auto"
 				>
-					<span class="overline grey--text text--darken-3">
-						{{ $t('footer.devMode') }}
+					<span
+						v-if="version"
+						class="caption grey--text text--darken-3"
+					>
+						v
+						<span class="overline">
+							{{ version }}
+						</span>
+					</span>
+					<span
+						v-if="isDevMode"
+						class="overline grey--text text--darken-3"
+					>
+						&nbsp;-&nbsp;{{ $t('footer.devMode') }}
 					</span>
 				</v-col>
 				<v-col
@@ -88,6 +99,11 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import {
+	INFO_MODULE,
+	FETCH_INFO,
+	VERSION,
+} from '@/store/info/constants';
+import {
 	VIEW_MODULE,
 	MOBILE,
 	THEME,
@@ -111,6 +127,9 @@ export default {
 		};
 	},
 	computed: {
+		...mapGetters(INFO_MODULE, {
+			version: VERSION,
+		}),
 		...mapGetters(VIEW_MODULE, {
 			mobile: MOBILE,
 			theme: THEME,
@@ -119,9 +138,15 @@ export default {
 			return process.env.NODE_ENV !== 'production';
 		},
 	},
+	async mounted () {
+		await this.fetchInfo();
+	},
 	methods: {
 		...mapActions(VIEW_MODULE, {
 			toggleTheme: TOGGLE_THEME,
+		}),
+		...mapActions(INFO_MODULE, {
+			fetchInfo: FETCH_INFO,
 		}),
 	},
 };

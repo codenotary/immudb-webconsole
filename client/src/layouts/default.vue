@@ -10,7 +10,10 @@
 
 <script>
 import { mapActions } from 'vuex';
-import { VIEW_MODULE, SET_THEME } from '@/store/view';
+import {
+	VIEW_MODULE,
+	SET_THEME,
+} from '@/store/view/constants';
 import LayoutMixin from '@/mixins/LayoutMixin';
 
 export default {

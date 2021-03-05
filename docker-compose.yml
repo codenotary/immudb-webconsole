@@ -34,8 +34,8 @@ services:
             
         ports: ["44080:44080"]
         networks:
-            - appliance_internal_net
+            - lc_internal_net
 
 networks:
     lc_internal_net:
-        external: true
+        external: false

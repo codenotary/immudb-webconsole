@@ -3,11 +3,11 @@ import * as qs from 'qs';
 
 export const API_CONFIG = {
 	returnRejectedPromiseOnError: true,
-	timeout: 10000,
+	timeout: 12000,
 	paramsSerializer: params => qs.stringify(params, { indices: false }),
 	headers: {
 		common: {
-			'Accept-Encoding': 'gzip',
+			'Content-Encoding': 'gzip',
 			'Cache-Control': 'no-cache, no-store, must-revalidate',
 			'Content-Type': 'application/json',
 			Pragma: 'no-cache',

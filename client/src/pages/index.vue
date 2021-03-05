@@ -77,7 +77,7 @@ export default {
 			page_path: '/',
 		});
 
-		this.codePath = this.getParam(PARAMS.CODE);
+		this.codePath = this.getParam(PARAMS.CODE) || '%2Fpython%2Fhello_world';
 	},
 	methods: {
 		resizeFirstPanes (data) {

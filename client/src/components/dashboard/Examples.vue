@@ -33,7 +33,16 @@
 				<template slot="label" slot-scope="props">
 					<nuxt-link
 						v-if="props.item.to"
+						class="ma-0 pa-4"
 						:to="props.item.to"
+					>
+						{{ props.item.name }}
+					</nuxt-link>
+					<nuxt-link
+						v-else-if="props.item.href"
+						:href="props.item.href"
+						target="_blank"
+						rel="nofollow"
 					>
 						{{ props.item.name }}
 					</nuxt-link>
@@ -156,19 +165,20 @@ export default {
 			position: relative;
 
 			.v-treeview-node__root {
-				min-height: $spacer-8;
-				margin: 0 $spacer-2 0 $spacer-8;
+				min-height: $spacer-6;
+				margin: 0;
 				padding: 0;
 
 				&:hover,
 				&:active {
-					background-color: rgba(255, 255, 255, 0.25);
-					color: #282a35 !important;
+					background-color: rgba(255, 255, 255, 0.05);
 				}
 			}
 
 			.v-treeview-node__content {
 				.v-treeview-node__label {
+					height: 100%;
+					width: 100%;
 					font-size: 0.8rem;
 
 					span,
@@ -177,6 +187,13 @@ export default {
 					}
 
 					a {
+						display: flex;
+						flex-grow: 1;
+						justify-content: flex-start;
+						align-items: center;
+						min-height: $spacer-8;
+						padding: 0 $spacer-2 0 $spacer-8;
+
 						&.nuxt-link-exact-active {
 							color: $primary !important;
 
@@ -185,7 +202,7 @@ export default {
 								position: absolute;
 								top: 0;
 								bottom: $spacer-1;
-								left: calc(-#{$spacer-3} - 1px);
+								left: calc(#{$spacer-5} - 1px);
 								width: 2px;
 								background-color: $primary;
 							}

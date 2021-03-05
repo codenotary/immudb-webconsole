@@ -51,6 +51,9 @@ export default {
 					return data;
 				}
 			}
+			else {
+				console.log('a payload is needed to run code');
+			}
 		}
 		catch (err) {
 			console.error(err);
