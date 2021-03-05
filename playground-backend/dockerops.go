@@ -22,11 +22,16 @@ type runRequest struct {
 	Code   string `json:"code"`
 	Immudb []byte `json:"immudb"`
 }
+type OutputLine struct {
+	Timestamp float64 `json:"timestamp"`
+	Flux      string  `json:"flux"`
+	Line      string  `json:"line"`
+}
+
 type runResponse struct {
-	Stdout string `json:"stdout"`
-	Stderr string `json:"stderr"`
-	Immudb []byte `json:"immudb"`
-	Tree   []byte `json:"tree"`
+	Output []OutputLine `json:"output"`
+	Immudb []byte       `json:"immudb"`
+	Tree   []byte       `json:"tree"`
 }
 
 // runCode ...
@@ -153,17 +158,18 @@ func runContainer(cli *client.Client, dir string) (err error) {
 }
 
 func readback(dir string) (response runResponse, err error) {
-        var stdout, stderr, immudb, dump []byte
-	stdout, err = ioutil.ReadFile(path.Join(dir, "stdout"))
+	var bOutput, immudb, dump []byte
+	var jOutput []OutputLine
+	bOutput, err = ioutil.ReadFile(path.Join(dir, "output"))
 	if err != nil && !os.IsNotExist(err) {
-		log.Printf("Error while reding immudb data archive: %s", err.Error())
+		log.Printf("Error while reading python output: %s", err.Error())
 		return
 	}
-	stderr, err = ioutil.ReadFile(path.Join(dir, "stderr"))
-	if err != nil && !os.IsNotExist(err) {
-		log.Printf("Error while reding immudb data archive: %s", err.Error())
+	if err = json.Unmarshal(bOutput, &jOutput); err != nil {
+		log.Printf("Error while decoding python output: %s", err.Error())
 		return
 	}
+	
 	immudb, err = ioutil.ReadFile(path.Join(dir, "data.tar.gz"))
 	if err != nil && !os.IsNotExist(err) {
 		log.Printf("Error while reding immudb data archive: %s", err.Error())
@@ -174,6 +180,6 @@ func readback(dir string) (response runResponse, err error) {
 		log.Printf("Error while reding immudb dump: %s", err.Error())
 		return
 	}
-	response = runResponse{string(stdout), string(stderr), immudb, dump}
+	response = runResponse{jOutput, immudb, dump}
 	return response, nil
 }
