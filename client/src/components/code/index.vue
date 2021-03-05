@@ -10,7 +10,6 @@
 			/>
 		</v-card-title>
 		<v-card-text
-			v-if="!loading"
 			class="ma-0 pa-0 bg-secondary fill-height custom-scrollbar"
 		>
 			<div class="ma-0 pa-0">
@@ -18,7 +17,6 @@
 					v-if="!loading"
 					class="ma-0 pa-0"
 					:code="code"
-					:full="full"
 				/>
 				<CodeSkeleton
 					v-else
@@ -47,7 +45,6 @@ export default {
 	name: 'Code',
 	props: {
 		codePath: { type: String, default: '/python/hello_world' },
-		full: { type: Boolean, deafault: '' },
 	},
 	data () {
 		return {

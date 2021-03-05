@@ -22,7 +22,6 @@
 					<pane>
 						<Code
 							:size="codePaneSizes"
-							:full="codePaneSizes <= 60"
 							:code-path="codePath"
 						/>
 					</pane>
@@ -77,7 +76,7 @@ export default {
 			page_path: '/',
 		});
 
-		this.codePath = this.getParam(PARAMS.CODE) || '%2Fpython%2Fhello_world';
+		this.codePath = this.getParam(PARAMS.CODE) || '/python/hello_world';
 	},
 	methods: {
 		resizeFirstPanes (data) {

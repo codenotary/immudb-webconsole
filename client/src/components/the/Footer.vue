@@ -3,7 +3,7 @@
 		id="TheFooter"
 		class="bg"
 		:elevation="0"
-		fixed
+		sticky
 	>
 		<v-container
 			class="pa-0"

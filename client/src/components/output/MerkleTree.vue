@@ -16,7 +16,13 @@
 			class="ma-4 pa-0 custom-scrollbar"
 		>
 			<span class="body-2">
-				{{ merkleTree }}
+				<vue-json-pretty
+					:data="merkleTree"
+					:deep="3"
+					:virtual="true"
+					:show-line="true"
+					:collapsed-on-click-brackets="true"
+				/>
 			</span>
 		</div>
 	</div>
@@ -30,3 +36,9 @@ export default {
 	},
 };
 </script>
+
+<style lang="scss">
+#OutputMerkleTree {
+	overflow: hidden;
+}
+</style>

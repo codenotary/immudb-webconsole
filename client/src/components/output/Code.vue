@@ -13,7 +13,7 @@
 		</div>
 		<span
 			v-else
-			class="body-2 custom-scrollbar"
+			class="body-2"
 		>
 			<prism-editor
 				class="code command command-line ma-0 mb-2 pa-0 fill-width"
@@ -44,3 +44,9 @@ export default {
 	},
 };
 </script>
+
+<style lang="scss">
+#OutputCode {
+	overflow: hidden;
+}
+</style>

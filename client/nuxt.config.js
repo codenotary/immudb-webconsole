@@ -99,6 +99,11 @@ export default {
 			lang: 'scss',
 			ssr: false,
 		},
+		{
+			src: 'vue-json-pretty/lib/styles.css',
+			lang: 'css',
+			ssr: false,
+		}
 	],
 
 	/*
@@ -149,6 +154,7 @@ export default {
 		{ src: '~/plugins/vue-clipboards', ssr: false },
 		{ src: '~/plugins/vue-cookies', ssr: false },
 		{ src: '~/plugins/vue-gtag', ssr: false },
+		{ src: '~/plugins/vue-json-pretty', ssr: false },
 		{ src: '~/plugins/vue-prism-editor', ssr: false },
 		{ src: '~/plugins/vue-toasted', ssr: false },
 		{ src: '~/plugins/vee-validate', ssr: false },

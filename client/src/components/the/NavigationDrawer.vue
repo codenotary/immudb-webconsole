@@ -165,7 +165,7 @@ export default {
 				{
 					title: 'sidebar.dashboard',
 					icon: mdiXml,
-					to: this.localePath({ path: '/' }),
+					to: this.localePath({ path: '/?code=/python/hello_world' }),
 					hidden: false,
 				},
 				{
