@@ -1,6 +1,6 @@
 <template>
 	<v-tooltip
-		top
+		bottom
 	>
 		<template v-slot:activator="{ on, attrs }">
 			<v-btn
