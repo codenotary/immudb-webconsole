@@ -16,6 +16,9 @@ services:
           - traefik.http.routers.playrouterFE.rule=Host(`play.codenotary.com`) && PathPrefix(`/api/`)
           - traefik.http.routers.playrouterFE.service=playgroundFE
           - traefik.http.routers.playrouterFE.entrypoints=http
+          - traefik.http.routers.playrouterFE.middlewares=playredir
+          - traefik.http.middlewares.playredir.redirectscheme.scheme=https
+          - traefik.http.middlewares.playredir.redirectscheme.permanent=true
           - traefik.http.routers.playrouterFEtls.rule=Host(`play.codenotary.com`) && PathPrefix(`/api/`)
           - traefik.http.routers.playrouterFEtls.service=playgroundFE
           - traefik.http.routers.playrouterFEtls.entrypoints=https
