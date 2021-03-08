@@ -3,7 +3,17 @@ VARS = --build-arg V_COMMIT=$(V_COMMIT)
 
 all: build
 
-.PHONY: build
+.PHONY: build, backend, frontend
 build:
 	docker-compose build $(VARS)
 	make -C player-py
+
+backend:
+	docker-compose build $(VARS) playgroundbackend
+	make -C player-py
+
+frontend:
+	docker-compose build $(VARS) playgroundfrontend
+
+run: all
+	docker-compose up -d --force-recreate
