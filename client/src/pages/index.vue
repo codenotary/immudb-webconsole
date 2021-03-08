@@ -10,27 +10,29 @@
 		>
 			<splitpanes
 				:push-other-panes="false"
+				:horizontal="mobile"
 				@resize="resizeFirstPanes"
 			>
 				<pane
-					:size="navPaneSizes"
-					min-size="20"
-					max-size="60"
+					v-if="!mobile"
+					:size="getFirstPane.size"
+					:min-size="getFirstPane.minSize"
+					:max-size="getFirstPane.maxSize"
 				>
 					<DashboardExamples />
 				</pane>
 				<pane>
 					<Code
-						:size="codePaneSizes"
+						:size="getSecondPane.size"
 						:code-path="codePath"
 					/>
 				</pane>
 			</splitpanes>
 		</pane>
 		<pane
-			:size="outputPaneSizes"
-			min-size="20"
-			max-size="100"
+			:size="getThirdPane.size"
+			:min-size="getThirdPane.minSize"
+			:max-size="getThirdPane.maxSize"
 		>
 			<Output />
 		</pane>
@@ -38,9 +40,14 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import LayoutMixin from '@/mixins/LayoutMixin';
 import { ParamMixin, PARAMS } from '@/mixins/ParamMixin';
 import { title } from '@/helpers/meta';
+import {
+	VIEW_MODULE,
+	MOBILE,
+} from '@/store/view/constants';
 import { Splitpanes, Pane } from 'splitpanes';
 import 'splitpanes/dist/splitpanes.css';
 
@@ -60,6 +67,53 @@ export default {
 		outputPaneSizes: 40,
 		codePath: '',
 	}),
+	computed: {
+		...mapGetters(VIEW_MODULE, {
+			mobile: MOBILE,
+		}),
+		getFirstPane () {
+			if (this.mobile) {
+				return {
+					size: 1,
+					minSize: 1,
+					maxSize: 1,
+				};
+			}
+			return {
+				size: 20,
+				minSize: 20,
+				maxSize: 60,
+			};
+		},
+		getSecondPane () {
+			if (this.mobile) {
+				return {
+					size: 100,
+					minSize: 100,
+					maxSize: 100,
+				};
+			}
+			return {
+				size: 80,
+				minSize: 60,
+				maxSize: 80,
+			};
+		},
+		getThirdPane () {
+			if (this.mobile) {
+				return {
+					size: 20,
+					minSize: 60,
+					maxSize: 100,
+				};
+			}
+			return {
+				size: 20,
+				minSize: 60,
+				maxSize: 100,
+			};
+		},
+	},
 	watch: {
 		'$route.query': {
 			deep: true,
@@ -98,6 +152,12 @@ export default {
 	max-height: calc(100% - #{$spacer-2}) !important;
 	padding: 0 $spacer-3 0 0;
 	margin: 0;
+
+	@media (max-width: 480px) {
+		height: auto !important;
+		max-height: unset !important;
+		padding: 0 $spacer-3;
+	}
 
 	&.splitpanes {
 		background-color: inherit;

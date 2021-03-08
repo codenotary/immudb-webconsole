@@ -24,13 +24,8 @@ export default {
 	[SET_BANNER]({ commit }, payload) {
 		commit(SET_BANNER, payload);
 	},
-	[SET_SIDEBAR](state, payload) {
-		if (payload) {
-			const { mini, collapsed } = payload;
-
-			mini !== undefined && (state.sidebar.mini = mini);
-			collapsed !== undefined && (state.sidebar.collapsed = collapsed);
-		}
+	[SET_SIDEBAR]({ commit }, payload) {
+		commit(SET_SIDEBAR, payload);
 	},
 	[SET_BREADCRUMBS]({ commit }, payload) {
 		commit(SET_BREADCRUMBS, payload);

@@ -4,7 +4,7 @@
 		class="ma-0 pt-0 pb-1 px-1 bg fill-height shadow"
 		elevation="0"
 	>
-		<v-card-title class="ma-0 py-2 px-0 d-flex justify-start align-center">
+		<v-card-title class="ma-0 py-0 py-sm-2 px-0 d-flex justify-start align-center">
 			<CodeRun
 				@submit="onSubmit"
 			/>
@@ -117,6 +117,14 @@ export default {
 <style lang="scss">
 #Code {
 	&.v-card {
+		.v-card__title {
+			height: 44px !important;
+
+			@media (max-width: 480px) {
+				height: 32px !important;
+			}
+		}
+
 		.v-card__text {
 			height: calc(100% - 44px) !important;
 		}

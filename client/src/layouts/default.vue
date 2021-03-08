@@ -1,7 +1,11 @@
 <template>
 	<v-app id="default-layout">
 		<TheNavigationDrawer />
-		<v-main>
+		<TheAppBar
+			v-if="mobile"
+			class="ma-0 pa-0"
+		/>
+		<v-main class="ma-0 pa-0 pt-12 pt-sm-0 pl-sm-16">
 			<nuxt />
 		</v-main>
 		<TheFooter />
@@ -9,10 +13,11 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import {
 	VIEW_MODULE,
 	SET_THEME,
+	MOBILE,
 } from '@/store/view/constants';
 import LayoutMixin from '@/mixins/LayoutMixin';
 
@@ -20,6 +25,11 @@ export default {
 	mixins: [
 		LayoutMixin,
 	],
+	computed: {
+		...mapGetters(VIEW_MODULE, {
+			mobile: MOBILE,
+		}),
+	},
 	methods: {
 		...mapActions(VIEW_MODULE, {
 			setTheme: SET_THEME,
@@ -40,6 +50,11 @@ export default {
 <style lang="scss">
 	.v-main {
 		max-height: calc(100vh - #{$spacer-12});
+
+		@media (max-width: 480px) {
+			height: auto !important;
+			max-height: unset !important;
+		}
 	}
 
 	.v-content {

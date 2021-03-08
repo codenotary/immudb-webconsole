@@ -3,7 +3,7 @@
 		id="TheFooter"
 		class="bg"
 		:elevation="0"
-		sticky
+		:fixed="!mobile"
 	>
 		<v-container
 			class="pa-0"
@@ -14,10 +14,11 @@
 			fluid
 		>
 			<v-row
-				class="pa-0 ma-0 d-flex justify-center align-center"
+				class="pa-0 ma-0 d-flex justify-center"
 			>
 				<v-col
-					class="pa-0 d-flex justify-space-between align-center font-weight-normal"
+					class="pa-0 d-flex justify-start align-center font-weight-normal"
+					:class="`text-${ mobile ? 'center' : 'left' }`"
 					cols="auto"
 				>
 					<i18n
@@ -41,7 +42,7 @@
 				</v-col>
 				<v-spacer />
 				<v-col
-					class="ma-0 ml-4 pa-0 d-flex justify-space-between align-center font-weight-normal"
+					class="ma-0 ml-4 pa-0 d-flex justify-space-between text-left font-weight-normal"
 					cols="auto"
 				>
 					<span
@@ -61,7 +62,7 @@
 					</span>
 				</v-col>
 				<v-col
-					class="ma-0 ml-4 pa-0 d-flex justify-space-between align-center font-weight-normal"
+					class="ma-0 ml-4 pa-0 d-flex justify-space-between text-left font-weight-normal"
 					cols="auto"
 				>
 					<v-tooltip
@@ -157,6 +158,10 @@ export default {
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	height: 48px;
+	height: $spacer-12;
+
+	@media (max-width: 480px) {
+		height: $spacer-20;
+	}
 }
 </style>

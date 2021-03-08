@@ -133,6 +133,10 @@ export default {
 <style lang="scss">
 #Examples {
 	&.v-card {
+		@media (max-width: 480px) {
+			height: auto !important;
+		}
+
 		.v-card__text {
 			height: calc(100% - 44px) !important;
 		}

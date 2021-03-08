@@ -5,7 +5,7 @@
 		:class="{ mobile, mini }"
 		:value="!collapsed"
 		:permanent="!mobile"
-		:mini-variant="mini"
+		:mini-variant="mini && !mobile"
 		:width="224"
 		:mini-variant-width="64"
 		:disable-resize-watcher="true"
@@ -56,7 +56,12 @@
 			/>
 		</v-btn>
 
+		<DashboardExamples
+			v-if="mobile"
+		/>
+
 		<v-list
+			v-if="!mobile"
 			class="px-0 pt-16 pt-sm-4 ma-0 custom-scrollbar"
 		>
 			<div
@@ -159,6 +164,14 @@ export default {
 			mini: SIDEBAR_MINI,
 		}),
 	},
+	watch: {
+		mobile: {
+			immediate: true,
+			handler (newVal) {
+				newVal && this.onCollapse();
+			},
+		},
+	},
 	mounted () {
 		this.$nextTick(() => {
 			this.items = [
@@ -195,6 +208,11 @@ export default {
 		}),
 		onMini () {
 			this.setSidebar({ mini: !this.mini });
+		},
+		onCollapse () {
+			this.setSidebar({
+				collapsed: !this.collapsed,
+			});
 		},
 	},
 };

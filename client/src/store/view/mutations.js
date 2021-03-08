@@ -3,6 +3,7 @@ import {
 	TOGGLE_THEME,
 	SET_MOBILE,
 	SET_BANNER,
+	SET_SIDEBAR,
 	SET_BREADCRUMBS,
 	ADD_BREADCRUMBS,
 	PUSH_LOADING,
@@ -24,6 +25,15 @@ export default {
 	},
 	[SET_BANNER](state, payload) {
 		state.banner = payload;
+	},
+	[SET_SIDEBAR](state, payload) {
+		if (payload) {
+			const { mini, collapsed } = payload;
+			console.log(mini, collapsed);
+
+			mini !== undefined && (state.sidebar.mini = mini);
+			collapsed !== undefined && (state.sidebar.collapsed = collapsed);
+		}
 	},
 	[SET_BREADCRUMBS](state, payload) {
 		state.breadcrumbs = payload;
