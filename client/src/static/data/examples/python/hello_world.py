@@ -16,5 +16,5 @@ readback=ic.get(key)
 saved_value=readback.value.decode('utf8')
 print("Hello",saved_value)
 
-# you have the timestamp of the set that inserted the value
-print("The set was made in timestamp",readback.timestamp)
+# you have the transaction id of the set that inserted the value
+print("The set was transaction number ",readback.tx)

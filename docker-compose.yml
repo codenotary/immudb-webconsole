@@ -12,15 +12,15 @@ services:
             - lc_internal_net
         labels:
           - "traefik.enable=true"
-          - traefik.http.services.playgroundFE.loadbalancer.server.port=7771
-          - traefik.http.routers.playrouterFE.rule=Host(`play.codenotary.com`) && PathPrefix(`/api/`)
-          - traefik.http.routers.playrouterFE.service=playgroundFE
-          - traefik.http.routers.playrouterFE.entrypoints=http
-          - traefik.http.routers.playrouterFEtls.rule=Host(`play.codenotary.com`) && PathPrefix(`/api/`)
-          - traefik.http.routers.playrouterFEtls.service=playgroundFE
-          - traefik.http.routers.playrouterFEtls.entrypoints=https
-          - traefik.http.routers.playrouterFEtls.tls=true
-          - traefik.http.routers.playrouterFEtls.tls.certresolver=myresolver
+          - traefik.http.services.playgroundBE.loadbalancer.server.port=7771
+          - traefik.http.routers.playrouterBE.rule=Host(`play.codenotary.com`) && PathPrefix(`/api/`)
+          - traefik.http.routers.playrouterBE.service=playgroundBE
+          - traefik.http.routers.playrouterBE.entrypoints=http
+          - traefik.http.routers.playrouterBEtls.rule=Host(`play.codenotary.com`) && PathPrefix(`/api/`)
+          - traefik.http.routers.playrouterBEtls.service=playgroundBE
+          - traefik.http.routers.playrouterBEtls.entrypoints=https
+          - traefik.http.routers.playrouterBEtls.tls=true
+          - traefik.http.routers.playrouterBEtls.tls.certresolver=myresolver
         volumes:
           - /var/run/docker.sock:/var/run/docker.sock
           - /var/tmp:/var/tmp
@@ -32,20 +32,23 @@ services:
             args:
                 - V_COMMIT=nocommit
             
-        ports: ["44080:44080"]
+        ports: ["44080:80"]
         networks:
             - lc_internal_net
         labels:
           - "traefik.enable=true"
-          - traefik.http.services.playgroundBE.loadbalancer.server.port=80
-          - traefik.http.routers.playrouterBE.rule=Host(`play.codenotary.com`) 
-          - traefik.http.routers.playrouterBE.service=playgroundBE
-          - traefik.http.routers.playrouterBE.entrypoints=http
-          - traefik.http.routers.playrouterBEtls.rule=Host(`play.codenotary.com`)
-          - traefik.http.routers.playrouterBEtls.service=playgroundBE
-          - traefik.http.routers.playrouterBEtls.entrypoints=https
-          - traefik.http.routers.playrouterBEtls.tls=true
-          - traefik.http.routers.playrouterBEtls.tls.certresolver=myresolver
+          - traefik.http.services.playgroundFE.loadbalancer.server.port=80
+          - traefik.http.routers.playrouterFE.rule=Host(`play.codenotary.com`) 
+          - traefik.http.routers.playrouterFE.service=playgroundFE
+          - traefik.http.routers.playrouterFE.entrypoints=http
+          - traefik.http.routers.playrouterFE.middlewares=playredir
+          - traefik.http.middlewares.playredir.redirectscheme.scheme=https
+          - traefik.http.middlewares.playredir.redirectscheme.permanent=true
+          - traefik.http.routers.playrouterFEtls.rule=Host(`play.codenotary.com`)
+          - traefik.http.routers.playrouterFEtls.service=playgroundFE
+          - traefik.http.routers.playrouterFEtls.entrypoints=https
+          - traefik.http.routers.playrouterFEtls.tls=true
+          - traefik.http.routers.playrouterFEtls.tls.certresolver=myresolver
 
 networks:
     lc_internal_net:
