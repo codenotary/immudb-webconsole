@@ -3,5 +3,5 @@
 	"description": "In this example you will learn to deal with safe immudb set and get operations",
 	"github": "https://github.com/codenotary/immudb-playground/blob/master/src/static/data/examples/python/safe_operations.py",
 	"url": "/python/safe_operations.py",
-	"sort": 4
+	"sort": 1
 }

@@ -95,12 +95,12 @@ export default {
 						},
 						{
 							id: 202,
-							name: 'Massive operations',
+							name: 'Producer',
 							sort: 1,
 							to: {
 								path: '/',
 								query: {
-									code: '/python/massive_operations',
+									code: '/python/producer',
 								},
 							},
 						},
@@ -117,12 +117,12 @@ export default {
 						},
 						{
 							id: 204,
-							name: 'Parallel massive operations',
+							name: 'Consumer',
 							sort: 3,
 							to: {
 								path: '/',
 								query: {
-									code: '/python/parallel_massive_operations',
+									code: '/python/consumer',
 								},
 							},
 						},
