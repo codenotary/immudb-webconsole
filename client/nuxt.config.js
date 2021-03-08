@@ -52,7 +52,7 @@ export default {
 	** Devtools enabled
 	** See https://https://nuxtjs.org/api/configuration-srcdir
 	*/
-	devtools: true,
+	devtools: !IS_PROD,
 
 	/*
 	** Headers of the page
@@ -121,8 +121,26 @@ export default {
 		},
 		extractCSS: IS_PROD,
 		// Extend webpack config
-		extend: (config, ctx) => {
-			config.devtool = ctx.isClient ? 'eval-source-map' : 'inline-source-map';
+		extend(config, {isDev, isClient}) {
+			// image-webpack-loader
+			config.module.rules.forEach(rule => {
+				if (String(rule.test) === String(/\.(png|jpe?g|gif|svg|webp)$/)) {
+					// add a second loader when loading images
+					rule.use.push({
+						loader: 'image-webpack-loader',
+						options: {
+							svgo: {
+							plugins: [
+								// use these settings for internet explorer for proper scalable SVGs
+								// https://css-tricks.com/scale-svg/
+								{ removeViewBox: false },
+								{ removeDimensions: true }
+							]
+							}
+						}
+					});
+				}
+			});
 		},
 		loaders: {
 			vue: {
@@ -170,7 +188,6 @@ export default {
 	** Nuxt.js dev-modules
 	*/
 	buildModules: [
-		
 		'@nuxtjs/style-resources',
 		// Doc: https://github.com/nuxt-community/eslint-module
 		'@nuxtjs/eslint-module',
@@ -232,7 +249,7 @@ export default {
 						},
 						// Font-Face
 						{
-							preload: false,
+							preload: true,
 							src: 'typeface-roboto/files/roboto-latin-400',
 							fontWeight: 400,
 							fontStyle: 'normal'
@@ -246,7 +263,7 @@ export default {
 						},
 						// Font-Face
 						{
-							preload: false,
+							preload: true,
 							src: 'typeface-roboto/files/roboto-latin-700',
 							fontWeight: 700,
 							fontStyle: 'normal'
@@ -262,6 +279,27 @@ export default {
 				},
 			],
 		}],
+		// Doc: https://github.com/Developmint/nuxt-purgecss
+		// [
+		// 	'nuxt-purgecss', {
+		// 		paths: [
+		// 			'node_modules/@nuxtjs/vuetify/**/*.ts',
+		// 			'node_modules/@nuxt/vue-app/template/**/*.html',
+		// 			'node_modules/@nuxt/vue-app/template/**/*.vue',
+		// 		],
+		// 		whitelist: [
+		// 			'v-application',
+		// 			'v-application--wrap',
+		// 		],
+		// 		whitelistPatterns: () => [
+		// 			/^v-((?!application).)*$/,
+		// 			/^\.theme--light*/,
+		// 			/.*-transition/,
+		// 		],
+		// 		whitelistPatternsChildren: [/^v-((?!application).)*$/, /^theme--light*/],
+		// 	},
+		// ],
+		'nuxt-responsive-loader',
 	],
 
 	/*

@@ -75,7 +75,7 @@
 								small
 								href="https://github.com/codenotary/immudb-playground"
 								target="_blank"
-								rel="nofollow"
+								rel="noopener"
 								v-bind="attrs"
 								v-on="on"
 							>
