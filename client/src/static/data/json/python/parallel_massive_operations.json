@@ -1,7 +1,0 @@
-{
-	"title": "Parallel massive operations",
-	"description": "In this example you will learn to deal with parallel operations in immudb",
-	"github": "https://github.com/codenotary/immudb-playground/blob/master/src/static/data/examples/python/parallel_massive_operations.py",
-	"url": "/python/parallel_massive_operations.py",
-	"sort": 3
-}

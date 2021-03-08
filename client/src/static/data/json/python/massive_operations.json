@@ -1,7 +1,0 @@
-{
-	"title": "Massive operations",
-	"description": "In this example you will learn to deal with huge amount of data",
-	"github": "https://github.com/codenotary/immudb-playground/blob/master/src/static/data/examples/python/massive_operations.py",
-	"url": "/python/massive_operations.py",
-	"sort": 1
-}
