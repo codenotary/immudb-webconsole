@@ -32,7 +32,7 @@ services:
             args:
                 - V_COMMIT=nocommit
             
-        ports: ["44080:44080"]
+        ports: ["44080:80"]
         networks:
             - lc_internal_net
         labels:

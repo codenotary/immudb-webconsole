@@ -17,5 +17,6 @@ RUN npm run build && npm run generate
 FROM nginx:stable-alpine as production-stage
 LABEL Ledger Compliance Timestamp Frontend Webserver
 COPY --from=build-stage /data/dist /usr/share/nginx/html
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 ENV DEBIAN_FRONTEND noninteractive
 ENV NODE_ENV production
