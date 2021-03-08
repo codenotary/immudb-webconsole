@@ -1,5 +1,5 @@
 FROM node:lts-alpine as build-stage
-LABEL Ledger Compliance Timestamp Frontend Builder
+LABEL Ledger Compliance Playground Frontend Builder
 WORKDIR /data
 COPY ./*package*.json ./
 RUN apk add --no-cache python3 git make gcc build-base
@@ -15,7 +15,7 @@ RUN echo ":: GOOGLE_ANALYTICS_SITEKEY=$GOOGLE_ANALYTICS_SITEKEY"
 RUN npm run build && npm run generate
 
 FROM nginx:stable-alpine as production-stage
-LABEL Ledger Compliance Timestamp Frontend Webserver
+LABEL Ledger Compliance Playground Frontend Webserver
 COPY --from=build-stage /data/dist /usr/share/nginx/html
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 ENV DEBIAN_FRONTEND noninteractive
