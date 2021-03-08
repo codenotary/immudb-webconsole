@@ -135,6 +135,18 @@ export default {
 			'/^vuetify/',
 			'vee-validate',
 		],
+		optimization: {
+			splitChunks: {
+				chunks: 'async',
+			},
+		},
+		splitChunks: {
+			pages: false,
+			vendor: false,
+			commons: false,
+			runtime: false,
+			layouts: false,
+		},
 	},
 
 	/*
