@@ -5,7 +5,7 @@ export const DEFAULT_META = {
 	TITLE: 'Codenotary – immudb tour',
 	DESCRIPTION: 'A tour of immudb.',
 	KEYWORDS: 'immudb, immutability, tour, learning',
-	SITE_NAME: 'A tour of immud',
+	SITE_NAME: 'A tour of immudb',
 	AUTHOR: 'CodeNotary',
 	HANDLE: '@CodeNotary',
 	MAIN_IMAGE: '/images/immudb_social_preview.png',

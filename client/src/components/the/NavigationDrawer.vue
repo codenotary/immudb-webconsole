@@ -56,7 +56,7 @@
 			/>
 		</v-btn>
 
-		<DashboardExamples
+		<NavigationExamples
 			v-if="mobile"
 		/>
 

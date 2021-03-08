@@ -1,6 +1,6 @@
 <template>
 	<v-card
-		id="Examples"
+		id="NavigationExamples"
 		class="ma-0 pt-0 pb-1 px-1 bg fill-height shadow"
 		elevation="0"
 	>
@@ -10,6 +10,14 @@
 			>
 				{{ mdiViewList }}
 			</v-icon>
+			<v-select
+				v-if="false"
+				v-model="language"
+				class="language-selector"
+				:items="languageItems"
+				hide-details
+				dense
+			/>
 			<h4 class="ml-2 subtitle-1 gray--text text--lighten-3">
 				{{ $t('examples.title') }}
 			</h4>
@@ -56,10 +64,17 @@ import {
 } from '@mdi/js';
 
 export default {
-	name: 'DashboardExamples',
+	name: 'NavigationExamples',
 	data () {
 		return {
 			mdiViewList,
+			language: 'python',
+			languageItems: [
+				'python',
+				'node',
+				'go',
+				'java',
+			],
 			tree: [],
 			initiallyOpen: [1],
 			items: [
@@ -137,7 +152,7 @@ export default {
 </script>
 
 <style lang="scss">
-#Examples {
+#NavigationExamples {
 	&.v-card {
 		@media (max-width: 480px) {
 			height: auto !important;
@@ -145,6 +160,18 @@ export default {
 
 		.v-card__text {
 			height: calc(100% - 44px) !important;
+		}
+	}
+
+	.language-selector {
+		width: auto !important;
+		min-width: unset !important;
+		max-width: unset !important;
+
+		.v-input__slot {
+			&::before {
+				display: none;
+			}
 		}
 	}
 

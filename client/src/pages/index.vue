@@ -19,7 +19,7 @@
 					:min-size="getFirstPane.minSize"
 					:max-size="getFirstPane.maxSize"
 				>
-					<DashboardExamples />
+					<NavigationExamples />
 				</pane>
 				<pane>
 					<Code

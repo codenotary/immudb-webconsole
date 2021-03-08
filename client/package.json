@@ -25,6 +25,7 @@
 		"moment": "^2.29.1",
 		"moment-range": "^4.0.2",
 		"nuxt": "^2.14.0",
+		"nuxt-compress": "^4.1.0",
 		"nuxt-font-loader-strategy": "^1.1.6",
 		"nuxt-i18n": "^6.15.1",
 		"pako": "^1.0.11",

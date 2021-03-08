@@ -65,11 +65,9 @@ export default {
 			immediate: true,
 			async handler (newVal) {
 				if (newVal) {
-					console.log(newVal);
 					this.loading = true;
 					let _path = newVal.startsWith('/') ? newVal : `/${ newVal }`;
 					_path = _path.endsWith('.json') ? _path : `${ _path }.json`;
-					console.log(_path);
 					await this.$axios.get(`/data/json${ _path }`)
 							.then(async (response) => {
 								this.example = response && response.data;

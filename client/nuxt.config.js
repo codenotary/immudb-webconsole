@@ -111,12 +111,13 @@ export default {
 	** See https://nuxtjs.org/api/configuration-build/
 	*/
 	build: {
+		analyze: true,
 		parallel: EXPERIMENTAL,
 		cache: EXPERIMENTAL,
 		hardSource: EXPERIMENTAL,
 		filenames: {
-			app: !IS_PROD ? '[name].[hash].js' : '[chunkhash].js',
-			chunk: !IS_PROD ? '[name].[hash].js' : '[chunkhash].js',
+			app: IS_PROD ? '[chunkhash].js' : '[name].[hash].js',
+			chunk: IS_PROD ? '[chunkhash].js' : '[name].[hash].js',
 		},
 		extractCSS: IS_PROD,
 		// Extend webpack config
@@ -139,13 +140,6 @@ export default {
 			splitChunks: {
 				chunks: 'async',
 			},
-		},
-		splitChunks: {
-			pages: false,
-			vendor: false,
-			commons: false,
-			runtime: false,
-			layouts: false,
 		},
 	},
 
@@ -196,6 +190,17 @@ export default {
 		// '@nuxt/content',
 		// Doc: https://axios.nuxtjs.org/setup
 		'@nuxtjs/axios',
+		// Doc: https://github.com/robcresswell/nuxt-compress
+		['nuxt-compress',
+			{
+				gzip: {
+					cache: true
+				},
+				brotli: {
+					threshold: 10240
+				}
+			}
+		],
 		// Doc: https://gitlab.com/broj42/nuxt-cookie-control
 		'nuxt-cookie-control',
 		// Doc: https://i18n.nuxtjs.org/
@@ -213,21 +218,21 @@ export default {
 					fontFaces: [
 						// Font-Face
 						{
-							preload: true,
+							preload: false,
 							src: 'typeface-roboto/files/roboto-latin-100',
 							fontWeight: 100,
 							fontStyle: 'normal'
 						},
 						// Font-Face
 						{
-							preload: true,
+							preload: false,
 							src: 'typeface-roboto/files/roboto-latin-300',
 							fontWeight: 300,
 							fontStyle: 'normal'
 						},
 						// Font-Face
 						{
-							preload: true,
+							preload: false,
 							src: 'typeface-roboto/files/roboto-latin-400',
 							fontWeight: 400,
 							fontStyle: 'normal'
@@ -241,14 +246,14 @@ export default {
 						},
 						// Font-Face
 						{
-							preload: true,
+							preload: false,
 							src: 'typeface-roboto/files/roboto-latin-700',
 							fontWeight: 700,
 							fontStyle: 'normal'
 						},
 						// Font-Face
 						{
-							preload: true,
+							preload: false,
 							src: 'typeface-roboto/files/roboto-latin-900',
 							fontWeight: 900,
 							fontStyle: 'normal'
@@ -318,13 +323,13 @@ export default {
 			'./src/assets/css/variables.scss',
 			'./src/assets/css/spacer.scss',
 		],
-		treeShake: false,
+		treeShake: IS_PROD,
 		icons: {
 			iconfont: 'mdiSvg',
 		},
 		defaultAssets: {
 			font: false,
-			icons: 'mdiSvg',
+			icons: false,
 		},
 		theme: {
 			options: {
