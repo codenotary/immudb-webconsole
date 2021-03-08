@@ -129,7 +129,6 @@ export default {
 	},
 	methods: {
 		forceActive (data) {
-			console.log(data, this.$route);
 			const { path, query } = this.$route;
 			return data === 0 && path === '/' && !query.code;
 		},

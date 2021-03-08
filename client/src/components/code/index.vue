@@ -64,33 +64,37 @@ export default {
 		codePath: {
 			immediate: true,
 			async handler (newVal) {
-				this.loading = true;
-				let _path = newVal.startsWith('/') ? newVal : `/${ newVal }`;
-				_path = _path.endsWith('.json') ? _path : `${ _path }.json`;
-				await this.$axios.get(`/data/json${ _path }`)
-						.then(async (response) => {
-							this.example = response && response.data;
-							const { url } = this.example;
-							if (url) {
-								let _url = url.startsWith('/') ? url : `/${ url }`;
-								_url = _url.endsWith('.py') ? _url : `${ _url }.py`;
-								await this.$axios.get(`/data/examples${ _url }`)
-										.then((response2) => {
-											this.example.code = response2 && response2.data;
-											this.loading = false;
-										}, (err) => {
-											console.error(err);
-											this.example = response.data;
-											this.loading = false;
-										});
-							}
-							else {
+				if (newVal) {
+					console.log(newVal);
+					this.loading = true;
+					let _path = newVal.startsWith('/') ? newVal : `/${ newVal }`;
+					_path = _path.endsWith('.json') ? _path : `${ _path }.json`;
+					console.log(_path);
+					await this.$axios.get(`/data/json${ _path }`)
+							.then(async (response) => {
+								this.example = response && response.data;
+								const { url } = this.example;
+								if (url) {
+									let _url = url.startsWith('/') ? url : `/${ url }`;
+									_url = _url.endsWith('.py') ? _url : `${ _url }.py`;
+									await this.$axios.get(`/data/examples${ _url }`)
+											.then((response2) => {
+												this.example.code = response2 && response2.data;
+												this.loading = false;
+											}, (err) => {
+												console.error(err);
+												this.example = response.data;
+												this.loading = false;
+											});
+								}
+								else {
+									this.loading = false;
+								}
+							}, (err) => {
+								console.error(err);
 								this.loading = false;
-							}
-						}, (err) => {
-							console.error(err);
-							this.loading = false;
-						});
+							});
+				}
 			},
 		},
 	},
