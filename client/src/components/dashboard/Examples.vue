@@ -34,15 +34,10 @@
 					<nuxt-link
 						v-if="props.item.to"
 						class="ma-0 pa-4"
+						:class="{
+							'nuxt-link-exact-active': forceActive(props.item.sort),
+						}"
 						:to="props.item.to"
-					>
-						{{ props.item.name }}
-					</nuxt-link>
-					<nuxt-link
-						v-else-if="props.item.href"
-						:href="props.item.href"
-						target="_blank"
-						rel="nofollow"
 					>
 						{{ props.item.name }}
 					</nuxt-link>
@@ -75,6 +70,7 @@ export default {
 						{
 							id: 201,
 							name: 'Hello world',
+							sort: 0,
 							to: {
 								path: '/',
 								query: {
@@ -85,6 +81,7 @@ export default {
 						{
 							id: 202,
 							name: 'Massive operations',
+							sort: 1,
 							to: {
 								path: '/',
 								query: {
@@ -95,6 +92,7 @@ export default {
 						{
 							id: 203,
 							name: 'Money',
+							sort: 2,
 							to: {
 								path: '/',
 								query: {
@@ -105,6 +103,7 @@ export default {
 						{
 							id: 204,
 							name: 'Parallel massive operations',
+							sort: 3,
 							to: {
 								path: '/',
 								query: {
@@ -115,6 +114,7 @@ export default {
 						{
 							id: 205,
 							name: 'Safe operations',
+							sort: 4,
 							to: {
 								path: '/',
 								query: {
@@ -126,6 +126,13 @@ export default {
 				},
 			],
 		};
+	},
+	methods: {
+		forceActive (data) {
+			console.log(data, this.$route);
+			const { path, query } = this.$route;
+			return data === 0 && path === '/' && !query.code;
+		},
 	},
 };
 </script>

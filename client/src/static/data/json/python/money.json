@@ -2,5 +2,6 @@
 	"title": "Money",
 	"description": "In this example you will see a basic abstraction of a money transfer data storing using immudb",
 	"github": "https://github.com/codenotary/immudb-playground/blob/master/src/static/data/examples/python/money.py",
-	"url": "/python/money.py"
+	"url": "/python/money.py",
+	"sort": 2
 }
