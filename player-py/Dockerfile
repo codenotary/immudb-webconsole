@@ -12,13 +12,19 @@ RUN git clone --depth 1 https://github.com/codenotary/immudb.git
 WORKDIR /src/immudb
 RUN GOOS=linux GOARCH=amd64 make immuadmin-static immudb-static
 
+FROM golang:alpine as builder3
+RUN apk update && apk add --no-cache git make bash build-base
+WORKDIR /src
+RUN git clone --depth 1 https://github.com/SimoneLazzaris/jtimestamp.git
+WORKDIR /src/jtimestamp
+RUN make
 
 FROM python:3-alpine
 RUN apk update && apk add --no-cache libstdc++
 COPY --from=builder1 /app /app
 COPY --from=builder2 /src/immudb/immudb /usr/sbin/immudb
+COPY --from=builder3 /src/jtimestamp/jts /usr/local/bin/jts
 ADD start.sh /start.sh
 ADD immudumper /usr/local/bin/immudumper
-ADD jts /usr/local/bin/jts
 RUN chmod +x /start.sh /usr/sbin/immudb /usr/local/bin/immudumper /usr/local/bin/jts
 ENTRYPOINT /start.sh
