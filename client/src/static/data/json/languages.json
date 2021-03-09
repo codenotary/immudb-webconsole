@@ -1,0 +1,9 @@
+{
+	"languages": [
+		{
+			"label": "python",
+			"path": "/python",
+			"mime": "py"
+		}
+	]
+}

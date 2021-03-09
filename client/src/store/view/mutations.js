@@ -29,7 +29,6 @@ export default {
 	[SET_SIDEBAR](state, payload) {
 		if (payload) {
 			const { mini, collapsed } = payload;
-			console.log(mini, collapsed);
 
 			mini !== undefined && (state.sidebar.mini = mini);
 			collapsed !== undefined && (state.sidebar.collapsed = collapsed);

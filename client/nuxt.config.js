@@ -203,8 +203,6 @@ export default {
 	** Nuxt.js modules
 	*/
 	modules: [
-		// Doc: https://content.nuxtjs.org/
-		// '@nuxt/content',
 		// Doc: https://axios.nuxtjs.org/setup
 		'@nuxtjs/axios',
 		// Doc: https://github.com/robcresswell/nuxt-compress

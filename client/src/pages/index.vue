@@ -24,7 +24,6 @@
 				<pane>
 					<Code
 						:size="getSecondPane.size"
-						:code-path="codePath"
 					/>
 				</pane>
 			</splitpanes>
@@ -40,10 +39,17 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import LayoutMixin from '@/mixins/LayoutMixin';
 import { ParamMixin, PARAMS } from '@/mixins/ParamMixin';
 import { title } from '@/helpers/meta';
+import {
+	EXAMPLE_MODULE,
+	FETCH_LANGUAGES,
+	FETCH_EXAMPLES,
+	FETCH_CODES,
+	SET_ACTIVE_EXAMPLE,
+} from '@/store/example/constants';
 import {
 	VIEW_MODULE,
 	MOBILE,
@@ -61,6 +67,12 @@ export default {
 		LayoutMixin,
 		ParamMixin,
 	],
+	async fetch() {
+		await this.fetchLanguages();
+		await this.fetchExamples();
+		await this.fetchCodes();
+	},
+	fetchOnServer: false,
 	data: () => ({
 		navPaneSizes: 20,
 		codePaneSizes: 80,
@@ -121,6 +133,12 @@ export default {
 				this.codePath = newVal && newVal.code;
 			},
 		},
+		codePath: {
+			immediate: true,
+			handler (newVal) {
+				this.setActiveExample({ activePath: newVal });
+			},
+		},
 	},
 	mounted () {
 		// track google analytics pageview
@@ -133,6 +151,12 @@ export default {
 		this.codePath = this.getParam(PARAMS.CODE) || '/python/hello_world';
 	},
 	methods: {
+		...mapActions(EXAMPLE_MODULE, {
+			fetchLanguages: FETCH_LANGUAGES,
+			fetchExamples: FETCH_EXAMPLES,
+			fetchCodes: FETCH_CODES,
+			setActiveExample: SET_ACTIVE_EXAMPLE,
+		}),
 		resizeFirstPanes (data) {
 			this.navPaneSizes = data && data[0].size;
 			this.codePaneSizes = data && data[1].size;

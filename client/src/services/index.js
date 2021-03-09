@@ -16,6 +16,12 @@ export const API_CONFIG = {
 	},
 };
 
+// Static data api proxy instance
+export const StaticDataService = axios.create({
+	...API_CONFIG,
+	baseURL: '/data/',
+});
+
 // Backend api proxy instance
 export const ApiService = axios.create({
 	...API_CONFIG,

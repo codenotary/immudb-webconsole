@@ -1,0 +1,34 @@
+{
+	"examples": [
+		{
+			"title": "Hello world",
+			"description": "In this example you will learn to deal with basic immudb set and get operations",
+			"fileName": "hello_world",
+			"sort": 0
+		},
+		{
+			"title": "Safe operations",
+			"description": "In this example you will learn to deal with safe immudb set and get operations",
+			"fileName": "safe_operations",
+			"sort": 1
+		},
+		{
+			"title": "Money",
+			"description": "In this example you will see a basic abstraction of a money transfer data storing using immudb",
+			"fileName": "money",
+			"sort": 2
+		},
+		{
+			"title": "Producer",
+			"description": "In this example you will learn produce some data that will be consumed later",
+			"fileName": "producer",
+			"sort": 3
+		},
+		{
+			"title": "Consumer",
+			"description": "In this example you will learn to read back data from immudb producer",
+			"fileName": "consumer",
+			"sort": 4
+		}
+	]
+}

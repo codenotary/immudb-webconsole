@@ -14,7 +14,7 @@
 				v-if="false"
 				v-model="language"
 				class="language-selector"
-				:items="languageItems"
+				:items="languages"
 				hide-details
 				dense
 			/>
@@ -59,6 +59,14 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import {
+	EXAMPLE_MODULE,
+	LANGUAGES,
+	ACTIVE_LANGUAGE,
+	EXAMPLES,
+	ACTIVE_EXAMPLE,
+} from '@/store/example/constants';
 import {
 	mdiViewList,
 } from '@mdi/js';
@@ -69,12 +77,6 @@ export default {
 		return {
 			mdiViewList,
 			language: 'python',
-			languageItems: [
-				'python',
-				'node',
-				'go',
-				'java',
-			],
 			tree: [],
 			initiallyOpen: [1],
 			items: [
@@ -141,6 +143,14 @@ export default {
 				},
 			],
 		};
+	},
+	computed: {
+		...mapGetters(EXAMPLE_MODULE, {
+			languages: LANGUAGES,
+			activeLanguage: ACTIVE_LANGUAGE,
+			examples: EXAMPLES,
+			activeExample: ACTIVE_EXAMPLE,
+		}),
 	},
 	methods: {
 		forceActive (data) {

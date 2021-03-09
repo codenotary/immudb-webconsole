@@ -14,9 +14,10 @@
 		>
 			<div class="ma-0 pa-0">
 				<CodeBlock
-					v-if="!loading"
+					v-if="!loading && code"
+					:key="id"
 					class="ma-0 pa-0"
-					:code="example && example.code"
+					:code="code"
 					@update="onUpdate"
 				/>
 				<CodeSkeleton
@@ -29,19 +30,28 @@
 </template>
 
 <script>
-import Vue from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 import {
 	CODE_MODULE,
 	RUN_CODE,
 	IMMUDB,
 } from '@/store/code/constants';
+import {
+	EXAMPLE_MODULE,
+	SET_ACTIVE_EXAMPLE,
+	ACTIVE_EXAMPLE,
+} from '@/store/example/constants';
+import {
+	VIEW_MODULE,
+	IS_LOADING,
+} from '@/store/view/constants';
 
 const ITEMS_TYPES = {
 	TEXT: 'text',
 	IMPORT: 'import',
 	CODE: 'code',
 };
+const uniqueId = require('lodash.uniqueid');
 
 export default {
 	name: 'Code',
@@ -50,49 +60,40 @@ export default {
 	},
 	data () {
 		return {
-			example: null,
 			ITEMS_TYPES,
-			loading: true,
+			id: 0,
+			code: '',
 		};
 	},
 	computed: {
+		...mapGetters(EXAMPLE_MODULE, {
+			activeExample: ACTIVE_EXAMPLE,
+		}),
 		...mapGetters(CODE_MODULE, {
 			immudb: IMMUDB,
 		}),
+		...mapGetters(VIEW_MODULE, {
+			loading: IS_LOADING,
+		}),
+		title () {
+			const { title } = this.activeExample;
+			return title || '';
+		},
+		description () {
+			const { description } = this.activeExample;
+			return description || '';
+		},
+		activeCode () {
+			const { code } = this.activeExample;
+			return code || '';
+		},
 	},
 	watch: {
-		codePath: {
+		activeCode: {
 			immediate: true,
-			async handler (newVal) {
-				if (newVal) {
-					this.loading = true;
-					let _path = newVal.startsWith('/') ? newVal : `/${ newVal }`;
-					_path = _path.endsWith('.json') ? _path : `${ _path }.json`;
-					await this.$axios.get(`/data/json${ _path }`)
-							.then(async (response) => {
-								this.example = response && response.data;
-								const { url } = this.example;
-								if (url) {
-									let _url = url.startsWith('/') ? url : `/${ url }`;
-									_url = _url.endsWith('.py') ? _url : `${ _url }.py`;
-									await this.$axios.get(`/data/examples${ _url }`)
-											.then((response2) => {
-												this.example.code = response2 && response2.data;
-												this.loading = false;
-											}, (err) => {
-												console.error(err);
-												this.example = response.data;
-												this.loading = false;
-											});
-								}
-								else {
-									this.loading = false;
-								}
-							}, (err) => {
-								console.error(err);
-								this.loading = false;
-							});
-				}
+			handler (newVal) {
+				this.id = uniqueId('id_');
+				this.code = newVal;
 			},
 		},
 	},
@@ -100,17 +101,29 @@ export default {
 		...mapActions(CODE_MODULE, {
 			runCode: RUN_CODE,
 		}),
+		...mapActions(EXAMPLE_MODULE, {
+			setActiveExample: SET_ACTIVE_EXAMPLE,
+		}),
 		onUpdate (data) {
-			if (data) {
-				Vue.set(this.example, 'code', data);
+			try {
+				if (data) {
+					this.code = data;
+				}
+			}
+			catch (err) {
+				console.error(err);
 			}
 		},
 		onSubmit () {
-			const { code } = this.example;
-			code && this.runCode({
-				code,
-				immudb: this.immudb || '',
-			});
+			try {
+				this.runCode({
+					code: this.code || '',
+					immudb: this.immudb || '',
+				});
+			}
+			catch (err) {
+				console.error(err);
+			}
 		},
 	},
 };

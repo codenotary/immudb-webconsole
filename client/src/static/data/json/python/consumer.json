@@ -1,7 +1,0 @@
-{
-	"title": "Consumer",
-	"description": "In this example you will learn to read back data from immudb producer",
-	"github": "https://github.com/codenotary/immudb-playground/blob/master/src/static/data/examples/python/consumer.py",
-	"url": "/python/consumer.py",
-	"sort": 4
-}

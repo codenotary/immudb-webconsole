@@ -9,7 +9,6 @@
 		:width="224"
 		:mini-variant-width="64"
 		:disable-resize-watcher="true"
-		:hide-overlay="!mobile"
 		:elevation="0"
 		floating
 		app

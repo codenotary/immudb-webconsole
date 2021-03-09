@@ -1,7 +1,0 @@
-{
-	"title": "Producer",
-	"description": "In this example you will learn produce some data that will be consumed later",
-	"github": "https://github.com/codenotary/immudb-playground/blob/master/src/static/data/examples/python/producer.py",
-	"url": "/python/producer.py",
-	"sort": 3
-}
