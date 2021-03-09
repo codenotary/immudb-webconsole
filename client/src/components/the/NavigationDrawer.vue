@@ -80,6 +80,8 @@
 							:href="undefined"
 							:ripple="true"
 							nuxt
+							:title="item.alt"
+							:alt="item.alt"
 							v-bind="attrs"
 							v-on="on"
 						>
@@ -178,24 +180,28 @@ export default {
 					title: 'sidebar.dashboard',
 					icon: mdiXml,
 					to: this.localePath({ path: '/?code=/python/hello_world' }),
+					alt: 'Dashboard',
 					hidden: false,
 				},
 				{
 					title: 'sidebar.documentation',
 					icon: mdiBookOpenOutline,
 					href: 'https://docs.immudb.io/master',
+					alt: 'Documentation',
 					hidden: true,
 				},
 				{
 					title: 'sidebar.analytics',
 					icon: mdiChartBoxOutline,
 					to: this.localePath({ path: '/analytics' }),
+					alt: 'Analytics',
 					hidden: true,
 				},
 				{
 					title: 'sidebar.download',
 					icon: mdiCloudDownloadOutline,
 					href: 'https://github.com/codenotary/immudb-py',
+					alt: 'Download',
 					hidden: true,
 				},
 			];

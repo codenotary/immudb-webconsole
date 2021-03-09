@@ -161,6 +161,17 @@ export default {
 		},
 	},
 
+	// Doc: 
+	/*
+	** Serve static assets with cache policy
+	** Doc: https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-render/
+	*/
+	render: {
+		static: {
+			maxAge: 60 * 60 * 24 * 365 * 1000,
+		},
+	},
+
 	/*
 	** Set authenticated as default middleware
 	** Doc: https://nuxtjs.org/guides/configuration-glossary/configuration-router
@@ -177,6 +188,7 @@ export default {
 	plugins: [
 		{ src: '~/plugins/vue-clipboards', ssr: false },
 		{ src: '~/plugins/vue-cookies', ssr: false },
+		{ src: '~/plugins/vue-d3', ssr: false },
 		{ src: '~/plugins/vue-gtag', ssr: false },
 		{ src: '~/plugins/vue-json-pretty', ssr: false },
 		{ src: '~/plugins/vue-prism-editor', ssr: false },

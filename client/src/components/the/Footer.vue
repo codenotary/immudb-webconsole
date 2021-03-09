@@ -34,6 +34,7 @@
 								class="font-weight-bold"
 								href="https://www.codenotary.com/"
 								target="_blank"
+								rel="noopener"
 							>
 								CodeNotary, Inc.
 							</a>
@@ -75,6 +76,8 @@
 								small
 								href="https://github.com/codenotary/immudb-playground"
 								target="_blank"
+								title="See the github repository"
+								alt="See the github repository"
 								rel="noopener"
 								v-bind="attrs"
 								v-on="on"
