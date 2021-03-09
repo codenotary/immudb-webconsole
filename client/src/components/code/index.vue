@@ -13,12 +13,32 @@
 			class="ma-0 pa-0 bg-secondary custom-scrollbar"
 		>
 			<div class="ma-0 pt-4 pl-6 pr-4 pb-2">
-				<h4 class="ma-0 mb-2 pa-0 title">
+				<h4
+					v-if="title"
+					class="ma-0 mb-2 pa-0 title"
+				>
 					{{ title }}
 				</h4>
-				<p class="ma-0 mb-2 pa-0 body-2">
+				<v-skeleton-loader
+					v-else
+					class="ma-0 mb-4 ml-n2 pa-0"
+					width="40%"
+					:height="24"
+					type="image"
+				/>
+				<p
+					v-if="description"
+					class="ma-0 mb-2 pa-0 body-2"
+				>
 					{{ description }}
 				</p>
+				<v-skeleton-loader
+					v-else
+					class="ma-0 mb-4 ml-n2 pa-0"
+					width="80%"
+					:height="16"
+					type="image"
+				/>
 				<v-divider
 					class="ma-0 mt-4 pa-0"
 					style="width: 80%;"
