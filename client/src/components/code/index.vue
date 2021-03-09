@@ -38,7 +38,6 @@ import {
 } from '@/store/code/constants';
 import {
 	EXAMPLE_MODULE,
-	SET_ACTIVE_EXAMPLE,
 	ACTIVE_EXAMPLE,
 } from '@/store/example/constants';
 import {
@@ -100,9 +99,6 @@ export default {
 	methods: {
 		...mapActions(CODE_MODULE, {
 			runCode: RUN_CODE,
-		}),
-		...mapActions(EXAMPLE_MODULE, {
-			setActiveExample: SET_ACTIVE_EXAMPLE,
 		}),
 		onUpdate (data) {
 			try {

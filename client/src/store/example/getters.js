@@ -17,9 +17,11 @@ export default {
 	[EXAMPLES](state) {
 		return state.examples || [];
 	},
-	[ACTIVE_EXAMPLE](state) {
+	[ACTIVE_EXAMPLE](state, getters) {
+		const { label, mime } = getters[ACTIVE_LANGUAGE];
 		return state.examples.find((_) => {
-			return _ && `/${ state.activeLanguage }/${ _.fileName }` === state.activeExample;
+			const activePath = `/${ label }/${ _ && _.fileName }.${ mime }`;
+			return activePath === state.activeExample;
 		}) || {};
 	},
 };

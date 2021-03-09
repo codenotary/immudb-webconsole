@@ -148,7 +148,7 @@ export default {
 			page_path: '/',
 		});
 
-		this.codePath = this.getParam(PARAMS.CODE) || '/python/hello_world';
+		this.codePath = this.getParam(PARAMS.CODE) || '/python/hello_world.py';
 	},
 	methods: {
 		...mapActions(EXAMPLE_MODULE, {

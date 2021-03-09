@@ -18,21 +18,22 @@ export default {
 	[SET_EXAMPLES](state, payload) {
 		const { examples } = payload;
 		examples && (state.examples = examples.map((_, idx) => {
-			const _e = _;
-			_e.id = idx;
-			return _e;
+			const e = _;
+			e.id = idx;
+			return e;
 		}));
 	},
 	[SET_CODES](state, payload) {
 		const { codes } = payload;
 		codes && (state.examples = state.examples.map((_, idx) => {
-			const _e = _;
-			_e.code = codes[idx];
-			return _e;
+			const e = _;
+			e.code = codes[idx];
+			return e;
 		}));
 	},
 	[SET_ACTIVE_EXAMPLE](state, payload) {
 		const { activePath } = payload;
-		activePath && (state.activeExample = activePath);
+		const _path = activePath.startsWith('/') ? activePath : `/${ activePath }`;
+		_path && (state.activeExample = _path);
 	},
 };

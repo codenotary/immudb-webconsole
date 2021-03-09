@@ -24,6 +24,7 @@
 		</v-card-title>
 		<v-card-text class="ma-0 py-1 px-0 bg-secondary">
 			<v-treeview
+				v-if="itemsLoaded"
 				v-model="tree"
 				:open="initiallyOpen"
 				class="ml-0"
@@ -54,6 +55,10 @@
 					</span>
 				</template>
 			</v-treeview>
+			<NavigationSkeleton
+				v-else
+				class="ma-0 pa-4"
+			/>
 		</v-card-text>
 	</v-card>
 </template>
@@ -83,63 +88,7 @@ export default {
 				{
 					id: 1,
 					name: 'Python',
-					children: [
-						{
-							id: 201,
-							name: 'Hello world',
-							sort: 0,
-							to: {
-								path: '/',
-								query: {
-									code: '/python/hello_world',
-								},
-							},
-						},
-						{
-							id: 202,
-							name: 'Producer',
-							sort: 1,
-							to: {
-								path: '/',
-								query: {
-									code: '/python/producer',
-								},
-							},
-						},
-						{
-							id: 203,
-							name: 'Money',
-							sort: 2,
-							to: {
-								path: '/',
-								query: {
-									code: '/python/money',
-								},
-							},
-						},
-						{
-							id: 204,
-							name: 'Consumer',
-							sort: 3,
-							to: {
-								path: '/',
-								query: {
-									code: '/python/consumer',
-								},
-							},
-						},
-						{
-							id: 205,
-							name: 'Safe operations',
-							sort: 4,
-							to: {
-								path: '/',
-								query: {
-									code: '/python/safe_operations',
-								},
-							},
-						},
-					],
+					children: [],
 				},
 			],
 		};
@@ -151,6 +100,47 @@ export default {
 			examples: EXAMPLES,
 			activeExample: ACTIVE_EXAMPLE,
 		}),
+		itemsLoaded () {
+			if (this.items && this.items[0]) {
+				const { children } = this.items[0];
+				return children && children.length > 0;
+			}
+			return false;
+		},
+		parsedExamples () {
+			if (this.examples) {
+				return this.examples
+						.slice()
+						.sort((a, b) => a.sort <= b.sort ? -1 : 1)
+						.map((_) => {
+							const { label, mime } = this.activeLanguage;
+							return {
+								id: _.id,
+								sort: _.sort,
+								name: _.title,
+								to: {
+									path: '/',
+									query: {
+										code: `/${ label }/${ _.fileName }.${ mime }`,
+									},
+								},
+							};
+						});
+			}
+			return [];
+		},
+	},
+	watch: {
+		examples: {
+			deep: true,
+			immediate: true,
+			handler (newVal) {
+				const children = this.parsedExamples;
+				if (children && children.length) {
+					this.items[0].children = children;
+				}
+			},
+		},
 	},
 	methods: {
 		forceActive (data) {
