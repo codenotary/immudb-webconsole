@@ -16,7 +16,9 @@
 				show-arrows
 				dense
 			>
-				<v-tab>
+				<v-tab
+					@click="dismissUpdate(0)"
+				>
 					<v-icon
 						class="ml-2 gray--text text--lighten-1"
 						dense
@@ -24,10 +26,20 @@
 						{{ mdiText }}
 					</v-icon>
 					<span class="ml-2 body-2 text-capitalize">
-						{{ $t('output.code.title') }}
+						<v-badge
+							:value="tabHasUpdates[0]"
+							color="red lighten-1"
+							:offset-y="-2"
+							:offset-x="-2"
+							dot
+						>
+							{{ $t('output.code.title') }}
+						</v-badge>
 					</span>
 				</v-tab>
-				<v-tab>
+				<v-tab
+					@click="dismissUpdate(1)"
+				>
 					<v-icon
 						class="ml-2 gray--text text--lighten-1"
 						dense
@@ -35,7 +47,15 @@
 						{{ mdiFamilyTree }}
 					</v-icon>
 					<span class="ml-2 body-2 text-capitalize">
-						{{ $t('output.merkleTree.title') }}
+						<v-badge
+							:value="tabHasUpdates[1]"
+							color="red lighten-1"
+							:offset-y="-2"
+							:offset-x="-2"
+							dot
+						>
+							{{ $t('output.merkleTree.title') }}
+						</v-badge>
 					</span>
 				</v-tab>
 			</v-tabs>
@@ -54,6 +74,7 @@ export default {
 	name: 'OutputSubNavbar',
 	props: {
 		tab: { type: Number, default: 0 },
+		tabHasUpdates: { type: Array, default: () => [] },
 	},
 	data () {
 		return {
@@ -66,6 +87,15 @@ export default {
 	watch: {
 		activeTab (newVal) {
 			this.$emit('update:tab', newVal);
+		},
+	},
+	methods: {
+		dismissUpdate (data) {
+			if (this.tabHasUpdates[data]) {
+				const _tabHasUpdates = this.tabHasUpdates;
+				_tabHasUpdates[data] = false;
+				this.$emit('update:tabHasUpdates', _tabHasUpdates);
+			}
 		},
 	},
 };

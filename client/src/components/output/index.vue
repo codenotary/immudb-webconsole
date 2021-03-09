@@ -7,6 +7,7 @@
 		<v-card-title class="ma-0 pa-0 d-flex justify-start align-center">
 			<OutputSubNavbar
 				:tab.sync="tab"
+				:tab-has-updates.sync="tabHasUpdates"
 			/>
 		</v-card-title>
 		<v-card-text class="ma-0 pa-2 bg-secondary custom-scrollbar">
@@ -26,6 +27,7 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import { mapGetters } from 'vuex';
 import {
 	CODE_MODULE,
@@ -33,6 +35,7 @@ import {
 	MERKLE_TREE,
 } from '@/store/code/constants';
 import { mdiViewList } from '@mdi/js';
+const isEqual = require('lodash.isequal');
 
 export default {
 	name: 'Output',
@@ -40,6 +43,7 @@ export default {
 		return {
 			mdiViewList,
 			tab: 0,
+			tabHasUpdates: [false, false],
 		};
 	},
 	computed: {
@@ -47,6 +51,24 @@ export default {
 			output: CODE_OUTPUT,
 			merkleTree: MERKLE_TREE,
 		}),
+	},
+	watch: {
+		output: {
+			deep: true,
+			handler (newVal, oldVal) {
+				if (!isEqual(newVal, oldVal)) {
+					Vue.set(this.tabHasUpdates, 0, true);
+				}
+			},
+		},
+		merkleTree: {
+			deep: true,
+			handler (newVal, oldVal) {
+				if (!isEqual(newVal, oldVal)) {
+					Vue.set(this.tabHasUpdates, 1, true);
+				}
+			},
+		},
 	},
 };
 </script>
