@@ -64,10 +64,10 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import {
-	CODE_MODULE,
+	OUTPUT_MODULE,
 	RUN_CODE,
 	IMMUDB,
-} from '@/store/code/constants';
+} from '@/store/output/constants';
 import {
 	EXAMPLE_MODULE,
 	ACTIVE_EXAMPLE,
@@ -100,7 +100,7 @@ export default {
 		...mapGetters(EXAMPLE_MODULE, {
 			activeExample: ACTIVE_EXAMPLE,
 		}),
-		...mapGetters(CODE_MODULE, {
+		...mapGetters(OUTPUT_MODULE, {
 			immudb: IMMUDB,
 		}),
 		...mapGetters(VIEW_MODULE, {
@@ -129,7 +129,7 @@ export default {
 		},
 	},
 	methods: {
-		...mapActions(CODE_MODULE, {
+		...mapActions(OUTPUT_MODULE, {
 			runCode: RUN_CODE,
 		}),
 		onUpdate (data) {

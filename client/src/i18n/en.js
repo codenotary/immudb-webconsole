@@ -33,14 +33,15 @@ export default {
 	output: {
 		merkleTree: {
 			title: 'Merkle tree',
+			empty: 'There is no merkle tree yet...',
+			selector: {
+				graph: 'Graph',
+				json: 'Json',
+			},
 		},
 		code: {
 			title: 'Output',
 			empty: 'There is no code output yet...',
-		},
-		stderr: {
-			title: 'Standard error',
-			empty: 'There is error output yet...',
 		},
 	},
 };

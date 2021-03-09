@@ -30,10 +30,10 @@
 import Vue from 'vue';
 import { mapGetters } from 'vuex';
 import {
-	CODE_MODULE,
+	OUTPUT_MODULE,
 	CODE_OUTPUT,
 	MERKLE_TREE,
-} from '@/store/code/constants';
+} from '@/store/output/constants';
 import { mdiViewList } from '@mdi/js';
 const isEqual = require('lodash.isequal');
 
@@ -47,7 +47,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapGetters(CODE_MODULE, {
+		...mapGetters(OUTPUT_MODULE, {
 			output: CODE_OUTPUT,
 			merkleTree: MERKLE_TREE,
 		}),

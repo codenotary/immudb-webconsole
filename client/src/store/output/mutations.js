@@ -2,6 +2,7 @@ import {
 	APPEND_CODE_HISTORY,
 	SET_IMMUDB,
 	SET_MERKLE_TREE,
+	SET_MERKLE_TREE_MODE,
 	SET_CODE_OUTPUT,
 	APPEND_CODE_OUTPUT,
 } from './constants';
@@ -23,6 +24,12 @@ export default {
 		if (payload) {
 			const { merkleTree } = payload;
 			state.merkleTree = merkleTree;
+		}
+	},
+	[SET_MERKLE_TREE_MODE](state, payload) {
+		if (payload) {
+			const { mode } = payload;
+			state.merkleTreeMode = mode;
 		}
 	},
 	[SET_CODE_OUTPUT](state, payload) {

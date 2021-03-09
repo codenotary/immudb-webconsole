@@ -10,6 +10,7 @@ import {
 	APPEND_CODE_HISTORY,
 	SET_IMMUDB,
 	SET_MERKLE_TREE,
+	SET_MERKLE_TREE_MODE,
 	APPEND_CODE_OUTPUT,
 } from './constants';
 
@@ -65,5 +66,20 @@ export default {
 			commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
 			throw err;
 		}
+	},
+	[APPEND_CODE_HISTORY]({ commit }, payload) {
+		commit(APPEND_CODE_HISTORY, payload);
+	},
+	[SET_IMMUDB]({ commit }, payload) {
+		commit(SET_IMMUDB, payload);
+	},
+	[SET_MERKLE_TREE]({ commit }, payload) {
+		commit(SET_MERKLE_TREE, payload);
+	},
+	[SET_MERKLE_TREE_MODE]({ commit }, payload) {
+		commit(SET_MERKLE_TREE_MODE, payload);
+	},
+	[APPEND_CODE_OUTPUT]({ commit }, payload) {
+		commit(APPEND_CODE_OUTPUT, payload);
 	},
 };
