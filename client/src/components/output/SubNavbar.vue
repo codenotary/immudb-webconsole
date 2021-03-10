@@ -29,9 +29,8 @@
 						<v-badge
 							:value="tabHasUpdates[0]"
 							color="red lighten-1"
-							:offset-y="-2"
-							:offset-x="-2"
-							dot
+							:content="tabHasUpdates[0]"
+							bordered
 						>
 							{{ $t('output.code.title') }}
 						</v-badge>
@@ -50,9 +49,8 @@
 						<v-badge
 							:value="tabHasUpdates[1]"
 							color="red lighten-1"
-							:offset-y="-2"
-							:offset-x="-2"
-							dot
+							:content="tabHasUpdates[1]"
+							bordered
 						>
 							{{ $t('output.merkleTree.title') }}
 						</v-badge>
@@ -93,7 +91,7 @@ export default {
 		dismissUpdate (data) {
 			if (this.tabHasUpdates[data]) {
 				const _tabHasUpdates = this.tabHasUpdates;
-				_tabHasUpdates[data] = false;
+				_tabHasUpdates[data] = 0;
 				this.$emit('update:tabHasUpdates', _tabHasUpdates);
 			}
 		},

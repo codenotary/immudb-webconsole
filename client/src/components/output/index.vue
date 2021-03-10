@@ -43,7 +43,7 @@ export default {
 		return {
 			mdiViewList,
 			tab: 0,
-			tabHasUpdates: [false, false],
+			tabHasUpdates: [0, 0],
 		};
 	},
 	computed: {
@@ -56,16 +56,16 @@ export default {
 		output: {
 			deep: true,
 			handler (newVal, oldVal) {
-				if (!isEqual(newVal, oldVal)) {
-					Vue.set(this.tabHasUpdates, 0, true);
+				if (this.tab !== 0 && !isEqual(newVal, oldVal)) {
+					Vue.set(this.tabHasUpdates, 0, this.tabHasUpdates[0] + 1);
 				}
 			},
 		},
 		merkleTree: {
 			deep: true,
 			handler (newVal, oldVal) {
-				if (!isEqual(newVal, oldVal)) {
-					Vue.set(this.tabHasUpdates, 1, true);
+				if (this.tab !== 1 && !isEqual(newVal, oldVal)) {
+					Vue.set(this.tabHasUpdates, 1, this.tabHasUpdates[1] + 1);
 				}
 			},
 		},
