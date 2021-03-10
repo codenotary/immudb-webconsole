@@ -3,7 +3,7 @@
 from immudb.client import ImmudbClient
 
 ic=ImmudbClient()
-ic.login("immudb","immudb")
+ic.login(username="immudb",password="immudb")
 
 key="a_very_important_key".encode('utf8')
 value="a_very_important_value".encode('utf8')
@@ -17,12 +17,12 @@ response=ic.verifiedSet(key,value)
 # the insert was correctly verified
 assert response.verified==True
 
-print("Key inserted (and verified) with index",response.index)
+print("Key inserted (and verified) with index",response.id)
 
 #reads back the value
 readback=ic.verifiedGet(key)
 
 # in the readback we also have the index and the verified field
 assert response.verified==True
-print("The value is",readback.value,"at transaction",response.id,"with timestamp",readback.timestamp)
-
+print("The value is {} at transaction {} with timestamp".
+    format(readback.value.decode('utf8'),response.id,readback.timestamp))
