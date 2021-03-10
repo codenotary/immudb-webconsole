@@ -12,66 +12,14 @@
 				:graph="merkleTreeMode"
 				@update="setMerkleTreeMode"
 			/>
-			<no-ssr
+			<OutputMerkleTreeGraph
 				v-if="merkleTreeMode === DEFAULT_MERKLE_TREE_MODE"
-			>
-				<tree
-					id="merkleTree"
-					ref="merkleTree"
-					:data="tree"
-					type="cluster"
-					layout-type="vertical"
-					node-text-display="all"
-					link-layout="bezier"
-					:duration="300"
-					node-text="name"
-					:radius="20"
-					:stroke-width="6"
-					zoomable
-				>
-					<template
-						#node="{
-							data,
-							node: {depth},
-							radius,
-							isRetracted,
-						}"
-					>
-						<template v-if="data.children && data.children.length">
-							<path
-								:fill="isRetracted ? 'red' : 'blue'"
-								d="M190.5.."
-							>
-								<title>
-									A: {{ data.text }} {{ depth }}
-								</title>
-							</path>
-						</template>
-						<template v-else>
-							<circle
-								:r="radius"
-								:stroke="true ? 'blue' : 'yellow'"
-							>
-								<title>
-									B: {{ data.text }} {{ depth }}
-								</title>
-							</circle>
-						</template>
-					</template>
-				</tree>
-			</no-ssr>
-			<span
+				:merkle-tree="merkleTree"
+			/>
+			<OutputMerkleTreeJson
 				v-else
-				class="body-2"
-			>
-				<vue-json-pretty
-					:data="merkleTree"
-					:deep="3"
-					:virtual="true"
-					:show-line="true"
-					:collapsed-on-click-brackets="true"
-				/>
-			</span>
+				:merkle-tree="merkleTree"
+			/>
 		</div>
 		<div
 			v-else
@@ -92,15 +40,9 @@ import {
 	MERKLE_TREE_MODE,
 	DEFAULT_MERKLE_TREE_MODE,
 } from '@/store/output/constants';
-import NoSSR from 'vue-no-ssr';
-import { tree } from 'vued3tree';
 
 export default {
 	name: 'OutputMerkleTree',
-	components: {
-		tree,
-		'no-ssr': NoSSR,
-	},
 	props: {
 		merkleTree: { type: Array, default: () => {} },
 		emptyMessage: { type: String, default: 'output.merkleTree.empty' },
@@ -108,25 +50,6 @@ export default {
 	data() {
 		return {
 			DEFAULT_MERKLE_TREE_MODE,
-			tree: {
-				name: 'father',
-				children: [
-					{
-						name: 'son1',
-						children: [
-							{ name: 'grandson' },
-							{ name: 'grandson2' },
-						],
-					},
-					{
-						name: 'son2',
-						children: [
-							{ name: 'grandson3' },
-							{ name: 'grandson4' },
-						],
-					},
-				],
-			},
 		};
 	},
 	computed: {

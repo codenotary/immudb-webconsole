@@ -31,6 +31,13 @@ export default {
 		unknown: 'Code block type unknown',
 	},
 	output: {
+		code: {
+			title: 'Output',
+			empty: 'There is no code output yet...',
+			filter: {
+				label: 'Filter output',
+			},
+		},
 		merkleTree: {
 			title: 'Merkle tree',
 			empty: 'There is no merkle tree yet...',
@@ -38,10 +45,9 @@ export default {
 				graph: 'Graph',
 				json: 'Json',
 			},
-		},
-		code: {
-			title: 'Output',
-			empty: 'There is no code output yet...',
+			commands: {
+				resetZoom: 'reset',
+			},
 		},
 	},
 };

@@ -6,8 +6,12 @@
 		<div
 			v-if="output && output.length"
 		>
+			<OutputCodeFilter
+				id="CodeFilter"
+				:filter.sync="filter"
+			/>
 			<OutputCodeItem
-				v-for="(item, idx) in output"
+				v-for="(item, idx) in filterOutput"
 				:key="`output-${ idx }`"
 				:item="item"
 			/>
@@ -34,16 +38,30 @@ export default {
 	},
 	data () {
 		return {
+			filter: 'all',
 			plugins: [
 				'command-line',
 			],
 		};
+	},
+	computed: {
+		filterOutput () {
+			return this.output.filter((_) => {
+				return (this.filter === 'all') ||
+					(_ && _.flux === this.filter);
+			});
+		},
 	},
 };
 </script>
 
 <style lang="scss">
 #OutputCode {
-	//
+	#CodeFilter {
+		position: absolute;
+		top: $spacer-2;
+		right: $spacer-2;
+		width: 96px;
+	}
 }
 </style>
