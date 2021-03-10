@@ -46,7 +46,7 @@ export default {
 				json: 'Json',
 			},
 			commands: {
-				resetZoom: 'reset',
+				resetZoom: 'Reset zoom',
 			},
 		},
 	},

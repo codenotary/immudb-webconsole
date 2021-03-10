@@ -4,7 +4,7 @@
 	>
 		<no-ssr>
 			<vue-json-pretty
-				:data="merkleTree"
+				:data="json"
 				:deep="3"
 				:virtual="true"
 				:show-line="true"
@@ -23,7 +23,7 @@ export default {
 		'no-ssr': NoSSR,
 	},
 	props: {
-		merkleTree: { type: Object, default: () => {} },
+		json: { type: Array, default: () => {} },
 	},
 };
 </script>

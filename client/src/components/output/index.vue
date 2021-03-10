@@ -14,13 +14,11 @@
 			<OutputCode
 				v-if="tab === 0"
 				class="ma-0 pa-0"
-				:output="output || []"
 				:empty-message="'output.code.empty'"
 			/>
 			<OutputMerkleTree
 				v-else-if="tab === 1"
 				class="ma-0 pa-0"
-				:merkle-tree="merkleTree || []"
 			/>
 		</v-card-text>
 	</v-card>
@@ -28,12 +26,6 @@
 
 <script>
 import Vue from 'vue';
-import { mapGetters } from 'vuex';
-import {
-	OUTPUT_MODULE,
-	CODE_OUTPUT,
-	MERKLE_TREE,
-} from '@/store/output/constants';
 import { mdiViewList } from '@mdi/js';
 const isEqual = require('lodash.isequal');
 
@@ -45,12 +37,6 @@ export default {
 			tab: 0,
 			tabHasUpdates: [0, 0],
 		};
-	},
-	computed: {
-		...mapGetters(OUTPUT_MODULE, {
-			output: CODE_OUTPUT,
-			merkleTree: MERKLE_TREE,
-		}),
 	},
 	watch: {
 		output: {

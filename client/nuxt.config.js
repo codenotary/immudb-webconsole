@@ -153,6 +153,7 @@ export default {
 		transpile: [
 			'/^vuetify/',
 			'vee-validate',
+			'vue-worker',
 		],
 		optimization: {
 			splitChunks: {
@@ -194,6 +195,7 @@ export default {
 		{ src: '~/plugins/vue-prism-editor', ssr: false },
 		{ src: '~/plugins/vue-toasted', ssr: false },
 		{ src: '~/plugins/vee-validate', ssr: false },
+		{ src: '~/plugins/vue-worker', ssr: false },
 	],
 
 	/*

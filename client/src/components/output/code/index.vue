@@ -30,10 +30,15 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import {
+	OUTPUT_MODULE,
+	CODE_OUTPUT,
+} from '@/store/output/constants';
+
 export default {
 	name: 'OutputCode',
 	props: {
-		output: { type: Array, default: () => {} },
 		emptyMessage: { type: String, default: 'output.stdout.empty' },
 	},
 	data () {
@@ -45,6 +50,9 @@ export default {
 		};
 	},
 	computed: {
+		...mapGetters(OUTPUT_MODULE, {
+			output: CODE_OUTPUT,
+		}),
 		filterOutput () {
 			return this.output.filter((_) => {
 				return (this.filter === 'all') ||

@@ -10,7 +10,7 @@
 			<tree
 				id="merkleTree"
 				ref="merkleTree"
-				:data="tree"
+				:data="graph"
 				type="cluster"
 				layout-type="vertical"
 				node-text-display="all"
@@ -63,7 +63,7 @@ export default {
 		'no-ssr': NoSSR,
 	},
 	props: {
-		merkleTree: { type: Array, default: () => {} },
+		graph: { type: Array, default: () => {} },
 	},
 	data() {
 		return {

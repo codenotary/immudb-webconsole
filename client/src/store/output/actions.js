@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import decompress from '@/helpers/decompress';
 import { CodeService } from '@/services/code';
 import {
@@ -43,8 +44,11 @@ export default {
 						});
 
 						const decompressedTree = decompress(tree) || '';
+						const jsonDecompressedTree = decompressedTree && JSON.parse(decompressedTree);
+
 						commit(SET_MERKLE_TREE, {
-							merkleTree: decompressedTree && JSON.parse(decompressedTree),
+							graph: Vue.prototype.$workers.parseLogs(jsonDecompressedTree),
+							json: jsonDecompressedTree,
 						});
 
 						commit(APPEND_CODE_OUTPUT, {

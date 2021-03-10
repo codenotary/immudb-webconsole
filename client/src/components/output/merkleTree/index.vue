@@ -4,7 +4,7 @@
 		class="ma-0 pa-0 px-1 fill-height"
 	>
 		<div
-			v-if="merkleTree && merkleTree.length"
+			v-if="(graph && graph.length) || (json && json.length)"
 			class="ma-4 pa-0 pb-8"
 		>
 			<OutputMerkleTreeSelector
@@ -14,11 +14,11 @@
 			/>
 			<OutputMerkleTreeGraph
 				v-if="merkleTreeMode === DEFAULT_MERKLE_TREE_MODE"
-				:merkle-tree="merkleTree"
+				:graph="graph"
 			/>
 			<OutputMerkleTreeJson
 				v-else
-				:merkle-tree="merkleTree"
+				:json="json"
 			/>
 		</div>
 		<div
@@ -37,6 +37,7 @@ import { mapActions, mapGetters } from 'vuex';
 import {
 	OUTPUT_MODULE,
 	SET_MERKLE_TREE_MODE,
+	MERKLE_TREE,
 	MERKLE_TREE_MODE,
 	DEFAULT_MERKLE_TREE_MODE,
 } from '@/store/output/constants';
@@ -44,7 +45,6 @@ import {
 export default {
 	name: 'OutputMerkleTree',
 	props: {
-		merkleTree: { type: Array, default: () => {} },
 		emptyMessage: { type: String, default: 'output.merkleTree.empty' },
 	},
 	data() {
@@ -54,8 +54,21 @@ export default {
 	},
 	computed: {
 		...mapGetters(OUTPUT_MODULE, {
+			merkleTree: MERKLE_TREE,
 			merkleTreeMode: MERKLE_TREE_MODE,
 		}),
+		graph () {
+			if (this.merkleTree) {
+				return this.merkleTree.graph;
+			}
+			return [];
+		},
+		json () {
+			if (this.merkleTree) {
+				return this.merkleTree.json;
+			}
+			return [];
+		},
 	},
 	methods: {
 		...mapActions(OUTPUT_MODULE, {

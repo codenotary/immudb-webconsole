@@ -1,6 +1,6 @@
 <template>
-	<v-btn-toggle
-		color="accent"
+	<div
+		class="ma-0 pa-0 d-flex flex-column"
 		dense
 		tile
 	>
@@ -9,18 +9,17 @@
 		>
 			<template v-slot:activator="{ on, attrs }">
 				<v-btn
-					class="ma-0 py-0 px-2"
-					small
-					icon
-					:title="$t('output.merkleTree.commands.resetZoom')"
+					class="command ma-0 pa-1 bg-tertiary"
 					:alt="$t('output.merkleTree.commands.resetZoom')"
+					small
+					depressed
+					tile
 					v-bind="attrs"
 					v-on="on"
 					@click="onResetZoom"
 				>
 					<v-icon
-						class="title"
-						color="white darken-1"
+						class="grey--text text--lighten-1"
 					>
 						{{ mdiImageFilterCenterFocus }}
 					</v-icon>
@@ -30,7 +29,8 @@
 				{{ $t('output.merkleTree.commands.resetZoom') }}
 			</span>
 		</v-tooltip>
-	</v-btn-toggle>
+		<v-divider />
+	</div>
 </template>
 
 <script>
@@ -50,3 +50,18 @@ export default {
 	},
 };
 </script>
+
+<style lang="scss">
+#MerkleTreeGraphCommands {
+	border-radius: 4px !important;
+	overflow: hidden;
+
+	.command {
+		min-width: 24px;
+
+		.v-btn__content {
+			width: 24px !important;
+		}
+	}
+}
+</style>
