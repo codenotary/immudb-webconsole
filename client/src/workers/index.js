@@ -29,17 +29,37 @@ export const workers = {
 								const t0 = performance.now();
 								const data = arg.data;
 								const showPerformance = arg.showPerformance;
+								let result = [];
 
-								// DO THING
-								console.log(data);
+								// PARSE DATA
+								const hashTable = Object.create(null);
+								data.forEach((_) => {
+									const { root } = _;
+									hashTable[root] = {
+										label: root,
+										children: [],
+									};
+								});
+								data.forEach((_) => {
+									const { metadata, root } = _;
+									const { prevroot } = metadata;
+									if (prevroot && hashTable[prevroot]) {
+										hashTable[prevroot].children
+												.push(hashTable[root]);
+									}
+									else {
+										result = hashTable[root];
+									}
+								});
 
 								if (showPerformance) {
-									console.log('parseMerkleTreeGraph took ' + (performance.now() - t0) + ' ms');
+									console.log(`parseMerkleTreeGraph took ${ performance.now() - t0 } ms`);
 								}
-								return [];
+
+								return result;
 							}
-							catch (e) {
-								console.error(e);
+							catch (err) {
+								console.error('ERR: merkle tree graph parse', err);
 							}
 						},
 					},

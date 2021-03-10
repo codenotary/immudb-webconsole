@@ -5,7 +5,7 @@ import {
 export default () => ({
 	merkleTree: {
 		json: [],
-		graph: [],
+		graph: {},
 	},
 	merkleTreeMode: DEFAULT_MERKLE_TREE_MODE,
 	immudb: '',

@@ -8,6 +8,9 @@ import {
 } from '@/store/view';
 import {
 	RUN_CODE,
+	RESET_IMMUDB,
+	RESET_MERKLE_TREE,
+	RESET_OUTPUT,
 	APPEND_CODE_HISTORY,
 	SET_IMMUDB,
 	SET_MERKLE_TREE,
@@ -47,7 +50,7 @@ export default {
 						const jsonDecompressedTree = decompressedTree && JSON.parse(decompressedTree);
 
 						commit(SET_MERKLE_TREE, {
-							graph: Vue.prototype.$workers.parseLogs(jsonDecompressedTree),
+							graph: await Vue.prototype.$workers.parseMerkleTreeGraph(jsonDecompressedTree),
 							json: jsonDecompressedTree,
 						});
 
@@ -70,6 +73,15 @@ export default {
 			commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
 			throw err;
 		}
+	},
+	[RESET_IMMUDB]({ commit }) {
+		commit(RESET_IMMUDB);
+	},
+	[RESET_MERKLE_TREE]({ commit }) {
+		commit(RESET_MERKLE_TREE);
+	},
+	[RESET_OUTPUT]({ commit }) {
+		commit(RESET_OUTPUT);
 	},
 	[APPEND_CODE_HISTORY]({ commit }, payload) {
 		commit(APPEND_CODE_HISTORY, payload);

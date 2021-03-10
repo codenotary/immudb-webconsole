@@ -10,20 +10,21 @@
 			<tree
 				id="merkleTree"
 				ref="merkleTree"
+				:identifier="getId"
 				:data="graph"
 				type="cluster"
 				layout-type="vertical"
 				node-text-display="all"
 				link-layout="bezier"
 				:duration="300"
-				node-text="name"
+				node-text="label"
 				:min-zoom="0.3"
 				:max-zoom="9"
 				:radius="20"
 				:stroke-width="6"
 				zoomable
 			>
-				<template
+				<!-- <template
 					#node="{ data, node: {depth}, radius, isRetracted }"
 				>
 					<template v-if="data.children && data.children.length">
@@ -46,7 +47,7 @@
 							</title>
 						</circle>
 					</template>
-				</template>
+				</template> -->
 			</tree>
 		</no-ssr>
 	</span>
@@ -63,32 +64,35 @@ export default {
 		'no-ssr': NoSSR,
 	},
 	props: {
-		graph: { type: Array, default: () => {} },
+		graph: { type: Object, default: () => {} },
 	},
-	data() {
-		return {
-			tree: {
-				name: 'father',
-				children: [
-					{
-						name: 'son1',
-						children: [
-							{ name: 'grandson' },
-							{ name: 'grandson2' },
-						],
-					},
-					{
-						name: 'son2',
-						children: [
-							{ name: 'grandson3' },
-							{ name: 'grandson4' },
-						],
-					},
-				],
-			},
-		};
-	},
+	// data() {
+	// 	return {
+	// 		tree: {
+	// 			name: 'father',
+	// 			children: [
+	// 				{
+	// 					name: 'son1',
+	// 					children: [
+	// 						{ name: 'grandson' },
+	// 						{ name: 'grandson2' },
+	// 					],
+	// 				},
+	// 				{
+	// 					name: 'son2',
+	// 					children: [
+	// 						{ name: 'grandson3' },
+	// 						{ name: 'grandson4' },
+	// 					],
+	// 				},
+	// 			],
+	// 		},
+	// 	};
+	// },
 	methods: {
+		getId () {
+			return this._uid;
+		},
 		onResetZoom () {
 			if (this.$refs.merkleTree) {
 				this.$refs.merkleTree.resetZoom();

@@ -61,7 +61,7 @@ export default {
 			if (this.merkleTree) {
 				return this.merkleTree.graph;
 			}
-			return [];
+			return {};
 		},
 		json () {
 			if (this.merkleTree) {

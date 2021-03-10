@@ -1,4 +1,7 @@
 import {
+	RESET_IMMUDB,
+	RESET_MERKLE_TREE,
+	RESET_OUTPUT,
 	APPEND_CODE_HISTORY,
 	SET_IMMUDB,
 	SET_MERKLE_TREE,
@@ -8,6 +11,18 @@ import {
 } from './constants';
 
 export default {
+	[RESET_IMMUDB](state) {
+		state.immudb = [];
+	},
+	[RESET_MERKLE_TREE](state) {
+		state.merkleTree = {
+			graph: {},
+			json: [],
+		};
+	},
+	[RESET_OUTPUT](state) {
+		state.output = [];
+	},
 	[APPEND_CODE_HISTORY](state, payload) {
 		if (payload) {
 			const { code } = payload;
@@ -23,6 +38,7 @@ export default {
 	[SET_MERKLE_TREE](state, payload) {
 		if (payload) {
 			const { graph, json } = payload;
+			console.log('PARSED GRAPH', graph);
 			graph && (state.merkleTree.graph = graph);
 			json && (state.merkleTree.json = json);
 		}

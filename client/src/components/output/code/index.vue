@@ -54,10 +54,13 @@ export default {
 			output: CODE_OUTPUT,
 		}),
 		filterOutput () {
-			return this.output.filter((_) => {
-				return (this.filter === 'all') ||
-					(_ && _.flux === this.filter);
-			});
+			if (this.output && this.output.length) {
+				return this.output.filter((_) => {
+					return (this.filter === 'all') ||
+						(_ && _.flux === this.filter);
+				});
+			}
+			return [];
 		},
 	},
 };

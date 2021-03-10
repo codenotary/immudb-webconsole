@@ -4,12 +4,9 @@
 	>
 		<template v-slot:activator="{ on, attrs }">
 			<v-btn
-				class="primary-gradient"
-				color="blue"
 				depressed
 				small
-				primary
-				:loading="isLoading"
+				icon
 				:disabled="isLoading"
 				v-bind="attrs"
 				v-on="on"
@@ -19,15 +16,12 @@
 					class="title"
 					color="white darken-1"
 				>
-					{{ mdiPlay }}
+					{{ mdiReload }}
 				</v-icon>
-				<span class="mx-2 body-2 text-capitalize">
-					{{ $t('common.run') }}
-				</span>
 			</v-btn>
 		</template>
 		<span>
-			{{ $t('code.run') }}
+			{{ $t('code.reset') }}
 		</span>
 	</v-tooltip>
 </template>
@@ -40,14 +34,14 @@ import {
 } from '@/store/view/constants';
 
 import {
-	mdiPlay,
+	mdiReload,
 } from '@mdi/js';
 
 export default {
-	name: 'CodeRun',
+	name: 'CodeReset',
 	data () {
 		return {
-			mdiPlay,
+			mdiReload,
 		};
 	},
 	computed: {
@@ -57,7 +51,7 @@ export default {
 	},
 	methods: {
 		onSubmit () {
-			this.$emit('submit');
+			this.$emit('reset');
 		},
 	},
 };

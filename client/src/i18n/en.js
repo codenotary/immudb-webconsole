@@ -28,6 +28,7 @@ export default {
 	},
 	code: {
 		run: 'Execute code',
+		reset: 'Reset immudb',
 		unknown: 'Code block type unknown',
 	},
 	output: {

@@ -5,6 +5,13 @@
 		elevation="0"
 	>
 		<v-card-title class="ma-0 py-0 py-sm-2 px-0 d-flex justify-start align-center">
+			<CodeReset
+				@reset="onReset"
+			/>
+			<v-divider
+				class="my-0 ml-2 mr-3 pa-0"
+				vertical
+			/>
 			<CodeRun
 				@submit="onSubmit"
 			/>
@@ -66,6 +73,9 @@ import { mapActions, mapGetters } from 'vuex';
 import {
 	OUTPUT_MODULE,
 	RUN_CODE,
+	RESET_IMMUDB,
+	RESET_MERKLE_TREE,
+	RESET_OUTPUT,
 	IMMUDB,
 } from '@/store/output/constants';
 import {
@@ -131,6 +141,9 @@ export default {
 	methods: {
 		...mapActions(OUTPUT_MODULE, {
 			runCode: RUN_CODE,
+			resetImmudb: RESET_IMMUDB,
+			resetMerkleTree: RESET_MERKLE_TREE,
+			resetOutput: RESET_OUTPUT,
 		}),
 		onUpdate (data) {
 			try {
@@ -142,9 +155,14 @@ export default {
 				console.error(err);
 			}
 		},
-		onSubmit () {
+		onReset () {
+			this.resetImmudb();
+			this.resetMerkleTree();
+			this.resetOutput();
+		},
+		async onSubmit () {
 			try {
-				this.runCode({
+				await this.runCode({
 					code: this.code || '',
 					immudb: this.immudb || '',
 				});
