@@ -38,7 +38,6 @@ export default {
 	[SET_MERKLE_TREE](state, payload) {
 		if (payload) {
 			const { graph, json } = payload;
-			console.log('PARSED GRAPH', graph);
 			graph && (state.merkleTree.graph = graph);
 			json && (state.merkleTree.json = json);
 		}

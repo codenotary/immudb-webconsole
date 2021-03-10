@@ -33,14 +33,15 @@ export const workers = {
 
 								// PARSE DATA
 								const hashTable = Object.create(null);
-								data.forEach((_) => {
+								data.map((_, idx) => {
 									const { root } = _;
 									hashTable[root] = {
+										id: idx,
 										label: root,
 										children: [],
 									};
 								});
-								data.forEach((_) => {
+								data.map((_) => {
 									const { metadata, root } = _;
 									const { prevroot } = metadata;
 									if (prevroot && hashTable[prevroot]) {

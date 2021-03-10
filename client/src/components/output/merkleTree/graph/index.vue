@@ -12,12 +12,12 @@
 				ref="merkleTree"
 				:identifier="getId"
 				:data="graph"
-				type="cluster"
+				type="tree"
 				layout-type="vertical"
 				node-text-display="all"
 				link-layout="bezier"
 				:duration="300"
-				node-text="label"
+				node-text="id"
 				:min-zoom="0.3"
 				:max-zoom="9"
 				:radius="20"
@@ -66,29 +66,11 @@ export default {
 	props: {
 		graph: { type: Object, default: () => {} },
 	},
-	// data() {
-	// 	return {
-	// 		tree: {
-	// 			name: 'father',
-	// 			children: [
-	// 				{
-	// 					name: 'son1',
-	// 					children: [
-	// 						{ name: 'grandson' },
-	// 						{ name: 'grandson2' },
-	// 					],
-	// 				},
-	// 				{
-	// 					name: 'son2',
-	// 					children: [
-	// 						{ name: 'grandson3' },
-	// 						{ name: 'grandson4' },
-	// 					],
-	// 				},
-	// 			],
-	// 		},
-	// 	};
-	// },
+	watch: {
+		graph (newVal) {
+			console.log(newVal);
+		},
+	},
 	methods: {
 		getId () {
 			return this._uid;
