@@ -46,7 +46,7 @@
 			</div>
 			<div class="ma-0 pa-0">
 				<CodeBlock
-					v-if="!loading && code"
+					v-if="code"
 					:key="id"
 					class="ma-0 pa-0"
 					:code="code"
