@@ -20,11 +20,13 @@ export default {
 		devMode: 'Dev mode',
 		github: 'See OS code on github',
 	},
-	dashboard: {
-		//
-	},
-	examples: {
-		title: 'Examples',
+	navigation: {
+		examples: {
+			title: 'Examples',
+		},
+		reference: {
+			title: 'Reference',
+		},
 	},
 	code: {
 		run: 'Execute code',

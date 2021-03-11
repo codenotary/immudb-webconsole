@@ -19,10 +19,10 @@
 					:min-size="getFirstPane.minSize"
 					:max-size="getFirstPane.maxSize"
 				>
-					<NavigationExamples />
+					<LazyNavigationExamples />
 				</pane>
 				<pane>
-					<Code
+					<LazyCode
 						:size="getSecondPane.size"
 					/>
 				</pane>
@@ -33,7 +33,7 @@
 			:min-size="getThirdPane.minSize"
 			:max-size="getThirdPane.maxSize"
 		>
-			<Output />
+			<LazyOutput />
 		</pane>
 	</splitpanes>
 </template>

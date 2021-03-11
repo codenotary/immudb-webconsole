@@ -22,4 +22,3 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV NODE_ENV production
 
 EXPOSE 80
-EXPOSE 44080

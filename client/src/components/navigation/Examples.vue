@@ -18,9 +18,6 @@
 				hide-details
 				dense
 			/>
-			<h4 class="ml-2 subtitle-1 gray--text text--lighten-3">
-				{{ $t('examples.title') }}
-			</h4>
 		</v-card-title>
 		<v-card-text class="ma-0 py-1 px-0 bg-secondary">
 			<v-treeview
@@ -87,8 +84,34 @@ export default {
 			items: [
 				{
 					id: 1,
-					name: 'Python',
+					name: this.$t('navigation.examples.title'),
 					children: [],
+				},
+				{
+					id: 2,
+					name: this.$t('navigation.reference.title'),
+					children: [
+						{
+							id: 201,
+							name: 'Set',
+							href: '',
+						},
+						{
+							id: 202,
+							name: 'Get',
+							href: '',
+						},
+						{
+							id: 203,
+							name: 'VerifiedGet',
+							href: '',
+						},
+						{
+							id: 204,
+							name: 'VerifiedSet',
+							href: '',
+						},
+					],
 				},
 			],
 		};

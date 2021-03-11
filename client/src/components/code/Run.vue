@@ -9,6 +9,7 @@
 				depressed
 				small
 				primary
+				:alt="$t('code.run')"
 				:loading="isLoading"
 				:disabled="isLoading"
 				v-bind="attrs"

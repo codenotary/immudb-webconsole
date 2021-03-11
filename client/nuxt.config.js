@@ -62,8 +62,8 @@ export default {
 		htmlAttrs: { lang: 'en-GB' },
 		title: DEFAULT_META.TITLE,
 		meta: [
-			...meta(),
 			{ charset: 'utf-8' },
+			...meta(),
 			{ name: 'HandheldFriendly', content: 'True' },
 			{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
 			// Open Graph Data
@@ -169,7 +169,7 @@ export default {
 	*/
 	render: {
 		static: {
-			maxAge: 60 * 60 * 24 * 365 * 1000,
+			maxAge: 1000 * 60 * 60 * 24 * 7,
 		},
 	},
 

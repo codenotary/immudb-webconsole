@@ -7,6 +7,7 @@
 				depressed
 				small
 				icon
+				:alt="$t('code.reset')"
 				:disabled="isLoading"
 				v-bind="attrs"
 				v-on="on"
