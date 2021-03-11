@@ -1,7 +1,7 @@
 from immudb.client import ImmudbClient
 
 ic=ImmudbClient()
-ic.login(username="immudb",username="immudb")
+ic.login(username="immudb",password="immudb")
 
 
 # Let's define or first key/value pair in a canonical fashion
