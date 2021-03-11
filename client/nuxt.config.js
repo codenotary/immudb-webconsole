@@ -12,7 +12,7 @@ export default {
 	** Ssr propery
 	** Doc: https://nuxtjs.org/guides/configuration-glossary/configuration-ssr
 	*/
-	ssr: true,
+	ssr: false,
 
 	/*
 	** Nuxt target
@@ -111,7 +111,7 @@ export default {
 	** See https://nuxtjs.org/api/configuration-build/
 	*/
 	build: {
-		analyze: true,
+		analyze: false,
 		parallel: EXPERIMENTAL,
 		cache: EXPERIMENTAL,
 		hardSource: EXPERIMENTAL,
@@ -187,15 +187,14 @@ export default {
 	** https://nuxtjs.org/guide/plugins
 	*/
 	plugins: [
-		{ src: '~/plugins/vue-clipboards', ssr: false },
-		{ src: '~/plugins/vue-cookies', ssr: false },
-		{ src: '~/plugins/vue-d3', ssr: false },
-		{ src: '~/plugins/vue-gtag', ssr: false },
-		{ src: '~/plugins/vue-json-pretty', ssr: false },
-		{ src: '~/plugins/vue-prism-editor', ssr: false },
-		{ src: '~/plugins/vue-toasted', ssr: false },
-		{ src: '~/plugins/vee-validate', ssr: false },
-		{ src: '~/plugins/vue-worker', ssr: false },
+		{ src: '~/plugins/vue-clipboards.js', ssr: false },
+		{ src: '~/plugins/vue-cookies.js', ssr: false },
+		{ src: '~/plugins/vue-gtag.js', ssr: false },
+		{ src: '~/plugins/vue-json-pretty.js', ssr: false },
+		{ src: '~/plugins/vue-prism-editor.js', ssr: false },
+		{ src: '~/plugins/vue-toasted.js', ssr: false },
+		{ src: '~/plugins/vee-validate.js', ssr: false },
+		{ src: '~/plugins/vue-worker.js', ssr: false },
 	],
 
 	/*
@@ -232,8 +231,6 @@ export default {
 		],
 		// Doc: https://gitlab.com/broj42/nuxt-cookie-control
 		'nuxt-cookie-control',
-		// Doc: https://i18n.nuxtjs.org/
-		'nuxt-i18n',
 		// Doc: https://github.com/GrabarzUndPartner/nuxt-font-loader-strategy
 		['nuxt-font-loader-strategy', { 
 			useWorker: false,
