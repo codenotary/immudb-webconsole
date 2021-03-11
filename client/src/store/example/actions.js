@@ -11,7 +11,7 @@ import {
 	SET_LANGUAGES,
 	SET_ACTIVE_LANGUAGE,
 	SET_EXAMPLES,
-	SET_CODES,
+	SET_CODE,
 	SET_ACTIVE_EXAMPLE,
 	ACTIVE_LANGUAGE,
 	LANGUAGES_PATH,
@@ -60,17 +60,37 @@ export default {
 		const LOADING_LABEL = 'fetchExamplesForLanguage';
 		try {
 			const { path, mime } = getters[ACTIVE_LANGUAGE];
-			const requests = [];
 			commit(`${ VIEW_MODULE }/${ PUSH_LOADING }`, { label: LOADING_LABEL, silently: true }, { root: true });
 
-			await state.examples.map((_, idx) => {
-				let _url = _.fileName.startsWith('/') ? _.fileName : `/${ _.fileName }`;
-				_url = _url.endsWith(`.${ mime }`) ? _url : `${ _url }.${ mime }`;
-				requests.push(StaticDataService.get(`${ CODES_PATH }${ path }${ _url }`));
-			});
-			Promise.all(requests)
+			const getRequests = (data, parentId = null) => {
+				return data.reduce((acc, _, idx) => {
+					const { id, children, fileName } = _;
+					if (fileName) {
+						let _url = fileName.startsWith('/') ? fileName : `/${ fileName }`;
+						_url = _url.endsWith(`.${ mime }`) ? _url : `${ _url }.${ mime }`;
+						acc = [...acc, {
+							request: StaticDataService.get(`${ CODES_PATH }${ path }${ _url }`),
+							id: `${ parentId !== null ? parentId + '.children.' : '' }${ id }`,
+						}];
+					}
+					if (children) {
+						acc = [...acc, ...getRequests(children, idx)];
+					}
+					return acc;
+				}, []);
+			};
+
+			const requests = getRequests(state.examples);
+			await Promise.all(
+				requests.map(_ => _.request),
+			)
 					.then((response) => {
-						commit(SET_CODES, { codes: response && response.map(_ => _.data) });
+						response.map((_, idx) => {
+							commit(SET_CODE, {
+								id: requests[idx].id,
+								code: _ && _.data,
+							});
+						});
 					})
 					.catch((e) => {
 						console.error(e);
@@ -93,8 +113,8 @@ export default {
 	[SET_EXAMPLES]({ commit }, payload) {
 		commit(SET_EXAMPLES, payload);
 	},
-	[SET_CODES]({ commit }, payload) {
-		commit(SET_CODES, payload);
+	[SET_CODE]({ commit }, payload) {
+		commit(SET_CODE, payload);
 	},
 	[SET_ACTIVE_EXAMPLE]({ commit }, payload) {
 		commit(SET_ACTIVE_EXAMPLE, payload);

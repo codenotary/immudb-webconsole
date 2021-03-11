@@ -19,9 +19,24 @@ export default {
 	},
 	[ACTIVE_EXAMPLE](state, getters) {
 		const { label, mime } = getters[ACTIVE_LANGUAGE];
-		return state.examples.find((_) => {
-			const activePath = `/${ label }/${ _ && _.fileName }.${ mime }`;
-			return activePath === state.activeExample;
-		}) || {};
+		let result = {};
+
+		const recursiveGet = (data) => {
+			data && data.map((_) => {
+				const activePath = `/${ label }/${ _ && _.fileName }.${ mime }`;
+				const child = recursiveGet(_ && _.children);
+				if (activePath === state.activeExample || child) {
+					if (_ && activePath === state.activeExample) {
+						result = _;
+					}
+					else if (child) {
+						result = child;
+					}
+				}
+			});
+		};
+
+		recursiveGet(state.examples);
+		return result;
 	},
 };

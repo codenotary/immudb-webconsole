@@ -1,34 +1,94 @@
 {
 	"examples": [
 		{
-			"title": "Hello world",
-			"description": "In this example you will learn to deal with basic immudb set and get operations",
-			"fileName": "hello_world",
-			"sort": 0
+			"title": "Connection",
+			"sort": 0,
+			"children": [
+				{
+					"title": "Login",
+					"description": "In this example you will learn how to login to immudb",
+					"fileName": "login",
+					"sort": 0
+				}
+			]
 		},
 		{
-			"title": "Safe operations",
-			"description": "In this example you will learn to deal with safe immudb set and get operations",
-			"fileName": "safe_operations",
-			"sort": 1
+			"title": "Basic operations",
+			"sort": 1,
+			"children": [
+				{
+					"title": "Hello world",
+					"description": "In this example you will learn to deal with basic immudb set and get operations",
+					"fileName": "hello_world",
+					"sort": 0
+				},
+				{
+					"title": "Safe operations",
+					"description": "In this example you will learn to deal with safe immudb set and get operations",
+					"fileName": "safe_operations",
+					"sort": 1
+				},
+				{
+					"title": "Money",
+					"description": "In this example you will see a basic abstraction of a money transfer data storing using immudb",
+					"fileName": "money",
+					"sort": 2
+				},
+				{
+					"title": "Producer",
+					"description": "In this example you will learn produce some data that will be consumed later",
+					"fileName": "producer",
+					"sort": 3
+				},
+				{
+					"title": "Consumer",
+					"description": "In this example you will learn to read back data from immudb producer",
+					"fileName": "consumer",
+					"sort": 4
+				}
+			]
 		},
 		{
-			"title": "Money",
-			"description": "In this example you will see a basic abstraction of a money transfer data storing using immudb",
-			"fileName": "money",
-			"sort": 2
+			"title": "Advanced operations",
+			"sort": 2,
+			"children": [
+				{
+					"title": "History",
+					"description": "XXXXXXXXXX",
+					"fileName": "history",
+					"sort": 0
+				},
+				{
+					"title": "Scan",
+					"description": "XXXXXXXXXX",
+					"fileName": "scan",
+					"sort": 1
+				}
+			]
 		},
 		{
-			"title": "Producer",
-			"description": "In this example you will learn produce some data that will be consumed later",
-			"fileName": "producer",
-			"sort": 3
-		},
-		{
-			"title": "Consumer",
-			"description": "In this example you will learn to read back data from immudb producer",
-			"fileName": "consumer",
-			"sort": 4
+			"title": "Database management",
+			"sort": 3,
+			"children": [
+				{
+					"title": "Create database",
+					"description": "XXXXXXXXXX",
+					"fileName": "create_database",
+					"sort": 0
+				},
+				{
+					"title": "List database",
+					"description": "XXXXXXXXXX",
+					"fileName": "list_database",
+					"sort": 1
+				},
+				{
+					"title": "Use database",
+					"description": "XXXXXXXXXX",
+					"fileName": "use_database",
+					"sort": 2
+				}
+			]
 		}
 	]
 }

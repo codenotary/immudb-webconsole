@@ -117,16 +117,25 @@ export default {
 			loading: IS_LOADING,
 		}),
 		title () {
-			const { title } = this.activeExample;
-			return title || '';
+			if (this.activeExample) {
+				const { title } = this.activeExample;
+				return title || '';
+			}
+			return '';
 		},
 		description () {
-			const { description } = this.activeExample;
-			return description || '';
+			if (this.activeExample) {
+				const { description } = this.activeExample;
+				return description || '';
+			}
+			return '';
 		},
 		activeCode () {
-			const { code } = this.activeExample;
-			return code || '';
+			if (this.activeExample) {
+				const { code } = this.activeExample;
+				return code || '';
+			}
+			return '';
 		},
 	},
 	watch: {

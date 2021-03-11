@@ -92,22 +92,22 @@ export default {
 					name: this.$t('navigation.reference.title'),
 					children: [
 						{
-							id: 201,
+							id: 1,
 							name: 'Set',
 							href: '',
 						},
 						{
-							id: 202,
+							id: 2,
 							name: 'Get',
 							href: '',
 						},
 						{
-							id: 203,
+							id: 3,
 							name: 'VerifiedGet',
 							href: '',
 						},
 						{
-							id: 204,
+							id: 4,
 							name: 'VerifiedSet',
 							href: '',
 						},
@@ -130,35 +130,13 @@ export default {
 			}
 			return false;
 		},
-		parsedExamples () {
-			if (this.examples) {
-				return this.examples
-						.slice()
-						.sort((a, b) => a.sort <= b.sort ? -1 : 1)
-						.map((_) => {
-							const { label, mime } = this.activeLanguage;
-							return {
-								id: _.id,
-								sort: _.sort,
-								name: _.title,
-								to: {
-									path: '/',
-									query: {
-										code: `/${ label }/${ _.fileName }.${ mime }`,
-									},
-								},
-							};
-						});
-			}
-			return [];
-		},
 	},
 	watch: {
 		examples: {
 			deep: true,
 			immediate: true,
 			handler (newVal) {
-				const children = this.parsedExamples;
+				const children = this.parseExamples(newVal);
 				if (children && children.length) {
 					this.items[0].children = children;
 				}
@@ -166,6 +144,34 @@ export default {
 		},
 	},
 	methods: {
+		parseExamples (data) {
+			if (data) {
+				const { label, mime } = this.activeLanguage;
+				return data
+						.slice()
+						.sort((a, b) => a.sort <= b.sort ? -1 : 1)
+						.map((_) => {
+							const { id, sort, title, children, fileName } = _;
+							const isParent = children && children.length;
+							return {
+								id,
+								sort,
+								name: title,
+								isParent,
+								children: this.parseExamples(children),
+								to: !isParent
+									? {
+										path: '/',
+										query: {
+											code: `/${ label }/${ fileName }.${ mime }`,
+										},
+									}
+									: undefined,
+							};
+						});
+			}
+			return [];
+		},
 		forceActive (data) {
 			const { path, query } = this.$route;
 			return data === 0 && path === '/' && !query.code;
