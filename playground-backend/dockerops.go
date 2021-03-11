@@ -87,7 +87,9 @@ func runCode(w http.ResponseWriter, r *http.Request) {
 	// launch the container
 	err = runContainer(cli, dir)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		jresponse := errorResponse(err.Error(), req.Immudb)
+		response, _ := json.Marshal(jresponse)
+		http.Error(w, string(response), http.StatusInternalServerError)
 		return
 	}
 	jresponse, err := readback(dir)
@@ -103,7 +105,10 @@ func runCode(w http.ResponseWriter, r *http.Request) {
 func runContainer(cli *client.Client, dir string) (err error) {
 	ctx := context.Background()
 	resp, err := cli.ContainerCreate(ctx,
-		&container.Config{Image: "player-py:latest", Tty: false},
+		&container.Config{
+			Image: "player-py:latest",
+			Tty: false,
+			},
 		&container.HostConfig{
 			Mounts: []mount.Mount{
 				{Type: mount.TypeBind, Source: dir, Target: "/tmp"},
@@ -112,6 +117,7 @@ func runContainer(cli *client.Client, dir string) (err error) {
 				Memory: 1048576 * 100, // 100 MBytes
 				// CPUQuota: 20_000, // 20% of available CPU (cfs)
 			},
+			NetworkMode: "none",
 		},
 		nil, //net config
 		nil, // platform
@@ -182,4 +188,14 @@ func readback(dir string) (response runResponse, err error) {
 	}
 	response = runResponse{jOutput, immudb, dump}
 	return response, nil
+}
+
+func errorResponse(msg string, immudb []byte) (response runResponse) {
+	response.Output=[]OutputLine{{
+		Timestamp:float64(time.Now().UnixNano())/1000000.0,
+		Flux:"execerr",
+		Line:msg,
+	}}
+	response.Immudb=immudb
+	return
 }

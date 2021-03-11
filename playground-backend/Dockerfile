@@ -3,8 +3,8 @@ RUN apk update && apk add --no-cache git make
 WORKDIR /src
 ADD go.* Makefile /src/ 
 RUN go mod download
-ADD *.go /src/ 
 ADD docs/* /src/docs/
+ADD *.go /src/ 
 ARG V_COMMIT=00000000
 RUN make
 
