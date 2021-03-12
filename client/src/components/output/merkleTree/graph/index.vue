@@ -17,7 +17,7 @@
 				node-text-display="all"
 				link-layout="bezier"
 				:duration="300"
-				node-text="id"
+				node-text="label"
 				:min-zoom="0.3"
 				:max-zoom="9"
 				:radius="20"
@@ -65,11 +65,6 @@ export default {
 	},
 	props: {
 		graph: { type: Object, default: () => {} },
-	},
-	watch: {
-		graph (newVal) {
-			console.log(newVal);
-		},
 	},
 	methods: {
 		getId () {

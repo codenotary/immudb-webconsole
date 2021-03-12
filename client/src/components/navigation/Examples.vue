@@ -109,12 +109,10 @@ export default {
 				const children = this.parseExamples(newVal);
 				if (children && children.length) {
 					this.items[0].children = children;
+					this.updateOpen();
 				}
 			},
 		},
-	},
-	mounted () {
-		this.$nextTick(() => this.updateOpen());
 	},
 	methods: {
 		parseExamples (data, parentId = 0) {
@@ -125,7 +123,7 @@ export default {
 						.sort((a, b) => a.sort <= b.sort ? -1 : 1)
 						.map((_) => {
 							const { id, sort, title, children, fileName } = _;
-							const isParent = children && children.length;
+							const isParent = children && children.length > 0;
 							return {
 								id: `${ parentId }-${ id }`,
 								sort,
@@ -146,26 +144,36 @@ export default {
 			return [];
 		},
 		updateOpen () {
-			const { query } = this.$route;
-			if (query) {
-				const { code } = query;
-				this.open = code ? this.searchOpen(this.items, code) : ['0', '0-0'];
+			try {
+				const { query } = this.$route;
+				if (query) {
+					const { code } = query;
+					this.open = code ? this.searchOpen(this.items, code) : ['0', '0-0'];
+				}
+			}
+			catch (err) {
+				console.error(err);
 			}
 		},
 		searchOpen (data, code) {
-			return data.reduce((acc, _) => {
-				const { id, to, children } = _;
-				if (to && to.query && to.query.code === code) {
-					acc = [...acc, id];
-				}
-				if (children) {
-					const childSearch = this.searchOpen(children, code);
-					if (childSearch && childSearch.length) {
-						acc = [...acc, id, ...childSearch];
+			try {
+				return data && data.reduce((acc, _) => {
+					const { id, to, children } = _;
+					if (to && to.query && to.query.code === code) {
+						acc = [...acc, id];
 					}
-				}
-				return acc;
-			}, []);
+					if (children && children.length > 0) {
+						const childSearch = this.searchOpen(children, code);
+						if (childSearch && childSearch.length) {
+							acc = [...acc, id, ...childSearch];
+						}
+					}
+					return acc;
+				}, []);
+			}
+			catch (err) {
+				console.error(err);
+			}
 		},
 		forceActive (data) {
 			const { path, query } = this.$route;

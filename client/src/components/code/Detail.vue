@@ -13,7 +13,7 @@
 					<h4
 						v-if="title"
 						class="ma-0 pa-0 title"
-						v-dompurify-html="title"
+						v-html="sanitizedTitle"
 					/>
 					<v-skeleton-loader
 						v-else
@@ -57,7 +57,7 @@
 			<p
 				v-if="description"
 				class="ma-0 pa-0 body-2"
-				v-dompurify-html="description"
+				v-html="sanitizedDescription"
 			/>
 			<v-skeleton-loader
 				v-else
@@ -81,6 +81,7 @@
 
 <script>
 import { mdiBook } from '@mdi/js';
+import sanitizeHtml from 'sanitize-html';
 
 export default {
 	name: 'CodeDetail',
@@ -93,6 +94,14 @@ export default {
 		return {
 			mdiBook,
 		};
+	},
+	computed: {
+		sanitizedTitle () {
+			return sanitizeHtml(this.title);
+		},
+		sanitizedDescription () {
+			return sanitizeHtml(this.description);
+		},
 	},
 };
 </script>
