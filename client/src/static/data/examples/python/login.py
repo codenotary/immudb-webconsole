@@ -3,7 +3,7 @@ from immudb.client import ImmudbClient
 
 """
 If you don't specify hostname and port, default is "localhost:3322",
-So the line 8 could be also written as:
+So the next line could be also written as:
 ic=ImmudbClient()
 """
 ic=ImmudbClient("localhost:3322")

@@ -83,34 +83,6 @@ export default {
 					name: this.$t('navigation.examples.title'),
 					children: [],
 				},
-				// {
-				// 	id: '1',
-				// 	sort: 1,
-				// 	level: 0,
-				// 	name: this.$t('navigation.reference.title'),
-				// 	children: [
-				// 		{
-				// 			id: 1,
-				// 			name: 'Set',
-				// 			href: '',
-				// 		},
-				// 		{
-				// 			id: 2,
-				// 			name: 'Get',
-				// 			href: '',
-				// 		},
-				// 		{
-				// 			id: 3,
-				// 			name: 'VerifiedGet',
-				// 			href: '',
-				// 		},
-				// 		{
-				// 			id: 4,
-				// 			name: 'VerifiedSet',
-				// 			href: '',
-				// 		},
-				// 	],
-				// },
 			],
 		};
 	},
@@ -142,7 +114,7 @@ export default {
 		},
 	},
 	mounted () {
-		this.updateOpen();
+		this.$nextTick(() => this.updateOpen());
 	},
 	methods: {
 		parseExamples (data, parentId = 0) {

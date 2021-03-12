@@ -31,10 +31,10 @@
 				>
 					<v-btn
 						v-if="documentationUrl"
-						class="ma-0 py-0 px-4 body-2"
+						class="ma-0 py-0 px-3 body-2"
 						outlined
 						depressed
-						color="accent"
+						color="accent darken-1"
 						:href="documentationUrl"
 						:alt="$t('code.seeInDocumentation')"
 						target="_blank"
