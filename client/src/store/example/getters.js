@@ -24,13 +24,14 @@ export default {
 		const recursiveGet = (data) => {
 			data && data.map((_) => {
 				const activePath = `/${ label }/${ _ && _.fileName }.${ mime }`;
-				const child = recursiveGet(_ && _.children);
-				if (activePath === state.activeExample || child) {
+				const { children } = _;
+				const childSearch = children && recursiveGet(children);
+				if (activePath === state.activeExample || childSearch) {
 					if (_ && activePath === state.activeExample) {
 						result = _;
 					}
-					else if (child) {
-						result = child;
+					else if (childSearch) {
+						result = childSearch;
 					}
 				}
 			});

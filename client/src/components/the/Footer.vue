@@ -9,7 +9,7 @@
 			class="pa-0"
 			:class="{
 				'pl-0': mobile,
-				'pl-16': !mobile,
+				'pl-12': !mobile,
 			}"
 			fluid
 		>

@@ -38,7 +38,9 @@
 					<v-btn
 						v-else
 						class="ma-0 pa-0 d-flex justify-start align-center no-hover no-active"
-						:to="localePath({ name: 'index' })"
+						href="https://www.codenotary.com"
+						target="_blank"
+						rel="noopener"
 						:ripple="false"
 						:width="mini ? 56 : 214"
 						:min-width="mini ? 56 : 214"

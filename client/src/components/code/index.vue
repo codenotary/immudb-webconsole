@@ -1,18 +1,19 @@
 <template>
 	<v-card
 		id="Code"
-		class="ma-0 pt-0 pb-1 px-1 bg fill-height shadow"
+		class="ma-0 pa-0 bg fill-height shadow"
 		elevation="0"
 	>
 		<v-card-title class="ma-0 py-0 py-sm-2 px-0 d-flex justify-start align-center">
-			<CodeReset
+			<CodeActionReset
 				@reset="onReset"
 			/>
 			<v-divider
 				class="my-0 ml-2 mr-3 pa-0"
 				vertical
 			/>
-			<CodeRun
+			<CodeActionRun
+				:code="code"
 				@submit="onSubmit"
 			/>
 		</v-card-title>
@@ -20,35 +21,10 @@
 			class="ma-0 pa-0 bg-secondary custom-scrollbar"
 		>
 			<div class="ma-0 pt-4 pl-6 pr-4 pb-2">
-				<h4
-					v-if="title"
-					class="ma-0 mb-2 pa-0 title"
-				>
-					{{ title }}
-				</h4>
-				<v-skeleton-loader
-					v-else
-					class="ma-0 mb-4 ml-n2 pa-0"
-					width="40%"
-					:height="24"
-					type="image"
-				/>
-				<p
-					v-if="description"
-					class="ma-0 mb-2 pa-0 body-2"
-				>
-					{{ description }}
-				</p>
-				<v-skeleton-loader
-					v-else
-					class="ma-0 mb-4 ml-n2 pa-0"
-					width="80%"
-					:height="16"
-					type="image"
-				/>
-				<v-divider
-					class="ma-0 mt-4 pa-0"
-					style="width: 80%;"
+				<CodeDetail
+					:title="title"
+					:description="description"
+					:documentation-url="documentationUrl"
 				/>
 			</div>
 			<div class="ma-0 pa-0">
@@ -130,20 +106,24 @@ export default {
 			}
 			return '';
 		},
-		activeCode () {
+		documentationUrl () {
 			if (this.activeExample) {
-				const { code } = this.activeExample;
-				return code || '';
+				const { documentation } = this.activeExample;
+				return documentation || '';
 			}
 			return '';
 		},
 	},
 	watch: {
-		activeCode: {
-			immediate: true,
+		activeExample: {
+			immediate: false,
+			deep: true,
 			handler (newVal) {
-				this.id = uniqueId('id_');
-				this.code = newVal;
+				if (newVal) {
+					const { code } = newVal;
+					this.id = uniqueId('id_');
+					this.code = code;
+				}
 			},
 		},
 	},

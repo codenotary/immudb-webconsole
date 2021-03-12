@@ -49,6 +49,50 @@
 					"sort": 4
 				}
 			]
+		},
+		{
+			"title": "Advanced operations",
+			"sort": 2,
+			"children": [
+				{
+					"title": "History",
+					"description": "XXXXXXXXXX",
+					"documentation": "https://docs.immudb.io/master/sdks-api.html#history",
+					"fileName": "history",
+					"sort": 0
+				},
+				{
+					"title": "Scan",
+					"description": "XXXXXXXXXX",
+					"documentation": "https://docs.immudb.io/master/sdks-api.html#scan",
+					"fileName": "scan",
+					"sort": 1
+				}
+			]
+		},
+		{
+			"title": "Database management",
+			"sort": 3,
+			"children": [
+				{
+					"title": "Create database",
+					"description": "XXXXXXXXXX",
+					"fileName": "create_database",
+					"sort": 0
+				},
+				{
+					"title": "List database",
+					"description": "XXXXXXXXXX",
+					"fileName": "list_database",
+					"sort": 1
+				},
+				{
+					"title": "Use database",
+					"description": "XXXXXXXXXX",
+					"fileName": "use_database",
+					"sort": 2
+				}
+			]
 		}
 	]
 }

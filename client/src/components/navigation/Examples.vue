@@ -1,7 +1,7 @@
 <template>
 	<v-card
 		id="NavigationExamples"
-		class="ma-0 pt-0 pb-1 px-1 bg fill-height shadow"
+		class="ma-0 pa-0 bg fill-height shadow"
 		elevation="0"
 	>
 		<v-card-title class="ma-0 py-2 px-0 d-flex justify-start align-center">
@@ -16,30 +16,24 @@
 				class="language-selector"
 				:items="languages"
 				hide-details
-				dense
 			/>
 		</v-card-title>
 		<v-card-text class="ma-0 py-1 px-0 bg-secondary">
 			<v-treeview
 				v-if="itemsLoaded"
-				v-model="tree"
-				:open="initiallyOpen"
-				class="ml-0"
+				:open.sync="open"
 				:items="items"
 				item-key="id"
 				open-on-click
+				hoverable
 			>
-				<template #prepend="{ item }">
-					<v-icon
-						v-if="item.children && item.icon"
-						small
-						v-text="item.icon"
-					/>
-				</template>
-				<template slot="label" slot-scope="props">
+				<template
+					slot="label"
+					slot-scope="props"
+				>
 					<nuxt-link
 						v-if="props.item.to"
-						class="ma-0 pa-4"
+						class="ma-0 pa-0"
 						:class="{
 							'nuxt-link-exact-active': forceActive(props.item.sort),
 						}"
@@ -47,7 +41,9 @@
 					>
 						{{ props.item.name }}
 					</nuxt-link>
-					<span v-else>
+					<span
+						v-else
+					>
 						{{ props.item.name }}
 					</span>
 				</template>
@@ -79,40 +75,42 @@ export default {
 		return {
 			mdiViewList,
 			language: 'python',
-			tree: [],
-			initiallyOpen: [1],
+			open: ['0', '0-0'],
 			items: [
 				{
-					id: 1,
+					id: '0',
+					sort: 0,
 					name: this.$t('navigation.examples.title'),
 					children: [],
 				},
-				{
-					id: 2,
-					name: this.$t('navigation.reference.title'),
-					children: [
-						{
-							id: 1,
-							name: 'Set',
-							href: '',
-						},
-						{
-							id: 2,
-							name: 'Get',
-							href: '',
-						},
-						{
-							id: 3,
-							name: 'VerifiedGet',
-							href: '',
-						},
-						{
-							id: 4,
-							name: 'VerifiedSet',
-							href: '',
-						},
-					],
-				},
+				// {
+				// 	id: '1',
+				// 	sort: 1,
+				// 	level: 0,
+				// 	name: this.$t('navigation.reference.title'),
+				// 	children: [
+				// 		{
+				// 			id: 1,
+				// 			name: 'Set',
+				// 			href: '',
+				// 		},
+				// 		{
+				// 			id: 2,
+				// 			name: 'Get',
+				// 			href: '',
+				// 		},
+				// 		{
+				// 			id: 3,
+				// 			name: 'VerifiedGet',
+				// 			href: '',
+				// 		},
+				// 		{
+				// 			id: 4,
+				// 			name: 'VerifiedSet',
+				// 			href: '',
+				// 		},
+				// 	],
+				// },
 			],
 		};
 	},
@@ -143,8 +141,11 @@ export default {
 			},
 		},
 	},
+	mounted () {
+		this.updateOpen();
+	},
 	methods: {
-		parseExamples (data) {
+		parseExamples (data, parentId = 0) {
 			if (data) {
 				const { label, mime } = this.activeLanguage;
 				return data
@@ -154,11 +155,11 @@ export default {
 							const { id, sort, title, children, fileName } = _;
 							const isParent = children && children.length;
 							return {
-								id,
+								id: `${ parentId }-${ id }`,
 								sort,
 								name: title,
 								isParent,
-								children: this.parseExamples(children),
+								children: this.parseExamples(children, `${ parentId }-${ id }`),
 								to: !isParent
 									? {
 										path: '/',
@@ -171,6 +172,28 @@ export default {
 						});
 			}
 			return [];
+		},
+		updateOpen () {
+			const { query } = this.$route;
+			if (query) {
+				const { code } = query;
+				this.open = code ? this.searchOpen(this.items, code) : ['0', '0-0'];
+			}
+		},
+		searchOpen (data, code) {
+			return data.reduce((acc, _) => {
+				const { id, to, children } = _;
+				if (to && to.query && to.query.code === code) {
+					acc = [...acc, id];
+				}
+				if (children) {
+					const childSearch = this.searchOpen(children, code);
+					if (childSearch && childSearch.length) {
+						acc = [...acc, id, ...childSearch];
+					}
+				}
+				return acc;
+			}, []);
 		},
 		forceActive (data) {
 			const { path, query } = this.$route;
@@ -205,35 +228,29 @@ export default {
 	}
 
 	.v-treeview {
-		.v-treeview-node__level {
-			display: none !important;
-		}
-
 		.v-treeview-node__root {
-			.v-treeview-node__content {
-				.v-treeview-node__prepend {
-					display: none !important;
-				}
+			min-height: $spacer-8;
+
+			.v-treeview-node__level {
+				display: none !important;
 			}
 		}
 
 		.v-treeview-node__children {
 			position: relative;
+			padding-left: $spacer-5;
 
-			.v-treeview-node__root {
-				min-height: $spacer-8;
-				margin: 0;
-				padding: 0;
-
-				&:hover,
-				&:active {
-					background-color: rgba(255, 255, 255, 0.05);
-				}
+			&::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: calc(#{$spacer-5} - 1px);
+				width: 2px;
+				background-color: rgba(255, 255, 255, 0.25);
 			}
 
 			.v-treeview-node__content {
-				margin: 0;
-
 				.v-treeview-node__label {
 					height: 100%;
 					width: 100%;
@@ -250,33 +267,33 @@ export default {
 						justify-content: flex-start;
 						align-items: center;
 						min-height: $spacer-8;
-						padding: 0 $spacer-1 0 $spacer-8 !important;
+						padding: 0 $spacer-2 0 0 !important;
 
 						&.nuxt-link-exact-active {
-							color: $primary !important;
+							color: white !important;
 
 							&::before {
 								content: '';
 								position: absolute;
 								top: 0;
-								bottom: $spacer-1;
-								left: calc(#{$spacer-5} - 1px);
+								bottom: 0;
+								left: -1px;
 								width: 2px;
 								background-color: $primary;
+							}
+
+							&::after {
+								content: '';
+								position: absolute;
+								top: 0;
+								right: 0;
+								bottom: 0;
+								left: 0;
+								background-color: rgba(25, 119, 210, 0.15) !important;
 							}
 						}
 					}
 				}
-			}
-
-			&::before {
-				content: '';
-				position: absolute;
-				top: 0;
-				bottom: $spacer-1;
-				left: calc(#{$spacer-5} - 1px);
-				width: 2px;
-				background-color: rgba(255, 255, 255, 0.25);
 			}
 		}
 	}

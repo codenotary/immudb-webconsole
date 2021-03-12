@@ -39,7 +39,7 @@ import {
 } from '@mdi/js';
 
 export default {
-	name: 'CodeReset',
+	name: 'CodeActionReset',
 	data () {
 		return {
 			mdiReload,

@@ -1,6 +1,6 @@
 <template>
 	<splitpanes
-		class="playground-theme"
+		class="playground-theme py-0 pr-4"
 		horizontal
 		:push-other-panes="false"
 	>
@@ -120,7 +120,7 @@ export default {
 				};
 			}
 			return {
-				size: 20,
+				size: 33,
 				minSize: 60,
 				maxSize: 100,
 			};
@@ -148,7 +148,7 @@ export default {
 			page_path: '/',
 		});
 
-		this.codePath = this.getParam(PARAMS.CODE) || '/python/hello_world.py';
+		this.codePath = this.getParam(PARAMS.CODE) || '/python/login.py';
 	},
 	methods: {
 		...mapActions(EXAMPLE_MODULE, {
@@ -188,13 +188,16 @@ export default {
 
 		.splitpanes__splitter {
 			min-height: 16px;
-			min-width: 8px;
+			min-width: 16px;
 			position: relative;
 
-			&:hover {
+			&:hover,
+			&:active {
 				&::before {
 					opacity: 1;
 				}
+
+				background: #45475b;
 			}
 
 			&::before {
@@ -218,7 +221,7 @@ export default {
 			> .splitpanes__splitter {
 				&::before {
 					top: calc(50% - 8px) !important;
-					left: -4px !important;
+					left: 0 !important;
 					transform: translateY(-50%) translateX(0%) rotate(0deg) !important;
 				}
 			}

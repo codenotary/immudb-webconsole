@@ -32,6 +32,7 @@ export default {
 		run: 'Execute code',
 		reset: 'Reset immudb',
 		unknown: 'Code block type unknown',
+		seeInDocumentation: 'See in documentation',
 	},
 	output: {
 		code: {

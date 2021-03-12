@@ -56,11 +56,9 @@ export default {
 			commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
 		}
 	},
-	async [FETCH_CODES]({ commit, state, getters }, payload) {
-		const LOADING_LABEL = 'fetchExamplesForLanguage';
+	async [FETCH_CODES]({ commit, state, getters }) {
 		try {
 			const { path, mime } = getters[ACTIVE_LANGUAGE];
-			commit(`${ VIEW_MODULE }/${ PUSH_LOADING }`, { label: LOADING_LABEL, silently: true }, { root: true });
 
 			const getRequests = (data, parentId = null) => {
 				return data.reduce((acc, _, idx) => {
@@ -96,12 +94,10 @@ export default {
 						console.error(e);
 					})
 					.finally(() => {
-						commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
 					});
 		}
 		catch (err) {
 			console.error(err);
-			commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
 		}
 	},
 	[SET_LANGUAGES]({ commit }, payload) {

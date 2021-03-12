@@ -1,4 +1,4 @@
-# As first step, we import the client class from immudb package:
+# import the client class from immudb package:
 from immudb.client import ImmudbClient
 
 """

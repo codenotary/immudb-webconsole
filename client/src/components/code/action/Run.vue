@@ -11,7 +11,7 @@
 				primary
 				:alt="$t('code.run')"
 				:loading="isLoading"
-				:disabled="isLoading"
+				:disabled="isLoading || !code"
 				v-bind="attrs"
 				v-on="on"
 				@click="onSubmit"
@@ -45,7 +45,10 @@ import {
 } from '@mdi/js';
 
 export default {
-	name: 'CodeRun',
+	name: 'CodeActionRun',
+	props: {
+		code: { type: String, default: '' },
+	},
 	data () {
 		return {
 			mdiPlay,
