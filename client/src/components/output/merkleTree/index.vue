@@ -15,6 +15,7 @@
 			<OutputMerkleTreeGraph
 				v-if="merkleTreeMode === DEFAULT_MERKLE_TREE_MODE"
 				:graph="graph"
+				:size="size"
 			/>
 			<OutputMerkleTreeJson
 				v-else
@@ -59,15 +60,24 @@ export default {
 		}),
 		graph () {
 			if (this.merkleTree) {
-				return this.merkleTree.graph;
+				const { graph } = this.merkleTree;
+				return graph;
 			}
 			return {};
 		},
 		json () {
 			if (this.merkleTree) {
-				return this.merkleTree.json;
+				const { json } = this.merkleTree;
+				return json;
 			}
 			return [];
+		},
+		size () {
+			if (this.merkleTree) {
+				const { size } = this.merkleTree;
+				return size;
+			}
+			return 0;
 		},
 	},
 	methods: {

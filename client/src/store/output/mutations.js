@@ -37,9 +37,10 @@ export default {
 	},
 	[SET_MERKLE_TREE](state, payload) {
 		if (payload) {
-			const { graph, json } = payload;
+			const { graph, json, size } = payload;
 			graph && (state.merkleTree.graph = graph);
 			json && (state.merkleTree.json = json);
+			size && (state.merkleTree.size = size);
 		}
 	},
 	[SET_MERKLE_TREE_MODE](state, payload) {

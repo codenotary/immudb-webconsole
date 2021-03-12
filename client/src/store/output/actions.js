@@ -53,6 +53,7 @@ export default {
 							graph: await Vue.prototype.$workers
 									.parseMerkleTreeGraph(jsonDecompressedTree, 12),
 							json: jsonDecompressedTree,
+							size: jsonDecompressedTree && jsonDecompressedTree.length,
 						});
 
 						commit(APPEND_CODE_OUTPUT, {
