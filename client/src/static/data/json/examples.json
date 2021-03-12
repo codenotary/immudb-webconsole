@@ -6,7 +6,7 @@
 			"children": [
 				{
 					"title": "Login",
-					"description": "As a first step, we are learning to connect to an immudb running server. Immudb is immediatly ready to use with a default database out of the box, a default user and a default password. The database is called \"defaultdb\", while the default user is called \"immudb\" with password \"immudb\". In this example we import the client class from immudb-py package, we establish a connection with the database and then login with default credentials.",
+					"description": "As a first step, we are learning to connect to an immudb running server. Immudb is immediatly ready to use with a default database out of the box, a default user and a default password. The database is called \"defaultdb\", while the default user is called \"immudb\" with password \"immudb\".<br /><br />In this example we import the client class from immudb-py package, we establish a connection with the database and then login with default credentials.",
 					"fileName": "login",
 					"sort": 0
 				}
@@ -25,7 +25,7 @@
 				},
 				{
 					"title": "Safe operations",
-					"description": "There are many stores out there that can handle key/values. What makes immudb unique is that it stores values immutably. Once a key/value pair is stored, you have cryptographic proof that that value, in that transaction, is not going to be tampered. Nobody can change the value stored and be undetected. To show this, we will use the \"verified\" versions of the get and set functions we just encoutered. A \"verifiedSet\" stores a values in the database, while checking for the mathematical consistency with the previous database state, while a \"verifiedGet\" fetches a value from the database, checking that the value we get is mathematically consistent with the database state.",
+					"description": "There are many stores out there that can handle key/values. What makes immudb unique is that it stores values immutably.<br /><br />Once a key/value pair is stored, you have cryptographic proof that that value, in that transaction, is not going to be tampered. Nobody can change the value stored and be undetected. To show this, we will use the <span class=\"font-weight-black\">verified</span> versions of the get and set functions we just encoutered.<br /><br />A <span class=\"font-weight-bold\">verifiedSet</span> stores a values in the database, while checking for the mathematical consistency with the previous database state, while a <span class=\"font-weight-bold\">verifiedGet</span> fetches a value from the database, checking that the value we get is mathematically consistent with the database state.",
 					"documentation": "https://docs.immudb.io/master/sdks-api.html#tamperproof-reading-and-writing",
 					"fileName": "safe_operations",
 					"sort": 1

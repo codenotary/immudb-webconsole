@@ -13,9 +13,8 @@
 					<h4
 						v-if="title"
 						class="ma-0 pa-0 title"
-					>
-						{{ title }}
-					</h4>
+						v-dompurify-html="title"
+					/>
 					<v-skeleton-loader
 						v-else
 						class="ma-0 ml-n2 pa-0"
@@ -58,9 +57,8 @@
 			<p
 				v-if="description"
 				class="ma-0 pa-0 body-2"
-			>
-				{{ description }}
-			</p>
+				v-dompurify-html="description"
+			/>
 			<v-skeleton-loader
 				v-else
 				class="ma-0 ml-n2 pa-0"
