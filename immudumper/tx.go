@@ -25,6 +25,8 @@ type txj struct {
 	Metadata tx_metadata `json:"metadata"`
 	Entries  []tx_entry  `json:"entries"`
 	Root     string      `json:"root"`
+	Htree    string      `json:"htree,omitempty"`
+	Hchild   []string    `json:"hchild,omitempty"`
 }
 
 func buildStruct(tx *schema.Tx) txj {
@@ -42,10 +44,13 @@ func buildStruct(tx *schema.Tx) txj {
 		entries[i].Key = string(v.Key)
 		entries[i].Hash = hex.EncodeToString(v.HValue)
 	}
+	root := md.CalcAlh()
+	htree := CalcHtree(root)
 	return txj{
 		Metadata: md,
 		Entries:  entries,
-		Root:     md.CalcAlh(),
+		Root:     root,
+		Htree:    htree,
 	}
 }
 
