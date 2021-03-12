@@ -13,5 +13,10 @@ export default () => ({
 		subtitle: '',
 	},
 	loading: [],
+	paneSizes: {
+		navigation: 600,
+		code: 600,
+		output: 600,
+	},
 	nuxtHydrated: false,
 });

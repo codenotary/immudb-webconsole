@@ -3,6 +3,7 @@
 		class="playground-theme py-0 pr-4"
 		horizontal
 		:push-other-panes="false"
+		@resize="onHorizontalResize"
 	>
 		<pane
 			min-size="20"
@@ -33,7 +34,9 @@
 			:min-size="getThirdPane.minSize"
 			:max-size="getThirdPane.maxSize"
 		>
-			<LazyOutput />
+			<LazyOutput
+				:sizes="outputPaneSizes"
+			/>
 		</pane>
 	</splitpanes>
 </template>
@@ -52,6 +55,7 @@ import {
 } from '@/store/example/constants';
 import {
 	VIEW_MODULE,
+	SET_PANE_SIZES,
 	MOBILE,
 } from '@/store/view/constants';
 import { Splitpanes, Pane } from 'splitpanes';
@@ -157,9 +161,17 @@ export default {
 			fetchCodes: FETCH_CODES,
 			setActiveExample: SET_ACTIVE_EXAMPLE,
 		}),
+		...mapActions(VIEW_MODULE, {
+			setPaneSizes: SET_PANE_SIZES,
+		}),
 		resizeFirstPanes (data) {
 			this.navPaneSizes = data && data[0].size;
 			this.codePaneSizes = data && data[1].size;
+		},
+		onHorizontalResize (data) {
+			this.setPaneSizes({
+				output: data[1].size,
+			});
 		},
 	},
 	head() {

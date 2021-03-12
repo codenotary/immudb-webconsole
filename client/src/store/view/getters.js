@@ -6,6 +6,7 @@ import {
 	SIDEBAR_COLLAPSED,
 	BREADCRUMBS,
 	IS_LOADING,
+	PANE_SIZES,
 	IS_NUXT_HYDRATED,
 } from './constants';
 
@@ -30,6 +31,9 @@ export default {
 	},
 	[IS_LOADING](state) {
 		return state.loading && !!state.loading.length;
+	},
+	[PANE_SIZES](state) {
+		return state.paneSizes;
 	},
 	[IS_NUXT_HYDRATED](state) {
 		return state.nuxtHydrated;

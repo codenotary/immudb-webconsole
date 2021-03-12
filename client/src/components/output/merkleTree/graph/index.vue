@@ -10,6 +10,7 @@
 			<tree
 				id="merkleTree"
 				ref="merkleTree"
+				:style="`height: ${ getHeight }px`"
 				:identifier="getId"
 				:data="graph"
 				type="cluster"
@@ -65,6 +66,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import {
+	VIEW_MODULE,
+	PANE_SIZES,
+} from '@/store/view/constants';
 import NoSSR from 'vue-no-ssr';
 import { tree, popUpOnClickText } from 'vued3tree';
 
@@ -80,6 +86,17 @@ export default {
 		size: { type: Number, default: 1 },
 	},
 	computed: {
+		...mapGetters(VIEW_MODULE, {
+			paneSizes: PANE_SIZES,
+		}),
+		getHeight () {
+			const { innerHeight } = window;
+			if (this.paneSizes) {
+				const { output } = this.paneSizes;
+				return (output / 100 * innerHeight) - 144;
+			}
+			return 600;
+		},
 		getMargin () {
 			return this.size * 20;
 		},

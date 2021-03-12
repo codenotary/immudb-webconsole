@@ -1,6 +1,7 @@
 <template>
 	<div
 		id="OutputMerkleTree"
+		ref="merkleTreeWrapper"
 		class="ma-0 pa-0 px-1 fill-height"
 	>
 		<div
@@ -51,6 +52,7 @@ export default {
 	data() {
 		return {
 			DEFAULT_MERKLE_TREE_MODE,
+			wrapperHeight: 600,
 		};
 	},
 	computed: {
@@ -80,6 +82,15 @@ export default {
 			return 0;
 		},
 	},
+	watch: {
+		'$refs.infoBox.clientHeight': {
+			deep: true,
+			immediate: true,
+			handler (newVal) {
+				console.log(newVal);
+			},
+		},
+	},
 	methods: {
 		...mapActions(OUTPUT_MODULE, {
 			setMerkleTreeMode: SET_MERKLE_TREE_MODE,
@@ -92,7 +103,6 @@ export default {
 #OutputMerkleTree {
 	#merkleTree {
 		max-height: 100%;
-		height: 600px;
 	}
 
 	#MerkleTreeSelector {
