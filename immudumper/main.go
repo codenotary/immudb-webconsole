@@ -5,6 +5,8 @@ import (
 	"flag"
 	"log"
 
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
 	"github.com/codenotary/immudb/pkg/api/schema"
 	immuclient "github.com/codenotary/immudb/pkg/client"
@@ -56,11 +58,12 @@ func init() {
 
 func main() {
 	client, ctx := connect()
-	var i uint64
 	size := getSize(client, ctx)
 	f_out := zfile.CreateZFile(config.outfile)
 	defer f_out.Close()
+	digests := make([][sha256.Size]byte, size)
 	f_out.WriteString("[\n")
+	var i uint64
 	for i = 1; i <= size; i++ {
 		if i > 1 {
 			f_out.WriteString(",\n")
@@ -75,6 +78,39 @@ func main() {
 			log.Fatal(err)
 		}
 		f_out.Write(j)
+		alh, _ := hex.DecodeString(s.Root)
+		copy(digests[i-1][:], alh)
+	}
+	if size > 0 {
+		tree, _ := NewHTree(int(size))
+		tree.BuildWith(digests)
+		zero := "0000000000000000000000000000000000000000000000000000000000000000"
+		for n, lev := range tree.levels {
+			if n == 0 {
+				continue
+			}
+			for i, node := range lev {
+				tnode := txj{
+					Metadata: tx_metadata{Id: uint64(1_000_000*(n+1) + 1_000*i)},
+					Htree:    hex.EncodeToString(node[:]),
+				}
+				tnode.Hchild = []string{
+					hex.EncodeToString(tree.levels[n-1][i<<1][:]),
+					hex.EncodeToString(tree.levels[n-1][(i<<1)+1][:]),
+				}
+				if tnode.Htree == tnode.Hchild[0] && tnode.Hchild[1] == zero {
+					// skip "empty" node
+					continue
+				}
+				j, err := json.Marshal(tnode)
+				if err != nil {
+					log.Fatal(err)
+				}
+				f_out.WriteString(",\n")
+				f_out.Write(j)
+			}
+		}
 	}
 	f_out.WriteString("\n]\n")
+
 }
