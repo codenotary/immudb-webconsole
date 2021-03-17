@@ -47,7 +47,11 @@ func showVersion(w http.ResponseWriter, r *http.Request) {
 
 func handleRequests() {
 	http.HandleFunc("/api/v1/info/version", showVersion)
-	http.HandleFunc("/api/v1/exec/run", runCode)
+	http.HandleFunc("/api/v1/exec/python", pythonExec)
+	http.HandleFunc("/api/v1/run/new", newRunner)
+	http.HandleFunc("/api/v1/run/list", listRunners)
+	http.HandleFunc("/api/v1/run/close/", closeRunner)
+	http.HandleFunc("/api/v1/run/event/", eventRunner)
 	http.HandleFunc("/api/swagger/", httpSwagger.Handler(httpSwagger.URL("doc.json")))
 	err := http.ListenAndServe(":7771", nil)
 	log.Fatal(err)

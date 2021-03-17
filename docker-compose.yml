@@ -3,7 +3,7 @@ services:
     playgroundbackend:
         container_name: playgroundbackend
         build:
-            context: playground-backend
+            context: backend
             args:
                 - V_COMMIT=nocommit
             
