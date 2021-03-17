@@ -15,5 +15,8 @@ backend:
 frontend:
 	docker-compose build $(VARS) playgroundfrontend
 
-run: all
+run:
 	docker-compose up -d --force-recreate
+
+stop:
+	docker-compose down -v --remove-orphans

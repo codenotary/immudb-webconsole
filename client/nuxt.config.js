@@ -162,7 +162,6 @@ export default {
 		},
 	},
 
-	// Doc: 
 	/*
 	** Serve static assets with cache policy
 	** Doc: https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-render/
