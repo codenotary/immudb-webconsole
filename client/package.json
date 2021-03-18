@@ -80,6 +80,7 @@
 		"vue-clipboards": "^1.3.0",
 		"vue-gtag": "^1.10.0",
 		"vue-jest": "^3.0.4",
+		"vue-native-websocket": "^2.0.14",
 		"vue-template-compiler": "^2.6.11",
 		"vued3tree": "^5.1.0"
 	},
