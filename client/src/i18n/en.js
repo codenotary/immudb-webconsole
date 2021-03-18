@@ -3,7 +3,7 @@ export default {
 	common: {
 		codenotary: 'CodeNotary',
 		immudb: 'immudb',
-		and: 'And',
+		andTopic: 'And',
 		or: 'Or',
 		run: 'run',
 		load: 'load',
@@ -23,7 +23,8 @@ export default {
 		devMode: 'Dev mode',
 		github: 'See OS code on github',
 	},
-	navigation: {
+	topic: {
+		title: 'Topic',
 		examples: {
 			title: 'Examples',
 		},
@@ -31,7 +32,11 @@ export default {
 			title: 'Reference',
 		},
 	},
+	guide: {
+		title: 'Guide',
+	},
 	code: {
+		title: 'Code',
 		run: 'Execute code',
 		reset: 'Reset immudb',
 		unknown: 'Code block type unknown',

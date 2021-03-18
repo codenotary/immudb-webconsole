@@ -6,10 +6,13 @@
 	>
 		<v-card-title class="ma-0 py-2 px-0 d-flex justify-start align-center">
 			<v-icon
-				class="ml-2 title gray--text text--lighten-3"
+				class="ml-2 title gray--text text--lighten-2"
 			>
-				{{ mdiViewList }}
+				{{ mdiFormatListBulletedType }}
 			</v-icon>
+			<h4 class="ma-0 ml-2 pa-0 title gray--text text--lighten-2">
+				{{ $t('topic.title') }}
+			</h4>
 			<v-select
 				v-if="false"
 				v-model="language"
@@ -66,21 +69,21 @@ import {
 	ACTIVE_EXAMPLE,
 } from '@/store/code/constants';
 import {
-	mdiViewList,
+	mdiFormatListBulletedType,
 } from '@mdi/js';
 
 export default {
 	name: 'Topic',
 	data () {
 		return {
-			mdiViewList,
+			mdiFormatListBulletedType,
 			language: 'python',
 			open: ['0', '0-0'],
 			items: [
 				{
 					id: '0',
 					sort: 0,
-					name: this.$t('navigation.examples.title'),
+					name: this.$t('topic.examples.title'),
 					children: [],
 				},
 			],

@@ -5,6 +5,15 @@
 		elevation="0"
 	>
 		<v-card-title class="ma-0 py-0 py-sm-2 px-0 d-flex justify-end align-center">
+			<v-icon
+				class="ml-2 title gray--text text--lighten-2"
+			>
+				{{ mdiXml }}
+			</v-icon>
+			<h4 class="ma-0 ml-2 pa-0 subtitle gray--text text--lighten-2">
+				{{ $t('code.title') }}
+			</h4>
+			<v-spacer />
 			<CodeActionReset
 				@reset="onReset"
 			/>
@@ -55,6 +64,7 @@ import {
 	CODE_MODULE,
 	ACTIVE_EXAMPLE,
 } from '@/store/code/constants';
+import { mdiXml } from '@mdi/js';
 
 const ITEMS_TYPES = {
 	TEXT: 'text',
@@ -71,6 +81,7 @@ export default {
 	data () {
 		return {
 			ITEMS_TYPES,
+			mdiXml,
 			id: 0,
 			code: '',
 		};
