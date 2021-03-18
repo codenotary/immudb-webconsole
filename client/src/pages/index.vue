@@ -3,7 +3,7 @@
 		class="playground-theme py-0 pr-4"
 		horizontal
 		:push-other-panes="false"
-		@resize="onHorizontalResize"
+		@resize="onResizeSecondRow"
 	>
 		<pane
 			min-size="20"
@@ -12,30 +12,37 @@
 			<splitpanes
 				:push-other-panes="false"
 				:horizontal="mobile"
-				@resize="resizeFirstPanes"
+				@resize="onResizeFirstRow"
 			>
 				<pane
 					v-if="!mobile"
-					:size="getFirstPane.size"
-					:min-size="getFirstPane.minSize"
-					:max-size="getFirstPane.maxSize"
+					:size="getTopicPane.size"
+					:min-size="getTopicPane.minSize"
+					:max-size="getTopicPane.maxSize"
 				>
-					<LazyNavigationExamples />
+					<LazyTopic />
+				</pane>
+				<pane
+					:size="getGuidePane.size"
+					:min-size="getGuidePane.minSize"
+					:max-size="getGuidePane.maxSize"
+				>
+					<LazyGuide />
 				</pane>
 				<pane>
 					<LazyCode
-						:size="getSecondPane.size"
+						:size="getCodePane.size"
 					/>
 				</pane>
 			</splitpanes>
 		</pane>
 		<pane
-			:size="getThirdPane.size"
-			:min-size="getThirdPane.minSize"
-			:max-size="getThirdPane.maxSize"
+			:size="getOutputPane.size"
+			:min-size="getOutputPane.minSize"
+			:max-size="getOutputPane.maxSize"
 		>
 			<LazyOutput
-				:sizes="outputPaneSizes"
+				:sizes="getOutputPane.size"
 			/>
 		</pane>
 	</splitpanes>
@@ -78,16 +85,13 @@ export default {
 	},
 	fetchOnServer: false,
 	data: () => ({
-		navPaneSizes: 20,
-		codePaneSizes: 80,
-		outputPaneSizes: 40,
 		codePath: '',
 	}),
 	computed: {
 		...mapGetters(VIEW_MODULE, {
 			mobile: MOBILE,
 		}),
-		getFirstPane () {
+		getTopicPane () {
 			if (this.mobile) {
 				return {
 					size: 1,
@@ -101,7 +105,7 @@ export default {
 				maxSize: 60,
 			};
 		},
-		getSecondPane () {
+		getGuidePane () {
 			if (this.mobile) {
 				return {
 					size: 100,
@@ -110,12 +114,12 @@ export default {
 				};
 			}
 			return {
-				size: 80,
-				minSize: 60,
+				size: 40,
+				minSize: 40,
 				maxSize: 80,
 			};
 		},
-		getThirdPane () {
+		getCodePane () {
 			if (this.mobile) {
 				return {
 					size: 20,
@@ -124,8 +128,22 @@ export default {
 				};
 			}
 			return {
+				size: 40,
+				minSize: 40,
+				maxSize: 100,
+			};
+		},
+		getOutputPane () {
+			if (this.mobile) {
+				return {
+					size: 20,
+					minSize: 20,
+					maxSize: 100,
+				};
+			}
+			return {
 				size: 33,
-				minSize: 60,
+				minSize: 33,
 				maxSize: 100,
 			};
 		},
@@ -164,13 +182,16 @@ export default {
 		...mapActions(VIEW_MODULE, {
 			setPaneSizes: SET_PANE_SIZES,
 		}),
-		resizeFirstPanes (data) {
-			this.navPaneSizes = data && data[0].size;
-			this.codePaneSizes = data && data[1].size;
-		},
-		onHorizontalResize (data) {
+		onResizeFirstRow (data) {
 			this.setPaneSizes({
-				output: data[1].size,
+				topic: data && data[0] && data[0].size,
+				guide: data && data[1] && data[1].size,
+				code: data && data[2] && data[2].size,
+			});
+		},
+		onResizeSecondRow (data) {
+			this.setPaneSizes({
+				output: this.data && data[1] && data[1].size,
 			});
 		},
 	},

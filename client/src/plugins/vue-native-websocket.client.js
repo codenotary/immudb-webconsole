@@ -54,35 +54,6 @@ export default ({ store }) => {
 			if (msg) {
 				const { type, data } = msg;
 				console.log('Websocket msg:', type, data);
-
-				// // updated freeze status
-				// if (type === MESSAGE_TYPES.BACKUP && !data) {
-				// 	store.dispatch(`${ VIEW_MODULE }/${ SET_FREEZE }`, '');
-				// 	store.dispatch(`${ VIEW_MODULE }/${ SET_FREEZE_MODAL }`, null);
-				// }
-				// else if (type === MESSAGE_TYPES.BACKUP) {
-				// 	if (data) {
-				// 		if (data.completed) {
-				// 			// close the freeze modal after 3s to be sure
-				// 			// the user could read it before auto-closing it
-				// 			setTimeout(() => {
-				// 				store.dispatch(`${ VIEW_MODULE }/${ SET_FREEZE }`, '');
-				// 			}, 3000);
-				// 			store.dispatch(`${ MAINTENANCE_MODULE }/${ FETCH_BACKUP_LIST }`);
-				// 		}
-				// 		else {
-				// 			store.dispatch(`${ VIEW_MODULE }/${ SET_FREEZE }`, FREEZE_TYPES.BACKUP);
-				// 		}
-
-				// 		store.dispatch(`${ VIEW_MODULE }/${ SET_FREEZE_MODAL }`, {
-				// 			name: data?.name,
-				// 			progress: data?.progress,
-				// 			phase: data?.phase,
-				// 			err: data?.err,
-				// 		});
-				// 	}
-				// }
-
 				// send back an ack-like message to the WS
 				store.dispatch(`${ WEBSOCKET_MODULE }/${ SOCKET_MESSAGE }`, { type });
 			}

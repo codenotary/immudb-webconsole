@@ -1,6 +1,6 @@
 <template>
 	<v-card
-		id="NavigationExamples"
+		id="Topic"
 		class="ma-0 pa-0 bg fill-height shadow"
 		elevation="0"
 	>
@@ -48,7 +48,7 @@
 					</span>
 				</template>
 			</v-treeview>
-			<NavigationSkeleton
+			<TopicSkeleton
 				v-else
 				class="ma-0 pa-4"
 			/>
@@ -70,7 +70,7 @@ import {
 } from '@mdi/js';
 
 export default {
-	name: 'NavigationExamples',
+	name: 'Topic',
 	data () {
 		return {
 			mdiViewList,
@@ -184,7 +184,7 @@ export default {
 </script>
 
 <style lang="scss">
-#NavigationExamples {
+#Topic {
 	&.v-card {
 		@media (max-width: 480px) {
 			height: auto !important;

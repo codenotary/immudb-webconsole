@@ -50,8 +50,9 @@ export default {
 				.filter(_ => _.label !== label);
 	},
 	[SET_PANE_SIZES](state, payload) {
-		const { navigation, code, output } = payload;
-		navigation && (state.paneSizes.navigation = navigation);
+		const { topic, guide, code, output } = payload;
+		topic && (state.paneSizes.topic = topic);
+		guide && (state.paneSizes.guide = guide);
 		code && (state.paneSizes.code = code);
 		output && (state.paneSizes.output = output);
 	},

@@ -9,31 +9,31 @@
 		<v-skeleton-loader
 			class="ma-0 mb-4 pa-0"
 			width="80%"
-			:height="16"
+			:height="64"
 			type="image"
 		/>
 		<v-skeleton-loader
 			class="ma-0 mb-4 pa-0"
-			width="80%"
-			:height="16"
+			width="60%"
+			:height="32"
 			type="image"
 		/>
 		<v-skeleton-loader
 			class="ma-0 mb-4 pa-0"
-			width="80%"
-			:height="16"
+			width="40%"
+			:height="64"
 			type="image"
 		/>
 		<v-skeleton-loader
 			class="ma-0 mb-4 pa-0"
-			width="80%"
-			:height="16"
+			width="60%"
+			:height="32"
 			type="image"
 		/>
 		<v-skeleton-loader
 			class="ma-0 mb-4 pa-0"
-			width="80%"
-			:height="16"
+			width="40%"
+			:height="64"
 			type="image"
 		/>
 	</div>
@@ -41,6 +41,6 @@
 
 <script>
 export default {
-	name: 'NavigationSkeleton',
+	name: 'CodeSkeleton',
 };
 </script>
