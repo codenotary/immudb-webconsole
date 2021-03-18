@@ -4,7 +4,7 @@
 	>
 		<template v-slot:activator="{ on, attrs }">
 			<v-btn
-				class="primary-gradient"
+				class="px-4 primary-gradient"
 				color="blue"
 				depressed
 				small
@@ -25,6 +25,17 @@
 				<span class="mx-2 body-2 text-capitalize">
 					{{ $t('common.run') }}
 				</span>
+				<template #loader>
+					<v-progress-circular
+						indeterminate
+						color="white"
+						:width="2"
+						:size="16"
+					/>
+					<span class="ma-0 ml-2 pa-0 caption">
+						{{ $t('common.running') }}
+					</span>
+				</template>
 			</v-btn>
 		</template>
 		<span>

@@ -16,17 +16,18 @@ import {
 	SET_MERKLE_TREE,
 	SET_MERKLE_TREE_MODE,
 	APPEND_CODE_OUTPUT,
+	ACTIVE_LANGUAGE,
 } from './constants';
 
 export default {
-	async [RUN_CODE]({ commit }, payload) {
+	async [RUN_CODE]({ commit, getters }, payload) {
 		const LOADING_LABEL = 'runCode';
 		try {
 			if (payload) {
 				commit(`${ VIEW_MODULE }/${ PUSH_LOADING }`, { label: LOADING_LABEL }, { root: true });
 
 				const { code, immudb } = payload;
-
+				const language = getters[ACTIVE_LANGUAGE];
 				if (code) {
 					commit(APPEND_CODE_HISTORY, {
 						//
@@ -34,10 +35,11 @@ export default {
 
 					const params = {
 						code,
+						language,
 						immudb: immudb || '',
 					};
 
-					const { data } = await CodeService.runCode(params);
+					const { data } = await CodeService.runCode(language, params);
 
 					if (data) {
 						const { immudb, tree, output } = data;

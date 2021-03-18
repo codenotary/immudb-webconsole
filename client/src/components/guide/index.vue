@@ -84,9 +84,9 @@ import {
 	IS_LOADING,
 } from '@/store/view/constants';
 import {
-	EXAMPLE_MODULE,
+	CODE_MODULE,
 	ACTIVE_EXAMPLE,
-} from '@/store/example/constants';
+} from '@/store/code/constants';
 import { mdiBook } from '@mdi/js';
 import sanitizeHtml from 'sanitize-html';
 
@@ -101,7 +101,7 @@ export default {
 		...mapGetters(VIEW_MODULE, {
 			loading: IS_LOADING,
 		}),
-		...mapGetters(EXAMPLE_MODULE, {
+		...mapGetters(CODE_MODULE, {
 			activeExample: ACTIVE_EXAMPLE,
 		}),
 		title () {

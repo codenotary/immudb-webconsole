@@ -59,12 +59,12 @@
 <script>
 import { mapGetters } from 'vuex';
 import {
-	EXAMPLE_MODULE,
+	CODE_MODULE,
 	LANGUAGES,
 	ACTIVE_LANGUAGE,
 	EXAMPLES,
 	ACTIVE_EXAMPLE,
-} from '@/store/example/constants';
+} from '@/store/code/constants';
 import {
 	mdiViewList,
 } from '@mdi/js';
@@ -87,7 +87,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapGetters(EXAMPLE_MODULE, {
+		...mapGetters(CODE_MODULE, {
 			languages: LANGUAGES,
 			activeLanguage: ACTIVE_LANGUAGE,
 			examples: EXAMPLES,

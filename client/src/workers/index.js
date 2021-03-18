@@ -72,15 +72,15 @@ export const workers = {
 								const { data, labelLength, showPerformance } = arg || {};
 
 								const hashTable = Object.create(null);
-								const rootHtree = data[data.length - 1].htree;
+								const rootHtree = data[data.length - 1].tree;
 
 								data && data.map((_, idx) => {
-									const { metadata, entries, root, htree } = _;
-									hashTable[htree] = {
+									const { metadata, entries, root, tree } = _;
+									hashTable[tree] = {
 										id: idx,
-										label: htree && htree.slice(0, labelLength) +
-											(htree.length > labelLength ? '...' : ''),
-										data: { htree, root, metadata, entries },
+										label: tree && tree.slice(0, labelLength) +
+											(tree.length > labelLength ? '...' : ''),
+										data: { tree, root, metadata, entries },
 										children: [],
 									};
 								});
@@ -89,10 +89,10 @@ export const workers = {
 										.slice()
 										.reverse()
 										.map((_) => {
-											const { htree, hchild } = _;
+											const { tree, hchild } = _;
 											hchild && hchild.map((c) => {
 												if (c && hashTable[c]) {
-													hashTable[htree].children.push(hashTable[c]);
+													hashTable[tree].children.push(hashTable[c]);
 												}
 											});
 										});

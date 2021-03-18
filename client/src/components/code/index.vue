@@ -52,9 +52,9 @@ import {
 	IMMUDB,
 } from '@/store/output/constants';
 import {
-	EXAMPLE_MODULE,
+	CODE_MODULE,
 	ACTIVE_EXAMPLE,
-} from '@/store/example/constants';
+} from '@/store/code/constants';
 
 const ITEMS_TYPES = {
 	TEXT: 'text',
@@ -79,7 +79,7 @@ export default {
 		...mapGetters(VIEW_MODULE, {
 			loading: IS_LOADING,
 		}),
-		...mapGetters(EXAMPLE_MODULE, {
+		...mapGetters(CODE_MODULE, {
 			activeExample: ACTIVE_EXAMPLE,
 		}),
 		...mapGetters(OUTPUT_MODULE, {

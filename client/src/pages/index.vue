@@ -54,12 +54,12 @@ import LayoutMixin from '@/mixins/LayoutMixin';
 import { ParamMixin, PARAMS } from '@/mixins/ParamMixin';
 import { title } from '@/helpers/meta';
 import {
-	EXAMPLE_MODULE,
+	CODE_MODULE,
 	FETCH_LANGUAGES,
 	FETCH_EXAMPLES,
 	FETCH_CODES,
 	SET_ACTIVE_EXAMPLE,
-} from '@/store/example/constants';
+} from '@/store/code/constants';
 import {
 	VIEW_MODULE,
 	SET_PANE_SIZES,
@@ -173,7 +173,7 @@ export default {
 		this.codePath = this.getParam(PARAMS.CODE) || '/python/login.py';
 	},
 	methods: {
-		...mapActions(EXAMPLE_MODULE, {
+		...mapActions(CODE_MODULE, {
 			fetchLanguages: FETCH_LANGUAGES,
 			fetchExamples: FETCH_EXAMPLES,
 			fetchCodes: FETCH_CODES,

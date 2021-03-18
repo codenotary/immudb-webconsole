@@ -1,4 +1,4 @@
-export const EXAMPLE_MODULE = 'example';
+export const CODE_MODULE = 'code';
 
 export const FETCH_LANGUAGES = 'fetchLanguages';
 export const FETCH_EXAMPLES = 'fetchExamples';

@@ -46,8 +46,8 @@ export default {
 			if (this.item) {
 				const { data } = this.item;
 				if (data) {
-					const { htree } = data;
-					return htree;
+					const { tree } = data;
+					return tree;
 				}
 			}
 			return '';
