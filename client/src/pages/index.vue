@@ -152,13 +152,18 @@ export default {
 		'$route.query': {
 			deep: true,
 			handler (newVal) {
-				this.codePath = newVal && newVal.code;
+				if (newVal) {
+					const { code } = newVal;
+					this.codePath = code;
+				}
 			},
 		},
 		codePath: {
 			immediate: true,
 			handler (newVal) {
-				this.setActiveExample({ activePath: newVal });
+				if (newVal) {
+					this.setActiveExample({ activePath: newVal });
+				}
 			},
 		},
 	},

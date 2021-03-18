@@ -41,12 +41,10 @@
 						href="https://www.codenotary.com"
 						target="_blank"
 						rel="noopener"
-						:ripple="false"
 						:width="mini ? 56 : 214"
 						:min-width="mini ? 56 : 214"
 						depressed
-						text
-						nuxt
+						icon
 					>
 						<TheLogo
 							class="no-transation"

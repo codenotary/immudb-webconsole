@@ -40,7 +40,9 @@ export default {
 	},
 	[SET_ACTIVE_EXAMPLE](state, payload) {
 		const { activePath } = payload;
-		const _path = activePath.startsWith('/') ? activePath : `/${ activePath }`;
-		_path && (state.activeExample = _path);
+		if (activePath) {
+			const _path = activePath.startsWith('/') ? activePath : `/${ activePath }`;
+			_path && (state.activeExample = _path);
+		}
 	},
 };
