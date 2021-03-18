@@ -66,6 +66,10 @@ export default {
 	align-items: flex-start;
 	min-height: 100%;
 
+	pre {
+		overflow: hidden;
+	}
+
 	.v-card__title {
 		height: 64px;
 		width: 100% !important;
