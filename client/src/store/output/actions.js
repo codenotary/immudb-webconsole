@@ -5,7 +5,11 @@ import {
 	VIEW_MODULE,
 	PUSH_LOADING,
 	POP_LOADING,
-} from '@/store/view';
+} from '@/store/view/constants';
+import {
+	CODE_MODULE,
+	ACTIVE_LANGUAGE,
+} from '@/store/code/constants';
 import {
 	RUN_CODE,
 	RESET_IMMUDB,
@@ -16,18 +20,19 @@ import {
 	SET_MERKLE_TREE,
 	SET_MERKLE_TREE_MODE,
 	APPEND_CODE_OUTPUT,
-	ACTIVE_LANGUAGE,
 } from './constants';
 
 export default {
-	async [RUN_CODE]({ commit, getters }, payload) {
+	async [RUN_CODE]({ commit, rootGetters }, payload) {
 		const LOADING_LABEL = 'runCode';
 		try {
 			if (payload) {
 				commit(`${ VIEW_MODULE }/${ PUSH_LOADING }`, { label: LOADING_LABEL }, { root: true });
 
 				const { code, immudb } = payload;
-				const language = getters[ACTIVE_LANGUAGE];
+				const activeLanguage = rootGetters[`${ CODE_MODULE }/${ ACTIVE_LANGUAGE }`];
+				const language = activeLanguage ? activeLanguage.label : 'python';
+
 				if (code) {
 					commit(APPEND_CODE_HISTORY, {
 						//
