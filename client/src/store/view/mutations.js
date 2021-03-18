@@ -8,6 +8,7 @@ import {
 	ADD_BREADCRUMBS,
 	PUSH_LOADING,
 	POP_LOADING,
+	SET_PANE_SIZES,
 	STORE_NUXT_HYDRATED,
 } from './constants';
 
@@ -47,6 +48,13 @@ export default {
 		const { label } = payload;
 		state.loading = state.loading
 				.filter(_ => _.label !== label);
+	},
+	[SET_PANE_SIZES](state, payload) {
+		const { topic, guide, code, output } = payload;
+		topic && (state.paneSizes.topic = topic);
+		guide && (state.paneSizes.guide = guide);
+		code && (state.paneSizes.code = code);
+		output && (state.paneSizes.output = output);
 	},
 	[STORE_NUXT_HYDRATED](state, payload) {
 		state.nuxtHydrated = payload;

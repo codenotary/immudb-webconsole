@@ -9,6 +9,7 @@ import {
 	POP_LOADING,
 	PUSH_LOADING,
 	STORE_NUXT_HYDRATED,
+	SET_PANE_SIZES,
 } from './constants';
 
 export default {
@@ -38,6 +39,9 @@ export default {
 	},
 	[POP_LOADING]({ commit }, payload) {
 		commit(POP_LOADING, payload);
+	},
+	[SET_PANE_SIZES]({ commit }, payload) {
+		commit(SET_PANE_SIZES, payload);
 	},
 	[STORE_NUXT_HYDRATED]({ commit }, payload) {
 		commit(STORE_NUXT_HYDRATED, payload);

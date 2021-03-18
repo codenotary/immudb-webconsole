@@ -50,8 +50,10 @@ export default {
 						const jsonDecompressedTree = decompressedTree && JSON.parse(decompressedTree);
 
 						commit(SET_MERKLE_TREE, {
-							graph: await Vue.prototype.$workers.parseMerkleTreeGraph(jsonDecompressedTree),
+							graph: await Vue.prototype.$workers
+									.parseMerkleTreeGraph(jsonDecompressedTree, 12),
 							json: jsonDecompressedTree,
+							size: jsonDecompressedTree && jsonDecompressedTree.length,
 						});
 
 						commit(APPEND_CODE_OUTPUT, {

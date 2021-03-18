@@ -162,7 +162,6 @@ export default {
 		},
 	},
 
-	// Doc: 
 	/*
 	** Serve static assets with cache policy
 	** Doc: https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-render/
@@ -189,9 +188,9 @@ export default {
 	plugins: [
 		{ src: '~/plugins/vue-clipboards.js', ssr: false },
 		{ src: '~/plugins/vue-cookies.js', ssr: false },
-		{ src: '~/plugins/vue-dompurify-html.js', ssr: false },
 		{ src: '~/plugins/vue-gtag.js', ssr: false },
 		{ src: '~/plugins/vue-json-pretty.js', ssr: false },
+		// { src: '~/plugins/vue-native-websocket.client.js', ssr: false },
 		{ src: '~/plugins/vue-prism-editor.js', ssr: false },
 		{ src: '~/plugins/vue-toasted.js', ssr: false },
 		{ src: '~/plugins/vee-validate.js', ssr: false },

@@ -1,6 +1,7 @@
 <template>
 	<div
 		id="OutputMerkleTree"
+		ref="merkleTreeWrapper"
 		class="ma-0 pa-0 px-1 fill-height"
 	>
 		<div
@@ -15,6 +16,7 @@
 			<OutputMerkleTreeGraph
 				v-if="merkleTreeMode === DEFAULT_MERKLE_TREE_MODE"
 				:graph="graph"
+				:size="size"
 			/>
 			<OutputMerkleTreeJson
 				v-else
@@ -50,6 +52,7 @@ export default {
 	data() {
 		return {
 			DEFAULT_MERKLE_TREE_MODE,
+			wrapperHeight: 600,
 		};
 	},
 	computed: {
@@ -59,15 +62,33 @@ export default {
 		}),
 		graph () {
 			if (this.merkleTree) {
-				return this.merkleTree.graph;
+				const { graph } = this.merkleTree;
+				return graph;
 			}
 			return {};
 		},
 		json () {
 			if (this.merkleTree) {
-				return this.merkleTree.json;
+				const { json } = this.merkleTree;
+				return json;
 			}
 			return [];
+		},
+		size () {
+			if (this.merkleTree) {
+				const { size } = this.merkleTree;
+				return size;
+			}
+			return 0;
+		},
+	},
+	watch: {
+		'$refs.infoBox.clientHeight': {
+			deep: true,
+			immediate: true,
+			handler (newVal) {
+				console.log(newVal);
+			},
 		},
 	},
 	methods: {
@@ -82,7 +103,6 @@ export default {
 #OutputMerkleTree {
 	#merkleTree {
 		max-height: 100%;
-		height: 600px;
 	}
 
 	#MerkleTreeSelector {

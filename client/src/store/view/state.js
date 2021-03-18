@@ -13,5 +13,11 @@ export default () => ({
 		subtitle: '',
 	},
 	loading: [],
+	paneSizes: {
+		topic: 600,
+		guide: 600,
+		code: 600,
+		output: 600,
+	},
 	nuxtHydrated: false,
 });

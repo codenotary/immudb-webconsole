@@ -4,7 +4,7 @@
 		class="ma-0 pa-0 bg fill-height shadow"
 		elevation="0"
 	>
-		<v-card-title class="ma-0 py-0 py-sm-2 px-0 d-flex justify-start align-center">
+		<v-card-title class="ma-0 py-0 py-sm-2 px-0 d-flex justify-end align-center">
 			<CodeActionReset
 				@reset="onReset"
 			/>
@@ -20,13 +20,6 @@
 		<v-card-text
 			class="ma-0 pa-0 bg-secondary custom-scrollbar"
 		>
-			<div class="ma-0 pt-4 pl-6 pr-4 pb-2">
-				<CodeDetail
-					:title="title"
-					:description="description"
-					:documentation-url="documentationUrl"
-				/>
-			</div>
 			<div class="ma-0 pa-0">
 				<CodeBlock
 					v-if="code"
@@ -47,6 +40,10 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import {
+	VIEW_MODULE,
+	IS_LOADING,
+} from '@/store/view/constants';
+import {
 	OUTPUT_MODULE,
 	RUN_CODE,
 	RESET_IMMUDB,
@@ -58,10 +55,6 @@ import {
 	EXAMPLE_MODULE,
 	ACTIVE_EXAMPLE,
 } from '@/store/example/constants';
-import {
-	VIEW_MODULE,
-	IS_LOADING,
-} from '@/store/view/constants';
 
 const ITEMS_TYPES = {
 	TEXT: 'text',
@@ -83,36 +76,15 @@ export default {
 		};
 	},
 	computed: {
+		...mapGetters(VIEW_MODULE, {
+			loading: IS_LOADING,
+		}),
 		...mapGetters(EXAMPLE_MODULE, {
 			activeExample: ACTIVE_EXAMPLE,
 		}),
 		...mapGetters(OUTPUT_MODULE, {
 			immudb: IMMUDB,
 		}),
-		...mapGetters(VIEW_MODULE, {
-			loading: IS_LOADING,
-		}),
-		title () {
-			if (this.activeExample) {
-				const { title } = this.activeExample;
-				return title || '';
-			}
-			return '';
-		},
-		description () {
-			if (this.activeExample) {
-				const { description } = this.activeExample;
-				return description || '';
-			}
-			return '';
-		},
-		documentationUrl () {
-			if (this.activeExample) {
-				const { documentation } = this.activeExample;
-				return documentation || '';
-			}
-			return '';
-		},
 	},
 	watch: {
 		activeExample: {
