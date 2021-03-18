@@ -43,6 +43,7 @@ export default {
 		seeInDocumentation: 'See in documentation',
 	},
 	output: {
+		title: 'Output',
 		code: {
 			title: 'Output',
 			empty: 'There is no code output yet...',

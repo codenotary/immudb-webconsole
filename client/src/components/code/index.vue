@@ -110,6 +110,21 @@ export default {
 			},
 		},
 	},
+	mounted() {
+		this._keyListener = function(e) {
+			if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+				e.preventDefault(); // present "Save Page" from getting triggered.
+				if (!this.isLoading && this.code) {
+					this.onSubmit();
+				}
+			}
+		};
+
+		document.addEventListener('keydown', this._keyListener.bind(this));
+	},
+	beforeDestroy() {
+		document.removeEventListener('keydown', this._keyListener);
+	},
 	methods: {
 		...mapActions(OUTPUT_MODULE, {
 			runCode: RUN_CODE,
