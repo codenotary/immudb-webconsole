@@ -119,13 +119,17 @@ import {
 	CODE_MODULE,
 	ACTIVE_EXAMPLE,
 } from '@/store/code/constants';
-import { mdiBookOpenOutline } from '@mdi/js';
+import {
+	mdiBook,
+	mdiBookOpenOutline,
+} from '@mdi/js';
 import sanitizeHtml from 'sanitize-html';
 
 export default {
 	name: 'Guide',
 	data () {
 		return {
+			mdiBook,
 			mdiBookOpenOutline,
 		};
 	},
