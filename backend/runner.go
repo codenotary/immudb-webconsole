@@ -1,23 +1,59 @@
 package main
 import (
+	"bufio"
 	"context"
 	"net/http"
 	"path"
 	"fmt"
 	"encoding/json"
 	"log"
+	"golang.org/x/net/websocket"
 )
 
 type runner struct {
 	ctx         context.Context
+	running     bool
 	container   string
 	clientIn    chan []byte
-	clientOut   chan []byte
-	dockerIn    chan []byte
-	dockerOut   chan []byte
+	clientOut   []chan []byte
 }
 
 var runners map[string]*runner
+
+func (rn *runner) loop() {
+	rn.running=true
+	defer func() { rn.running=false }()
+	atc,err := attachContainer(rn.ctx, rn.container)
+	if err!=nil {
+		return
+	}
+	incoming := make(chan []byte)
+	fin := make (chan bool)
+	go func(rd *bufio.Reader) {
+		for {
+			buffer := make([]byte,65536)
+			_, err := rd.Read(buffer)
+			if err != nil {
+				log.Printf("Incoming error: %v", err)
+				break
+			}
+			incoming <- buffer
+		}
+		fin <- true
+	}(atc.Reader)
+	for {
+		select {
+			case s := <- rn.clientIn:
+				atc.Conn.Write(s)
+			case s := <- incoming:
+				for _,c := range rn.clientOut {
+					c <- s
+				}
+			case <- fin:
+				return
+		}
+	}
+}
 
 type runnerResponse struct {
 	Status string    `json:"status"`
@@ -60,6 +96,7 @@ func newRunner(w http.ResponseWriter, req *http.Request) {
 	}
 	rn := &runner{ctx:ctx, container:c_id}
 	runners[c_id] = rn
+	go rn.loop()
 	httpRet(w, &runnerResponse{Status:"success", Id:c_id})
 }
 
@@ -110,5 +147,50 @@ func closeRunner(w http.ResponseWriter, r *http.Request) {
 }
 
 func eventRunner(w http.ResponseWriter, r *http.Request) {
-	http.Error(w, "Todo", http.StatusNotImplemented)
+	reqId := path.Base(r.URL.Path)
+	rn, ok := runners[reqId]
+	if !ok {
+		log.Printf("Id '%s' not found",reqId)
+		httpRet(w, &runnerResponse{Status:"fail", Error:"container id not found"}) 
+		return
+	}
+	s := websocket.Server{Handler: websocket.Handler(func(ws *websocket.Conn) {
+		wsRunnerEvents(rn, ws)
+		})}
+	s.ServeHTTP(w,r)
+}
+
+func wsRunnerEvents(rn *runner, ws *websocket.Conn) {
+	end := make (chan bool)
+	clOut := make (chan []byte)
+	rn.clientOut=append(rn.clientOut,clOut)
+	defer func() {
+		for i,c := range rn.clientOut {
+			if c==clOut {
+				copy(rn.clientOut[i:], rn.clientOut[i+1:])
+				rn.clientOut=rn.clientOut[:len(rn.clientOut)-1]
+				break
+			}
+		}
+	}()
+	go func() {
+		for {
+			buf := make([]byte,65536) 
+			_,err := ws.Read(buf)
+			if err != nil {
+				log.Printf("runner error %s",err.Error())
+				break
+			}
+			rn.clientIn <- buf
+		}
+		end <- true
+	}()
+	loop: for {
+		select {
+			case <- end:
+				break loop
+			case b := <- clOut:
+				ws.Write(b)
+		}
+	}
 }

@@ -148,9 +148,32 @@ func startContainer(ctx context.Context, imageName string) (id string, err error
 		return
 	}
 	id = resp.ID
+	if err = cli.ContainerStart(ctx, id, types.ContainerStartOptions{}); err != nil {
+		log.Printf("Error: %s", err.Error())
+		return
+	}
 	return
 }
 
+func attachContainer(ctx context.Context, cid string) (atc types.HijackedResponse, err error) {
+	cli, err := client.NewClientWithOpts(client.WithAPIVersionNegotiation())
+	if err != nil {
+		log.Printf("Unable to contact docker")
+		return
+	}
+	defer cli.Close()
+	atc, err = cli.ContainerAttach(ctx, cid, types.ContainerAttachOptions{
+		Stderr:       true,
+		Stdout:       true,
+		Stdin:        true,
+		Stream:       true,
+	})
+	if err != nil {
+		log.Printf("Unable to attach container %s",cid)
+		return
+	}
+	return
+}
 func stopContainer(ctx context.Context, c_id string) (err error) {
 	cli, err := client.NewClientWithOpts(client.WithAPIVersionNegotiation())
 	if err != nil {
