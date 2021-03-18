@@ -6,7 +6,7 @@
 	>
 		<v-card-title class="ma-0 py-0 py-sm-2 px-0 d-flex justify-start align-center">
 			<v-icon
-				class="ml-2 title gray--text text--lighten-3"
+				class="ml-2 title gray--text text--lighten-2"
 			>
 				{{ mdiBookOpenOutline }}
 			</v-icon>
