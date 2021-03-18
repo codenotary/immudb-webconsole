@@ -82,15 +82,6 @@ export default {
 			return 0;
 		},
 	},
-	watch: {
-		'$refs.infoBox.clientHeight': {
-			deep: true,
-			immediate: true,
-			handler (newVal) {
-				console.log(newVal);
-			},
-		},
-	},
 	methods: {
 		...mapActions(OUTPUT_MODULE, {
 			setMerkleTreeMode: SET_MERKLE_TREE_MODE,

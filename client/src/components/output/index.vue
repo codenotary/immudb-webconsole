@@ -25,7 +25,13 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import Vue from 'vue';
+import {
+	OUTPUT_MODULE,
+	CODE_OUTPUT,
+	MERKLE_TREE,
+} from '@/store/output/constants';
 import { mdiViewList } from '@mdi/js';
 const isEqual = require('lodash.isequal');
 
@@ -38,6 +44,12 @@ export default {
 			tabHasUpdates: [0, 0],
 		};
 	},
+	computed: {
+		...mapGetters(OUTPUT_MODULE, {
+			output: CODE_OUTPUT,
+			merkleTree: MERKLE_TREE,
+		}),
+	},
 	watch: {
 		output: {
 			deep: true,
@@ -47,7 +59,7 @@ export default {
 				}
 			},
 		},
-		merkleTree: {
+		'merkleTree.graph': {
 			deep: true,
 			handler (newVal, oldVal) {
 				if (this.tab !== 1 && !isEqual(newVal, oldVal)) {

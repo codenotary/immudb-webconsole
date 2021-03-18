@@ -74,7 +74,7 @@ export default {
 				}
 			}
 			else {
-				console.log('a payload is needed to run code');
+				console.error('a payload is needed to run code');
 			}
 		}
 		catch (err) {
