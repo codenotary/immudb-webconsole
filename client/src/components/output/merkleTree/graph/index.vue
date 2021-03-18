@@ -93,6 +93,7 @@ export default {
 			const { innerHeight } = window;
 			if (this.paneSizes) {
 				const { output } = this.paneSizes;
+				console.log(output / 100 * innerHeight);
 				return (output / 100 * innerHeight) - 144;
 			}
 			return 600;

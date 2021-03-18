@@ -74,15 +74,15 @@ export const workers = {
 								let rootHtree = '';
 
 								if (data && data.length) {
-									rootHtree = data[data.length - 1].tree;
+									rootHtree = data[data.length - 1].htree;
 
 									data.map((_, idx) => {
-										const { metadata, entries, root, tree } = _;
-										hashTable[tree] = {
+										const { metadata, entries, root, htree } = _;
+										hashTable[htree] = {
 											id: idx,
-											label: tree && tree.slice(0, labelLength) +
-												(tree.length > labelLength ? '...' : ''),
-											data: { tree, root, metadata, entries },
+											label: htree && htree.slice(0, labelLength) +
+												(htree.length > labelLength ? '...' : ''),
+											data: { htree, root, metadata, entries },
 											children: [],
 										};
 									});
@@ -91,10 +91,10 @@ export const workers = {
 											.slice()
 											.reverse()
 											.map((_) => {
-												const { tree, hchild } = _;
+												const { htree, hchild } = _;
 												hchild && hchild.map((c) => {
 													if (c && hashTable[c]) {
-														hashTable[tree].children.push(hashTable[c]);
+														hashTable[htree].children.push(hashTable[c]);
 													}
 												});
 											});
@@ -130,6 +130,7 @@ export const workers = {
 			if (!this.workers) {
 				this.workers = await this.initWorkers();
 			}
+			console.log(data);
 			return this.workers.postMessage(MERKLE_TREE_GRAPH_WORKER, [{
 				data,
 				labelLength,

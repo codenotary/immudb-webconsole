@@ -191,7 +191,7 @@ export default {
 		},
 		onResizeSecondRow (data) {
 			this.setPaneSizes({
-				output: this.data && data[1] && data[1].size,
+				output: data && data[1] && data[1].size,
 			});
 		},
 	},
