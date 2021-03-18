@@ -32,7 +32,7 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/exec/run": {
+        "/exec/python": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -43,8 +43,8 @@ var doc = `{
                 "tags": [
                     "info"
                 ],
-                "summary": "Show software version",
-                "operationId": "runCode",
+                "summary": "Execute a python script",
+                "operationId": "pythonExec",
                 "parameters": [
                     {
                         "description": "Run request",
@@ -91,9 +91,127 @@ var doc = `{
                     }
                 }
             }
+        },
+        "/run/close/{id}": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "runner"
+                ],
+                "summary": "Halts and delete an interactive container",
+                "operationId": "closeRunner",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Container id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.runnerResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/main.runnerResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/main.runnerResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/run/list": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "runner"
+                ],
+                "summary": "List containers ids of running containers for interactive ouse",
+                "operationId": "listRunners",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.listrunnerResponse"
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    },
+                    "500": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/run/new": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "runner"
+                ],
+                "summary": "Launch a new container for interactive use",
+                "operationId": "newRunner",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.runnerResponse"
+                        }
+                    },
+                    "400": {
+                        "description": ""
+                    },
+                    "500": {
+                        "description": ""
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "main.OutputLine": {
+            "type": "object",
+            "properties": {
+                "flux": {
+                    "type": "string"
+                },
+                "line": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "number"
+                }
+            }
+        },
+        "main.listrunnerResponse": {
+            "type": "object",
+            "properties": {
+                "ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
         "main.runRequest": {
             "type": "object",
             "properties": {
@@ -117,17 +235,31 @@ var doc = `{
                         "type": "integer"
                     }
                 },
-                "stderr": {
-                    "type": "string"
-                },
-                "stdout": {
-                    "type": "string"
+                "output": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/main.OutputLine"
+                    }
                 },
                 "tree": {
                     "type": "array",
                     "items": {
                         "type": "integer"
                     }
+                }
+            }
+        },
+        "main.runnerResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
                 }
             }
         },

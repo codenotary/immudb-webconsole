@@ -16,5 +16,6 @@ require (
 	github.com/sirupsen/logrus v1.8.0 // indirect
 	github.com/swaggo/http-swagger v1.0.0
 	github.com/swaggo/swag v1.7.0
+	golang.org/x/net v0.0.0-20201207224615-747e23833adb
 	google.golang.org/grpc v1.35.0 // indirect
 )

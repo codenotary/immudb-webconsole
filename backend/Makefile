@@ -9,7 +9,7 @@ V_LDFLAGS := -X "main.Version=$(V_VERSION)"\
 
 all: playground-backend
 
-playground-backend: dockerops.go main.go tarfunc.go docs/docs.go
+playground-backend: dockerops.go main.go tarfunc.go python.go runner.go docs/docs.go
 	go build -ldflags '$(V_LDFLAGS)' playground-backend
 	
 .PHONY: swag

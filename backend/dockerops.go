@@ -1,112 +1,30 @@
 package main
 
 import (
-	"bytes"
+// 	"bytes"
 	"context"
 	"encoding/json"
         "errors"
-	"fmt"
+// 	"fmt"
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/mount"
 	"github.com/docker/docker/client"
 	"io/ioutil"
 	"log"
-	"net/http"
+// 	"net/http"
 	"os"
 	"path"
 	"time"
 )
+const memoryLimit = 1048576 * 100  // 100 MBytes
+const cpuLimit = 50_000            // 50% of vcpu
 
-type runRequest struct {
-	Code   string `json:"code"`
-	Immudb []byte `json:"immudb"`
-}
-type OutputLine struct {
-	Timestamp float64 `json:"timestamp"`
-	Flux      string  `json:"flux"`
-	Line      string  `json:"line"`
-}
-
-type runResponse struct {
-	Output []OutputLine `json:"output"`
-	Immudb []byte       `json:"immudb"`
-	Tree   []byte       `json:"tree"`
-}
-
-// runCode ...
-// @id runCode
-// @tags info
-// @summary Show software version
-// @accept application/json
-// @param request body runRequest true "Run request"
-// @produce application/json
-// @success 200 {object} runResponse
-// @failure 400
-// @failure 500
-// @router /exec/run [post]
-func runCode(w http.ResponseWriter, r *http.Request) {
-	var req runRequest
-	err := json.NewDecoder(r.Body).Decode(&req)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		log.Printf("Error: %s", err.Error())
-		return
-	}
-	cli, err := client.NewClientWithOpts(client.WithAPIVersionNegotiation())
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		log.Printf("Error: %s", err.Error())
-		return
-	}
-	defer cli.Close()
-	// create ephimeral volume
-	dir, err := ioutil.TempDir("/var/tmp", "ephvolume:")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		log.Printf("Error: %s", err.Error())
-		return
-	}
-	defer os.RemoveAll(dir)
-	// put code into ephimeral volume
-	err = ioutil.WriteFile(path.Join(dir, "runme.py"), []byte(req.Code), 0644)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		log.Printf("Error: %s", err.Error())
-		return
-	}
-	// extract immudb state
-	if len(req.Immudb) > 0 {
-		err = extractTarball(bytes.NewReader(req.Immudb), dir)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			log.Printf("Error: %s", err.Error())
-			return
-		}
-	}
-	// launch the container
-	err = runContainer(cli, dir)
-	if err != nil {
-		jresponse := errorResponse(err.Error(), req.Immudb)
-		response, _ := json.Marshal(jresponse)
-		http.Error(w, string(response), http.StatusInternalServerError)
-		return
-	}
-	jresponse, err := readback(dir)
-	if err != nil {
-		log.Printf("Error while reading response: %s", err.Error())
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	response, _ := json.Marshal(jresponse)
-	fmt.Fprintf(w, string(response)+"\n")
-}
-
-func runContainer(cli *client.Client, dir string) (err error) {
+func runContainer(cli *client.Client, imageName, dir string) (err error) {
 	ctx := context.Background()
 	resp, err := cli.ContainerCreate(ctx,
 		&container.Config{
-			Image: "player-py:latest",
+			Image: imageName,
 			Tty: false,
 			},
 		&container.HostConfig{
@@ -114,8 +32,8 @@ func runContainer(cli *client.Client, dir string) (err error) {
 				{Type: mount.TypeBind, Source: dir, Target: "/tmp"},
 			},
 			Resources: container.Resources{
-				Memory: 1048576 * 100, // 100 MBytes
-				// CPUQuota: 20_000, // 20% of available CPU (cfs)
+				Memory: memoryLimit,
+				CPUQuota: cpuLimit,
 			},
 			NetworkMode: "none",
 		},
@@ -159,7 +77,6 @@ func runContainer(cli *client.Client, dir string) (err error) {
 		log.Printf("Error while extracting immudb data: %s", err.Error())
 		return
 	}
-
 	return
 }
 
@@ -197,5 +114,79 @@ func errorResponse(msg string, immudb []byte) (response runResponse) {
 		Line:msg,
 	}}
 	response.Immudb=immudb
+	return
+}
+
+
+func startContainer(ctx context.Context, imageName string) (id string, err error) {
+	cli, err := client.NewClientWithOpts(client.WithAPIVersionNegotiation())
+	if err != nil {
+		log.Printf("Unable to contact docker %s")
+		return
+	}
+	defer cli.Close()
+	resp, err := cli.ContainerCreate(ctx,
+		&container.Config{
+			Image: imageName,
+			Tty: false,
+			},
+		&container.HostConfig{
+// 			Mounts: []mount.Mount{
+// 				{Type: mount.TypeBind, Source: dir, Target: "/tmp"},
+// 			},
+			Resources: container.Resources{
+				Memory: memoryLimit,
+				CPUQuota: cpuLimit,
+			},
+			NetworkMode: "none",
+		},
+		nil, //net config
+		nil, // platform
+		"")  // name
+	if err != nil {
+		log.Printf("Error: %s", err.Error())
+		return
+	}
+	id = resp.ID
+	if err = cli.ContainerStart(ctx, id, types.ContainerStartOptions{}); err != nil {
+		log.Printf("Error: %s", err.Error())
+		return
+	}
+	return
+}
+
+func attachContainer(ctx context.Context, cid string) (atc types.HijackedResponse, err error) {
+	cli, err := client.NewClientWithOpts(client.WithAPIVersionNegotiation())
+	if err != nil {
+		log.Printf("Unable to contact docker")
+		return
+	}
+	defer cli.Close()
+	atc, err = cli.ContainerAttach(ctx, cid, types.ContainerAttachOptions{
+		Stderr:       true,
+		Stdout:       true,
+		Stdin:        true,
+		Stream:       true,
+	})
+	if err != nil {
+		log.Printf("Unable to attach container %s",cid)
+		return
+	}
+	return
+}
+func stopContainer(ctx context.Context, c_id string) (err error) {
+	cli, err := client.NewClientWithOpts(client.WithAPIVersionNegotiation())
+	if err != nil {
+		log.Printf("Unable to contact docker")
+		return
+	}
+	defer cli.Close()
+	killtimeout := 3 * time.Second
+	err = cli.ContainerStop(ctx, c_id, &killtimeout)
+	if err != nil {
+		log.Printf("Unable to stop container %s", c_id)
+		return 
+	}
+	cli.ContainerRemove(ctx, c_id, types.ContainerRemoveOptions{})
 	return
 }
