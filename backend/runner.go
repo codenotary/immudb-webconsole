@@ -1,82 +1,97 @@
 package main
+
 import (
 	"bufio"
 	"context"
+	"encoding/json"
+	"fmt"
+	"golang.org/x/net/websocket"
+	"log"
 	"net/http"
 	"path"
-	"fmt"
-	"encoding/json"
-	"log"
-	"golang.org/x/net/websocket"
 )
 
 type runner struct {
-	ctx         context.Context
-	running     bool
-	container   string
-	clientIn    chan []byte
-	clientOut   []chan []byte
+	ctx       context.Context
+	running   bool
+	container string
+	clientIn  chan []byte
+	clientOut []chan []byte
 }
 
 var runners map[string]*runner
 
 func (rn *runner) loop() {
-	rn.running=true
-	defer func() { rn.running=false }()
-	atc,err := attachContainer(rn.ctx, rn.container)
-	if err!=nil {
+	log.Printf("Running loop for container %s", rn.container)
+	rn.running = true
+	defer func() {
+		rn.running = false
+		log.Printf("Exiting loop for container %s", rn.container)
+	}()
+	atc, err := attachContainer(rn.ctx, rn.container)
+	if err != nil {
+		log.Printf("Error %s", err.Error())
 		return
 	}
 	incoming := make(chan []byte)
-	fin := make (chan bool)
+	fin := make(chan bool)
 	go func(rd *bufio.Reader) {
+		buffer := make([]byte, 65536)
 		for {
-			buffer := make([]byte,65536)
-			_, err := rd.Read(buffer)
+			n, err := rd.Read(buffer)
 			if err != nil {
 				log.Printf("Incoming error: %v", err)
 				break
 			}
-			incoming <- buffer
+			if n == 0 {
+				log.Printf("zero")
+				continue
+			}
+			log.Printf("=> %s", string(buffer[:n]))
+			incoming <- buffer[:n]
 		}
 		fin <- true
 	}(atc.Reader)
+	log.Printf("Running loop for container %s (2)", rn.container)
 	for {
 		select {
-			case s := <- rn.clientIn:
-				atc.Conn.Write(s)
-			case s := <- incoming:
-				for _,c := range rn.clientOut {
-					c <- s
-				}
-			case <- fin:
-				return
+		case s := <-rn.clientIn:
+			log.Printf("<== %s", string(s))
+			atc.Conn.Write(s)
+		case s := <-incoming:
+			log.Printf("<= %s", string(s))
+			for _, c := range rn.clientOut {
+				c <- s
+			}
+		case <-fin:
+			return
 		}
 	}
 }
 
 type runnerResponse struct {
-	Status string    `json:"status"`
-	Id     string    `json:"id,omitempty"`
-	Error  string    `json:"error,omitempty"`
+	Status string `json:"status"`
+	Id     string `json:"id,omitempty"`
+	Error  string `json:"error,omitempty"`
 }
 
 type listrunnerResponse struct {
-	Ids    []string  `json:"ids"`
+	Ids []string `json:"ids"`
 }
 
 func init() {
-	runners=make(map[string]*runner)
+	runners = make(map[string]*runner)
 }
 
 func httpRet(w http.ResponseWriter, ret *runnerResponse) {
 	jresponse, _ := json.Marshal(ret)
-	if ret.Status!="success" {
-		http.Error(w, string(jresponse), http.StatusInternalServerError)
+	sresp := string(jresponse) + "\n"
+	if ret.Status != "success" {
+		http.Error(w, sresp, http.StatusInternalServerError)
 	} else {
-		fmt.Fprintf(w,string(jresponse))
+		fmt.Fprintf(w, sresp)
 	}
-	
+
 }
 
 // @id newRunner
@@ -91,13 +106,18 @@ func newRunner(w http.ResponseWriter, req *http.Request) {
 	ctx := context.Background()
 	c_id, err := startContainer(ctx, "player-immuclient")
 	if err != nil {
-		httpRet(w, &runnerResponse{Status:"fail", Error:err.Error()})
+		httpRet(w, &runnerResponse{Status: "fail", Error: err.Error()})
 		return
 	}
-	rn := &runner{ctx:ctx, container:c_id}
-	runners[c_id] = rn
+	rn := &runner{
+		ctx:       ctx,
+		container: c_id,
+		clientIn:  make(chan []byte),
+	}
+	s_id := randString(9)
+	runners[s_id] = rn
 	go rn.loop()
-	httpRet(w, &runnerResponse{Status:"success", Id:c_id})
+	httpRet(w, &runnerResponse{Status: "success", Id: s_id})
 }
 
 // @id listRunners
@@ -109,12 +129,12 @@ func newRunner(w http.ResponseWriter, req *http.Request) {
 // @failure 500
 // @router /run/list [get]
 func listRunners(w http.ResponseWriter, req *http.Request) {
-	ret := &listrunnerResponse{Ids:make([]string,0,len(runners))}
-	for i,_ := range runners {
-		ret.Ids=append(ret.Ids,i)
+	ret := &listrunnerResponse{Ids: make([]string, 0, len(runners))}
+	for i, _ := range runners {
+		ret.Ids = append(ret.Ids, i)
 	}
 	jret, _ := json.Marshal(ret)
-	fmt.Fprintf(w,string(jret))
+	fmt.Fprintf(w, string(jret))
 }
 
 // @id closeRunner
@@ -127,70 +147,81 @@ func listRunners(w http.ResponseWriter, req *http.Request) {
 // @failure 500 {object} runnerResponse
 // @router /run/close/{id} [post]
 func closeRunner(w http.ResponseWriter, r *http.Request) {
-	if r.Method!="POST" {
-		httpRet(w, &runnerResponse{Status:"fail", Error:"Invalid method"}) 
+	if r.Method != "POST" {
+		httpRet(w, &runnerResponse{Status: "fail", Error: "Invalid method"})
 		return
 	}
 	reqId := path.Base(r.URL.Path)
 	rn, ok := runners[reqId]
 	if !ok {
-		log.Printf("Id '%s' not found",reqId)
-		httpRet(w, &runnerResponse{Status:"fail", Error:"container id not found"}) 
+		log.Printf("Id '%s' not found", reqId)
+		httpRet(w, &runnerResponse{Status: "fail", Error: "container id not found"})
 		return
 	}
-	if err:=stopContainer(rn.ctx, rn.container); err!=nil {
-		httpRet(w, &runnerResponse{Status:"fail", Error:err.Error()}) 
+	if err := stopContainer(rn.ctx, rn.container); err != nil {
+		httpRet(w, &runnerResponse{Status: "fail", Error: err.Error()})
 		return
 	}
-	delete(runners,reqId)
-	httpRet(w, &runnerResponse{Status:"success", Id:reqId})
+	delete(runners, reqId)
+	httpRet(w, &runnerResponse{Status: "success", Id: reqId})
 }
 
 func eventRunner(w http.ResponseWriter, r *http.Request) {
 	reqId := path.Base(r.URL.Path)
 	rn, ok := runners[reqId]
 	if !ok {
-		log.Printf("Id '%s' not found",reqId)
-		httpRet(w, &runnerResponse{Status:"fail", Error:"container id not found"}) 
+		log.Printf("Id '%s' not found", reqId)
+		httpRet(w, &runnerResponse{Status: "fail", Error: "container id not found"})
+		return
+	}
+	if !rn.running {
+		log.Printf("Container not running")
+		httpRet(w, &runnerResponse{Status: "fail", Error: "Container not running"})
 		return
 	}
 	s := websocket.Server{Handler: websocket.Handler(func(ws *websocket.Conn) {
 		wsRunnerEvents(rn, ws)
-		})}
-	s.ServeHTTP(w,r)
+	})}
+	s.ServeHTTP(w, r)
 }
 
 func wsRunnerEvents(rn *runner, ws *websocket.Conn) {
-	end := make (chan bool)
-	clOut := make (chan []byte)
-	rn.clientOut=append(rn.clientOut,clOut)
+	log.Printf("Serving i/o for container %s", rn.container)
+	end := make(chan bool)
+	clOut := make(chan []byte)
+	rn.clientOut = append(rn.clientOut, clOut)
 	defer func() {
-		for i,c := range rn.clientOut {
-			if c==clOut {
+		for i, c := range rn.clientOut {
+			if c == clOut {
 				copy(rn.clientOut[i:], rn.clientOut[i+1:])
-				rn.clientOut=rn.clientOut[:len(rn.clientOut)-1]
+				rn.clientOut = rn.clientOut[:len(rn.clientOut)-1]
 				break
 			}
+			log.Printf("Exiting i/o for container %s", rn.container)
 		}
 	}()
-	go func() {
+	go func(clIn chan []byte) {
 		for {
-			buf := make([]byte,65536) 
-			_,err := ws.Read(buf)
+			buf := make([]byte, 65536)
+			_, err := ws.Read(buf)
 			if err != nil {
-				log.Printf("runner error %s",err.Error())
+				log.Printf("runner error %s", err.Error())
 				break
 			}
-			rn.clientIn <- buf
+			log.Printf("--> %s", string(buf))
+			clIn <- buf
+			log.Printf("..")
 		}
 		end <- true
-	}()
-	loop: for {
+	}(rn.clientIn)
+loop:
+	for {
 		select {
-			case <- end:
-				break loop
-			case b := <- clOut:
-				ws.Write(b)
+		case <-end:
+			break loop
+		case b := <-clOut:
+			log.Printf("<-- %s", string(b))
+			ws.Write(b)
 		}
 	}
 }
