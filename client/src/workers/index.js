@@ -130,7 +130,6 @@ export const workers = {
 			if (!this.workers) {
 				this.workers = await this.initWorkers();
 			}
-			console.log(data);
 			return this.workers.postMessage(MERKLE_TREE_GRAPH_WORKER, [{
 				data,
 				labelLength,

@@ -34,10 +34,10 @@ $green: (
 );
 
 $purple: (
-	"base": #82b1ff,
-	"light": lighten(#82b1ff, 15%),
-	"dark": darken(#82b1ff, 15%),
-	"trans": transparentize(#82b1ff, 0.5)
+	"base": #7c4dff,
+	"light": lighten(#7c4dff, 15%),
+	"dark": darken(#7c4dff, 15%),
+	"trans": transparentize(#7c4dff, 0.5)
 );
 
 $red: (
@@ -76,7 +76,7 @@ $grey: (
 
 $primary: map-get($blue, base);
 $secondary: map-get($blue, light);
-$accent: map-get($blue, light);
+$accent: map-get($purple, light);
 $link: map-get($blue, light);
 $success: map-get($green, base);
 $info: map-get($blue, light);

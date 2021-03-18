@@ -79,7 +79,8 @@ export default {
 
 	&.bar- {
 		&stdout,
-		&stderr {
+		&stderr,
+		&execerr {
 			&::before {
 				content: '';
 				position: absolute;
@@ -101,6 +102,12 @@ export default {
 				background-color: $error;
 			}
 		}
+
+		&execerr {
+			&::before {
+				background-color: $accent;
+			}
+		}
 	}
 
 	.stdx {
@@ -110,6 +117,10 @@ export default {
 
 		&.stderr {
 			color: $error;
+		}
+
+		&.execerr {
+			color: $accent;
 		}
 	}
 }

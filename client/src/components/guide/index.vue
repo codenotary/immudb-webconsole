@@ -38,7 +38,7 @@
 								class="ma-0 py-0 px-3 body-2"
 								outlined
 								depressed
-								color="accent darken-1"
+								color="info lighten-1"
 								:href="documentationUrl"
 								:alt="$t('code.seeInDocumentation')"
 								target="_blank"

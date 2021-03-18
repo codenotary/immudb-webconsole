@@ -78,8 +78,25 @@ export default {
 			}
 		}
 		catch (err) {
-			console.error(err);
-			commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
+			try {
+				console.error(err);
+				const { data } = err && err.response;
+
+				if (data) {
+					const { output } = data;
+					commit(APPEND_CODE_OUTPUT, {
+						output,
+					});
+					// Vue.prototype.$toasted.error(`${ output[0].timestamp } - ${ output[0].line }`, {
+					// 	icon: 'exclamation-circle',
+					// 	duration: 5000,
+					// });
+				}
+				commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
+			}
+			catch (err2) {
+				console.error(err2);
+			}
 			throw err;
 		}
 	},

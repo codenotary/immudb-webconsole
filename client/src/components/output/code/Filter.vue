@@ -1,6 +1,8 @@
 <template>
 	<v-select
 		v-model="value"
+		class="grey--text text--darken-2"
+		color="grey darken-2"
 		:items="items"
 		:label="$t('output.code.filter.label')"
 		hide-details
@@ -17,7 +19,7 @@ export default {
 	data () {
 		return {
 			value: '',
-			items: ['all', 'stdout', 'stderr'],
+			items: ['all', 'stdout', 'stderr', 'execerr'],
 		};
 	},
 	watch: {
