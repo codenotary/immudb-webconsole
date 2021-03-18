@@ -70,32 +70,35 @@ export const workers = {
 							try {
 								const t0 = performance.now();
 								const { data, labelLength, showPerformance } = arg || {};
-
 								const hashTable = Object.create(null);
-								const rootHtree = data[data.length - 1].tree;
+								let rootHtree = '';
 
-								data && data.map((_, idx) => {
-									const { metadata, entries, root, tree } = _;
-									hashTable[tree] = {
-										id: idx,
-										label: tree && tree.slice(0, labelLength) +
-											(tree.length > labelLength ? '...' : ''),
-										data: { tree, root, metadata, entries },
-										children: [],
-									};
-								});
+								if (data && data.length) {
+									rootHtree = data[data.length - 1].tree;
 
-								data
-										.slice()
-										.reverse()
-										.map((_) => {
-											const { tree, hchild } = _;
-											hchild && hchild.map((c) => {
-												if (c && hashTable[c]) {
-													hashTable[tree].children.push(hashTable[c]);
-												}
+									data.map((_, idx) => {
+										const { metadata, entries, root, tree } = _;
+										hashTable[tree] = {
+											id: idx,
+											label: tree && tree.slice(0, labelLength) +
+												(tree.length > labelLength ? '...' : ''),
+											data: { tree, root, metadata, entries },
+											children: [],
+										};
+									});
+
+									data
+											.slice()
+											.reverse()
+											.map((_) => {
+												const { tree, hchild } = _;
+												hchild && hchild.map((c) => {
+													if (c && hashTable[c]) {
+														hashTable[tree].children.push(hashTable[c]);
+													}
+												});
 											});
-										});
+								}
 
 								if (showPerformance) {
 									console.log(`parseMerkleTreeGraph took ${ performance.now() - t0 } ms`);
