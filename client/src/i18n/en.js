@@ -21,7 +21,12 @@ export default {
 	footer: {
 		text: 'Copyright © {date} {url} All rights reserved.',
 		devMode: 'Dev mode',
-		github: 'See OS code on github',
+		github: 'See OS code on github repository',
+		toggle: {
+			dark: 'Toggle dark theme',
+			light: 'Toggle light theme',
+		},
+		buildTime: 'Last build at {date}',
 	},
 	topic: {
 		title: 'Topic',

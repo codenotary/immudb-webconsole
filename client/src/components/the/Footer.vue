@@ -46,15 +46,25 @@
 					class="ma-0 ml-4 pa-0 d-flex justify-space-between text-left font-weight-normal"
 					cols="auto"
 				>
-					<span
-						v-if="version"
-						class="caption grey--text text--darken-3"
+					<v-tooltip
+						top
 					>
-						v
-						<span class="overline">
-							{{ version }}
+						<template v-slot:activator="{ on, attrs }">
+							<span
+								class="caption grey--text text--darken-3"
+								v-bind="attrs"
+								v-on="on"
+							>
+								v
+								<span class="overline">
+									{{ version }}
+								</span>
+							</span>
+						</template>
+						<span>
+							{{ $t('footer.buildTime', { date: timestampToString(buildTime) }) }}
 						</span>
-					</span>
+					</v-tooltip>
 					<span
 						v-if="isDevMode"
 						class="overline grey--text text--darken-3"
@@ -71,13 +81,43 @@
 					>
 						<template v-slot:activator="{ on, attrs }">
 							<v-btn
-								icon
 								depressed
 								small
+								icon
+								:alt="$t(`footer.toggle.${ theme }`)"
+								v-bind="attrs"
+								v-on="on"
+								@click="toggleTheme"
+							>
+								<v-icon
+									class="headline grey--text text--darken-3"
+									color="white darken-1"
+								>
+									{{ mdiBrightness6 }}
+								</v-icon>
+							</v-btn>
+						</template>
+						<span>
+							{{ $t(`footer.toggle.${ theme }`) }}
+						</span>
+					</v-tooltip>
+				</v-col>
+				<v-col
+					class="ma-0 ml-4 pa-0 d-flex justify-space-between text-left font-weight-normal"
+					cols="auto"
+				>
+					<v-tooltip
+						top
+					>
+						<template v-slot:activator="{ on, attrs }">
+							<v-btn
+								depressed
+								small
+								icon
 								href="https://github.com/codenotary/immudb-playground"
 								target="_blank"
-								title="See the github repository"
-								alt="See the github repository"
+								:title="$t('footer.github')"
+								:alt="$t('footer.github')"
 								rel="noopener"
 								v-bind="attrs"
 								v-on="on"
@@ -106,6 +146,7 @@ import {
 	INFO_MODULE,
 	FETCH_INFO,
 	VERSION,
+	BUILD_TIME,
 } from '@/store/info/constants';
 import {
 	VIEW_MODULE,
@@ -113,6 +154,7 @@ import {
 	THEME,
 	TOGGLE_THEME,
 } from '@/store/view';
+import timeUtils from '@/mixins/timeUtils';
 import LayoutMixin from '@/mixins/LayoutMixin';
 import {
 	mdiBrightness6,
@@ -122,6 +164,7 @@ import {
 export default {
 	name: 'TheFooter',
 	mixins: [
+		timeUtils,
 		LayoutMixin,
 	],
 	data () {
@@ -133,6 +176,7 @@ export default {
 	computed: {
 		...mapGetters(INFO_MODULE, {
 			version: VERSION,
+			buildTime: BUILD_TIME,
 		}),
 		...mapGetters(VIEW_MODULE, {
 			mobile: MOBILE,

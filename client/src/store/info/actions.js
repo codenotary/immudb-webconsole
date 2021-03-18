@@ -17,9 +17,7 @@ export default {
 
 			const { data } = await InfoService.fetchInfo();
 
-			commit(SET_INFO, {
-				version: data && data.version,
-			});
+			commit(SET_INFO, data);
 
 			commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
 		}
