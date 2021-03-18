@@ -113,9 +113,15 @@ export default {
 	mounted() {
 		this._keyListener = function(e) {
 			if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
-				e.preventDefault(); // present "Save Page" from getting triggered.
+				e.preventDefault();
 				if (!this.isLoading && this.code) {
 					this.onSubmit();
+				}
+			}
+			if (e.key === 'r' && (e.ctrlKey || e.metaKey)) {
+				e.preventDefault();
+				if (!this.isLoading) {
+					this.onReset();
 				}
 			}
 		};
