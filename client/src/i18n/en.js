@@ -37,7 +37,7 @@ export default {
 	},
 	code: {
 		title: 'Code',
-		run: 'Execute code',
+		run: 'Execute code (shortcut: Ctrl + Enter)',
 		reset: 'Reset immudb',
 		unknown: 'Code block type unknown',
 		seeInDocumentation: 'See in documentation',
