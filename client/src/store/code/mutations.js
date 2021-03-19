@@ -37,6 +37,7 @@ export default {
 		const examples = state.examples;
 		objectPath.set(examples, `${ id }.code`, code);
 		Vue.set(state, examples, examples);
+		// console.log(code);
 	},
 	[SET_ACTIVE_EXAMPLE](state, payload) {
 		const { activePath } = payload;

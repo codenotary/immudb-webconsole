@@ -99,13 +99,15 @@ export default {
 	},
 	watch: {
 		activeExample: {
-			immediate: false,
+			immediate: true,
 			deep: true,
 			handler (newVal) {
 				if (newVal) {
 					const { code } = newVal;
-					this.id = uniqueId('id_');
-					this.code = code;
+					if (code !== this.code) {
+						this.code = code;
+						this.id = uniqueId('id_');
+					}
 				}
 			},
 		},
