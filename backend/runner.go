@@ -2,10 +2,13 @@ package main
 
 import (
 	"bufio"
+// 	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
+// 	"io"
 	"golang.org/x/net/websocket"
+// 	"github.com/docker/docker/pkg/stdcopy"
 	"log"
 	"net/http"
 	"path"
@@ -36,19 +39,32 @@ func (rn *runner) loop() {
 	incoming := make(chan []byte)
 	fin := make(chan bool)
 	go func(rd *bufio.Reader) {
-		buffer := make([]byte, 65536)
+ 		buffer := make([]byte,65536)
 		for {
+			if rn.running == false {
+				log.Printf("=> Parent dead")
+				return
+			}
 			n, err := rd.Read(buffer)
-			if err != nil {
-				log.Printf("Incoming error: %v", err)
+// 			stdout := new(bytes.Buffer)
+// 			stderr := new(bytes.Buffer)
+// 			n, err := stdcopy.StdCopy(stdout, stderr, rd)
+			log.Printf("=> <:%d:%v:>", n,err)
+			if n==0 {
+				log.Printf("zero")
 				break
 			}
-			if n == 0 {
-				log.Printf("zero")
-				continue
-			}
-			log.Printf("=> %s", string(buffer[:n]))
-			incoming <- buffer[:n]
+			if err != nil {
+				log.Printf("Incoming error: %s", err.Error())
+				break
+				}
+// 			log.Printf("=> <:o:%s:o:>", stdout.String())
+// 			log.Printf("=> <:e:%s:e:>", stderr.String())
+// 			resp := append(stdout.Bytes(),stderr.Bytes()...)
+			resp := demux(buffer[:n])
+			
+			log.Printf("=> %v",resp)
+			incoming <- resp
 		}
 		fin <- true
 	}(atc.Reader)
@@ -210,7 +226,6 @@ func wsRunnerEvents(rn *runner, ws *websocket.Conn) {
 			}
 			log.Printf("--> %s", string(buf))
 			clIn <- buf
-			log.Printf("..")
 		}
 		end <- true
 	}(rn.clientIn)
