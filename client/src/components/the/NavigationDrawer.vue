@@ -28,7 +28,10 @@
 			>
 				<v-icon
 					class="headline"
-					color="grey darken-2"
+					:class="{
+						'gray--text text--darken-1': !$vuetify.theme.dark,
+						'gray--text text--lighten-1': $vuetify.theme.dark,
+					}"
 				>
 					{{ mdiMenu }}
 				</v-icon>
@@ -88,11 +91,12 @@
 							v-on="on"
 						>
 							<v-icon
-								class="ma-0 mr-4 body-2 "
-								color="grey darken-2"
+								class="ma-0 mr-4 body-2"
 								:class="{
 									'mr-sm-0': mini,
 									'mr-sm-4': !mini,
+									'gray--text text--darken-1': !$vuetify.theme.dark,
+									'gray--text text--lighten-1': $vuetify.theme.dark,
 								}"
 							>
 								{{ item.icon }}
@@ -106,13 +110,21 @@
 							>
 								<span
 									v-if="item.title"
-									class="body-2 grey--text text--darken-3"
+									class="body-2"
+									:class="{
+										'gray--text text--darken-1': !$vuetify.theme.dark,
+										'gray--text text--lighten-1': $vuetify.theme.dark,
+									}"
 								>
 									{{ $t(item.title) }}
 								</span>
 								<span
 									v-if="item.subtitle"
-									class="caption grey--text"
+									class="caption"
+									:class="{
+										'gray--text text--darken-3': !$vuetify.theme.dark,
+										'gray--text text--lighten-3': $vuetify.theme.dark,
+									}"
 								>
 									{{ $t(item.subtitle) }}
 								</span>
@@ -121,7 +133,9 @@
 					</template>
 					<span class="body-2">
 						{{ $t(item.title) }}
-						<span v-if="item.subtitle">
+						<span
+							v-if="item.subtitle"
+						>
 							&nbsp;-&nbsp;{{ $t(item.subtitle) }}
 						</span>
 					</span>
@@ -237,7 +251,6 @@ export default {
 		display: flex;
 		width: 100%;
 		align-items: center;
-		color: map-get($grey, lighten-6);
 		transition: background 0.3s ease, color 0.3s ease;
 
 		&::before {
@@ -256,7 +269,6 @@ export default {
 		&.v-list-item--active {
 			svg,
 			span {
-				color: white !important;
 				font-weight: 900;
 			}
 

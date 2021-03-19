@@ -76,6 +76,10 @@ export default {
 	min-height: 100% !important;
 
 	&.v-card {
+		.v-card__title {
+			height: 44px !important;
+		}
+
 		.v-card__text {
 			height: calc(100% - 44px) !important;
 			overflow-y: auto;

@@ -5,7 +5,7 @@
 			v-if="mobile"
 			class="ma-0 pa-0"
 		/>
-		<v-main class="ma-0 pa-0 pt-12 pt-sm-0 pl-sm-16">
+		<v-main class="ma-0 pa-0 pt-12 pt-sm-0 pl-sm-16 bg">
 			<nuxt />
 		</v-main>
 		<TheFooter />

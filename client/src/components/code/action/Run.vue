@@ -4,7 +4,7 @@
 	>
 		<template v-slot:activator="{ on, attrs }">
 			<v-btn
-				class="px-4 primary-gradient"
+				class="px-4 primary-gradient white--text"
 				color="blue"
 				depressed
 				small
@@ -18,11 +18,12 @@
 			>
 				<v-icon
 					class="title"
-					color="white darken-1"
 				>
 					{{ mdiPlay }}
 				</v-icon>
-				<span class="mx-2 body-2 text-capitalize">
+				<span
+					class="my-0 mx-2 body-2 text-capitalize"
+				>
 					{{ $t('common.run') }}
 				</span>
 				<template #loader>

@@ -1,7 +1,11 @@
 <template>
 	<v-select
 		v-model="value"
-		class="grey--text text--darken-2"
+		class="ma-0 mt-1 pa-0"
+		:class="{
+			'gray--text text--darken-1': !$vuetify.theme.dark,
+			'gray--text text--lighten-1': $vuetify.theme.dark,
+		}"
 		color="grey darken-2"
 		:items="items"
 		:label="$t('output.code.filter.label')"

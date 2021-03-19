@@ -6,11 +6,21 @@
 	>
 		<v-card-title class="ma-0 py-0 py-sm-2 px-0 d-flex justify-end align-center">
 			<v-icon
-				class="ml-2 title gray--text text--lighten-2"
+				class="ml-2 title"
+				:class="{
+					'gray--text text--darken-1': !$vuetify.theme.dark,
+					'gray--text text--lighten-1': $vuetify.theme.dark,
+				}"
 			>
 				{{ mdiXml }}
 			</v-icon>
-			<h4 class="ma-0 ml-2 pa-0 subtitle gray--text text--lighten-2">
+			<h4
+				class="ma-0 ml-2 pa-0 title"
+				:class="{
+					'gray--text text--darken-1': !$vuetify.theme.dark,
+					'gray--text text--lighten-1': $vuetify.theme.dark,
+				}"
+			>
 				{{ $t('code.title') }}
 			</h4>
 			<v-spacer />

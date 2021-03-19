@@ -20,12 +20,22 @@
 					@click="dismissUpdate(0)"
 				>
 					<v-icon
-						class="ml-2 gray--text text--lighten-1"
+						class="ml-2 subtitle-1"
+						:class="{
+							'gray--text text--darken-1': !$vuetify.theme.dark,
+							'gray--text text--lighten-1': $vuetify.theme.dark,
+						}"
 						dense
 					>
 						{{ mdiText }}
 					</v-icon>
-					<span class="ml-2 body-2 text-capitalize">
+					<span
+						class="ml-2 body-2 text-capitalize"
+						:class="{
+							'gray--text text--darken-1': !$vuetify.theme.dark,
+							'gray--text text--lighten-1': $vuetify.theme.dark,
+						}"
+					>
 						<v-badge
 							:value="tabHasUpdates[0]"
 							color="red lighten-1"
@@ -40,12 +50,22 @@
 					@click="dismissUpdate(1)"
 				>
 					<v-icon
-						class="ml-2 gray--text text--lighten-1"
+						class="ml-2 subtitle-1"
+						:class="{
+							'gray--text text--darken-1': !$vuetify.theme.dark,
+							'gray--text text--lighten-1': $vuetify.theme.dark,
+						}"
 						dense
 					>
 						{{ mdiFamilyTree }}
 					</v-icon>
-					<span class="ml-2 body-2 text-capitalize">
+					<span
+						class="ml-2 body-2 text-capitalize"
+						:class="{
+							'gray--text text--darken-1': !$vuetify.theme.dark,
+							'gray--text text--lighten-1': $vuetify.theme.dark,
+						}"
+					>
 						<v-badge
 							:value="tabHasUpdates[1]"
 							color="red lighten-1"

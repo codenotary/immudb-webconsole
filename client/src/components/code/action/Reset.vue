@@ -15,7 +15,10 @@
 			>
 				<v-icon
 					class="title"
-					color="white darken-1"
+					:class="{
+						'gray--text text--darken-2': !$vuetify.theme.dark,
+						'gray--text text--lighten-2': $vuetify.theme.dark,
+					}"
 				>
 					{{ mdiReload }}
 				</v-icon>

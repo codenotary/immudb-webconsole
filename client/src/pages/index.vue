@@ -218,8 +218,14 @@ export default {
 
 	&.theme-- {
 		&light {
+			background-color: #fff !important;
+
+			.v-card__text {
+				box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.25);
+			}
+
 			.splitpanes__splitter {
-				background-color: #f5f5f5;
+				background-color: #fff;
 
 				&:hover,
 				&:active {
@@ -233,7 +239,11 @@ export default {
 		}
 
 		&dark {
-			background-color: #21222c;
+			background-color: #21222c !important;
+
+			.v-card__text {
+				box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.25);
+			}
 
 			.splitpanes__splitter {
 				&:hover,

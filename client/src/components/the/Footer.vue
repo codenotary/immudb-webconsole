@@ -22,7 +22,11 @@
 					cols="auto"
 				>
 					<i18n
-						class="caption grey--text text--lighten-0"
+						class="caption"
+						:class="{
+							'gray--text text--darken-1': !$vuetify.theme.dark,
+							'gray--text text--lighten-1': $vuetify.theme.dark,
+						}"
 						tag="span"
 						path="footer.text"
 					>
@@ -51,7 +55,11 @@
 					>
 						<template v-slot:activator="{ on, attrs }">
 							<span
-								class="caption grey--text text--darken-3"
+								class="caption"
+								:class="{
+									'gray--text text--darken-1': !$vuetify.theme.dark,
+									'gray--text text--lighten-1': $vuetify.theme.dark,
+								}"
 								v-bind="attrs"
 								v-on="on"
 							>
@@ -67,9 +75,17 @@
 					</v-tooltip>
 					<span
 						v-if="isDevMode"
-						class="overline grey--text text--darken-3"
+						class="ma-0 pa-0 d-flex justify-center align-start"
 					>
-						&nbsp;-&nbsp;{{ $t('footer.devMode') }}
+						<v-chip
+							class="ma-0 ml-4 py-0 px-2 caption text-uppercase"
+							style="margin-top: 2px !important;"
+							color="accent"
+							small
+							dense
+						>
+							{{ $t('footer.devMode') }}
+						</v-chip>
 					</span>
 				</v-col>
 				<v-col
@@ -81,6 +97,10 @@
 					>
 						<template v-slot:activator="{ on, attrs }">
 							<v-btn
+								:class="{
+									'gray--text text--darken-1': !$vuetify.theme.dark,
+									'gray--text text--lighten-1': $vuetify.theme.dark,
+								}"
 								depressed
 								small
 								icon
@@ -111,6 +131,10 @@
 					>
 						<template v-slot:activator="{ on, attrs }">
 							<v-btn
+								:class="{
+									'gray--text text--darken-1': !$vuetify.theme.dark,
+									'gray--text text--lighten-1': $vuetify.theme.dark,
+								}"
 								depressed
 								small
 								icon

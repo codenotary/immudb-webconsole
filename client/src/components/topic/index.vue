@@ -4,26 +4,39 @@
 		class="ma-0 pa-0 bg fill-height shadow"
 		elevation="0"
 	>
-		<v-card-title class="ma-0 py-2 px-0 d-flex justify-start align-center">
+		<v-card-title class="ma-0 py-0 py-sm-2 px-0 d-flex justify-start align-center">
 			<v-icon
-				class="ml-2 title gray--text text--lighten-2"
+				class="ml-2 title"
+				:class="{
+					'gray--text text--darken-1': !$vuetify.theme.dark,
+					'gray--text text--lighten-1': $vuetify.theme.dark,
+				}"
 			>
 				{{ mdiFormatListBulletedType }}
 			</v-icon>
-			<h4 class="ma-0 ml-2 pa-0 title gray--text text--lighten-2">
+			<h4
+				class="ma-0 ml-2 pa-0 title"
+				:class="{
+					'gray--text text--darken-1': !$vuetify.theme.dark,
+					'gray--text text--lighten-1': $vuetify.theme.dark,
+				}"
+			>
 				{{ $t('topic.title') }}
 			</h4>
-			<v-select
+			<!-- <v-select
 				v-if="false"
 				v-model="language"
 				class="language-selector"
 				:items="languages"
 				hide-details
-			/>
+			/> -->
 		</v-card-title>
-		<v-card-text class="ma-0 py-1 px-0 bg-secondary">
+		<v-card-text
+			class="ma-0 pa-0 bg-secondary custom-scrollbar"
+		>
 			<v-treeview
 				v-if="itemsLoaded"
+				class="pt-3"
 				:open.sync="open"
 				:items="items"
 				item-key="id"
@@ -189,12 +202,20 @@ export default {
 <style lang="scss">
 #Topic {
 	&.v-card {
-		@media (max-width: 480px) {
-			height: auto !important;
+		.v-card__title {
+			height: 44px !important;
+
+			@media (max-width: 480px) {
+				height: 32px !important;
+			}
 		}
 
 		.v-card__text {
 			height: calc(100% - 44px) !important;
+		}
+
+		@media (max-width: 480px) {
+			height: auto !important;
 		}
 	}
 
@@ -211,6 +232,66 @@ export default {
 	}
 
 	.v-treeview {
+		&.theme-- {
+			&light {
+				.v-treeview-node__children {
+					&::before {
+						background-color: rgba(0, 0, 0, 0.25);
+					}
+
+					.v-treeview-node__content {
+						span,
+						a {
+							color: #191919 !important;
+						}
+
+						a {
+							&.nuxt-link-exact-active {
+								color: black !important;
+							}
+
+							&::before {
+								background-color: $primary;
+							}
+
+							&::after {
+								background-color: rgba(25, 119, 210, 0.15) !important;
+							}
+						}
+					}
+				}
+			}
+
+			&dark {
+				.v-treeview-node__children {
+					&::before {
+						background-color: rgba(255, 255, 255, 0.25);
+					}
+
+					.v-treeview-node__content {
+						span,
+						a {
+							color: #e6e6e6 !important;
+						}
+
+						a {
+							&.nuxt-link-exact-active {
+								color: white !important;
+							}
+
+							&::before {
+								background-color: $primary;
+							}
+
+							&::after {
+								background-color: rgba(25, 119, 210, 0.15) !important;
+							}
+						}
+					}
+				}
+			}
+		}
+
 		.v-treeview-node__root {
 			min-height: $spacer-8;
 
@@ -230,7 +311,6 @@ export default {
 				bottom: 0;
 				left: calc(#{$spacer-5} - 1px);
 				width: 2px;
-				background-color: rgba(255, 255, 255, 0.25);
 			}
 
 			.v-treeview-node__content {
@@ -238,11 +318,6 @@ export default {
 					height: 100%;
 					width: 100%;
 					font-size: 0.8rem;
-
-					span,
-					a {
-						color: #e6e6e6 !important;
-					}
 
 					a {
 						display: flex;
@@ -253,8 +328,6 @@ export default {
 						padding: 0 $spacer-2 0 0 !important;
 
 						&.nuxt-link-exact-active {
-							color: white !important;
-
 							&::before {
 								content: '';
 								position: absolute;
@@ -262,7 +335,6 @@ export default {
 								bottom: 0;
 								left: -1px;
 								width: 2px;
-								background-color: $primary;
 							}
 
 							&::after {
@@ -272,7 +344,6 @@ export default {
 								right: 0;
 								bottom: 0;
 								left: 0;
-								background-color: rgba(25, 119, 210, 0.15) !important;
 							}
 						}
 					}

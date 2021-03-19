@@ -23,8 +23,8 @@ export default {
 		devMode: 'Dev mode',
 		github: 'See OS code on github repository',
 		toggle: {
-			dark: 'Toggle dark theme',
-			light: 'Toggle light theme',
+			dark: 'Toggle light theme',
+			light: 'Toggle dark theme',
 		},
 		buildTime: 'Last build at {date}',
 	},
