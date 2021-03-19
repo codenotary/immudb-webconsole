@@ -37,7 +37,7 @@
 			/>
 		</v-card-title>
 		<v-card-text
-			class="ma-0 pa-0 bg-secondary custom-scrollbar"
+			class="ma-0 pa-0 bg-terminal custom-scrollbar"
 		>
 			<div class="ma-0 pa-0">
 				<CodeBlock

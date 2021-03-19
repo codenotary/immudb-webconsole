@@ -16,6 +16,20 @@ html {
 			min-height: $spacer-11 !important;
 		}
 
+		&.theme-- {
+			&light.shadow .v-card__title {
+				&::after {
+					background-color: #b9bbbc;
+				}
+			}
+
+			&dark.shadow .v-card__title {
+				&::after {
+					background-color: #1e2028;
+				}
+			}
+		}
+
 		&.shadow {
 			.v-card__title {
 				position: relative;
@@ -27,7 +41,6 @@ html {
 					left: 0;
 					right: 0;
 					height: 4px;
-					background-color: rgba(0, 0, 0, 0.25);
 				}
 			}
 		}
