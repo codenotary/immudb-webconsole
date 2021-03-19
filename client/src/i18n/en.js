@@ -30,9 +30,6 @@ export default {
 	},
 	topic: {
 		title: 'Topic',
-		examples: {
-			title: 'Examples',
-		},
 		reference: {
 			title: 'Reference',
 		},

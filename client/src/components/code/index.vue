@@ -71,9 +71,9 @@ import {
 	IMMUDB,
 } from '@/store/output/constants';
 import {
-	CODE_MODULE,
-	ACTIVE_EXAMPLE,
-} from '@/store/code/constants';
+	TOPIC_MODULE,
+	ACTIVE_TOPIC,
+} from '@/store/topic/constants';
 import { mdiXml } from '@mdi/js';
 
 const ITEMS_TYPES = {
@@ -100,15 +100,15 @@ export default {
 		...mapGetters(VIEW_MODULE, {
 			loading: IS_LOADING,
 		}),
-		...mapGetters(CODE_MODULE, {
-			activeExample: ACTIVE_EXAMPLE,
+		...mapGetters(TOPIC_MODULE, {
+			activeTopic: ACTIVE_TOPIC,
 		}),
 		...mapGetters(OUTPUT_MODULE, {
 			immudb: IMMUDB,
 		}),
 	},
 	watch: {
-		activeExample: {
+		activeTopic: {
 			immediate: true,
 			deep: true,
 			handler (newVal) {

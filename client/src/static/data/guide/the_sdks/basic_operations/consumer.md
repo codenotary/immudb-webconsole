@@ -1,0 +1,1 @@
+In this example you will learn to read back data from immudb producer

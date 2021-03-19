@@ -1,0 +1,116 @@
+{
+	"topics": [
+		{
+			"label": "Welcome",
+			"sort": 0,
+			"paths": [
+				{
+					"guide": "welcome"
+				}
+			]
+		},
+		{
+			"label": "What is immudb",
+			"sort": 1,
+			"paths": [
+				{
+					"guide": "what_is_immudb"
+				}
+			]
+		},
+		{
+			"label": "What is immuclient",
+			"sort": 2,
+			"paths": [
+				{
+					"guide": "whath_is_immuclient"
+				}
+			]
+		},
+		{
+			"label": "The SDKs",
+			"sort": 3,
+			"paths": [
+				{
+					"guide": "the_sdks/index"
+				}
+			],
+			"children": [
+				{
+					"label": "Connection",
+					"sort": 0,
+					"children": [
+						{
+							"label": "Login",
+							"sort": 0,
+							"paths": [
+								{
+									"guide": "connection/login",
+									"code": "login"
+								}
+							]
+						}
+					]
+				},
+				{
+					"label": "Basic operations",
+					"sort": 1,
+					"children": [
+						{
+							"label": "Hello world",
+							"documentation": "https://docs.immudb.io/master/sdks-api.html#writing-and-reading",
+							"sort": 0,
+							"paths": [
+								{
+									"guide": "basic_operations/hello_world",
+									"code": "hello_world"
+								}
+							]
+						},
+						{
+							"label": "Safe operations",
+							"documentation": "https://docs.immudb.io/master/sdks-api.html#tamperproof-reading-and-writing",
+							"sort": 1,
+							"paths": [
+								{
+									"guide": "basic_operations/safe_operations",
+									"code": "safe_operations"
+								}
+							]
+						},
+						{
+							"label": "Money",
+							"sort": 2,
+							"paths": [
+								{
+									"guide": "basic_operations/money",
+									"code": "money"
+								}
+							]
+						},
+						{
+							"label": "Producer",
+							"sort": 3,
+							"paths": [
+								{
+									"guide": "basic_operations/producer",
+									"code": "producer"
+								}
+							]
+						},
+						{
+							"label": "Consumer",
+							"sort": 4,
+							"paths": [
+								{
+									"guide": "basic_operations/consumer",
+									"code": "consumer"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,1 @@
+In this example you will see a basic abstraction of a money transfer data storing using immudb

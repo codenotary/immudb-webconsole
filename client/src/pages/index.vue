@@ -57,11 +57,14 @@ import LayoutMixin from '@/mixins/LayoutMixin';
 import { ParamMixin, PARAMS } from '@/mixins/ParamMixin';
 import { title } from '@/helpers/meta';
 import {
+	TOPIC_MODULE,
+	FETCH_TOPICS,
+	SET_ACTIVE_TOPIC,
+} from '@/store/topic/constants';
+import {
 	CODE_MODULE,
 	FETCH_LANGUAGES,
-	FETCH_EXAMPLES,
 	FETCH_CODES,
-	SET_ACTIVE_EXAMPLE,
 } from '@/store/code/constants';
 import {
 	VIEW_MODULE,
@@ -83,7 +86,7 @@ export default {
 	],
 	async fetch() {
 		await this.fetchLanguages();
-		await this.fetchExamples();
+		await this.fetchTopics();
 		await this.fetchCodes();
 	},
 	fetchOnServer: false,
@@ -165,7 +168,7 @@ export default {
 			immediate: true,
 			handler (newVal) {
 				if (newVal) {
-					this.setActiveExample({ activePath: newVal });
+					this.setActiveTopic({ activePath: newVal });
 				}
 			},
 		},
@@ -181,14 +184,16 @@ export default {
 		this.codePath = this.getParam(PARAMS.CODE) || '/python/login.py';
 	},
 	methods: {
-		...mapActions(CODE_MODULE, {
-			fetchLanguages: FETCH_LANGUAGES,
-			fetchExamples: FETCH_EXAMPLES,
-			fetchCodes: FETCH_CODES,
-			setActiveExample: SET_ACTIVE_EXAMPLE,
-		}),
 		...mapActions(VIEW_MODULE, {
 			setPaneSizes: SET_PANE_SIZES,
+		}),
+		...mapActions(TOPIC_MODULE, {
+			fetchTopics: FETCH_TOPICS,
+			setActiveTopic: SET_ACTIVE_TOPIC,
+		}),
+		...mapActions(CODE_MODULE, {
+			fetchLanguages: FETCH_LANGUAGES,
+			fetchCodes: FETCH_CODES,
 		}),
 		onResizeFirstRow (data) {
 			this.setPaneSizes({

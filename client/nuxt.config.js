@@ -218,6 +218,8 @@ export default {
 	modules: [
 		// Doc: https://axios.nuxtjs.org/setup
 		'@nuxtjs/axios',
+		// Doc: https://content.nuxtjs.org/
+		'@nuxt/content',
 		// Doc: https://github.com/robcresswell/nuxt-compress
 		['nuxt-compress',
 			{

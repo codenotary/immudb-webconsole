@@ -23,13 +23,6 @@
 			>
 				{{ $t('topic.title') }}
 			</h4>
-			<!-- <v-select
-				v-if="false"
-				v-model="language"
-				class="language-selector"
-				:items="languages"
-				hide-details
-			/> -->
 		</v-card-title>
 		<v-card-text
 			class="ma-0 pa-0 bg-secondary custom-scrollbar"
@@ -42,25 +35,46 @@
 				item-key="id"
 				open-on-click
 				hoverable
+				:multiple-active="false"
 			>
 				<template
 					slot="label"
 					slot-scope="props"
 				>
+					<v-tooltip top>
+						<template v-slot:activator="{ on, attrs }">
+							<v-icon
+								v-if="props.item.type !== 'node'"
+								class="ma-0 mt-2 mr-2 pa-0"
+								color="primary lighten-2"
+								small
+								v-bind="attrs"
+								v-on="on"
+							>
+								{{ props.item.type === 'guide'
+									? mdiBookOpenOutline
+									: mdiXml
+								}}
+							</v-icon>
+						</template>
+						<span>
+							{{ props.item.type }}
+						</span>
+					</v-tooltip>
 					<nuxt-link
 						v-if="props.item.to"
 						class="ma-0 pa-0"
 						:class="{
-							'nuxt-link-exact-active': forceActive(props.item.sort),
+							'nuxt-link-exact-active': false && forceActive(props.item.sort),
 						}"
 						:to="props.item.to"
 					>
-						{{ props.item.name }}
+						{{ props.item.label }}
 					</nuxt-link>
 					<span
 						v-else
 					>
-						{{ props.item.name }}
+						{{ props.item.label }}
 					</span>
 				</template>
 			</v-treeview>
@@ -75,14 +89,19 @@
 <script>
 import { mapGetters } from 'vuex';
 import {
+	TOPIC_MODULE,
+	TOPICS,
+	ACTIVE_TOPIC,
+} from '@/store/topic/constants';
+import {
 	CODE_MODULE,
 	LANGUAGES,
 	ACTIVE_LANGUAGE,
-	EXAMPLES,
-	ACTIVE_EXAMPLE,
 } from '@/store/code/constants';
 import {
 	mdiFormatListBulletedType,
+	mdiBookOpenOutline,
+	mdiXml,
 } from '@mdi/js';
 
 export default {
@@ -90,68 +109,91 @@ export default {
 	data () {
 		return {
 			mdiFormatListBulletedType,
+			mdiBookOpenOutline,
+			mdiXml,
 			language: 'python',
 			open: ['0', '0-0'],
-			items: [
-				{
-					id: '0',
-					sort: 0,
-					name: this.$t('topic.examples.title'),
-					children: [],
-				},
-			],
+			items: [],
 		};
 	},
 	computed: {
+		...mapGetters(TOPIC_MODULE, {
+			topics: TOPICS,
+			activeTopic: ACTIVE_TOPIC,
+		}),
 		...mapGetters(CODE_MODULE, {
 			languages: LANGUAGES,
 			activeLanguage: ACTIVE_LANGUAGE,
-			examples: EXAMPLES,
-			activeExample: ACTIVE_EXAMPLE,
 		}),
 		itemsLoaded () {
-			if (this.items && this.items[0]) {
-				const { children } = this.items[0];
-				return children && children.length > 0;
+			if (this.items) {
+				if (this.items.length > 0) {
+					return true;
+				}
+				else if (this.items[0]) {
+					const { children } = this.items[0];
+					return children && children.length > 0;
+				}
 			}
 			return false;
 		},
 	},
 	watch: {
-		examples: {
+		topics: {
 			deep: true,
 			immediate: true,
 			handler (newVal) {
-				const children = this.parseExamples(newVal);
-				if (children && children.length) {
-					this.items[0].children = children;
-					this.updateOpen();
+				if (newVal) {
+					const children = this.parseTopics(newVal);
+					if (children && children.length) {
+						this.items = children;
+						this.updateOpen();
+					}
 				}
 			},
 		},
 	},
 	methods: {
-		parseExamples (data, parentId = 0) {
+		getId (parent, child) {
+			let id = '';
+			if (!!parent && typeof parent === 'string') {
+				id = parent.toLowerCase();
+			}
+			if (!!child && typeof child === 'string') {
+				id = id
+					? `${ id }/${ child.toLowerCase() }`
+					: child.toLowerCase();
+			}
+			id = id && id.replace(/\s+/g, '_');
+			return id;
+		},
+		parseTopics (data, parentLabel = undefined) {
 			if (data) {
-				const { label, mime } = this.activeLanguage;
 				return data
 						.slice()
 						.sort((a, b) => a.sort <= b.sort ? -1 : 1)
 						.map((_) => {
-							const { id, sort, title, children, fileName } = _;
+							const { sort, label, paths, children } = _;
 							const isParent = children && children.length > 0;
+							const id = this.getId(parentLabel, label);
 							return {
-								id: `${ parentId }-${ id }`,
+								id,
 								sort,
-								name: title,
+								label,
+								paths: paths && paths[0],
 								isParent,
-								children: this.parseExamples(children, `${ parentId }-${ id }`),
+								type: isParent
+									? 'node'
+									: paths && paths[0] && paths[0].code
+										? 'code'
+										: 'guide',
+								children: isParent
+									? this.parseTopics(children, id)
+									: undefined,
 								to: !isParent
 									? {
 										path: '/',
-										query: {
-											code: `/${ label }/${ fileName }.${ mime }`,
-										},
+										query: { id },
 									}
 									: undefined,
 							};
@@ -160,16 +202,16 @@ export default {
 			return [];
 		},
 		updateOpen () {
-			try {
-				const { query } = this.$route;
-				if (query) {
-					const { code } = query;
-					this.open = code ? this.searchOpen(this.items, code) : ['0', '0-0'];
-				}
-			}
-			catch (err) {
-				console.error(err);
-			}
+			// try {
+			// 	const { query } = this.$route;
+			// 	if (query) {
+			// 		const { code } = query;
+			// 		this.open = code ? this.searchOpen(this.items, code) : ['0', '0-0'];
+			// 	}
+			// }
+			// catch (err) {
+			// 	console.error(err);
+			// }
 		},
 		searchOpen (data, code) {
 			try {
@@ -192,8 +234,8 @@ export default {
 			}
 		},
 		forceActive (data) {
-			const { path, query } = this.$route;
-			return data === 0 && path === '/' && !query.code;
+			const { path, query: { id } } = this.$route;
+			return data === 0 && path === '/' && !id;
 		},
 	},
 };
@@ -234,59 +276,53 @@ export default {
 	.v-treeview {
 		&.theme-- {
 			&light {
-				.v-treeview-node__children {
-					&::before {
-						background-color: rgba(0, 0, 0, 0.25);
-					}
+				.v-treeview-node__label {
+					a {
+						color: #191919 !important;
 
-					.v-treeview-node__content {
-						span,
-						a {
+						&.nuxt-link-exact-active {
 							color: #191919 !important;
 						}
 
-						a {
-							&.nuxt-link-exact-active {
-								color: black !important;
-							}
-
-							&::before {
-								background-color: $primary;
-							}
-
-							&::after {
-								background-color: rgba(25, 119, 210, 0.15) !important;
-							}
+						&::before {
+							background-color: $primary;
 						}
+
+						&::after {
+							background-color: rgba(25, 119, 210, 0.15) !important;
+						}
+					}
+				}
+
+				.v-treeview-node__children {
+					&::before {
+						background-color: rgba(0, 0, 0, 0.25);
 					}
 				}
 			}
 
 			&dark {
-				.v-treeview-node__children {
-					&::before {
-						background-color: rgba(255, 255, 255, 0.25);
-					}
+				.v-treeview-node__label {
+					a {
+						color: #e6e6e6 !important;
 
-					.v-treeview-node__content {
-						span,
-						a {
+						&.nuxt-link-exact-active {
 							color: #e6e6e6 !important;
 						}
 
-						a {
-							&.nuxt-link-exact-active {
-								color: white !important;
-							}
-
-							&::before {
-								background-color: $primary;
-							}
-
-							&::after {
-								background-color: rgba(25, 119, 210, 0.15) !important;
-							}
+						&::before {
+							background-color: $primary;
 						}
+
+						&::after {
+							background-color: rgba(25, 119, 210, 0.15) !important;
+						}
+					}
+				}
+
+				.v-treeview-node__children {
+					&::before {
+						background-color: rgba(255, 255, 255, 0.25);
 					}
 				}
 			}
@@ -312,39 +348,40 @@ export default {
 				left: calc(#{$spacer-5} - 1px);
 				width: 2px;
 			}
+		}
 
-			.v-treeview-node__content {
-				.v-treeview-node__label {
-					height: 100%;
-					width: 100%;
-					font-size: 0.8rem;
+		.v-treeview-node__content {
+			.v-treeview-node__label {
+				display: flex;
+				height: 100%;
+				width: 100%;
+				font-size: 0.8rem;
 
-					a {
-						display: flex;
-						flex-grow: 1;
-						justify-content: flex-start;
-						align-items: center;
-						min-height: $spacer-8;
-						padding: 0 $spacer-2 0 0 !important;
+				a {
+					display: flex;
+					flex-grow: 1;
+					justify-content: flex-start;
+					align-items: center;
+					min-height: $spacer-8;
+					padding: 0 $spacer-2 0 0 !important;
 
-						&.nuxt-link-exact-active {
-							&::before {
-								content: '';
-								position: absolute;
-								top: 0;
-								bottom: 0;
-								left: -1px;
-								width: 2px;
-							}
+					&.nuxt-link-exact-active {
+						&::before {
+							content: '';
+							position: absolute;
+							top: 0;
+							bottom: 0;
+							left: -1px;
+							width: 2px;
+						}
 
-							&::after {
-								content: '';
-								position: absolute;
-								top: 0;
-								right: 0;
-								bottom: 0;
-								left: 0;
-							}
+						&::after {
+							content: '';
+							position: absolute;
+							top: 0;
+							right: 0;
+							bottom: 0;
+							left: 0;
 						}
 					}
 				}

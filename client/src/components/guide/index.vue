@@ -126,9 +126,9 @@ import {
 	IS_LOADING,
 } from '@/store/view/constants';
 import {
-	CODE_MODULE,
-	ACTIVE_EXAMPLE,
-} from '@/store/code/constants';
+	TOPIC_MODULE,
+	ACTIVE_TOPIC,
+} from '@/store/topic/constants';
 import {
 	mdiBook,
 	mdiBookOpenOutline,
@@ -147,8 +147,8 @@ export default {
 		...mapGetters(VIEW_MODULE, {
 			loading: IS_LOADING,
 		}),
-		...mapGetters(CODE_MODULE, {
-			activeExample: ACTIVE_EXAMPLE,
+		...mapGetters(TOPIC_MODULE, {
+			activeTopic: ACTIVE_TOPIC,
 		}),
 		title () {
 			if (this.activeExample) {
