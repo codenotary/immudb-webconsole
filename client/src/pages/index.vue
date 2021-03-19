@@ -33,6 +33,8 @@
 				<pane>
 					<LazyCode
 						:size="getCodePane.size"
+						:min-size="getCodePane.minSize"
+						:max-size="getCodePane.maxSize"
 					/>
 				</pane>
 			</splitpanes>
@@ -298,7 +300,7 @@ export default {
 		.splitpanes--vertical {
 			> .splitpanes__splitter {
 				&::before {
-					top: calc(50% - 8px) !important;
+					top: calc(50% + 33px - 8px) !important;
 					left: 0 !important;
 					transform: translateY(-50%) translateX(0%) rotate(0deg) !important;
 				}
