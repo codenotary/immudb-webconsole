@@ -24,13 +24,16 @@
 					<LazyTopic />
 				</pane>
 				<pane
+					v-if="activeGuide && activeGuide.markdown"
 					:size="getGuidePane.size"
 					:min-size="getGuidePane.minSize"
 					:max-size="getGuidePane.maxSize"
 				>
 					<LazyGuide />
 				</pane>
-				<pane>
+				<pane
+					v-if="activeCode"
+				>
 					<LazyCode
 						:size="getCodePane.size"
 						:min-size="getCodePane.minSize"
@@ -55,16 +58,24 @@
 import { mapActions, mapGetters } from 'vuex';
 import LayoutMixin from '@/mixins/LayoutMixin';
 import { ParamMixin, PARAMS } from '@/mixins/ParamMixin';
-import { title } from '@/helpers/meta';
+import { metaTitle } from '@/helpers/meta';
 import {
 	TOPIC_MODULE,
 	FETCH_TOPICS,
 	SET_ACTIVE_TOPIC,
+	ACTIVE_TOPIC,
+	DEFAULT_TOPIC,
 } from '@/store/topic/constants';
+import {
+	GUIDE_MODULE,
+	FETCH_GUIDE,
+	ACTIVE_GUIDE,
+} from '@/store/guide/constants';
 import {
 	CODE_MODULE,
 	FETCH_LANGUAGES,
-	FETCH_CODES,
+	FETCH_CODE,
+	ACTIVE_CODE,
 } from '@/store/code/constants';
 import {
 	VIEW_MODULE,
@@ -85,9 +96,14 @@ export default {
 		ParamMixin,
 	],
 	async fetch() {
-		await this.fetchLanguages();
-		await this.fetchTopics();
-		await this.fetchCodes();
+		try {
+			await this.fetchTopics();
+			await this.fetchLanguages();
+			this.codePath = this.getParam(PARAMS.ID) || 'welcome';
+		}
+		catch (err) {
+			console.error('FETCH', err);
+		}
 	},
 	fetchOnServer: false,
 	data: () => ({
@@ -96,6 +112,15 @@ export default {
 	computed: {
 		...mapGetters(VIEW_MODULE, {
 			mobile: MOBILE,
+		}),
+		...mapGetters(TOPIC_MODULE, {
+			activeTopic: ACTIVE_TOPIC,
+		}),
+		...mapGetters(GUIDE_MODULE, {
+			activeGuide: ACTIVE_GUIDE,
+		}),
+		...mapGetters(CODE_MODULE, {
+			activeCode: ACTIVE_CODE,
 		}),
 		getTopicPane () {
 			if (this.mobile) {
@@ -157,19 +182,32 @@ export default {
 	watch: {
 		'$route.query': {
 			deep: true,
+			immediate: false,
 			handler (newVal) {
 				if (newVal) {
-					const { code } = newVal;
-					this.codePath = code;
+					const { id } = newVal;
+					this.codePath = id || 'welcome';
 				}
 			},
 		},
 		codePath: {
-			immediate: true,
+			immediate: false,
 			handler (newVal) {
 				if (newVal) {
 					this.setActiveTopic({ activePath: newVal });
 				}
+			},
+		},
+		activeTopic: {
+			deep: true,
+			handler (newVal) {
+				const { label, documentation, paths: { guide, code } } = newVal || DEFAULT_TOPIC;
+				this.fetchGuide({
+					id: guide,
+					title: label,
+					documentation,
+				});
+				this.fetchCode({ id: code });
 			},
 		},
 	},
@@ -180,8 +218,6 @@ export default {
 			page_location: window && window.location && window.location.href,
 			page_path: '/',
 		});
-
-		this.codePath = this.getParam(PARAMS.CODE) || '/python/login.py';
 	},
 	methods: {
 		...mapActions(VIEW_MODULE, {
@@ -191,9 +227,12 @@ export default {
 			fetchTopics: FETCH_TOPICS,
 			setActiveTopic: SET_ACTIVE_TOPIC,
 		}),
+		...mapActions(GUIDE_MODULE, {
+			fetchGuide: FETCH_GUIDE,
+		}),
 		...mapActions(CODE_MODULE, {
 			fetchLanguages: FETCH_LANGUAGES,
-			fetchCodes: FETCH_CODES,
+			fetchCode: FETCH_CODE,
 		}),
 		onResizeFirstRow (data) {
 			this.setPaneSizes({
@@ -210,7 +249,7 @@ export default {
 	},
 	head() {
 		return {
-			title: title('Dashboard'),
+			title: metaTitle('Dashboard'),
 		};
 	},
 };

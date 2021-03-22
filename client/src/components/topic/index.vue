@@ -46,7 +46,10 @@
 							<v-icon
 								v-if="props.item.type !== 'node'"
 								class="ma-0 mt-2 mr-2 pa-0"
-								color="primary lighten-2"
+								:class="{
+									'primary--text text--darken-0': !$vuetify.theme.dark,
+									'primary--text text--lighten-2': $vuetify.theme.dark,
+								}"
 								small
 								v-bind="attrs"
 								v-on="on"
@@ -147,71 +150,19 @@ export default {
 					const children = this.parseTopics(newVal);
 					if (children && children.length) {
 						this.items = children;
-						this.updateOpen();
 					}
 				}
 			},
 		},
 	},
 	methods: {
-		getId (parent, child) {
-			let id = '';
-			if (!!parent && typeof parent === 'string') {
-				id = parent.toLowerCase();
-			}
-			if (!!child && typeof child === 'string') {
-				id = id
-					? `${ id }/${ child.toLowerCase() }`
-					: child.toLowerCase();
-			}
-			id = id && id.replace(/\s+/g, '_');
-			return id;
-		},
-		parseTopics (data, parentLabel = undefined) {
+		parseTopics (data) {
 			if (data) {
 				return data
 						.slice()
-						.sort((a, b) => a.sort <= b.sort ? -1 : 1)
-						.map((_) => {
-							const { sort, label, paths, children } = _;
-							const isParent = children && children.length > 0;
-							const id = this.getId(parentLabel, label);
-							return {
-								id,
-								sort,
-								label,
-								paths: paths && paths[0],
-								isParent,
-								type: isParent
-									? 'node'
-									: paths && paths[0] && paths[0].code
-										? 'code'
-										: 'guide',
-								children: isParent
-									? this.parseTopics(children, id)
-									: undefined,
-								to: !isParent
-									? {
-										path: '/',
-										query: { id },
-									}
-									: undefined,
-							};
-						});
+						.sort((a, b) => a.sort <= b.sort ? -1 : 1);
 			}
 			return [];
-		},
-		updateOpen () {
-			// try {
-			// 	const { query } = this.$route;
-			// 	if (query) {
-			// 		const { code } = query;
-			// 		this.open = code ? this.searchOpen(this.items, code) : ['0', '0-0'];
-			// 	}
-			// }
-			// catch (err) {
-			// 	console.error(err);
-			// }
 		},
 		searchOpen (data, code) {
 			try {

@@ -71,9 +71,9 @@ import {
 	IMMUDB,
 } from '@/store/output/constants';
 import {
-	TOPIC_MODULE,
-	ACTIVE_TOPIC,
-} from '@/store/topic/constants';
+	CODE_MODULE,
+	ACTIVE_CODE,
+} from '@/store/code/constants';
 import { mdiXml } from '@mdi/js';
 
 const ITEMS_TYPES = {
@@ -85,9 +85,6 @@ const uniqueId = require('lodash.uniqueid');
 
 export default {
 	name: 'Code',
-	props: {
-		codePath: { type: String, default: '/python/hello_world' },
-	},
 	data () {
 		return {
 			ITEMS_TYPES,
@@ -100,24 +97,21 @@ export default {
 		...mapGetters(VIEW_MODULE, {
 			loading: IS_LOADING,
 		}),
-		...mapGetters(TOPIC_MODULE, {
-			activeTopic: ACTIVE_TOPIC,
+		...mapGetters(CODE_MODULE, {
+			activeCode: ACTIVE_CODE,
 		}),
 		...mapGetters(OUTPUT_MODULE, {
 			immudb: IMMUDB,
 		}),
 	},
 	watch: {
-		activeTopic: {
+		activeCode: {
 			immediate: true,
 			deep: true,
 			handler (newVal) {
-				if (newVal) {
-					const { code } = newVal;
-					if (code !== this.code) {
-						this.code = code;
-						this.id = uniqueId('id_');
-					}
+				if (newVal && newVal !== this.code) {
+					this.code = newVal;
+					this.id = uniqueId('id_');
 				}
 			},
 		},

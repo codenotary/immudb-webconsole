@@ -11,9 +11,11 @@ import { StaticDataService } from '@/services';
 import {
 	FETCH_LANGUAGES,
 	FETCH_CODES,
+	FETCH_CODE,
 	SET_LANGUAGES,
 	SET_ACTIVE_LANGUAGE,
 	SET_CODE,
+	SET_ACTIVE_CODE,
 	ACTIVE_LANGUAGE,
 	LANGUAGES_PATH,
 	CODES_PATH,
@@ -38,7 +40,7 @@ export default {
 			commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
 		}
 	},
-	async [FETCH_CODES]({ commit, state, rootState, getters }) {
+	async [FETCH_CODES]({ commit, rootState, getters }) {
 		try {
 			const { path, mime } = getters[ACTIVE_LANGUAGE];
 
@@ -87,6 +89,42 @@ export default {
 			console.error(err);
 		}
 	},
+	async [FETCH_CODE]({ commit, getters }, payload) {
+		try {
+			const { id } = payload;
+			const { path, mime } = getters[ACTIVE_LANGUAGE];
+
+			if (id) {
+				let _url = id.startsWith('/') ? id : `/${ id }`;
+				_url = _url.endsWith(`.${ mime }`) ? _url : `${ _url }.${ mime }`;
+
+				await StaticDataService.get(`${ CODES_PATH }${ path }${ _url }`)
+						.then((response) => {
+							if (response) {
+								const { data } = response;
+								if (data) {
+									commit(SET_ACTIVE_CODE, {
+										code: data,
+									});
+								}
+							}
+						})
+						.catch((e) => {
+							console.error(e);
+						})
+						.finally(() => {
+						});
+			}
+			else {
+				commit(SET_ACTIVE_CODE, {
+					code: undefined,
+				});
+			}
+		}
+		catch (err) {
+			console.error(err);
+		}
+	},
 	[SET_LANGUAGES]({ commit }, payload) {
 		commit(SET_LANGUAGES, payload);
 	},
@@ -95,5 +133,8 @@ export default {
 	},
 	[SET_CODE]({ commit }, payload) {
 		commit(SET_CODE, payload);
+	},
+	[SET_ACTIVE_CODE]({ commit }, payload) {
+		commit(SET_ACTIVE_CODE, payload);
 	},
 };

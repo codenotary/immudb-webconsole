@@ -62,12 +62,12 @@
 									cols="12"
 								>
 									<v-btn
-										v-if="documentationUrl"
+										v-if="documentation"
 										class="ma-0 py-0 px-3 caption"
 										text
 										depressed
 										color="info lighten-1"
-										:href="documentationUrl"
+										:href="documentation"
 										:alt="$t('code.seeInDocumentation')"
 										target="_blank"
 										rel="noopener"
@@ -101,10 +101,9 @@
 					class="ma-0 mb-4 pa-0"
 					cols="12"
 				>
-					<p
-						v-if="description"
-						class="ma-0 pa-0 body-2"
-						v-html="description"
+					<div
+						v-if="markdown"
+						v-html="$md.render(markdown)"
 					/>
 					<v-skeleton-loader
 						v-else
@@ -126,9 +125,10 @@ import {
 	IS_LOADING,
 } from '@/store/view/constants';
 import {
-	TOPIC_MODULE,
-	ACTIVE_TOPIC,
-} from '@/store/topic/constants';
+	GUIDE_MODULE,
+	ACTIVE_GUIDE,
+} from '@/store/guide/constants';
+import { metaTitle } from '@/helpers/meta';
 import {
 	mdiBook,
 	mdiBookOpenOutline,
@@ -147,30 +147,39 @@ export default {
 		...mapGetters(VIEW_MODULE, {
 			loading: IS_LOADING,
 		}),
-		...mapGetters(TOPIC_MODULE, {
-			activeTopic: ACTIVE_TOPIC,
+		...mapGetters(GUIDE_MODULE, {
+			activeGuide: ACTIVE_GUIDE,
 		}),
 		title () {
-			if (this.activeExample) {
-				const { title } = this.activeExample;
+			if (this.activeGuide) {
+				const { title } = this.activeGuide;
 				return sanitizeHtml(title) || '';
 			}
 			return '';
 		},
-		description () {
-			if (this.activeExample) {
-				const { description } = this.activeExample;
-				return sanitizeHtml(description) || '';
-			}
-			return '';
-		},
-		documentationUrl () {
-			if (this.activeExample) {
-				const { documentation } = this.activeExample;
+		documentation () {
+			if (this.activeGuide) {
+				const { documentation } = this.activeGuide;
 				return documentation || '';
 			}
 			return '';
 		},
+		markdown () {
+			if (this.activeGuide) {
+				const { markdown } = this.activeGuide;
+				return sanitizeHtml(markdown) || '';
+			}
+			return '';
+		},
+	},
+	head () {
+		if (this.guide) {
+			const { title } = this.guide;
+
+			return {
+				title: metaTitle(title),
+			};
+		};
 	},
 };
 </script>

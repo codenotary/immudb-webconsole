@@ -7,6 +7,7 @@ $light-thumb-color: #fff;
 body {
 	&::-webkit-scrollbar-track,
 	&::-webkit-scrollbar {
+		height: 8px !important;
 		width: 8px !important;
 		background-color: $dark-track-color !important;
 	}
@@ -34,6 +35,7 @@ body {
 
 		&::-webkit-scrollbar {
 			position: absolute;
+			height: 8px !important;
 			width: 8px !important;
 		}
 

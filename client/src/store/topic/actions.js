@@ -12,17 +12,19 @@ import {
 } from './constants';
 
 export default {
-	async [FETCH_TOPICS]({ commit }, payload) {
+	async [FETCH_TOPICS]({ commit }) {
 		const LOADING_LABEL = 'fetchExamples';
 		try {
 			commit(`${ VIEW_MODULE }/${ PUSH_LOADING }`, { label: LOADING_LABEL, silently: true }, { root: true });
-			await StaticDataService.get(TOPICS_PATH)
+			return await StaticDataService.get(TOPICS_PATH)
 					.then((response) => {
 						commit(SET_TOPICS, response && response.data);
 						commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
 					}, (err) => {
 						console.error(err);
 						commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
+					})
+					.finally(() => {
 					});
 		}
 		catch (err) {

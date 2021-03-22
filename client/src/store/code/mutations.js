@@ -1,10 +1,9 @@
-import Vue from 'vue';
 import {
 	SET_LANGUAGES,
 	SET_ACTIVE_LANGUAGE,
 	SET_CODE,
+	SET_ACTIVE_CODE,
 } from './constants';
-const objectPath = require('object-path');
 
 export default {
 	[SET_LANGUAGES](state, payload) {
@@ -16,10 +15,13 @@ export default {
 		language && (state.activeLanguage = language);
 	},
 	[SET_CODE](state, payload) {
-		const { id, code } = payload;
-		// next step is mandatory to force reactivity
-		const examples = state.examples;
-		objectPath.set(examples, `${ id }.code`, code);
-		Vue.set(state, examples, examples);
+		const { code } = payload;
+		state.code = code;
+	},
+	[SET_ACTIVE_CODE](state, payload) {
+		if (payload) {
+			const { code } = payload;
+			state.activeCode = code;
+		}
 	},
 };

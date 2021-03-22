@@ -1,3 +1,4 @@
+import calculateId from '@/helpers/calculateId';
 import {
 	SET_TOPICS,
 	SET_ACTIVE_TOPIC,
@@ -7,16 +8,32 @@ export default {
 	[SET_TOPICS](state, payload) {
 		const { topics } = payload;
 
-		const addIdx = (data, parentId = null) => {
+		const parseTopics = (data, parentLabel = null) => {
 			return data && data.reduce((acc, _, idx) => {
 				const e = _;
-				e.id = idx;
-				e.children && (e.children = addIdx(e.children, idx));
+				const id = calculateId(parentLabel, _.label);
+				const isParent = e.children && e.children.length > 0;
+				const { code } = e.paths || {};
+
+				e.id = id;
+				e.children && (e.children = parseTopics(e.children, id));
+				e.isParent = isParent;
+				e.type = isParent
+					? 'node'
+					: code
+						? 'code'
+						: 'guide';
+				e.to = isParent
+					? undefined
+					: {
+						path: '/',
+						query: { id },
+					};
 				return [...acc, e];
 			}, []);
 		};
 
-		topics && (state.topics = addIdx(topics));
+		topics && (state.topics = parseTopics(topics));
 	},
 	[SET_ACTIVE_TOPIC](state, payload) {
 		const { activePath } = payload;

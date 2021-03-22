@@ -73,8 +73,6 @@ export default {
 
 <style lang="scss">
 #Output {
-	min-height: 100% !important;
-
 	&.v-card {
 		.v-card__title {
 			height: 44px !important;

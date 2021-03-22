@@ -1,4 +1,5 @@
 export const PARAMS = {
+	ID: 'id',
 	AUTH: 'auth',
 	ERROR: 'error',
 	ERROR_DESCRIPTION: 'error_description',
