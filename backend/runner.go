@@ -2,16 +2,15 @@ package main
 
 import (
 	"bufio"
-	// 	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
 	"golang.org/x/net/websocket"
 	"io"
-	// 	"github.com/docker/docker/pkg/stdcopy"
 	"log"
 	"net/http"
 	"path"
+	"time"
 )
 
 type runner struct {
@@ -23,6 +22,8 @@ type runner struct {
 }
 
 var runners map[string]*runner
+
+const TIMEOUT = 2 * time.Minute
 
 func (rn *runner) loop() {
 	Debug.Printf("Preparing loop for container %s", rn.container)
@@ -56,9 +57,11 @@ func (rn *runner) loop() {
 		fin <- true
 	}(atc.Reader)
 	Debug.Printf("Running loop for container %s", rn.container)
+	idletimeout := time.NewTimer(TIMEOUT)
 	for {
 		select {
 		case s := <-rn.clientIn:
+			idletimeout.Reset(TIMEOUT)
 			Debug.Printf("<== %s", string(s))
 			var line InputLine
 			err := json.Unmarshal(s, &line)
@@ -73,6 +76,9 @@ func (rn *runner) loop() {
 				c <- s
 			}
 		case <-fin:
+			return
+		case <-idletimeout.C:
+			log.Printf("Timeout expired")
 			return
 		}
 	}
@@ -173,7 +179,7 @@ func closeRunner(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	delete(runners, reqId)
-	log.Printf("Shut down container %s [%s]", reqId, rn)
+	log.Printf("Shut down container %s [%s]", reqId, rn.container)
 	httpRet(w, &runnerResponse{Status: "success", Id: reqId})
 }
 
