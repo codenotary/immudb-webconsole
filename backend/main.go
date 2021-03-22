@@ -2,10 +2,13 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"github.com/swaggo/http-swagger"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	_ "playground-backend/docs"
 )
 
@@ -57,8 +60,21 @@ func handleRequests() {
 	log.Fatal(err)
 }
 
+var config struct {
+	debug bool
+}
+
+var Debug *log.Logger
+
 func init() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	flag.BoolVar(&config.debug, "debug", false, "Turn on debug (verbose) logging")
+	flag.Parse()
+	if config.debug {
+		Debug = log.New(os.Stderr, "DEBUG:", log.LstdFlags|log.Lshortfile)
+	} else {
+		Debug = log.New(ioutil.Discard, "DEBUG:", log.LstdFlags|log.Lshortfile)
+	}
 }
 
 func main() {

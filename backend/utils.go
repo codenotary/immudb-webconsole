@@ -1,12 +1,16 @@
 package main
+
 import (
+	"encoding/binary"
+	"errors"
+	"io"
+	"log"
 	"math/rand"
 	"time"
-	"log"
-	"encoding/binary"
 )
 
 const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
 func init() {
 	rand.Seed(time.Now().UnixNano())
 }
@@ -14,27 +18,45 @@ func init() {
 func randString(n int) string {
 	b := make([]byte, n)
 	for i := range b {
-		b[i] = letterBytes[rand.Int63() % int64(len(letterBytes))]
+		b[i] = letterBytes[rand.Int63()%int64(len(letterBytes))]
 	}
-return string(b)
+	return string(b)
 }
 
-
-func demux(in []byte) (out []byte) {
-	if len(in)<8 {
+func demux(rd io.Reader) (outLine OutputLine, err error) {
+	head := make([]byte, 8)
+	n, err := rd.Read(head)
+	if n == 0 {
+		Debug.Printf("Zero byte input: quitting")
+		return outLine, errors.New("Quitting")
+	}
+	if n < 8 {
 		log.Printf("Frame too short")
-		return
+		return outLine, errors.New("Frame too short")
 	}
-	if in[0]<0 || in[0]>2|| in[1]!=0 || in[2]!=0 || in[3]!=0 {
-		log.Printf("Wrong magic number")
+	if head[0] < 0 || head[0] > 2 || head[1] != 0 || head[2] != 0 || head[3] != 0 {
+		log.Printf("Wrong magic number %v", head[0:8])
+		return outLine, errors.New("Wrong magic number")
 	}
-	l := binary.BigEndian.Uint32(in[4:8])
-	if len(in)!=int(8+l) {
-		log.Printf("Wrong len, got %d instead of %d", len(in), 8+l)
+	outLine.Timestamp = float64(time.Now().UnixNano()) / 1000000000.0
+	switch head[0] {
+	case 0:
+		outLine.Flux = "stdin"
+	case 1:
+		outLine.Flux = "stdout"
+	case 2:
+		outLine.Flux = "stderr"
 	}
-	out = make([]byte,l+2)
-	out[0]=48+in[0]
-	out[1]=':'
-	copy(out[2:],in[8:l+8])
-	return out
+	l := int(binary.BigEndian.Uint32(head[4:8]))
+	chunk := make([]byte, l)
+	for read := 0; read < l; {
+		n, err = rd.Read(chunk)
+		if err != nil {
+			log.Printf("Error while reading body: %s", err.Error())
+			return
+		}
+		outLine.Line = outLine.Line + string(chunk)
+		read = read + n
+	}
+	return
 }

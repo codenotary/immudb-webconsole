@@ -22,10 +22,15 @@ type runRequest struct {
 	Code   string `json:"code"`
 	Immudb []byte `json:"immudb"`
 }
+
 type OutputLine struct {
 	Timestamp float64 `json:"timestamp"`
 	Flux      string  `json:"flux"`
 	Line      string  `json:"line"`
+}
+
+type InputLine struct {
+	Line string `json:"line"`
 }
 
 type runResponse struct {

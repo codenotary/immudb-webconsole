@@ -1,38 +1,39 @@
 package main
 
 import (
-// 	"bytes"
+	// 	"bytes"
 	"context"
 	"encoding/json"
-        "errors"
-// 	"fmt"
+	"errors"
+	// 	"fmt"
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/mount"
 	"github.com/docker/docker/client"
 	"io/ioutil"
 	"log"
-// 	"net/http"
+	// 	"net/http"
 	"os"
 	"path"
 	"time"
 )
-const memoryLimit = 1048576 * 100  // 100 MBytes
-const cpuLimit = 50_000            // 50% of vcpu
+
+const memoryLimit = 1048576 * 100 // 100 MBytes
+const cpuLimit = 50_000           // 50% of vcpu
 
 func runContainer(cli *client.Client, imageName, dir string) (err error) {
 	ctx := context.Background()
 	resp, err := cli.ContainerCreate(ctx,
 		&container.Config{
 			Image: imageName,
-			Tty: false,
-			},
+			Tty:   false,
+		},
 		&container.HostConfig{
 			Mounts: []mount.Mount{
 				{Type: mount.TypeBind, Source: dir, Target: "/tmp"},
 			},
 			Resources: container.Resources{
-				Memory: memoryLimit,
+				Memory:   memoryLimit,
 				CPUQuota: cpuLimit,
 			},
 			NetworkMode: "none",
@@ -61,7 +62,7 @@ func runContainer(cli *client.Client, imageName, dir string) (err error) {
 		err = cli.ContainerStop(ctx, c_id, &killtimeout)
 		if err != nil {
 			log.Printf("Unable to kill container %s", c_id)
-			return 
+			return
 		}
 		return errors.New("Run time exceeded")
 	case err = <-errCh:
@@ -92,7 +93,7 @@ func readback(dir string) (response runResponse, err error) {
 		log.Printf("Error while decoding python output: %s", err.Error())
 		return
 	}
-	
+
 	immudb, err = ioutil.ReadFile(path.Join(dir, "data.tar.gz"))
 	if err != nil && !os.IsNotExist(err) {
 		log.Printf("Error while reding immudb data archive: %s", err.Error())
@@ -108,15 +109,14 @@ func readback(dir string) (response runResponse, err error) {
 }
 
 func errorResponse(msg string, immudb []byte) (response runResponse) {
-	response.Output=[]OutputLine{{
-		Timestamp:float64(time.Now().UnixNano())/1000000000.0,
-		Flux:"execerr",
-		Line:msg,
+	response.Output = []OutputLine{{
+		Timestamp: float64(time.Now().UnixNano()) / 1000000000.0,
+		Flux:      "execerr",
+		Line:      msg,
 	}}
-	response.Immudb=immudb
+	response.Immudb = immudb
 	return
 }
-
 
 func startContainer(ctx context.Context, imageName string) (id string, err error) {
 	cli, err := client.NewClientWithOpts(client.WithAPIVersionNegotiation())
@@ -127,19 +127,19 @@ func startContainer(ctx context.Context, imageName string) (id string, err error
 	defer cli.Close()
 	resp, err := cli.ContainerCreate(ctx,
 		&container.Config{
-			Image: imageName,
-			AttachStderr:false,
-			AttachStdin: false,
-			Tty:         false, // set to false to allow multiplexing 
-			AttachStdout:false,
-			OpenStdin:   true,  // set to true to allow interactive use
+			Image:        imageName,
+			AttachStderr: false,
+			AttachStdin:  false,
+			Tty:          false, // set to false to allow multiplexing
+			AttachStdout: false,
+			OpenStdin:    true, // set to true to allow interactive use
 		},
 		&container.HostConfig{
-// 			Mounts: []mount.Mount{
-// 				{Type: mount.TypeBind, Source: dir, Target: "/tmp"},
-// 			},
+			// 			Mounts: []mount.Mount{
+			// 				{Type: mount.TypeBind, Source: dir, Target: "/tmp"},
+			// 			},
 			Resources: container.Resources{
-				Memory: memoryLimit,
+				Memory:   memoryLimit,
 				CPUQuota: cpuLimit,
 			},
 			NetworkMode: "none",
@@ -167,13 +167,13 @@ func attachContainer(ctx context.Context, cid string) (atc types.HijackedRespons
 	}
 	defer cli.Close()
 	atc, err = cli.ContainerAttach(ctx, cid, types.ContainerAttachOptions{
-		Stderr:       true,
-		Stdout:       true,
-		Stdin:        true,
-		Stream:       true,
+		Stderr: true,
+		Stdout: true,
+		Stdin:  true,
+		Stream: true,
 	})
 	if err != nil {
-		log.Printf("Unable to attach container %s",cid)
+		log.Printf("Unable to attach container %s", cid)
 		return
 	}
 	return
@@ -189,7 +189,7 @@ func stopContainer(ctx context.Context, c_id string) (err error) {
 	err = cli.ContainerStop(ctx, c_id, &killtimeout)
 	if err != nil {
 		log.Printf("Unable to stop container %s", c_id)
-		return 
+		return
 	}
 	cli.ContainerRemove(ctx, c_id, types.ContainerRemoveOptions{})
 	return
