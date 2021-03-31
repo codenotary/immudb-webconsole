@@ -1,7 +1,7 @@
 package main
 
 import (
-	// 	"bytes"
+		"bytes"
 	"context"
 	"encoding/json"
 	"errors"
@@ -73,6 +73,13 @@ func runContainer(cli *client.Client, imageName, dir string) (err error) {
 	case <-statusCh:
 		log.Printf("Container %s ended in %s", c_id[0:12], time.Since(start_time))
 	}
+	logs, err := cli.ContainerLogs(ctx, c_id, types.ContainerLogsOptions{ ShowStdout:true, ShowStderr:true })
+	if err==nil {
+		buf := new(bytes.Buffer)
+		buf.ReadFrom(logs)
+		log.Printf("Container logs: %s",buf.String())
+	} else { log.Printf("Error while fetching logs")
+	}
 	err = doTarball(ctx, dir, path.Join(dir, "data"), path.Join(dir, "data.tar.gz"))
 	if err != nil {
 		log.Printf("Error while extracting immudb data: %s", err.Error())
@@ -82,8 +89,9 @@ func runContainer(cli *client.Client, imageName, dir string) (err error) {
 }
 
 func readback(dir string) (response runResponse, err error) {
-	var bOutput, immudb, dump []byte
+	var bOutput, immudb, dump, token []byte
 	var jOutput []OutputLine
+	var verified bool
 	bOutput, err = ioutil.ReadFile(path.Join(dir, "output"))
 	if err != nil && !os.IsNotExist(err) {
 		log.Printf("Error while reading python output: %s", err.Error())
@@ -104,7 +112,14 @@ func readback(dir string) (response runResponse, err error) {
 		log.Printf("Error while reding immudb dump: %s", err.Error())
 		return
 	}
-	response = runResponse{jOutput, immudb, dump}
+	token, err = ioutil.ReadFile(path.Join(dir, "statefile"))
+	if err != nil && !os.IsNotExist(err) {
+		log.Printf("Error while reding immudb statefile: %s", err.Error())
+		return
+	}
+	_, err = os.Stat(path.Join(dir, "verified"))
+	verified = (err == nil)
+	response = runResponse{jOutput, immudb, dump, token, verified}
 	return response, nil
 }
 

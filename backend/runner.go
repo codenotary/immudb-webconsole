@@ -118,6 +118,10 @@ func httpRet(w http.ResponseWriter, ret *runnerResponse) {
 // @failure 500
 // @router /run/new [post]
 func newRunner(w http.ResponseWriter, req *http.Request) {
+	if req.Method != "POST" {
+		http.Error(w, "Invalid method", http.StatusMethodNotAllowed)
+		return
+	}
 	ctx := context.Background()
 	c_id, err := startContainer(ctx, "player-immuclient")
 	if err != nil {
@@ -145,6 +149,10 @@ func newRunner(w http.ResponseWriter, req *http.Request) {
 // @failure 500
 // @router /run/list [get]
 func listRunners(w http.ResponseWriter, req *http.Request) {
+	if req.Method != "GET" {
+		http.Error(w, "Invalid method", http.StatusMethodNotAllowed)
+		return
+	}
 	ret := &listrunnerResponse{Ids: make([]string, 0, len(runners))}
 	for i, _ := range runners {
 		ret.Ids = append(ret.Ids, i)
