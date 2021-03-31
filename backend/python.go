@@ -43,7 +43,7 @@ type runResponse struct {
 }
 
 // @id pythonExec
-// @tags info
+// @tags player
 // @summary Execute a python script
 // @accept application/json
 // @param request body runRequest true "Run request"

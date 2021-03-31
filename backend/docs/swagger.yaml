@@ -16,11 +16,35 @@ definitions:
           type: string
         type: array
     type: object
+  main.runLog:
+    properties:
+      lines:
+        items:
+          $ref: '#/definitions/main.runLogLine'
+        type: array
+      size:
+        type: integer
+    type: object
+  main.runLogLine:
+    properties:
+      container:
+        type: string
+      label:
+        type: string
+      logentry:
+        type: string
+      timestamp:
+        type: number
+    type: object
   main.runRequest:
     properties:
       code:
         type: string
       immudb:
+        items:
+          type: integer
+        type: array
+      token:
         items:
           type: integer
         type: array
@@ -35,10 +59,16 @@ definitions:
         items:
           $ref: '#/definitions/main.OutputLine'
         type: array
+      token:
+        items:
+          type: integer
+        type: array
       tree:
         items:
           type: integer
         type: array
+      verified:
+        type: boolean
     type: object
   main.runnerResponse:
     properties:
@@ -69,6 +99,19 @@ info:
   title: Playground REST server
   version: "1.0"
 paths:
+  /exec/logs:
+    get:
+      operationId: execLog
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.runLog'
+      summary: Return last 16 container run logs
+      tags:
+      - player
   /exec/python:
     post:
       consumes:
@@ -94,7 +137,7 @@ paths:
           description: ""
       summary: Execute a python script
       tags:
-      - info
+      - player
   /info/version:
     get:
       operationId: showVersion

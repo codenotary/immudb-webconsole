@@ -17,6 +17,26 @@
     },
     "basePath": "/api/v1",
     "paths": {
+        "/exec/logs": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "player"
+                ],
+                "summary": "Return last 16 container run logs",
+                "operationId": "execLog",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.runLog"
+                        }
+                    }
+                }
+            }
+        },
         "/exec/python": {
             "post": {
                 "consumes": [
@@ -26,7 +46,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "info"
+                    "player"
                 ],
                 "summary": "Execute a python script",
                 "operationId": "pythonExec",
@@ -197,6 +217,37 @@
                 }
             }
         },
+        "main.runLog": {
+            "type": "object",
+            "properties": {
+                "lines": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/main.runLogLine"
+                    }
+                },
+                "size": {
+                    "type": "integer"
+                }
+            }
+        },
+        "main.runLogLine": {
+            "type": "object",
+            "properties": {
+                "container": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "logentry": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "number"
+                }
+            }
+        },
         "main.runRequest": {
             "type": "object",
             "properties": {
@@ -204,6 +255,12 @@
                     "type": "string"
                 },
                 "immudb": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "token": {
                     "type": "array",
                     "items": {
                         "type": "integer"
@@ -226,11 +283,20 @@
                         "$ref": "#/definitions/main.OutputLine"
                     }
                 },
+                "token": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
                 "tree": {
                     "type": "array",
                     "items": {
                         "type": "integer"
                     }
+                },
+                "verified": {
+                    "type": "boolean"
                 }
             }
         },

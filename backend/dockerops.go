@@ -77,8 +77,9 @@ func runContainer(cli *client.Client, imageName, dir string) (err error) {
 	if err==nil {
 		buf := new(bytes.Buffer)
 		buf.ReadFrom(logs)
-		log.Printf("Container logs: %s",buf.String())
-	} else { log.Printf("Error while fetching logs")
+		globalRunLog.Append(imageName, c_id, buf.String())
+	} else {
+		log.Printf("Error while fetching logs")
 	}
 	err = doTarball(ctx, dir, path.Join(dir, "data"), path.Join(dir, "data.tar.gz"))
 	if err != nil {
