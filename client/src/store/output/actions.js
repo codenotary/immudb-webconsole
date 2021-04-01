@@ -20,6 +20,7 @@ import {
 	SET_MERKLE_TREE,
 	SET_MERKLE_TREE_MODE,
 	APPEND_CODE_OUTPUT,
+	SET_METRICS,
 } from './constants';
 
 export default {
@@ -29,7 +30,7 @@ export default {
 			if (payload) {
 				commit(`${ VIEW_MODULE }/${ PUSH_LOADING }`, { label: LOADING_LABEL }, { root: true });
 
-				const { code, immudb } = payload;
+				const { code, immudb, token } = payload;
 				const activeLanguage = rootGetters[`${ CODE_MODULE }/${ ACTIVE_LANGUAGE }`];
 				const language = activeLanguage ? activeLanguage.label : 'python';
 
@@ -42,15 +43,17 @@ export default {
 						code,
 						language,
 						immudb: immudb || '',
+						token: token || '',
 					};
 
 					const { data } = await CodeService.runCode(language, params);
 
 					if (data) {
-						const { immudb, tree, output } = data;
+						const { immudb, tree, output, token, verified } = data;
 
 						commit(SET_IMMUDB, {
 							immudb,
+							token,
 						});
 
 						const decompressedTree = decompress(tree) || '';
@@ -60,7 +63,11 @@ export default {
 							graph: await Vue.prototype.$workers
 									.parseMerkleTreeGraph(jsonDecompressedTree, 6),
 							json: jsonDecompressedTree,
+						});
+
+						commit(SET_METRICS, {
 							size: jsonDecompressedTree && jsonDecompressedTree.length,
+							verified,
 						});
 
 						commit(APPEND_CODE_OUTPUT, {
@@ -117,6 +124,9 @@ export default {
 	},
 	[SET_MERKLE_TREE]({ commit }, payload) {
 		commit(SET_MERKLE_TREE, payload);
+	},
+	[SET_METRICS]({ commit }, payload) {
+		commit(SET_METRICS, payload);
 	},
 	[SET_MERKLE_TREE_MODE]({ commit }, payload) {
 		commit(SET_MERKLE_TREE_MODE, payload);

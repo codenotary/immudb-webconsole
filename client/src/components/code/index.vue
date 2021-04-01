@@ -69,6 +69,7 @@ import {
 	RESET_MERKLE_TREE,
 	RESET_OUTPUT,
 	IMMUDB,
+	TOKEN,
 } from '@/store/output/constants';
 import {
 	CODE_MODULE,
@@ -102,6 +103,7 @@ export default {
 		}),
 		...mapGetters(OUTPUT_MODULE, {
 			immudb: IMMUDB,
+			token: TOKEN,
 		}),
 	},
 	watch: {
@@ -164,6 +166,7 @@ export default {
 				await this.runCode({
 					code: this.code || '',
 					immudb: this.immudb || '',
+					token: this.token || '',
 				});
 			}
 			catch (err) {

@@ -8,6 +8,7 @@ import {
 	SET_MERKLE_TREE_MODE,
 	SET_CODE_OUTPUT,
 	APPEND_CODE_OUTPUT,
+	SET_METRICS,
 } from './constants';
 
 export default {
@@ -31,16 +32,24 @@ export default {
 	},
 	[SET_IMMUDB](state, payload) {
 		if (payload) {
-			const { immudb } = payload;
+			const { immudb, token } = payload;
 			state.immudb = immudb;
+			state.token = token;
 		}
 	},
 	[SET_MERKLE_TREE](state, payload) {
 		if (payload) {
-			const { graph, json, size } = payload;
+			const { graph, json, metrics } = payload;
 			graph && (state.merkleTree.graph = graph);
 			json && (state.merkleTree.json = json);
-			size && (state.merkleTree.size = size);
+			metrics && (state.merkleTree.metrics = metrics);
+		}
+	},
+	[SET_METRICS](state, payload) {
+		if (payload) {
+			const { size, verified } = payload;
+			size && (state.merkleTree.metrics.size = size);
+			verified && (state.merkleTree.metrics.verified = verified);
 		}
 	},
 	[SET_MERKLE_TREE_MODE](state, payload) {

@@ -315,8 +315,6 @@ export default {
 		// 		whitelistPatternsChildren: [/^v-((?!application).)*$/, /^theme--light*/],
 		// 	},
 		// ],
-		// Doc: https://github.com/nuxt-community/markdownit-module
-		'@nuxtjs/markdownit',
 		// Doc: https://github.com/geeogi/nuxt-responsive-loader
 		'nuxt-responsive-loader',
 	],
@@ -469,37 +467,4 @@ export default {
 		lazy: true,
 		defaultLocale: 'en',
 	},
-	
-	/*
-	** Markdown config
-	** Doc: https://www.npmjs.com/package/@nuxtjs/markdownit
-	*/
-	markdownit: {
-		preset: 'default',
-		linkify: true,
-		breaks: true,
-		typographer: true,
-		html: true,
-		runtime: true,
-		use: [
-			// [
-			// 	'markdown-it-anchor',
-			// 	{
-			// 		level: 1,
-			// 		// slugify: string => string,
-			// 		permalink: true,
-			// 		// renderPermalink: (slug, opts, state, permalink) => {},
-			// 		permalinkClass: 'header-anchor',
-			// 		permalinkSymbol: '#',
-			// 		permalinkBefore: true
-			// 	}
-			// ],
-			'markdown-it-attrs',
-			'markdown-it-div',
-			'markdown-it-emoji',
-			'markdown-it-prism',
-			'markdown-it-multimd-table',
-			'markdown-it-toc-done-right',
-		],
-	}
 };

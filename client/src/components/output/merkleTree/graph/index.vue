@@ -2,6 +2,10 @@
 	<span
 		class="body-2"
 	>
+		<OutputMerkleTreeGraphMetrics
+			id="MerkleTreeGraphMetrics"
+			:metrics="metrics"
+		/>
 		<OutputMerkleTreeGraphCommands
 			id="MerkleTreeGraphCommands"
 			@resetZoom="onResetZoom"
@@ -83,6 +87,7 @@ export default {
 	},
 	props: {
 		graph: { type: Object, default: () => {} },
+		metrics: { type: Object, default: () => {} },
 		size: { type: Number, default: 1 },
 	},
 	computed: {
@@ -116,10 +121,16 @@ export default {
 
 <style lang="scss">
 #OutputMerkleTree {
-	#MerkleTreeGraphCommands {
+	#MerkleTreeGraphMetrics {
 		position: absolute;
 		top: $spacer-15;
 		left: $spacer-4;
+	}
+
+	#MerkleTreeGraphCommands {
+		position: absolute;
+		top: $spacer-15;
+		right: $spacer-4;
 	}
 }
 </style>

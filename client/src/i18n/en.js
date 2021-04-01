@@ -64,5 +64,13 @@ export default {
 				resetZoom: 'Reset zoom',
 			},
 		},
+		metrics: {
+			verified: 'Verified',
+			notVerified: 'not verified',
+			tooltip: {
+				verified: 'The merkle tree has been successfully verified',
+				notVerified: 'The merkle tree is in an unverified state',
+			},
+		},
 	},
 };
