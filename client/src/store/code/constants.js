@@ -15,7 +15,7 @@ export const CODES = 'getCodes';
 export const ACTIVE_CODE = 'getActiveCode';
 
 export const LANGUAGES_PATH = 'programming-languages.json';
-export const CODES_PATH = 'code';
+export const CODES_PATH = '/code';
 
 export const DEFAULT_LANGUAGE = {
 	label: 'python',

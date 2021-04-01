@@ -51,10 +51,10 @@ export default {
 	},
 	[SET_PANE_SIZES](state, payload) {
 		const { topic, guide, code, output } = payload;
-		topic && (state.paneSizes.topic = topic);
-		guide && (state.paneSizes.guide = guide);
-		code && (state.paneSizes.code = code);
-		output && (state.paneSizes.output = output);
+		topic !== undefined && (state.paneSizes.topic = topic);
+		guide !== undefined && (state.paneSizes.guide = guide);
+		code !== undefined && (state.paneSizes.code = code);
+		output !== undefined && (state.paneSizes.output = output);
 	},
 	[STORE_NUXT_HYDRATED](state, payload) {
 		state.nuxtHydrated = payload;

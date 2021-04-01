@@ -1,4 +1,23 @@
 ---
+title: Welcome
+sort: 0
+active: true
+---
+
+lorem ipsum dolor sit amet
+
+| Person  | identification | name |  date_of_birth | 
+|---|---|---|---|
+| 1  | 345623 | Smarty McGopher | 20/10/1980 | 
+
+Every person can get multiple vaccinations. Each vaccination has a manufacturer, a substance and product_id for identifying the charge, date of vaccination, and the id of the doctor who supervised the vaccination:
+
+| Vaccination | manufacturer | substance |  product_id |   date_of_vaccination |   doctor_id | 
+|---|---|---|---|---|---|
+| 1  | Vaccine int. corp | IPV | 1230 | 15/09/2012| 345231 | 
+| 2  | Medco | HEPB | 3309 | 03/06/2015| 345231 | 
+| 3  | Gopher Immunization inc. | COV19 | 1097 | 15/03/2021| 345231 | 
+
 __Advertisement :)__
 
 - __[pica](https://nodeca.github.io/pica/demo/)__ - high quality and fast image
@@ -16,7 +35,6 @@ You will like those projects!
 #### h4 Heading
 ##### h5 Heading
 ###### h6 Heading
-
 
 ## Horizontal Rules
 
@@ -95,11 +113,12 @@ Inline `code`
 
 Indented code
 
+```
     // Some comments
     line 1 of code
     line 2 of code
     line 3 of code
-
+```
 
 Block code "fences"
 
@@ -118,6 +137,16 @@ console.log(foo(5));
 ```
 
 ## Tables
+
+|   Markdown   | Rendered HTML |
+|--------------|---------------|
+|    *Italic*  | *Italic*      | \
+|              |               |
+|    - Item 1  | - Item 1      | \
+|    - Item 2  | - Item 2      |
+|    ```python | ```python       \
+|    .1 + .2   | .1 + .2         \
+|    ```       | ```           |
 
 | Option | Description |
 | ------ | ----------- |

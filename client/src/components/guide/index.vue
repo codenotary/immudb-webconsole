@@ -64,6 +64,7 @@
 									<v-btn
 										v-if="documentation"
 										class="ma-0 py-0 px-3 caption"
+										style="height: 22px !important;"
 										text
 										depressed
 										color="info lighten-1"
@@ -71,7 +72,7 @@
 										:alt="$t('code.seeInDocumentation')"
 										target="_blank"
 										rel="noopener"
-										small
+										x-small
 										dense
 									>
 										<v-icon
@@ -90,7 +91,7 @@
 					</v-row>
 				</v-col>
 				<v-col
-					class="ma-0 mb-4 pa-0"
+					class="ma-0 pa-0"
 					cols="12"
 				>
 					<v-divider
@@ -101,10 +102,17 @@
 					class="ma-0 mb-4 pa-0"
 					cols="12"
 				>
-					<div
+					<!-- <div
 						v-if="markdown"
+						class="github-markdown"
 						v-html="$md.render(markdown)"
+					/> -->
+					<nuxt-content
+						v-if="guide"
+						class="github-markdown"
+						:document="guide"
 					/>
+
 					<v-skeleton-loader
 						v-else
 						class="ma-0 ml-n2 pa-0"
@@ -133,7 +141,6 @@ import {
 	mdiBook,
 	mdiBookOpenOutline,
 } from '@mdi/js';
-import sanitizeHtml from 'sanitize-html';
 
 export default {
 	name: 'Guide',
@@ -153,7 +160,7 @@ export default {
 		title () {
 			if (this.activeGuide) {
 				const { title } = this.activeGuide;
-				return sanitizeHtml(title) || '';
+				return title || '';
 			}
 			return '';
 		},
@@ -164,12 +171,12 @@ export default {
 			}
 			return '';
 		},
-		markdown () {
+		guide () {
 			if (this.activeGuide) {
-				const { markdown } = this.activeGuide;
-				return sanitizeHtml(markdown) || '';
+				const { guide } = this.activeGuide;
+				return guide || {};
 			}
-			return '';
+			return {};
 		},
 	},
 	head () {

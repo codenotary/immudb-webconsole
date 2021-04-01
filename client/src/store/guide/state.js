@@ -1,8 +1,11 @@
 export default () => ({
 	guides: [],
 	activeGuide: {
+		slug: '',
 		title: '',
 		documentation: '',
-		description: '',
+		createdAt: '',
+		updatedAt: '',
+		guide: null,
 	},
 });

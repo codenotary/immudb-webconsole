@@ -8,7 +8,7 @@ export const SET_ACTIVE_TOPIC = 'setActiveTopic';
 export const TOPICS = 'getTopics';
 export const ACTIVE_TOPIC = 'getActiveTopic';
 
-export const TOPICS_PATH = 'topics.json';
+export const TOPICS_PATH = '/topics.json';
 
 export const DEFAULT_TOPIC = {
 	paths: {

@@ -7,20 +7,18 @@ import {
 export default {
 	[SET_TOPICS](state, payload) {
 		const { topics } = payload;
-
 		const parseTopics = (data, parentLabel = null) => {
 			return data && data.reduce((acc, _, idx) => {
 				const e = _;
 				const id = calculateId(parentLabel, _.label);
 				const isParent = e.children && e.children.length > 0;
-				const { code } = e.paths || {};
 
 				e.id = id;
 				e.children && (e.children = parseTopics(e.children, id));
 				e.isParent = isParent;
 				e.type = isParent
 					? 'node'
-					: code
+					: e.code
 						? 'code'
 						: 'guide';
 				e.to = isParent

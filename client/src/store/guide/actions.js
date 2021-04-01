@@ -1,7 +1,7 @@
 import { StaticDataService } from '@/services';
 import {
 	FETCH_GUIDE,
-	SET_GUIDE,
+	SET_GUIDES,
 	SET_ACTIVE_GUIDE,
 	GUIDES_PATH,
 } from './constants';
@@ -46,8 +46,8 @@ export default {
 			console.error(err);
 		}
 	},
-	[SET_GUIDE]({ commit }, payload) {
-		commit(SET_GUIDE, payload);
+	[SET_GUIDES]({ commit }, payload) {
+		commit(SET_GUIDES, payload);
 	},
 	[SET_ACTIVE_GUIDE]({ commit }, payload) {
 		commit(SET_ACTIVE_GUIDE, payload);

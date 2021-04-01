@@ -223,6 +223,8 @@ export default {
 	modules: [
 		// Doc: https://axios.nuxtjs.org/setup
 		'@nuxtjs/axios',
+		// Doc: https://content.nuxtjs.org/
+		'@nuxt/content',
 		// Doc: https://github.com/robcresswell/nuxt-compress
 		['nuxt-compress',
 			{
@@ -349,6 +351,22 @@ export default {
 		},
 	},
 
+	/*
+	** Build configuration
+	*/
+	content: {
+		dir: 'content',
+		apiPrefix: '_content',
+		markdown: {
+			remarkEmoji: {
+				emoticon: true,
+			},
+			prism: {
+				theme: 'prism-themes/themes/prism-dracula.css',
+			},
+		},
+	},
+
 	axios: {
 		baseURL: process.env.API_URL || '/api/v1',
 		proxy: true,
@@ -459,9 +477,9 @@ export default {
 	markdownit: {
 		preset: 'default',
 		linkify: true,
-		breaks: false,
+		breaks: true,
 		typographer: true,
-		html: false,
+		html: true,
 		runtime: true,
 		use: [
 			// [
@@ -472,12 +490,15 @@ export default {
 			// 		permalink: true,
 			// 		// renderPermalink: (slug, opts, state, permalink) => {},
 			// 		permalinkClass: 'header-anchor',
-			// 		permalinkSymbol: '¶',
+			// 		permalinkSymbol: '#',
 			// 		permalinkBefore: true
 			// 	}
 			// ],
-			'markdown-it-div',
 			'markdown-it-attrs',
+			'markdown-it-div',
+			'markdown-it-emoji',
+			'markdown-it-prism',
+			'markdown-it-multimd-table',
 			'markdown-it-toc-done-right',
 		],
 	}

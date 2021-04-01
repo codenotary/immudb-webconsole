@@ -3,42 +3,51 @@
 		class="playground-theme py-0 pr-4"
 		:class="`theme--${ $vuetify.theme.dark ? 'dark' : 'light' }`"
 		horizontal
-		:push-other-panes="false"
-		@resize="onResizeSecondRow"
+		:push-other-panes="true"
+		@resize="onResizeFourthPane"
 	>
 		<pane
 			min-size="20"
 			max-size="100"
 		>
 			<splitpanes
-				:push-other-panes="false"
+				:class="`theme--${ $vuetify.theme.dark ? 'dark' : 'light' }`"
+				:push-other-panes="true"
 				:horizontal="mobile"
-				@resize="onResizeFirstRow"
 			>
 				<pane
 					v-if="!mobile"
-					:size="getTopicPane.size"
+					:size.sync="getTopicPane.size"
 					:min-size="getTopicPane.minSize"
 					:max-size="getTopicPane.maxSize"
 				>
 					<LazyTopic />
 				</pane>
-				<pane
-					v-if="activeGuide && activeGuide.markdown"
-					:size="getGuidePane.size"
-					:min-size="getGuidePane.minSize"
-					:max-size="getGuidePane.maxSize"
-				>
-					<LazyGuide />
-				</pane>
-				<pane
-					v-if="activeCode"
-				>
-					<LazyCode
-						:size="getCodePane.size"
-						:min-size="getCodePane.minSize"
-						:max-size="getCodePane.maxSize"
-					/>
+
+				<pane>
+					<splitpanes
+						:class="`theme--${ $vuetify.theme.dark ? 'dark' : 'light' }`"
+						:push-other-panes="true"
+						:horizontal="mobile"
+					>
+						<pane
+							v-if="showGuide"
+							:size.sync="getGuidePane.size"
+							:min-size="getGuidePane.minSize"
+							:max-size="getGuidePane.maxSize"
+						>
+							<LazyGuide />
+						</pane>
+						<pane
+							v-if="showCode"
+						>
+							<LazyCode
+								:size.sync="getCodePane.size"
+								:min-size="getCodePane.minSize"
+								:max-size="getCodePane.maxSize"
+							/>
+						</pane>
+					</splitpanes>
 				</pane>
 			</splitpanes>
 		</pane>
@@ -68,7 +77,7 @@ import {
 } from '@/store/topic/constants';
 import {
 	GUIDE_MODULE,
-	FETCH_GUIDE,
+	SET_ACTIVE_GUIDE,
 	ACTIVE_GUIDE,
 } from '@/store/guide/constants';
 import {
@@ -99,16 +108,12 @@ export default {
 		try {
 			await this.fetchTopics();
 			await this.fetchLanguages();
-			this.codePath = this.getParam(PARAMS.ID) || 'welcome';
 		}
 		catch (err) {
 			console.error('FETCH', err);
 		}
 	},
 	fetchOnServer: false,
-	data: () => ({
-		codePath: '',
-	}),
 	computed: {
 		...mapGetters(VIEW_MODULE, {
 			mobile: MOBILE,
@@ -122,61 +127,35 @@ export default {
 		...mapGetters(CODE_MODULE, {
 			activeCode: ACTIVE_CODE,
 		}),
+		showGuide () {
+			return this.activeGuide && this.activeGuide.guide;
+		},
+		showCode () {
+			return this.activeCode;
+		},
 		getTopicPane () {
 			if (this.mobile) {
-				return {
-					size: 1,
-					minSize: 1,
-					maxSize: 1,
-				};
+				return { size: 1, minSize: 1, maxSize: 1 };
 			}
-			return {
-				size: 20,
-				minSize: 20,
-				maxSize: 60,
-			};
+			return { size: 20, minSize: 20, maxSize: 60 };
 		},
 		getGuidePane () {
 			if (this.mobile) {
-				return {
-					size: 100,
-					minSize: 100,
-					maxSize: 100,
-				};
+				return { size: 100, minSize: 100, maxSize: 100 };
 			}
-			return {
-				size: 40,
-				minSize: 40,
-				maxSize: 80,
-			};
+			return { size: 100, minSize: 20, maxSize: 100 };
 		},
 		getCodePane () {
 			if (this.mobile) {
-				return {
-					size: 20,
-					minSize: 60,
-					maxSize: 100,
-				};
+				return { size: 20, minSize: 60, maxSize: 100 };
 			}
-			return {
-				size: 40,
-				minSize: 40,
-				maxSize: 100,
-			};
+			return { size: 0, minSize: 20, maxSize: 100 };
 		},
 		getOutputPane () {
 			if (this.mobile) {
-				return {
-					size: 20,
-					minSize: 20,
-					maxSize: 100,
-				};
+				return { size: 20, minSize: 20, maxSize: 100 };
 			}
-			return {
-				size: 33,
-				minSize: 33,
-				maxSize: 100,
-			};
+			return { size: 33, minSize: 20, maxSize: 100 };
 		},
 	},
 	watch: {
@@ -186,27 +165,17 @@ export default {
 			handler (newVal) {
 				if (newVal) {
 					const { id } = newVal;
-					this.codePath = id || 'welcome';
-				}
-			},
-		},
-		codePath: {
-			immediate: false,
-			handler (newVal) {
-				if (newVal) {
-					this.setActiveTopic({ activePath: newVal });
+					this.setActiveTopic({ activePath: id });
 				}
 			},
 		},
 		activeTopic: {
 			deep: true,
-			handler (newVal) {
-				const { label, documentation, paths: { guide, code } } = newVal || DEFAULT_TOPIC;
-				this.fetchGuide({
-					id: guide,
-					title: label,
-					documentation,
-				});
+			async handler (newVal) {
+				const id = this.getParam(PARAMS.ID) || 'welcome';
+				const guide = await this.$content('guides', id).fetch();
+				const { code } = newVal || DEFAULT_TOPIC;
+				this.setActiveGuide(guide);
 				this.fetchCode({ id: code });
 			},
 		},
@@ -228,20 +197,13 @@ export default {
 			setActiveTopic: SET_ACTIVE_TOPIC,
 		}),
 		...mapActions(GUIDE_MODULE, {
-			fetchGuide: FETCH_GUIDE,
+			setActiveGuide: SET_ACTIVE_GUIDE,
 		}),
 		...mapActions(CODE_MODULE, {
 			fetchLanguages: FETCH_LANGUAGES,
 			fetchCode: FETCH_CODE,
 		}),
-		onResizeFirstRow (data) {
-			this.setPaneSizes({
-				topic: data && data[0] && data[0].size,
-				guide: data && data[1] && data[1].size,
-				code: data && data[2] && data[2].size,
-			});
-		},
-		onResizeSecondRow (data) {
+		onResizeFourthPane(data) {
 			this.setPaneSizes({
 				output: data && data[1] && data[1].size,
 			});
