@@ -1,8 +1,8 @@
 import {
 	LANGUAGES,
 	ACTIVE_LANGUAGE,
-	EXAMPLES,
-	ACTIVE_EXAMPLE,
+	CODES,
+	ACTIVE_CODE,
 } from './constants';
 
 export default {
@@ -14,30 +14,10 @@ export default {
 			return _ && _.label === state.activeLanguage;
 		}) || {};
 	},
-	[EXAMPLES](state) {
-		return state.examples || [];
+	[CODES](state) {
+		return state.codes || [];
 	},
-	[ACTIVE_EXAMPLE](state, getters) {
-		const { label, mime } = getters[ACTIVE_LANGUAGE];
-		let result = {};
-
-		const recursiveGet = (data) => {
-			data && data.map((_) => {
-				const activePath = `/${ label }/${ _ && _.fileName }.${ mime }`;
-				const { children } = _;
-				const childSearch = children && recursiveGet(children);
-				if (activePath === state.activeExample || childSearch) {
-					if (_ && activePath === state.activeExample) {
-						result = _;
-					}
-					else if (childSearch) {
-						result = childSearch;
-					}
-				}
-			});
-		};
-
-		recursiveGet(state.examples);
-		return result;
+	[ACTIVE_CODE](state) {
+		return state.activeCode || '';
 	},
 };

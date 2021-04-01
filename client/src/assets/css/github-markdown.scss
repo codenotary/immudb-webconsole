@@ -1,13 +1,11 @@
-// @import "~@/assets/css/github-markdown";
-
 .github-markdown {
 	a {
 		color: $primary !important;
 		text-decoration: none !important;
 
-		// &:visited {
-		// 	color:$color-secondary !important;
-		// }
+		&:visited {
+			color: $secondary !important;
+		}
 
 		&:hover {
 			color: $secondary !important;
@@ -65,7 +63,7 @@
 	h5,
 	h6 {
 		font-weight: normal !important;
-		color: #111 !important;
+		// color: #111 !important;
 		line-height: 1em !important;
 	}
 
@@ -112,7 +110,7 @@
 	}
 
 	blockquote {
-		color: #666 !important;
+		// color: #666 !important;
 		margin: 0 !important;
 		padding-left: 3em !important;
 		border-left: 0.5em #eee solid !important;
@@ -132,7 +130,7 @@
 	code,
 	kbd,
 	samp {
-		color: #000 !important;
+		// color: #000 !important;
 		font-family: monospace !important;
 		_font-family: 'courier new', monospace !important;
 		font-size: 0.96em !important;

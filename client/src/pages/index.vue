@@ -3,39 +3,51 @@
 		class="playground-theme py-0 pr-4"
 		:class="`theme--${ $vuetify.theme.dark ? 'dark' : 'light' }`"
 		horizontal
-		:push-other-panes="false"
-		@resize="onResizeSecondRow"
+		:push-other-panes="true"
+		@resize="onResizeFourthPane"
 	>
 		<pane
 			min-size="20"
 			max-size="100"
 		>
 			<splitpanes
-				:push-other-panes="false"
+				:class="`theme--${ $vuetify.theme.dark ? 'dark' : 'light' }`"
+				:push-other-panes="true"
 				:horizontal="mobile"
-				@resize="onResizeFirstRow"
 			>
 				<pane
 					v-if="!mobile"
-					:size="getTopicPane.size"
+					:size.sync="getTopicPane.size"
 					:min-size="getTopicPane.minSize"
 					:max-size="getTopicPane.maxSize"
 				>
 					<LazyTopic />
 				</pane>
-				<pane
-					:size="getGuidePane.size"
-					:min-size="getGuidePane.minSize"
-					:max-size="getGuidePane.maxSize"
-				>
-					<LazyGuide />
-				</pane>
+
 				<pane>
-					<LazyCode
-						:size="getCodePane.size"
-						:min-size="getCodePane.minSize"
-						:max-size="getCodePane.maxSize"
-					/>
+					<splitpanes
+						:class="`theme--${ $vuetify.theme.dark ? 'dark' : 'light' }`"
+						:push-other-panes="true"
+						:horizontal="mobile"
+					>
+						<pane
+							v-if="showGuide"
+							:size.sync="getGuidePane.size"
+							:min-size="getGuidePane.minSize"
+							:max-size="getGuidePane.maxSize"
+						>
+							<LazyGuide />
+						</pane>
+						<pane
+							v-if="showCode"
+						>
+							<LazyCode
+								:size.sync="getCodePane.size"
+								:min-size="getCodePane.minSize"
+								:max-size="getCodePane.maxSize"
+							/>
+						</pane>
+					</splitpanes>
 				</pane>
 			</splitpanes>
 		</pane>
@@ -55,13 +67,24 @@
 import { mapActions, mapGetters } from 'vuex';
 import LayoutMixin from '@/mixins/LayoutMixin';
 import { ParamMixin, PARAMS } from '@/mixins/ParamMixin';
-import { title } from '@/helpers/meta';
+import { metaTitle } from '@/helpers/meta';
+import {
+	TOPIC_MODULE,
+	FETCH_TOPICS,
+	SET_ACTIVE_TOPIC,
+	ACTIVE_TOPIC,
+	DEFAULT_TOPIC,
+} from '@/store/topic/constants';
+import {
+	GUIDE_MODULE,
+	SET_ACTIVE_GUIDE,
+	ACTIVE_GUIDE,
+} from '@/store/guide/constants';
 import {
 	CODE_MODULE,
 	FETCH_LANGUAGES,
-	FETCH_EXAMPLES,
-	FETCH_CODES,
-	SET_ACTIVE_EXAMPLE,
+	FETCH_CODE,
+	ACTIVE_CODE,
 } from '@/store/code/constants';
 import {
 	VIEW_MODULE,
@@ -82,91 +105,78 @@ export default {
 		ParamMixin,
 	],
 	async fetch() {
-		await this.fetchLanguages();
-		await this.fetchExamples();
-		await this.fetchCodes();
+		try {
+			await this.fetchTopics();
+			await this.fetchLanguages();
+		}
+		catch (err) {
+			console.error('FETCH', err);
+		}
 	},
 	fetchOnServer: false,
-	data: () => ({
-		codePath: '',
-	}),
 	computed: {
 		...mapGetters(VIEW_MODULE, {
 			mobile: MOBILE,
 		}),
+		...mapGetters(TOPIC_MODULE, {
+			activeTopic: ACTIVE_TOPIC,
+		}),
+		...mapGetters(GUIDE_MODULE, {
+			activeGuide: ACTIVE_GUIDE,
+		}),
+		...mapGetters(CODE_MODULE, {
+			activeCode: ACTIVE_CODE,
+		}),
+		showGuide () {
+			return this.activeGuide && this.activeGuide.guide;
+		},
+		showCode () {
+			return this.activeCode;
+		},
 		getTopicPane () {
 			if (this.mobile) {
-				return {
-					size: 1,
-					minSize: 1,
-					maxSize: 1,
-				};
+				return { size: 1, minSize: 1, maxSize: 1 };
 			}
-			return {
-				size: 20,
-				minSize: 20,
-				maxSize: 60,
-			};
+			return { size: 20, minSize: 20, maxSize: 60 };
 		},
 		getGuidePane () {
 			if (this.mobile) {
-				return {
-					size: 100,
-					minSize: 100,
-					maxSize: 100,
-				};
+				return { size: 100, minSize: 100, maxSize: 100 };
 			}
-			return {
-				size: 40,
-				minSize: 40,
-				maxSize: 80,
-			};
+			return { size: 100, minSize: 20, maxSize: 100 };
 		},
 		getCodePane () {
 			if (this.mobile) {
-				return {
-					size: 20,
-					minSize: 60,
-					maxSize: 100,
-				};
+				return { size: 20, minSize: 60, maxSize: 100 };
 			}
-			return {
-				size: 40,
-				minSize: 40,
-				maxSize: 100,
-			};
+			return { size: 0, minSize: 20, maxSize: 100 };
 		},
 		getOutputPane () {
 			if (this.mobile) {
-				return {
-					size: 20,
-					minSize: 20,
-					maxSize: 100,
-				};
+				return { size: 20, minSize: 20, maxSize: 100 };
 			}
-			return {
-				size: 33,
-				minSize: 33,
-				maxSize: 100,
-			};
+			return { size: 33, minSize: 20, maxSize: 100 };
 		},
 	},
 	watch: {
 		'$route.query': {
 			deep: true,
+			immediate: false,
 			handler (newVal) {
 				if (newVal) {
-					const { code } = newVal;
-					this.codePath = code;
+					const { id } = newVal;
+					this.setActiveTopic({ activePath: id });
 				}
 			},
 		},
-		codePath: {
-			immediate: true,
-			handler (newVal) {
-				if (newVal) {
-					this.setActiveExample({ activePath: newVal });
-				}
+		activeTopic: {
+			deep: true,
+			async handler (newVal) {
+				const id = this.getParam(PARAMS.ID) || 'welcome';
+				const guide = await this.$content('guides', id).fetch();
+				const { code } = newVal || DEFAULT_TOPIC;
+				this.setActiveGuide(guide);
+				this.fetchCode({ id: code });
 			},
 		},
 	},
@@ -177,27 +187,23 @@ export default {
 			page_location: window && window.location && window.location.href,
 			page_path: '/',
 		});
-
-		this.codePath = this.getParam(PARAMS.CODE) || '/python/login.py';
 	},
 	methods: {
-		...mapActions(CODE_MODULE, {
-			fetchLanguages: FETCH_LANGUAGES,
-			fetchExamples: FETCH_EXAMPLES,
-			fetchCodes: FETCH_CODES,
-			setActiveExample: SET_ACTIVE_EXAMPLE,
-		}),
 		...mapActions(VIEW_MODULE, {
 			setPaneSizes: SET_PANE_SIZES,
 		}),
-		onResizeFirstRow (data) {
-			this.setPaneSizes({
-				topic: data && data[0] && data[0].size,
-				guide: data && data[1] && data[1].size,
-				code: data && data[2] && data[2].size,
-			});
-		},
-		onResizeSecondRow (data) {
+		...mapActions(TOPIC_MODULE, {
+			fetchTopics: FETCH_TOPICS,
+			setActiveTopic: SET_ACTIVE_TOPIC,
+		}),
+		...mapActions(GUIDE_MODULE, {
+			setActiveGuide: SET_ACTIVE_GUIDE,
+		}),
+		...mapActions(CODE_MODULE, {
+			fetchLanguages: FETCH_LANGUAGES,
+			fetchCode: FETCH_CODE,
+		}),
+		onResizeFourthPane(data) {
 			this.setPaneSizes({
 				output: data && data[1] && data[1].size,
 			});
@@ -205,7 +211,7 @@ export default {
 	},
 	head() {
 		return {
-			title: title('Dashboard'),
+			title: metaTitle('Dashboard'),
 		};
 	},
 };

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { title } from '~/helpers/meta';
+import { metaTitle } from '~/helpers/meta';
 
 export default {
 	middleware({ redirect }) {
@@ -19,7 +19,7 @@ export default {
 	},
 	head() {
 		return {
-			title: title('Not found'),
+			title: metaTitle('Not found'),
 		};
 	},
 };

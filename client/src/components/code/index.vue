@@ -72,7 +72,7 @@ import {
 } from '@/store/output/constants';
 import {
 	CODE_MODULE,
-	ACTIVE_EXAMPLE,
+	ACTIVE_CODE,
 } from '@/store/code/constants';
 import { mdiXml } from '@mdi/js';
 
@@ -85,9 +85,6 @@ const uniqueId = require('lodash.uniqueid');
 
 export default {
 	name: 'Code',
-	props: {
-		codePath: { type: String, default: '/python/hello_world' },
-	},
 	data () {
 		return {
 			ITEMS_TYPES,
@@ -101,23 +98,20 @@ export default {
 			loading: IS_LOADING,
 		}),
 		...mapGetters(CODE_MODULE, {
-			activeExample: ACTIVE_EXAMPLE,
+			activeCode: ACTIVE_CODE,
 		}),
 		...mapGetters(OUTPUT_MODULE, {
 			immudb: IMMUDB,
 		}),
 	},
 	watch: {
-		activeExample: {
+		activeCode: {
 			immediate: true,
 			deep: true,
 			handler (newVal) {
-				if (newVal) {
-					const { code } = newVal;
-					if (code !== this.code) {
-						this.code = code;
-						this.id = uniqueId('id_');
-					}
+				if (newVal && newVal !== this.code) {
+					this.code = newVal;
+					this.id = uniqueId('id_');
 				}
 			},
 		},

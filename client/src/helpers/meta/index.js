@@ -10,5 +10,5 @@ export const DEFAULT_META = {
 	HANDLE: '@CodeNotary',
 	MAIN_IMAGE: '/images/immudb_social_preview.jpg',
 };
-export * from './title';
+export * from './metaTitle';
 export * from './meta';
