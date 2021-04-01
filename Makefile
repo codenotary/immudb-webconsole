@@ -3,7 +3,7 @@ VARS = --build-arg V_COMMIT=$(V_COMMIT)
 
 all: build run stop
 
-.PHONY: build, backend, frontend
+.PHONY: build backend frontend
 build:
 	docker-compose build $(VARS)
 	make -C player-py
