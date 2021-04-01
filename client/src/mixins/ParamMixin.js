@@ -5,6 +5,7 @@ export const PARAMS = {
 	ERROR_DESCRIPTION: 'error_description',
 	ERROR_URI: 'error_uri',
 	STATE: 'state',
+	TOPIC: 'topic',
 	CODE: 'code',
 };
 

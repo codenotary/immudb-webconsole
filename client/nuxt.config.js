@@ -354,7 +354,7 @@ export default {
 	*/
 	content: {
 		dir: 'content',
-		apiPrefix: '_content',
+		apiPrefix: 'api-content',
 		markdown: {
 			remarkEmoji: {
 				emoticon: true,

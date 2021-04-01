@@ -161,22 +161,23 @@ export default {
 	watch: {
 		'$route.query': {
 			deep: true,
-			immediate: false,
+			immediate: true,
 			handler (newVal) {
 				if (newVal) {
-					const { id } = newVal;
-					this.setActiveTopic({ activePath: id });
+					const { topic } = newVal;
+					this.setActiveTopic({ activePath: topic });
 				}
 			},
 		},
 		activeTopic: {
 			deep: true,
 			async handler (newVal) {
-				const id = this.getParam(PARAMS.ID) || 'welcome';
-				const guide = await this.$content('guides', id).fetch();
-				const { code } = newVal || DEFAULT_TOPIC;
-				this.setActiveGuide(guide);
-				this.fetchCode({ id: code });
+				const topicParam = this.getParam(PARAMS.TOPIC) || 'welcome';
+				console.log(topicParam);
+				const topic = await this.$content('guides', topicParam).fetch();
+				const { code } = topic || DEFAULT_TOPIC;
+				this.setActiveGuide(topic);
+				this.fetchCode({ code });
 			},
 		},
 	},

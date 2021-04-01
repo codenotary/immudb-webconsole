@@ -31,5 +31,5 @@ export const StaticDataService = axios.create({
 // Static data api proxy instance
 export const ContentService = axios.create({
 	...API_CONFIG,
-	baseURL: '/_content',
+	baseURL: '/api-content',
 });

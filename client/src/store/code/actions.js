@@ -91,11 +91,11 @@ export default {
 	},
 	async [FETCH_CODE]({ commit, getters }, payload) {
 		try {
-			const { id } = payload;
+			const { code } = payload;
 			const { path, mime } = getters[ACTIVE_LANGUAGE];
 
-			if (id) {
-				let _url = id.startsWith('/') ? id : `/${ id }`;
+			if (code) {
+				let _url = code.startsWith('/') ? code : `/${ code }`;
 				_url = _url.endsWith(`.${ mime }`) ? _url : `${ _url }.${ mime }`;
 
 				await StaticDataService.get(`${ CODES_PATH }${ path }${ _url }`)

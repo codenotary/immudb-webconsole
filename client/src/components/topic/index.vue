@@ -23,6 +23,7 @@
 			>
 				{{ $t('topic.title') }}
 			</h4>
+			<!-- O: {{ open }} -->
 		</v-card-title>
 		<v-card-text
 			class="ma-0 pa-0 bg-secondary custom-scrollbar"
@@ -67,9 +68,6 @@
 					<nuxt-link
 						v-if="props.item.to"
 						class="ma-0 pa-0"
-						:class="{
-							'nuxt-link-exact-active': false && forceActive(props.item.sort),
-						}"
 						:to="props.item.to"
 					>
 						{{ props.item.label }}
@@ -150,6 +148,7 @@ export default {
 					const children = this.parseTopics(newVal);
 					if (children && children.length) {
 						this.items = children;
+						this.initOpen();
 					}
 				}
 			},
@@ -183,6 +182,11 @@ export default {
 			catch (err) {
 				console.error(err);
 			}
+		},
+		initOpen (data) {
+			const { query: { topic } } = this.$route;
+			console.log(this.items, topic);
+			this.open = [topic];
 		},
 		forceActive (data) {
 			const { path, query: { id } } = this.$route;
