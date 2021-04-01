@@ -4,10 +4,10 @@ player-py: Dockerfile start.sh immudumper
 	docker build -t $@ .
 	docker images --no-trunc --quiet $@ > $@
 	
-immudumper: ../immudumper/immudumper
+immudumper: ../tools/immudumper/immudumper
 	cp $^ $@
 
-.PHONY: ../immudumper/immudumper
-../immudumper/immudumper:
+.PHONY: ../tools/immudumper/immudumper
+../tools/immudumper/immudumper:
 	make -C ../immudumper
 
