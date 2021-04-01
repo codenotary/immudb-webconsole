@@ -6,9 +6,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"golang.org/x/net/websocket"
+	"io"
 	"log"
 	"net/http"
 	"path"
+	"time"
 )
 
 type runner struct {
@@ -21,49 +23,62 @@ type runner struct {
 
 var runners map[string]*runner
 
+const TIMEOUT = 2 * time.Minute
+
 func (rn *runner) loop() {
-	log.Printf("Running loop for container %s", rn.container)
+	Debug.Printf("Preparing loop for container %s", rn.container)
 	rn.running = true
 	defer func() {
 		rn.running = false
-		log.Printf("Exiting loop for container %s", rn.container)
+		Debug.Printf("Exiting loop for container %s", rn.container)
 	}()
 	atc, err := attachContainer(rn.ctx, rn.container)
 	if err != nil {
 		log.Printf("Error %s", err.Error())
 		return
 	}
-	incoming := make(chan []byte)
+	outgoing := make(chan []byte)
 	fin := make(chan bool)
 	go func(rd *bufio.Reader) {
-		buffer := make([]byte, 65536)
 		for {
-			n, err := rd.Read(buffer)
+			if rn.running == false {
+				log.Printf("Parent is dead")
+				return
+			}
+			outgoingLine, err := demux(rd)
 			if err != nil {
-				log.Printf("Incoming error: %v", err)
+				log.Printf("Incoming error: %s", err.Error())
 				break
 			}
-			if n == 0 {
-				log.Printf("zero")
-				continue
-			}
-			log.Printf("=> %s", string(buffer[:n]))
-			incoming <- buffer[:n]
+			jresp, _ := json.Marshal(outgoingLine)
+			Debug.Printf("=> %v", outgoingLine)
+			outgoing <- jresp
 		}
 		fin <- true
 	}(atc.Reader)
-	log.Printf("Running loop for container %s (2)", rn.container)
+	Debug.Printf("Running loop for container %s", rn.container)
+	idletimeout := time.NewTimer(TIMEOUT)
 	for {
 		select {
 		case s := <-rn.clientIn:
-			log.Printf("<== %s", string(s))
-			atc.Conn.Write(s)
-		case s := <-incoming:
-			log.Printf("<= %s", string(s))
+			idletimeout.Reset(TIMEOUT)
+			Debug.Printf("<== %s", string(s))
+			var line InputLine
+			err := json.Unmarshal(s, &line)
+			if err != nil {
+				log.Printf("Error while reading command: %s [%+v]", err.Error(), s)
+			} else {
+				atc.Conn.Write([]byte(line.Line))
+			}
+		case s := <-outgoing:
+			Debug.Printf("<= %s", string(s))
 			for _, c := range rn.clientOut {
 				c <- s
 			}
 		case <-fin:
+			return
+		case <-idletimeout.C:
+			log.Printf("Timeout expired")
 			return
 		}
 	}
@@ -103,6 +118,10 @@ func httpRet(w http.ResponseWriter, ret *runnerResponse) {
 // @failure 500
 // @router /run/new [post]
 func newRunner(w http.ResponseWriter, req *http.Request) {
+	if req.Method != "POST" {
+		http.Error(w, "Invalid method", http.StatusMethodNotAllowed)
+		return
+	}
 	ctx := context.Background()
 	c_id, err := startContainer(ctx, "player-immuclient")
 	if err != nil {
@@ -117,6 +136,7 @@ func newRunner(w http.ResponseWriter, req *http.Request) {
 	s_id := randString(9)
 	runners[s_id] = rn
 	go rn.loop()
+	log.Printf("Created container %s [%s]", s_id, c_id)
 	httpRet(w, &runnerResponse{Status: "success", Id: s_id})
 }
 
@@ -129,6 +149,10 @@ func newRunner(w http.ResponseWriter, req *http.Request) {
 // @failure 500
 // @router /run/list [get]
 func listRunners(w http.ResponseWriter, req *http.Request) {
+	if req.Method != "GET" {
+		http.Error(w, "Invalid method", http.StatusMethodNotAllowed)
+		return
+	}
 	ret := &listrunnerResponse{Ids: make([]string, 0, len(runners))}
 	for i, _ := range runners {
 		ret.Ids = append(ret.Ids, i)
@@ -163,6 +187,7 @@ func closeRunner(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	delete(runners, reqId)
+	log.Printf("Shut down container %s [%s]", reqId, rn.container)
 	httpRet(w, &runnerResponse{Status: "success", Id: reqId})
 }
 
@@ -186,7 +211,7 @@ func eventRunner(w http.ResponseWriter, r *http.Request) {
 }
 
 func wsRunnerEvents(rn *runner, ws *websocket.Conn) {
-	log.Printf("Serving i/o for container %s", rn.container)
+	Debug.Printf("Serving i/o for container %s", rn.container)
 	end := make(chan bool)
 	clOut := make(chan []byte)
 	rn.clientOut = append(rn.clientOut, clOut)
@@ -197,20 +222,24 @@ func wsRunnerEvents(rn *runner, ws *websocket.Conn) {
 				rn.clientOut = rn.clientOut[:len(rn.clientOut)-1]
 				break
 			}
-			log.Printf("Exiting i/o for container %s", rn.container)
+			Debug.Printf("Exiting i/o for container %s", rn.container)
 		}
 	}()
 	go func(clIn chan []byte) {
 		for {
 			buf := make([]byte, 65536)
-			_, err := ws.Read(buf)
+			n, err := ws.Read(buf)
 			if err != nil {
-				log.Printf("runner error %s", err.Error())
+				if err == io.EOF {
+					Debug.Printf("runner error %s", err.Error())
+				} else {
+					log.Printf("runner error %s", err.Error())
+				}
 				break
 			}
-			log.Printf("--> %s", string(buf))
+			buf = buf[:n]
+			Debug.Printf("--> %s", string(buf))
 			clIn <- buf
-			log.Printf("..")
 		}
 		end <- true
 	}(rn.clientIn)
@@ -220,7 +249,7 @@ loop:
 		case <-end:
 			break loop
 		case b := <-clOut:
-			log.Printf("<-- %s", string(b))
+			Debug.Printf("<-- %s", string(b))
 			ws.Write(b)
 		}
 	}

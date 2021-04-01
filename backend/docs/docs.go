@@ -32,6 +32,26 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/exec/logs": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "player"
+                ],
+                "summary": "Return last 16 container run logs",
+                "operationId": "execLog",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.runLog"
+                        }
+                    }
+                }
+            }
+        },
         "/exec/python": {
             "post": {
                 "consumes": [
@@ -41,7 +61,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "info"
+                    "player"
                 ],
                 "summary": "Execute a python script",
                 "operationId": "pythonExec",
@@ -212,6 +232,37 @@ var doc = `{
                 }
             }
         },
+        "main.runLog": {
+            "type": "object",
+            "properties": {
+                "lines": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/main.runLogLine"
+                    }
+                },
+                "size": {
+                    "type": "integer"
+                }
+            }
+        },
+        "main.runLogLine": {
+            "type": "object",
+            "properties": {
+                "container": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "logentry": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "number"
+                }
+            }
+        },
         "main.runRequest": {
             "type": "object",
             "properties": {
@@ -219,6 +270,12 @@ var doc = `{
                     "type": "string"
                 },
                 "immudb": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "token": {
                     "type": "array",
                     "items": {
                         "type": "integer"
@@ -241,11 +298,20 @@ var doc = `{
                         "$ref": "#/definitions/main.OutputLine"
                     }
                 },
+                "token": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
                 "tree": {
                     "type": "array",
                     "items": {
                         "type": "integer"
                     }
+                },
+                "verified": {
+                    "type": "boolean"
                 }
             }
         },

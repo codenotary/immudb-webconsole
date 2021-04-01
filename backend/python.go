@@ -21,21 +21,29 @@ import (
 type runRequest struct {
 	Code   string `json:"code"`
 	Immudb []byte `json:"immudb"`
+	Token  []byte `json:"token"`
 }
+
 type OutputLine struct {
 	Timestamp float64 `json:"timestamp"`
 	Flux      string  `json:"flux"`
 	Line      string  `json:"line"`
 }
 
+type InputLine struct {
+	Line string `json:"line"`
+}
+
 type runResponse struct {
-	Output []OutputLine `json:"output"`
-	Immudb []byte       `json:"immudb"`
-	Tree   []byte       `json:"tree"`
+	Output   []OutputLine `json:"output"`
+	Immudb   []byte       `json:"immudb"`
+	Tree     []byte       `json:"tree"`
+	Token    []byte       `json:"token"`
+	Verified bool         `json:"verified"`
 }
 
 // @id pythonExec
-// @tags info
+// @tags player
 // @summary Execute a python script
 // @accept application/json
 // @param request body runRequest true "Run request"
@@ -45,6 +53,10 @@ type runResponse struct {
 // @failure 500
 // @router /exec/python [post]
 func pythonExec(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		http.Error(w, "Invalid method", http.StatusMethodNotAllowed)
+		return
+	}
 	var req runRequest
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
@@ -77,6 +89,15 @@ func pythonExec(w http.ResponseWriter, r *http.Request) {
 	// extract immudb state
 	if len(req.Immudb) > 0 {
 		err = extractTarball(bytes.NewReader(req.Immudb), dir)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			log.Printf("Error: %s", err.Error())
+			return
+		}
+	}
+	// extract immudb token file
+	if len(req.Token) > 0 {
+		err = ioutil.WriteFile(path.Join(dir, "statefile"), req.Token, 0644)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			log.Printf("Error: %s", err.Error())
