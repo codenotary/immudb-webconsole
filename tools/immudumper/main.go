@@ -19,6 +19,8 @@ import (
 	"google.golang.org/grpc"
 )
 
+const username = "immudumper"
+const password = "pica.ZOma0"
 
 func MyCustomImmuClient(ctx context.Context, options *immuclient.Options) (cli immuclient.ImmuClient, err error) {
 	cli = immuclient.DefaultClient()
@@ -55,7 +57,7 @@ func connect() (immuclient.ImmuClient, context.Context) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	lr, err := client.Login(ctx, []byte(`immudb`), []byte(`immudb`))
+	lr, err := client.Login(ctx, []byte(username), []byte(password))
 	if err != nil {
 		log.Fatal(err)
 	}
