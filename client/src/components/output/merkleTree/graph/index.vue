@@ -56,7 +56,7 @@
 					</template>
 				</template>
 				<template #popUp="{ data, node }">
-					<OutputMerkleTreeGraphModal
+					<OutputMerkleTreeGraphPopUp
 						:item="data"
 						:node="node"
 					/>

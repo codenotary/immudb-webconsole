@@ -10,6 +10,7 @@
 			<span class="ml-2 subtitle-2">
 				{{ title }}
 			</span>
+			<v-spacer />
 		</v-card-title>
 		<v-card-text
 			class="ma-0 pa-4 bg-secondary custom-scrollbar"
@@ -31,7 +32,7 @@
 import { mdiPound } from '@mdi/js';
 
 export default {
-	name: 'OutputMerkleTreeGraphModal',
+	name: 'OutputMerkleTreeGraphPopUp',
 	props: {
 		item: { type: Object, default: () => {} },
 		node: { type: Object, default: () => {} },

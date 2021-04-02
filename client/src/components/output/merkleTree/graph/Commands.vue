@@ -1,11 +1,11 @@
 <template>
 	<div
-		class="ma-0 pa-0 d-flex flex-column"
+		class="ma-0 py-1 px-0 bg-tertiary d-flex flex-column"
 		dense
 		tile
 	>
 		<v-tooltip
-			right
+			left
 		>
 			<template v-slot:activator="{ on, attrs }">
 				<v-btn
@@ -26,21 +26,52 @@
 				</v-btn>
 			</template>
 			<span>
-				{{ $t('output.merkleTree.commands.resetZoom') }}
+				{{ $t('output.merkleTree.commands.tooltip.resetZoom') }}
 			</span>
 		</v-tooltip>
-		<v-divider />
+		<v-divider class="my-1 mx-0 pa-0" />
+		<v-tooltip
+			left
+		>
+			<template v-slot:activator="{ on, attrs }">
+				<v-btn
+					class="command ma-0 pa-1 bg-tertiary"
+					:alt="$t('output.merkleTree.commands.info')"
+					small
+					depressed
+					tile
+					v-bind="attrs"
+					v-on="on"
+					@click="infoModal = !infoModal"
+				>
+					<v-icon
+						class="grey--text text--lighten-1"
+					>
+						{{ mdiInformationOutline }}
+					</v-icon>
+				</v-btn>
+			</template>
+			<span v-html="$t('output.merkleTree.commands.info')" />
+		</v-tooltip>
+		<OutputMerkleTreeGraphInfo
+			v-model="infoModal"
+		/>
 	</div>
 </template>
 
 <script>
-import { mdiImageFilterCenterFocus } from '@mdi/js';
+import {
+	mdiImageFilterCenterFocus,
+	mdiInformationOutline,
+} from '@mdi/js';
 
 export default {
 	name: 'OutputMerkleTreeGraphCommands',
 	data () {
 		return {
 			mdiImageFilterCenterFocus,
+			mdiInformationOutline,
+			infoModal: false,
 		};
 	},
 	methods: {
