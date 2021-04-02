@@ -5,7 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-		"fmt"
+	"fmt"
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/mount"
@@ -219,23 +219,23 @@ func containerExec(ctx context.Context, command []string, containerID string) (o
 		return
 	}
 	defer cli.Close()
-	config :=  types.ExecConfig{
+	config := types.ExecConfig{
 		AttachStderr: true,
 		AttachStdout: true,
-		Cmd: command,
+		Cmd:          command,
 	}
 
-	respid,err:=cli.ContainerExecCreate(ctx, containerID, config)
-	if err!=nil {
+	respid, err := cli.ContainerExecCreate(ctx, containerID, config)
+	if err != nil {
 		log.Printf("Error in docker exec create")
 		return
 	}
-	id:=respid.ID
-	
+	id := respid.ID
+
 	resp, err := cli.ContainerExecAttach(ctx, id, types.ExecStartCheck{})
 	if err != nil {
 		log.Printf("Can't attach")
-		return 
+		return
 	}
 	defer resp.Close()
 
@@ -246,36 +246,35 @@ func containerExec(ctx context.Context, command []string, containerID string) (o
 		// StdCopy demultiplexes the stream into two buffers
 		_, err = stdcopy.StdCopy(&bOut, &bErr, resp.Reader)
 		outputDone <- err
-		}()
+	}()
 
 	select {
-		case err = <-outputDone:
-			if err != nil {
-			return 
-			}
-			break
+	case err = <-outputDone:
+		if err != nil {
+			return
+		}
+		break
 
-		case <-ctx.Done():
-			log.Printf("Context ended")
-			err=ctx.Err()
-			return 
+	case <-ctx.Done():
+		log.Printf("Context ended")
+		err = ctx.Err()
+		return
 	}
 	_, err = ioutil.ReadAll(&bErr) // read stderr
 	if err != nil {
 		log.Printf("Can't read")
-		return 
+		return
 	}
 	_, err = ioutil.ReadAll(&bOut) // read stderr
 	if err != nil {
 		log.Printf("Can't read")
-		return 
+		return
 	}
 	_, err = cli.ContainerExecInspect(ctx, id)
 	if err != nil {
 		log.Printf("Can't inspect")
-		return 
+		return
 	}
-	output=fmt.Sprintf("O: %s\nE: %s\n",bOut.String(), bErr.String())
-	return 
+	output = fmt.Sprintf("O: %s\nE: %s\n", bOut.String(), bErr.String())
+	return
 }
-

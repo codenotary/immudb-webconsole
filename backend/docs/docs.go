@@ -218,6 +218,12 @@ var doc = `{
                 },
                 "timestamp": {
                     "type": "number"
+                },
+                "tree": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
                 }
             }
         },
