@@ -26,12 +26,14 @@ type runRequest struct {
 
 type OutputLine struct {
 	Timestamp float64 `json:"timestamp"`
-	Flux      string  `json:"flux"`
-	Line      string  `json:"line"`
+	Flux      string  `json:"flux",omitempty`
+	Line      string  `json:"line",omitempty`
+	Tree      []byte  `json:"tree",omitempty`
 }
 
 type InputLine struct {
 	Line string `json:"line"`
+	Cmd  string `json:"cmd"`
 }
 
 type runResponse struct {

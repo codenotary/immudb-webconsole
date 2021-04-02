@@ -9,5 +9,7 @@ FROM alpine:latest
 RUN apk update && apk add --no-cache bash expect
 COPY --from=builder1 /src/immudb/immuclient /usr/bin/immuclient
 COPY --from=builder1 /src/immudb/immudb /usr/bin/immudb
+ADD bin/immudumper /usr/local/bin/immudumper
+ADD bin/immusetup /usr/local/bin/immusetup
 ADD start.sh /usr/local/bin/start.sh
 ENTRYPOINT /usr/local/bin/start.sh

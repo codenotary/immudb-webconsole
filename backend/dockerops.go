@@ -5,11 +5,12 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	// 	"fmt"
+		"fmt"
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/mount"
 	"github.com/docker/docker/client"
+	"github.com/docker/docker/pkg/stdcopy"
 	"io/ioutil"
 	"log"
 	// 	"net/http"
@@ -210,3 +211,71 @@ func stopContainer(ctx context.Context, c_id string) (err error) {
 	cli.ContainerRemove(ctx, c_id, types.ContainerRemoveOptions{})
 	return
 }
+
+func containerExec(ctx context.Context, command []string, containerID string) (output string, err error) {
+	cli, err := client.NewClientWithOpts(client.WithAPIVersionNegotiation())
+	if err != nil {
+		log.Printf("Cannot connecto to docker")
+		return
+	}
+	defer cli.Close()
+	config :=  types.ExecConfig{
+		AttachStderr: true,
+		AttachStdout: true,
+		Cmd: command,
+	}
+
+	respid,err:=cli.ContainerExecCreate(ctx, containerID, config)
+	if err!=nil {
+		log.Printf("Error in docker exec create")
+		return
+	}
+	id:=respid.ID
+	
+	resp, err := cli.ContainerExecAttach(ctx, id, types.ExecStartCheck{})
+	if err != nil {
+		log.Printf("Can't attach")
+		return 
+	}
+	defer resp.Close()
+
+	outputDone := make(chan error)
+	var bErr, bOut bytes.Buffer
+
+	go func() {
+		// StdCopy demultiplexes the stream into two buffers
+		_, err = stdcopy.StdCopy(&bOut, &bErr, resp.Reader)
+		outputDone <- err
+		}()
+
+	select {
+		case err = <-outputDone:
+			if err != nil {
+			return 
+			}
+			break
+
+		case <-ctx.Done():
+			log.Printf("Context ended")
+			err=ctx.Err()
+			return 
+	}
+	_, err = ioutil.ReadAll(&bErr) // read stderr
+	if err != nil {
+		log.Printf("Can't read")
+		return 
+	}
+	_, err = ioutil.ReadAll(&bOut) // read stderr
+	if err != nil {
+		log.Printf("Can't read")
+		return 
+	}
+	_, err = cli.ContainerExecInspect(ctx, id)
+	if err != nil {
+		log.Printf("Can't inspect")
+		return 
+	}
+	output=fmt.Sprintf("O: %s\nE: %s\n",bOut.String(), bErr.String())
+	return 
+}
+

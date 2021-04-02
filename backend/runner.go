@@ -73,8 +73,13 @@ func (rn *runner) loop() {
 			err := json.Unmarshal(s, &line)
 			if err != nil {
 				log.Printf("Error while reading command: %s [%+v]", err.Error(), s)
-			} else {
+				break
+			}
+			if line.Line!="" {
 				atc.Conn.Write([]byte(line.Line))
+			}
+			if line.Cmd=="dump" {
+				rn.dumpImmudb()
 			}
 		case s := <-outgoing:
 			Debug.Printf("<= %s", string(s))
@@ -88,6 +93,33 @@ func (rn *runner) loop() {
 			return
 		}
 	}
+}
+
+func (rn *runner) dumpImmudb() {
+	Debug.Printf("Dumping container %s [%s]",rn.shortid, rn.container)
+	cmd:=[]string{ "/usr/local/bin/immudumper", "-outfile", "/tmp/dump.json.gz", "-statefile", "/tmp/statefile", "-verified", "/tmp/verified"}
+	
+	output,err:=containerExec(rn.ctx, cmd, rn.container)
+	if err!=nil {
+		log.Printf("Got error while dumping: %s.%s", err.Error(), output)
+		return
+	}
+	globalRunLog.Append("player-immuclient", rn.container, output)
+	Debug.Printf("Container dumped %s [%s]:",rn.shortid, rn.container, output)
+	dump, err := ioutil.ReadFile(path.Join(rn.ephdir, "dump.json.gz"))
+	if err != nil && !os.IsNotExist(err) {
+		log.Printf("Error while reding immudb dump: %s", err.Error())
+		return
+	}
+	outline := OutputLine{
+		Timestamp: float64(time.Now().UnixNano()) / 1000000000.0,
+		Tree:dump,
+	}
+	jout, _ := json.Marshal(outline)
+	for _, c := range rn.clientOut {
+		c <- jout
+	}
+
 }
 
 type runnerResponse struct {
