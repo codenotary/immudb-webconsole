@@ -113,7 +113,7 @@ export default {
 			mdiBookOpenOutline,
 			mdiXml,
 			language: 'python',
-			open: ['0', '0-0'],
+			open: [],
 			items: [],
 		};
 	},
@@ -183,10 +183,20 @@ export default {
 				console.error(err);
 			}
 		},
-		initOpen (data) {
+		initOpen () {
 			const { query: { topic } } = this.$route;
-			console.log(this.items, topic);
-			this.open = [topic];
+			this.$nextTick(() => {
+				topic.split('/')
+						.slice(0, -1)
+						.map((_, idx) => {
+							const prev = topic
+									.split('/')
+									.slice(0, idx)
+									.join('/')
+									.replace(/ /g, '');
+							this.open.push(`/guides/${ prev }${ prev && '/' }${ _ }/index`);
+						});
+			});
 		},
 		forceActive (data) {
 			const { path, query: { id } } = this.$route;

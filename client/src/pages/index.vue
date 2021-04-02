@@ -175,7 +175,6 @@ export default {
 			deep: true,
 			async handler (newVal) {
 				const topicParam = this.getParam(PARAMS.TOPIC) || 'welcome';
-				console.log(topicParam);
 				const topic = await this.$content('guides', topicParam).fetch();
 				const { code } = topic || DEFAULT_TOPIC;
 				this.setActiveGuide(topic);
