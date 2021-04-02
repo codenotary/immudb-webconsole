@@ -25,7 +25,7 @@ func CreateZFile(s string) Outputter {
 	}
 	zf := zfile{}
 	var err error
-	zf.f, err = os.OpenFile(s, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0660)
+	zf.f, err = os.OpenFile(s, os.O_WRONLY|os.O_CREATE, 0660)
 	if err != nil {
 		log.Fatal(err)
 	}
