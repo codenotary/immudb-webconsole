@@ -91,7 +91,7 @@ export default {
 	},
 	async [FETCH_CODE]({ commit, getters }, payload) {
 		try {
-			const { code } = payload;
+			const { code } = payload || {};
 			const { path, mime } = getters[ACTIVE_LANGUAGE];
 
 			if (code) {

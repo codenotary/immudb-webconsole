@@ -47,6 +47,15 @@
 								:max-size="getCodePane.maxSize"
 							/>
 						</pane>
+						<pane
+							v-if="!showCode && showLive"
+						>
+							<LazyLive
+								:size.sync="getLivePane.size"
+								:min-size="getLivePane.minSize"
+								:max-size="getLivePane.maxSize"
+							/>
+						</pane>
 					</splitpanes>
 				</pane>
 			</splitpanes>
@@ -87,6 +96,11 @@ import {
 	ACTIVE_CODE,
 } from '@/store/code/constants';
 import {
+	LIVE_MODULE,
+	FETCH_LIVE,
+	ACTIVE,
+} from '@/store/live/constants';
+import {
 	VIEW_MODULE,
 	SET_PANE_SIZES,
 	MOBILE,
@@ -110,6 +124,7 @@ export default {
 					.fetch();
 			await this.fetchTopics(response);
 			await this.fetchLanguages();
+			this.fetchLive();
 		}
 		catch (err) {
 			console.error('FETCH', err);
@@ -129,11 +144,17 @@ export default {
 		...mapGetters(CODE_MODULE, {
 			activeCode: ACTIVE_CODE,
 		}),
+		...mapGetters(LIVE_MODULE, {
+			liveActive: ACTIVE,
+		}),
 		showGuide () {
 			return this.activeGuide && this.activeGuide.guide;
 		},
 		showCode () {
 			return this.activeCode;
+		},
+		showLive () {
+			return this.liveActive;
 		},
 		getTopicPane () {
 			if (this.mobile) {
@@ -148,6 +169,12 @@ export default {
 			return { size: 100, minSize: 20, maxSize: 100 };
 		},
 		getCodePane () {
+			if (this.mobile) {
+				return { size: 20, minSize: 60, maxSize: 100 };
+			}
+			return { size: 0, minSize: 20, maxSize: 100 };
+		},
+		getLivePane () {
 			if (this.mobile) {
 				return { size: 20, minSize: 60, maxSize: 100 };
 			}
@@ -176,9 +203,10 @@ export default {
 			async handler (newVal) {
 				const topicParam = this.getParam(PARAMS.TOPIC) || 'welcome';
 				const topic = await this.$content('guides', topicParam).fetch();
-				const { code } = topic || DEFAULT_TOPIC;
+				const { code, live } = topic || DEFAULT_TOPIC;
 				this.setActiveGuide(topic);
 				this.fetchCode({ code });
+				this.fetchLive({ live });
 			},
 		},
 	},
@@ -204,6 +232,9 @@ export default {
 		...mapActions(CODE_MODULE, {
 			fetchLanguages: FETCH_LANGUAGES,
 			fetchCode: FETCH_CODE,
+		}),
+		...mapActions(LIVE_MODULE, {
+			fetchLive: FETCH_LIVE,
 		}),
 		onResizeFourthPane(data) {
 			this.setPaneSizes({

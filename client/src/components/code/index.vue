@@ -75,7 +75,9 @@ import {
 	CODE_MODULE,
 	ACTIVE_CODE,
 } from '@/store/code/constants';
-import { mdiXml } from '@mdi/js';
+import {
+	mdiXml,
+} from '@mdi/js';
 
 const ITEMS_TYPES = {
 	TEXT: 'text',

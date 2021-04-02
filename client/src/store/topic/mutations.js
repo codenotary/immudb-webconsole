@@ -7,7 +7,7 @@ export default {
 	[SET_TOPICS](state, payload) {
 		const { topics } = payload;
 		const parseTopics = (data) => {
-			return data && data.reduce((acc, _, idx) => {
+			return data && data.reduce((acc, _) => {
 				const e = _;
 				const isParent = e.children && e.children.length > 0;
 				e.id = e.path;
@@ -25,6 +25,7 @@ export default {
 						query: {
 							topic: e.path.replace(/\/guides\//, ''),
 							code: _.code,
+							live: _.live,
 						},
 					};
 				return [...acc, e];

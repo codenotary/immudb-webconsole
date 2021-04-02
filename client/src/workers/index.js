@@ -34,10 +34,11 @@ export const workers = {
 								const hashTable = Object.create(null);
 								if (data && data.length) {
 									data.map((_) => {
-										const { active, code, dir, node, path, slug, sort, title } = _;
+										const { active, code, dir, node, live, path, slug, sort, title } = _;
 										hashTable[node ? dir : path] = {
 											active,
 											code,
+											live,
 											path,
 											slug,
 											sort,

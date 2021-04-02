@@ -94,10 +94,6 @@ export default {
 					commit(APPEND_CODE_OUTPUT, {
 						output,
 					});
-					// Vue.prototype.$toasted.error(`${ output[0].timestamp } - ${ output[0].line }`, {
-					// 	icon: 'exclamation-circle',
-					// 	duration: 5000,
-					// });
 				}
 				commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
 			}

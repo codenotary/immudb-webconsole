@@ -3,24 +3,13 @@ import VueNativeSock from 'vue-native-websocket';
 import storeWebsocket from '@/store/websocket';
 import {
 	WEBSOCKET_MODULE,
-	// MESSAGE_TYPES,
 	SOCKET_MESSAGE,
 } from '@/store/websocket/constants';
-// import {
-// 	VIEW_MODULE,
-// 	SET_FREEZE,
-// 	SET_FREEZE_MODAL,
-// 	FREEZE_TYPES,
-// } from '@/store/view/constants';
-// import {
-// 	MAINTENANCE_MODULE,
-// 	FETCH_BACKUP_LIST,
-// } from '@/store/maintenance/constants';
 
 export default ({ store }) => {
 	const HOST = document.location.host;
 	const PROTOCOL = location.protocol === 'https:' ? 'wss://' : 'ws://';
-	const WEBSOCKET_URL = `${ PROTOCOL }${ HOST }${ process.env.WEBSOCKET_URL }/backup/notifications`;
+	const WEBSOCKET_URL = `${ PROTOCOL }${ HOST }${ process.env.WEBSOCKET_URL }`;
 
 	console.log(`Connecting to WS throught ${ WEBSOCKET_URL }`);
 

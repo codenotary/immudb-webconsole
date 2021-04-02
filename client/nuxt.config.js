@@ -327,6 +327,7 @@ export default {
 	env: {
 		UI_THEME,
 		API_URL: process.env.API_URL || '/api/v1/',
+		WEBSOCKET_URL: process.env.WEBSOCKET_URL || '/api/v1/',
 		GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID || '',
 		GOOGLE_ANALYTICS_SITEKEY: process.env.GOOGLE_ANALYTICS_SITEKEY || '',
 	},

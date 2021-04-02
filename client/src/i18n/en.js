@@ -45,6 +45,9 @@ export default {
 		unknown: 'Code block type unknown',
 		seeInDocumentation: 'See in documentation',
 	},
+	live: {
+		title: 'Live',
+	},
 	output: {
 		title: 'Output',
 		code: {
