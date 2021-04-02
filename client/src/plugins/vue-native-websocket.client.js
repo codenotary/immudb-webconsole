@@ -19,6 +19,7 @@ export default ({ store }) => {
 		reconnectionDelay: 3000,
 		format: 'json',
 		store: storeWebsocket,
+		connectManually: true,
 		passToStoreHandler: (eventName, event) => {
 			if (!eventName.startsWith('SOCKET_')) {
 				return;
