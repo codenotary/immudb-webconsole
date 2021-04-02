@@ -106,7 +106,9 @@ export default {
 	],
 	async fetch() {
 		try {
-			await this.fetchTopics();
+			const response = await this.$content('guides', { deep: true })
+					.fetch();
+			await this.fetchTopics(response);
 			await this.fetchLanguages();
 		}
 		catch (err) {
