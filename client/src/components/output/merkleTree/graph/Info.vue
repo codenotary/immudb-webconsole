@@ -30,7 +30,7 @@
 						{{ $t('output.merkleTree.commands.tooltip.info') }}
 					</span>
 				</v-card-text>
-				<v-card-action class="ma-0 pa-0 d-flex justify-end">
+				<v-card-actions class="ma-0 pa-0 d-flex justify-end">
 					<v-btn
 						class="ma-0 py-0 px-2"
 						color="info"
@@ -42,7 +42,7 @@
 					>
 						{{ $t('common.moreInfo') }}
 					</v-btn>
-				</v-card-action>
+				</v-card-actions>
 			</v-card>
 		</v-dialog>
 	</div>
