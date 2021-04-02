@@ -192,6 +192,7 @@ export default {
 	*/
 	plugins: [
 		{ src: '~/plugins/vue-clipboards.js', ssr: false },
+		{ src: '~/plugins/vue-command.js', ssr: false },
 		{ src: '~/plugins/vue-cookies.js', ssr: false },
 		{ src: '~/plugins/vue-gtag.js', ssr: false },
 		{ src: '~/plugins/vue-json-pretty.js', ssr: false },
