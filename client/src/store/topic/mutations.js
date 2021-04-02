@@ -17,7 +17,9 @@ export default {
 					? 'node'
 					: e.code
 						? 'code'
-						: 'guide';
+						:	e.live
+							? 'live'
+							: 'guide';
 				e.to = isParent
 					? undefined
 					: {

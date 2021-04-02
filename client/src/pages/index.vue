@@ -124,7 +124,6 @@ export default {
 					.fetch();
 			await this.fetchTopics(response);
 			await this.fetchLanguages();
-			this.fetchLive();
 		}
 		catch (err) {
 			console.error('FETCH', err);

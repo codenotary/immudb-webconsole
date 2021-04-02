@@ -55,10 +55,7 @@
 								v-bind="attrs"
 								v-on="on"
 							>
-								{{ props.item.type === 'guide'
-									? mdiBookOpenOutline
-									: mdiXml
-								}}
+								{{ getIcon(props.item.type) }}
 							</v-icon>
 						</template>
 						<span>
@@ -102,6 +99,7 @@ import {
 import {
 	mdiFormatListBulletedType,
 	mdiBookOpenOutline,
+	mdiConsoleLine,
 	mdiXml,
 } from '@mdi/js';
 
@@ -111,6 +109,7 @@ export default {
 		return {
 			mdiFormatListBulletedType,
 			mdiBookOpenOutline,
+			mdiConsoleLine,
 			mdiXml,
 			language: 'python',
 			open: [],
@@ -189,6 +188,17 @@ export default {
 							});
 				}
 			});
+		},
+		getIcon (data) {
+			if (data === 'guide') {
+				return mdiBookOpenOutline;
+			}
+			else if (data === 'live') {
+				return mdiConsoleLine;
+			}
+			else {
+				return mdiXml;
+			}
 		},
 	},
 };
