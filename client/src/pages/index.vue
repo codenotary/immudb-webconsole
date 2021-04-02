@@ -99,6 +99,8 @@ import {
 	LIVE_MODULE,
 	FETCH_LIVE,
 	ACTIVE,
+	STOP_LIVE,
+	CONTAINER_ID,
 } from '@/store/live/constants';
 import {
 	VIEW_MODULE,
@@ -107,6 +109,8 @@ import {
 } from '@/store/view/constants';
 import { Splitpanes, Pane } from 'splitpanes';
 import 'splitpanes/dist/splitpanes.css';
+
+let KEEPALIVE_INTERVAL_ID;
 
 export default {
 	name: 'Dashboard',
@@ -145,6 +149,7 @@ export default {
 		}),
 		...mapGetters(LIVE_MODULE, {
 			liveActive: ACTIVE,
+			containerId: CONTAINER_ID,
 		}),
 		showGuide () {
 			return this.activeGuide && this.activeGuide.guide;
@@ -208,6 +213,21 @@ export default {
 				this.fetchLive({ live });
 			},
 		},
+		containerId: {
+			handler (newVal) {
+				const HOST = document.location.host;
+				const PROTOCOL = location.protocol === 'https:' ? 'wss://' : 'ws://';
+				const WEBSOCKET_URL = `${ PROTOCOL }${ HOST }${ process.env.WEBSOCKET_URL }`;
+				console.log(`WEBSOCKET URL: ${ WEBSOCKET_URL }run/events/${ newVal }`);
+				if (newVal) {
+					// connect websocket using the container id
+					this.$connect(`${ WEBSOCKET_URL }run/events/${ newVal }`);
+
+					// start keepalive messages every 60 seconds
+					this.startKeepalive(5);
+				}
+			},
+		},
 	},
 	mounted () {
 		// track google analytics pageview
@@ -216,6 +236,9 @@ export default {
 			page_location: window && window.location && window.location.href,
 			page_path: '/',
 		});
+	},
+	beforeDestroy () {
+		this.stopKeepalive();
 	},
 	methods: {
 		...mapActions(VIEW_MODULE, {
@@ -234,11 +257,32 @@ export default {
 		}),
 		...mapActions(LIVE_MODULE, {
 			fetchLive: FETCH_LIVE,
+			stopLive: STOP_LIVE,
 		}),
 		onResizeFourthPane(data) {
 			this.setPaneSizes({
 				output: data && data[1] && data[1].size,
 			});
+		},
+		startKeepalive (n = 60) {
+			try {
+				this.stopKeepalive();
+				KEEPALIVE_INTERVAL_ID = setInterval(async () => {
+					await this.$socket.sendObj({});
+				}, 1 * (n || 60) * 1000);
+			}
+			catch (err) {
+				console.error(err);
+			}
+		},
+		stopKeepalive () {
+			try {
+				clearInterval(KEEPALIVE_INTERVAL_ID);
+				this.stopLive();
+			}
+			catch (err) {
+				console.error(err);
+			}
 		},
 	},
 	head() {

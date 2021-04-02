@@ -34,7 +34,6 @@
 					:title="title"
 					:prompt="prompt"
 					:commands="commands"
-					hide-title
 				/>
 			</div>
 		</v-card-text>
@@ -86,6 +85,13 @@ export default {
 				&,
 				.vue-command {
 					height: 100%;
+				}
+
+				.vue-command {
+					.term-std {
+						min-height: 100%;
+						height: unset;
+					}
 				}
 			}
 		}

@@ -1,6 +1,7 @@
 import {
 	ACTIVE,
 	COMMANDS,
+	CONTAINER_ID,
 } from './constants';
 
 export default {
@@ -9,5 +10,8 @@ export default {
 	},
 	[COMMANDS](state) {
 		return state.commands || [];
+	},
+	[CONTAINER_ID](state) {
+		return state.containerId;
 	},
 };
