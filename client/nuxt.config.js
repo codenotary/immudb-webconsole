@@ -353,7 +353,7 @@ export default {
 	** Build configuration
 	*/
 	content: {
-		dir: 'content',
+		dir: '../content',
 		apiPrefix: 'api-content',
 		markdown: {
 			remarkEmoji: {
