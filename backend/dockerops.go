@@ -1,7 +1,7 @@
 package main
 
 import (
-		"bytes"
+	"bytes"
 	"context"
 	"encoding/json"
 	"errors"
@@ -73,8 +73,8 @@ func runContainer(cli *client.Client, imageName, dir string) (err error) {
 	case <-statusCh:
 		log.Printf("Container %s ended in %s", c_id[0:12], time.Since(start_time))
 	}
-	logs, err := cli.ContainerLogs(ctx, c_id, types.ContainerLogsOptions{ ShowStdout:true, ShowStderr:true })
-	if err==nil {
+	logs, err := cli.ContainerLogs(ctx, c_id, types.ContainerLogsOptions{ShowStdout: true, ShowStderr: true})
+	if err == nil {
 		buf := new(bytes.Buffer)
 		buf.ReadFrom(logs)
 		globalRunLog.Append(imageName, c_id, buf.String())
@@ -134,7 +134,7 @@ func errorResponse(msg string, immudb []byte) (response runResponse) {
 	return
 }
 
-func startContainer(ctx context.Context, imageName string) (id string, err error) {
+func startContainer(ctx context.Context, imageName, dir string) (id string, err error) {
 	cli, err := client.NewClientWithOpts(client.WithAPIVersionNegotiation())
 	if err != nil {
 		log.Printf("Unable to contact docker %s")
@@ -151,9 +151,9 @@ func startContainer(ctx context.Context, imageName string) (id string, err error
 			OpenStdin:    true, // set to true to allow interactive use
 		},
 		&container.HostConfig{
-			// 			Mounts: []mount.Mount{
-			// 				{Type: mount.TypeBind, Source: dir, Target: "/tmp"},
-			// 			},
+			Mounts: []mount.Mount{
+				{Type: mount.TypeBind, Source: dir, Target: "/tmp"},
+			},
 			Resources: container.Resources{
 				Memory:   memoryLimit,
 				CPUQuota: cpuLimit,
