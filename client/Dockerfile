@@ -2,7 +2,7 @@ FROM node:lts-alpine as build-stage
 LABEL Ledger Compliance Playground Frontend Builder
 WORKDIR /data
 COPY ./*package*.json ./
-RUN apk add --no-cache python3 git make gcc build-base tree
+RUN apk add --no-cache python3 git make gcc build-base tree automake autoconf
 RUN npm i --quiet
 COPY . .
 ARG API_URL

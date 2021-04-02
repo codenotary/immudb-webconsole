@@ -4,19 +4,24 @@ import (
 	"bufio"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"golang.org/x/net/websocket"
 	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"path"
 	"time"
 )
 
 type runner struct {
 	ctx       context.Context
+	shortid   string
 	running   bool
 	container string
+	ephdir    string
 	clientIn  chan []byte
 	clientOut []chan []byte
 }
@@ -31,6 +36,7 @@ func (rn *runner) loop() {
 	defer func() {
 		rn.running = false
 		Debug.Printf("Exiting loop for container %s", rn.container)
+		removeRunner(rn.shortid)
 	}()
 	atc, err := attachContainer(rn.ctx, rn.container)
 	if err != nil {
@@ -78,7 +84,7 @@ func (rn *runner) loop() {
 		case <-fin:
 			return
 		case <-idletimeout.C:
-			log.Printf("Timeout expired")
+			log.Printf("Timeout expired for %s", rn.shortid)
 			return
 		}
 	}
@@ -122,18 +128,27 @@ func newRunner(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, "Invalid method", http.StatusMethodNotAllowed)
 		return
 	}
+	// create ephimeral volume
+	dir, err := ioutil.TempDir("/var/tmp", "ephvolume:")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		log.Printf("Error: %s", err.Error())
+		return
+	}
 	ctx := context.Background()
-	c_id, err := startContainer(ctx, "player-immuclient")
+	c_id, err := startContainer(ctx, "player-immuclient", dir)
 	if err != nil {
 		httpRet(w, &runnerResponse{Status: "fail", Error: err.Error()})
 		return
 	}
+	s_id := randString(9)
 	rn := &runner{
 		ctx:       ctx,
+		shortid:   s_id,
 		container: c_id,
+		ephdir:    dir,
 		clientIn:  make(chan []byte),
 	}
-	s_id := randString(9)
 	runners[s_id] = rn
 	go rn.loop()
 	log.Printf("Created container %s [%s]", s_id, c_id)
@@ -161,6 +176,21 @@ func listRunners(w http.ResponseWriter, req *http.Request) {
 	fmt.Fprintf(w, string(jret))
 }
 
+func removeRunner(reqId string) error {
+	rn, ok := runners[reqId]
+	if !ok {
+		log.Printf("Id '%s' not found", reqId)
+		return errors.New("Id not found")
+	}
+	if err := stopContainer(rn.ctx, rn.container); err != nil {
+		return err
+	}
+	os.RemoveAll(rn.ephdir)
+	delete(runners, reqId)
+	log.Printf("Shut down container %s [%s]", reqId, rn.container)
+	return nil
+}
+
 // @id closeRunner
 // @tags runner
 // @summary Halts and delete an interactive container
@@ -176,18 +206,9 @@ func closeRunner(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	reqId := path.Base(r.URL.Path)
-	rn, ok := runners[reqId]
-	if !ok {
-		log.Printf("Id '%s' not found", reqId)
-		httpRet(w, &runnerResponse{Status: "fail", Error: "container id not found"})
-		return
-	}
-	if err := stopContainer(rn.ctx, rn.container); err != nil {
+	if err := removeRunner(reqId); err != nil {
 		httpRet(w, &runnerResponse{Status: "fail", Error: err.Error()})
-		return
 	}
-	delete(runners, reqId)
-	log.Printf("Shut down container %s [%s]", reqId, rn.container)
 	httpRet(w, &runnerResponse{Status: "success", Id: reqId})
 }
 
