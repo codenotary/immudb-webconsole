@@ -157,31 +157,20 @@ export default {
 	methods: {
 		parseTopics (data) {
 			if (data) {
-				return data
+				const _data = JSON.parse(JSON.stringify(data));
+				return _data
 						.slice()
-						.sort((a, b) => a.sort <= b.sort ? -1 : 1);
+						.sort((a, b) => a.sort <= b.sort ? -1 : 1)
+						.map((_) => {
+							const t = _;
+							if (_.children && _.children.length) {
+								t.children = this.parseTopics(t.children);
+								return t;
+							}
+							return t;
+						});
 			}
 			return [];
-		},
-		searchOpen (data, code) {
-			try {
-				return data && data.reduce((acc, _) => {
-					const { id, to, children } = _;
-					if (to && to.query && to.query.code === code) {
-						acc = [...acc, id];
-					}
-					if (children && children.length > 0) {
-						const childSearch = this.searchOpen(children, code);
-						if (childSearch && childSearch.length) {
-							acc = [...acc, id, ...childSearch];
-						}
-					}
-					return acc;
-				}, []);
-			}
-			catch (err) {
-				console.error(err);
-			}
 		},
 		initOpen () {
 			const { query: { topic } } = this.$route;
@@ -200,10 +189,6 @@ export default {
 							});
 				}
 			});
-		},
-		forceActive (data) {
-			const { path, query: { id } } = this.$route;
-			return data === 0 && path === '/' && !id;
 		},
 	},
 };
