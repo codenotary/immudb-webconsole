@@ -186,16 +186,19 @@ export default {
 		initOpen () {
 			const { query: { topic } } = this.$route;
 			this.$nextTick(() => {
-				topic.split('/')
-						.slice(0, -1)
-						.map((_, idx) => {
-							const prev = topic
-									.split('/')
-									.slice(0, idx)
-									.join('/')
-									.replace(/ /g, '');
-							this.open.push(`/guides/${ prev }${ prev && '/' }${ _ }/index`);
-						});
+				if (topic) {
+					topic
+							.split('/')
+							.slice(0, -1)
+							.map((_, idx) => {
+								const prev = topic
+										.split('/')
+										.slice(0, idx)
+										.join('/')
+										.replace(/ /g, '');
+								this.open.push(`/guides/${ prev }${ prev && '/' }${ _ }/index`);
+							});
+				}
 			});
 		},
 		forceActive (data) {
