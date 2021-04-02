@@ -11,6 +11,7 @@ export default {
 		running: 'running',
 		search: 'search',
 		filter: 'filter',
+		moreInfo: 'more info',
 	},
 	sidebar: {
 		dashboard: 'Dashboard',
@@ -62,6 +63,11 @@ export default {
 			},
 			commands: {
 				resetZoom: 'Reset zoom',
+				info: 'Merkle tree info',
+				tooltip: {
+					resetZoom: 'Reset zoom',
+					info: 'A Merkle tree (or hash tree) is a tree in which every leaf node is labelled with the cryptographic hash of a data block, and every non-leaf node is labelled with the cryptographic hash of the labels of its child nodes.',
+				},
 			},
 		},
 		metrics: {
