@@ -4,6 +4,7 @@
 		class="ma-0 pa-0 bg fill-height shadow"
 		elevation="0"
 	>
+		{{ message }}
 		<v-card-title class="ma-0 py-0 py-sm-2 px-0 d-flex justify-start align-center">
 			<v-icon
 				class="ml-2 title"
@@ -30,10 +31,14 @@
 			<div class="command-line-wrapper ma-0 pa-0">
 				<vue-command
 					id="LiveCommandLine"
+					ref="terminal"
 					class="ma-0 pa-0 custom-scrollbar"
 					:title="title"
 					:prompt="prompt"
 					:commands="commands"
+					:history="termHistory"
+					:stdin.sync="termStdin"
+					:cursor.sync="termCursor"
 				/>
 			</div>
 		</v-card-text>
@@ -42,10 +47,11 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { createStdout, createStderr } from 'vue-command';
 import {
-	LIVE_MODULE,
-	COMMANDS,
-} from '@/store/live/constants';
+	WEBSOCKET_MODULE,
+	SOCKET_MESSAGE,
+} from '@/store/websocket/constants';
 import {
 	mdiConsoleLine,
 } from '@mdi/js';
@@ -56,13 +62,59 @@ export default {
 		return {
 			mdiConsoleLine,
 			title: 'immuclient',
-			prompt: 'tester@user: #',
+			prompt: 'demo@user: #',
+			commands: {},
+			termStdin: '',
+			termHistory: [],
+			termCursor: 0,
 		};
 	},
 	computed: {
-		...mapGetters(LIVE_MODULE, {
-			commands: COMMANDS,
+		...mapGetters(WEBSOCKET_MODULE, {
+			message: SOCKET_MESSAGE,
 		}),
+	},
+	watch: {
+		termStdin: {
+			handler (newVal) {
+				this.commands = {};
+				this.commands[this.termStdin] = this.executeCmd;
+			},
+		},
+		message: {
+			deep: true,
+			handler (newVal) {
+				console.log(newVal);
+			},
+		},
+	},
+	mounted () {
+		this.$options.sockets.onmessage = (data) => {
+			const msg = JSON.parse(event.data);
+			console.log(msg);
+		};
+	},
+	beforeDestroy () {
+		delete this.$options.sockets.onmessage;
+	},
+	methods: {
+		executeCmd (cmd) {
+			const data = {
+				line: this.termStdin,
+				cmd: undefined,
+			};
+
+			return new Promise((resolve, reject) => {
+				try {
+					this.$socket.sendObj(data);
+					resolve(createStdout());
+				}
+				catch (err) {
+					console.error(err);
+					resolve(createStderr(err));
+				}
+			});
+		},
 	},
 };
 </script>

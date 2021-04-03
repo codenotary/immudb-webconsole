@@ -6,7 +6,6 @@ import {
 import { LiveService } from '@/services/live';
 import {
 	FETCH_LIVE,
-	RUN_LIVE,
 	SET_LIVE_ACTIVE,
 	SET_COMMANDS,
 	SET_CONTAINER_ID,
@@ -54,24 +53,6 @@ export default {
 			throw err;
 		}
 	},
-	[RUN_LIVE]({ commit }, payload) {
-		const LOADING_LABEL = 'runLive';
-		try {
-			if (payload) {
-				commit(`${ VIEW_MODULE }/${ PUSH_LOADING }`, { label: LOADING_LABEL }, { root: true });
-			}
-		}
-		catch (err) {
-			try {
-				console.error(err);
-				commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
-			}
-			catch (err2) {
-				console.error(err2);
-			}
-			throw err;
-		}
-	},
 	[SET_LIVE_ACTIVE]({ commit }, payload) {
 		commit(SET_LIVE_ACTIVE, payload);
 	},
@@ -85,16 +66,20 @@ export default {
 		const LOADING_LABEL = 'stopLive';
 		try {
 			commit(`${ VIEW_MODULE }/${ PUSH_LOADING }`, { label: LOADING_LABEL }, { root: true });
+			const id = state.containerId;
 
-			// stop container using containerid
-			await LiveService.stopContainer(state.containerId)
-					.then((_) => {
-						commit(SET_CONTAINER_ID, null);
-						commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
-					}, (err) => {
-						console.error(err);
-						commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
-					});
+			if (id) {
+				// stop container using containerid
+				await LiveService.stopContainer(state.containerId)
+						.then((_) => {
+							commit(SET_CONTAINER_ID, null);
+							commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
+						}, (err) => {
+							console.error(err);
+							commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
+						});
+			}
+
 			commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
 		}
 		catch (err) {

@@ -221,7 +221,9 @@ export default {
 				console.log(`WEBSOCKET URL: ${ WEBSOCKET_URL }run/events/${ newVal }`);
 				if (newVal) {
 					// connect websocket using the container id
-					this.$connect(`${ WEBSOCKET_URL }run/events/${ newVal }`);
+					this.$connect(`${ WEBSOCKET_URL }run/events/${ newVal }`, {
+						format: 'json',
+					});
 
 					// start keepalive messages every 60 seconds
 					this.startKeepalive(5);
