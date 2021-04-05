@@ -218,7 +218,6 @@ export default {
 				const HOST = document.location.host;
 				const PROTOCOL = location.protocol === 'https:' ? 'wss://' : 'ws://';
 				const WEBSOCKET_URL = `${ PROTOCOL }${ HOST }${ process.env.WEBSOCKET_URL }`;
-				console.log(`WEBSOCKET URL: ${ WEBSOCKET_URL }run/events/${ newVal }`);
 				if (newVal) {
 					// connect websocket using the container id
 					this.$connect(`${ WEBSOCKET_URL }run/events/${ newVal }`, {
@@ -226,10 +225,13 @@ export default {
 					});
 
 					// start keepalive messages every 60 seconds
-					this.startKeepalive(5);
+					this.startKeepalive();
 				}
 			},
 		},
+	},
+	async beforeMount () {
+		window.addEventListener('beforeunload', await this.onPageClose);
 	},
 	mounted () {
 		// track google analytics pageview
@@ -238,9 +240,6 @@ export default {
 			page_location: window && window.location && window.location.href,
 			page_path: '/',
 		});
-	},
-	beforeDestroy () {
-		this.stopKeepalive();
 	},
 	methods: {
 		...mapActions(VIEW_MODULE, {
@@ -261,6 +260,9 @@ export default {
 			fetchLive: FETCH_LIVE,
 			stopLive: STOP_LIVE,
 		}),
+		onPageClose () {
+			this.stopKeepalive();
+		},
 		onResizeFourthPane(data) {
 			this.setPaneSizes({
 				output: data && data[1] && data[1].size,
@@ -280,7 +282,6 @@ export default {
 		stopKeepalive () {
 			try {
 				clearInterval(KEEPALIVE_INTERVAL_ID);
-				this.stopLive();
 			}
 			catch (err) {
 				console.error(err);
