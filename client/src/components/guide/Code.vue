@@ -6,6 +6,7 @@
 			:language="language"
 			:readonly="false"
 		/>
+		C: {{ code }}
 		<v-btn
 			class="copy"
 			color="blue lighten-2"

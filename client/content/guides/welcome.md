@@ -2,24 +2,19 @@
 title: Welcome
 sort: 0
 active: true
-code1: # import the client class from immudb package:
-from immudb.client import ImmudbClient
-
-"""
-If you don't specify hostname and port, default is "localhost:3322",
-So the next line could be also written as:
-ic=ImmudbClient()
-"""
-ic=ImmudbClient("localhost:3322")
-
-# using default user "immudb" and default password "immudb"
-ic.login(username="immudb",password="immudb")
-
-# Now we ready to go! 
-# Try changing some parameters (i.e. the password) and see the results!
+code1: # import the client c
 ---
 
-<guide-code :code="code1"></guide-code>
+```js
+const http = require('http')
+const bodyParser = require('body-parser')
+
+http.createServer((req, res) => {
+  bodyParser.parse(req, (error, body) => {
+    res.end(body)
+  })
+}).listen(3000)
+```
 
 lorem ipsum dolor sit amet
 

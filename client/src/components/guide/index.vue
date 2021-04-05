@@ -137,6 +137,7 @@ import {
 	ACTIVE_GUIDE,
 } from '@/store/guide/constants';
 import { metaTitle } from '@/helpers/meta';
+import Prism from '@/plugins/vue-prism-editor';
 import {
 	mdiBook,
 	mdiBookOpenOutline,
@@ -178,6 +179,9 @@ export default {
 			}
 			return {};
 		},
+	},
+	mounted() {
+		Prism.highlightAll();
 	},
 	head () {
 		if (this.guide) {
