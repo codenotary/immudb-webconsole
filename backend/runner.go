@@ -142,9 +142,18 @@ func (rn *runner) dumpImmudb() {
 		log.Printf("Error while reding immudb dump: %s", err.Error())
 		return
 	}
+	token, err := ioutil.ReadFile(path.Join(rn.ephdir, "statefile"))
+	if err != nil && !os.IsNotExist(err) {
+		log.Printf("Error while reding immudb statefile: %s", err.Error())
+		return
+	}
+	_, err = os.Stat(path.Join(rn.ephdir, "verified"))
+	verified := (err == nil)
 	outline := OutputLine{
 		Timestamp: float64(time.Now().UnixNano()) / 1000000000.0,
 		Tree:      dump,
+		Token:     token,
+		Verified:  verified,
 	}
 	jout, _ := json.Marshal(outline)
 	for _, c := range rn.clientOut {

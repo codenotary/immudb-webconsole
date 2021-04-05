@@ -8,10 +8,16 @@ definitions:
         type: string
       timestamp:
         type: number
+      token:
+        items:
+          type: integer
+        type: array
       tree:
         items:
           type: integer
         type: array
+      verified:
+        type: boolean
     type: object
   main.listrunnerResponse:
     properties:

@@ -204,11 +204,20 @@
                 "timestamp": {
                     "type": "number"
                 },
+                "token": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
                 "tree": {
                     "type": "array",
                     "items": {
                         "type": "integer"
                     }
+                },
+                "verified": {
+                    "type": "boolean"
                 }
             }
         },
