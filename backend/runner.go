@@ -26,6 +26,7 @@ type runner struct {
 	ephdir    string
 	clientIn  chan []byte
 	clientOut []chan []byte
+	outBuffer []byte
 }
 
 var runners map[string]*runner
@@ -109,8 +110,12 @@ func (rn *runner) loop() {
 			rn.dumpImmudb()
 		case s := <-outgoing:
 			Debug.Printf("<= %s", string(s))
-			for _, c := range rn.clientOut {
-				c <- s
+			if len(rn.clientOut)>0 {
+				for _, c := range rn.clientOut {
+					c <- s
+				}
+			} else {
+				rn.outBuffer=append(rn.outBuffer,s...)
 			}
 		case <-fin:
 			return
@@ -305,6 +310,10 @@ func wsRunnerEvents(rn *runner, ws *websocket.Conn) {
 			}
 		}
 	}()
+	if len(rn.outBuffer)>0 {
+		ws.Write(rn.outBuffer)
+		rn.outBuffer=nil
+	}
 	go func(clIn chan []byte) {
 		for {
 			buf := make([]byte, 65536)
