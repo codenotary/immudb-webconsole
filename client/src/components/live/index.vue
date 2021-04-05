@@ -39,8 +39,7 @@
 					:stdin.sync="termStdin"
 					:is-in-progress="!showPrompt"
 					:hide-prompt="showPrompt"
-					@executed="onExecute($event)"
-					@keydown.enter.native.stop.prevent="onExecute"
+					@execute="terminate"
 				/>
 			</div>
 		</v-card-text>
@@ -82,6 +81,14 @@ export default {
 	computed: {
 		showPrompt () {
 			return !this.introFinished;
+		},
+	},
+	watch: {
+		termStdin (newVal) {
+			if (newVal) {
+				console.log(newVal);
+				this.onExecute(newVal);
+			}
 		},
 	},
 	mounted () {
@@ -163,6 +170,7 @@ export default {
 			this.$refs.terminal.setIsInProgress(false);
 		},
 		onExecute (data) {
+			console.log('onExecute', data, this.termStdin);
 			this.$socket && this.$socket.sendObj(data);
 		},
 	},
@@ -202,7 +210,7 @@ export default {
 							.term-stdout,
 							.term-stderr {
 								word-wrap: break-word;
-								white-space: normal;
+								white-space: pre-wrap;
 							}
 						}
 					}
