@@ -295,13 +295,14 @@ func wsRunnerEvents(rn *runner, ws *websocket.Conn) {
 	clOut := make(chan []byte)
 	rn.clientOut = append(rn.clientOut, clOut)
 	defer func() {
+		Debug.Printf("Exiting i/o for container %s", rn.shortid)
 		for i, c := range rn.clientOut {
 			if c == clOut {
+				Debug.Printf("Removing channel for %s", rn.shortid)
 				copy(rn.clientOut[i:], rn.clientOut[i+1:])
 				rn.clientOut = rn.clientOut[:len(rn.clientOut)-1]
 				break
 			}
-			Debug.Printf("Exiting i/o for container %s", rn.container)
 		}
 	}()
 	go func(clIn chan []byte) {
@@ -320,6 +321,7 @@ func wsRunnerEvents(rn *runner, ws *websocket.Conn) {
 			Debug.Printf("--> %s", string(buf))
 			clIn <- buf
 		}
+		Debug.Printf("Exiting gorouting for %s", rn.shortid)
 		end <- true
 	}(rn.clientIn)
 loop:
@@ -332,4 +334,5 @@ loop:
 			ws.Write(b)
 		}
 	}
+	Debug.Printf("Exiting websock handler for container %s", rn.shortid)
 }
