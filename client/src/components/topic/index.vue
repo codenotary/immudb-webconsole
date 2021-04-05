@@ -42,31 +42,31 @@
 					slot="label"
 					slot-scope="props"
 				>
-					<v-tooltip top>
-						<template v-slot:activator="{ on, attrs }">
-							<v-icon
-								v-if="props.item.type !== 'node'"
-								class="ma-0 mt-2 mr-2 pa-0"
-								:class="{
-									'primary--text text--darken-0': !$vuetify.theme.dark,
-									'primary--text text--lighten-2': $vuetify.theme.dark,
-								}"
-								small
-								v-bind="attrs"
-								v-on="on"
-							>
-								{{ getIcon(props.item.type) }}
-							</v-icon>
-						</template>
-						<span>
-							{{ props.item.type }}
-						</span>
-					</v-tooltip>
 					<nuxt-link
 						v-if="props.item.to"
-						class="ma-0 pa-0"
+						class="ma-0 pa-0 d-flex justify-start align-center"
 						:to="props.item.to"
 					>
+						<v-tooltip top>
+							<template v-slot:activator="{ on, attrs }">
+								<v-icon
+									v-if="props.item.type !== 'node'"
+									class="ma-0 mr-2 pa-0"
+									:class="{
+										'primary--text text--darken-0': !$vuetify.theme.dark,
+										'primary--text text--lighten-2': $vuetify.theme.dark,
+									}"
+									small
+									v-bind="attrs"
+									v-on="on"
+								>
+									{{ getIcon(props.item.type) }}
+								</v-icon>
+							</template>
+							<span>
+								{{ props.item.type }}
+							</span>
+						</v-tooltip>
 						{{ props.item.label }}
 					</nuxt-link>
 					<span
