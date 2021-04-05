@@ -110,12 +110,12 @@ func (rn *runner) loop() {
 			rn.dumpImmudb()
 		case s := <-outgoing:
 			Debug.Printf("<= %s", string(s))
-			if len(rn.clientOut)>0 {
+			if len(rn.clientOut) > 0 {
 				for _, c := range rn.clientOut {
 					c <- s
 				}
 			} else {
-				rn.outBuffer=append(rn.outBuffer,s...)
+				rn.outBuffer = append(rn.outBuffer, s...)
 			}
 		case <-fin:
 			return
@@ -250,6 +250,9 @@ func removeRunner(reqId string) error {
 	}
 	os.RemoveAll(rn.ephdir)
 	delete(runners, reqId)
+	for _, c := range rn.clientOut {
+		close(c)
+	}
 	log.Printf("Shut down container %s [%s]", reqId, rn.container)
 	return nil
 }
@@ -310,9 +313,9 @@ func wsRunnerEvents(rn *runner, ws *websocket.Conn) {
 			}
 		}
 	}()
-	if len(rn.outBuffer)>0 {
+	if len(rn.outBuffer) > 0 {
 		ws.Write(rn.outBuffer)
-		rn.outBuffer=nil
+		rn.outBuffer = nil
 	}
 	go func(clIn chan []byte) {
 		for {
@@ -330,7 +333,7 @@ func wsRunnerEvents(rn *runner, ws *websocket.Conn) {
 			Debug.Printf("--> %s", string(buf))
 			clIn <- buf
 		}
-		Debug.Printf("Exiting gorouting for %s", rn.shortid)
+		Debug.Printf("Exiting goroutine for %s", rn.shortid)
 		end <- true
 	}(rn.clientIn)
 loop:
@@ -339,8 +342,16 @@ loop:
 		case <-end:
 			break loop
 		case b := <-clOut:
+			if len(b) == 0 {
+				Debug.Printf("Exiting websocket loop for %s", rn.shortid)
+				break loop
+			}
+
 			Debug.Printf("<-- %s", string(b))
-			ws.Write(b)
+			if _, err := ws.Write(b); err != nil {
+				Debug.Printf("Error writing socket for %s: %s", rn.shortid, err.Error())
+				break loop
+			}
 		}
 	}
 	Debug.Printf("Exiting websock handler for container %s", rn.shortid)
