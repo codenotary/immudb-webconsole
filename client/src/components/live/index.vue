@@ -37,9 +37,8 @@
 					:commands="commands"
 					:history.sync="history"
 					:stdin.sync="termStdin"
-					:is-in-progress="!showPrompt"
 					:hide-prompt="showPrompt"
-					@execute="terminate"
+					@execute="onExecute"
 				/>
 			</div>
 		</v-card-text>
@@ -102,21 +101,22 @@ export default {
 			const msg = JSON.parse(event.data);
 			if (msg) {
 				const { line, flux, tree, token } = msg;
+				if (!line.startsWith('bash-5.1#')) {
+					// append code output
+					this.appendCodeOutput(msg);
+					tree && this.setImmudb({ immudb: tree });
+					token && this.setImmudb({ token });
 
-				// append code output
-				this.appendCodeOutput(msg);
-				tree && this.setImmudb({ immudb: tree });
-				token && this.setImmudb({ token });
-
-				// append live terminal output
-				if (this.introFinished) {
-					this.appendOutput(line, flux === 'stderr', true);
-				}
-				else if (line === '--MARK--\n') {
-					this.introFinished = true;
-				}
-				else {
-					this.appendIntro(line, flux === 'stderr');
+					// append live terminal output
+					if (this.introFinished) {
+						this.appendOutput(line, flux === 'stderr', true);
+					}
+					else if (line === '--MARK--\n') {
+						this.introFinished = true;
+					}
+					else {
+						this.appendIntro(line, flux === 'stderr');
+					}
 				}
 			}
 		};
@@ -150,14 +150,10 @@ export default {
 			setImmudb: SET_IMMUDB,
 		}),
 		appendIntro (line, stderr = false) {
-			console.log('appendIntro', line);
-
 			const newLine = `<span class="${ stderr ? 'stderr' : 'stdout' }">${ line }</span>`;
 			this.intro.value = `${ this.intro.value }${ this.intro.value && '<br>' }${ newLine }`;
 		},
 		appendOutput (line, stderr = false, intro = false) {
-			console.log('appendOutput', line);
-
 			this.$refs.terminal.setIsInProgress(true);
 			this.history
 					.push(
@@ -171,6 +167,7 @@ export default {
 		},
 		onExecute (data) {
 			console.log('onExecute', data, this.termStdin);
+			// this.terminate();
 			this.$socket && this.$socket.sendObj(data);
 		},
 	},
@@ -195,22 +192,30 @@ export default {
 				&,
 				.vue-command {
 					height: 100%;
-				}
 
-				.vue-command {
-					.term-std {
-						min-height: 100%;
-						height: unset;
-					}
+					.vue-command {
+						.term-std {
+							min-height: 100%;
+							height: unset;
 
-					.term-cont {
-						.term-hist {
-							margin: $spacer-4 0;
+							.term-cont {
+								padding-bottom: $spacer-12;
 
-							.term-stdout,
-							.term-stderr {
-								word-wrap: break-word;
-								white-space: pre-wrap;
+								.term-hist {
+									// margin: $spacer-4 0;
+
+									.term-ps,
+									.term-stdin {
+										margin-top: $spacer-4;
+										margin-bottom: $spacer-4;
+									}
+
+									.term-stdout,
+									.term-stderr {
+										word-wrap: break-word;
+										white-space: pre-wrap;
+									}
+								}
 							}
 						}
 					}
