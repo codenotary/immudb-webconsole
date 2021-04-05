@@ -42,7 +42,7 @@ func main() {
 	if err != nil {
 		log.Fatal("Unable to read users: %s", err.Error())
 	}
-	log.Printf("Users: %+v", users.Users)
+	// 	log.Printf("Users: %+v", users.Users)
 	present := false
 	for _, u := range users.Users {
 		if string(u.User) == username {

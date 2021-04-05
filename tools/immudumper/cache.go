@@ -1,23 +1,25 @@
 package main
+
 import (
-        "encoding/base64"
-        "fmt"
-        "io/ioutil"
-        "strings"
-        "github.com/rogpeppe/go-internal/lockedfile"
-        "github.com/codenotary/immudb/pkg/api/schema"
-        "github.com/golang/protobuf/proto"
+	"encoding/base64"
+	"fmt"
+	"github.com/codenotary/immudb/pkg/api/schema"
 	"github.com/codenotary/immudb/pkg/client/cache"
+	"github.com/golang/protobuf/proto"
+	"github.com/rogpeppe/go-internal/lockedfile"
+	"io/ioutil"
+	"strings"
 )
+
 type forcedCache struct {
 	filename string
 }
 
 func NewForcedCache(fn string) *forcedCache {
-        return &forcedCache{filename: fn}
+	return &forcedCache{filename: fn}
 }
 
-func (fc * forcedCache) Get(serverUUID, db string) (*schema.ImmutableState, error) {
+func (fc *forcedCache) Get(serverUUID, db string) (*schema.ImmutableState, error) {
 	raw, err := ioutil.ReadFile(fc.filename)
 	if err != nil {
 		return nil, err
@@ -43,7 +45,7 @@ func (fc * forcedCache) Get(serverUUID, db string) (*schema.ImmutableState, erro
 	return nil, fmt.Errorf("could not find previous state")
 }
 
-func (fc * forcedCache) Set(serverUUID, db string, state *schema.ImmutableState) error {
+func (fc *forcedCache) Set(serverUUID, db string, state *schema.ImmutableState) error {
 	raw, err := proto.Marshal(state)
 	if err != nil {
 		return err
@@ -71,25 +73,25 @@ func (fc * forcedCache) Set(serverUUID, db string, state *schema.ImmutableState)
 	return nil
 }
 
-func (fc * forcedCache) GetLocker(serverUUID string) cache.Locker {
-        fm := lockedfile.MutexAt(fc.filename)
-        return &FileLocker{lm: fm}
+func (fc *forcedCache) GetLocker(serverUUID string) cache.Locker {
+	fm := lockedfile.MutexAt(fc.filename)
+	return &FileLocker{lm: fm}
 }
 
 type FileLocker struct {
-        lm         *lockedfile.Mutex
-        unlockFunc func()
+	lm         *lockedfile.Mutex
+	unlockFunc func()
 }
 
 func (fl *FileLocker) Lock() (err error) {
-        fl.unlockFunc, err = fl.lm.Lock()
-        return err
+	fl.unlockFunc, err = fl.lm.Lock()
+	return err
 }
 
 func (fl *FileLocker) Unlock() (err error) {
-        if fl.unlockFunc == nil {
-                return fmt.Errorf("try to lock a not locked file")
-        }
-        fl.unlockFunc()
-        return nil
+	if fl.unlockFunc == nil {
+		return fmt.Errorf("try to lock a not locked file")
+	}
+	fl.unlockFunc()
+	return nil
 }

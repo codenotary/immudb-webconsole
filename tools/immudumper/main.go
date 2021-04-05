@@ -9,14 +9,14 @@ import (
 	"github.com/codenotary/immudb/pkg/api/schema"
 	immuclient "github.com/codenotary/immudb/pkg/client"
 	stateService "github.com/codenotary/immudb/pkg/client/state"
-// 	"github.com/codenotary/immudb/pkg/client/cache"
-	"google.golang.org/grpc/metadata"
+	// 	"github.com/codenotary/immudb/pkg/client/cache"
 	"github.com/codenotary/immudb/pkg/logger"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/metadata"
 	"immudumper/zfile"
 	"log"
 	"os"
 	"time"
-	"google.golang.org/grpc"
 )
 
 const username = "immudumper"

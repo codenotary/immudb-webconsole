@@ -26,13 +26,13 @@ func randString(n int) string {
 func demux(rd io.Reader) (outLine OutputLine, err error) {
 	head := make([]byte, 8)
 	n, err := rd.Read(head)
-	if err!=nil {
-		log.Printf("Error while reading: %s",err.Error())
-		return 
+	if err != nil {
+		log.Printf("Error while reading: %s", err.Error())
+		return
 	}
 	if n == 0 {
 		Debug.Printf("Zero byte input")
-		return 
+		return
 	}
 	if n < 8 {
 		log.Printf("Frame too short")

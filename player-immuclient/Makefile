@@ -10,10 +10,10 @@ bin:
 	
 bin/immudumper: ../tools/immudumper/immudumper
 	cp $^ $@
-../tools/immudumper/immudumper:
+../tools/immudumper/immudumper: ../tools/immudumper/cache.go  ../tools/immudumper/htree.go  ../tools/immudumper/main.go  ../tools/immudumper/tx.go
 	make -C ../tools/immudumper
 
 bin/immusetup: ../tools/immusetup/immusetup
 	cp $^ $@
-../tools/immusetup/immusetup:
+../tools/immusetup/immusetup: ../tools/immusetup/main.go
 	make -C ../tools/immusetup
