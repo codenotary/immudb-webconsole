@@ -48,10 +48,16 @@
 </template>
 
 <script>
-import { createStdout, createStderr } from 'vue-command';
+import { mapActions } from 'vuex';
+import { createStdout, createStderr, createDummyStdout } from 'vue-command';
 import {
 	mdiConsoleLine,
 } from '@mdi/js';
+import {
+	OUTPUT_MODULE,
+	APPEND_CODE_OUTPUT,
+	SET_IMMUDB,
+} from '@/store/output/constants';
 import LiveIntro from '@/components/live/Intro';
 
 export default {
@@ -67,6 +73,7 @@ export default {
 			introFinished: false,
 			commands: {
 				intro: () => undefined,
+				clear: () => undefined,
 			},
 			termStdin: '',
 			history: [],
@@ -78,26 +85,44 @@ export default {
 		},
 	},
 	mounted () {
-		this.$options.sockets.onmessage = (data) => {
-			const msg = JSON.parse(event.data);
-			if (this.introFinished) {
-				this.appendOutput(msg.line, msg.flux === 'stderr', true);
-			}
-			else if (msg && msg.line === '--MARK--\n') {
-				this.introFinished = true;
-			}
-			else {
-				this.appendIntro(msg.line, msg.flux === 'stderr');
-			}
-		};
-
+		// init the live terminal with a LiveIntro component
 		this.$nextTick(() => {
 			this.history = [LiveIntro];
 		});
+
+		// manage websocket messages
+		this.$options.sockets.onmessage = (data) => {
+			const msg = JSON.parse(event.data);
+			if (msg) {
+				const { line, flux, tree, token } = msg;
+
+				// append code output
+				this.appendCodeOutput(msg);
+				tree && this.setImmudb({ immudb: tree });
+				token && this.setImmudb({ token });
+
+				// append live terminal output
+				if (this.introFinished) {
+					this.appendOutput(line, flux === 'stderr', true);
+				}
+				else if (line === '--MARK--\n') {
+					this.introFinished = true;
+				}
+				else {
+					this.appendIntro(line, flux === 'stderr');
+				}
+			}
+		};
 	},
 	created () {
 		this.commands.intro = () => {
 			return LiveIntro;
+		};
+
+		this.commands.clear = () => {
+			this.history = [];
+			this.termStdin = '';
+			return createDummyStdout();
 		};
 	},
 	beforeDestroy () {
@@ -113,12 +138,18 @@ export default {
 		};
 	},
 	methods: {
+		...mapActions(OUTPUT_MODULE, {
+			appendCodeOutput: APPEND_CODE_OUTPUT,
+			setImmudb: SET_IMMUDB,
+		}),
 		appendIntro (line, stderr = false) {
+			console.log('appendIntro', line);
+
 			const newLine = `<span class="${ stderr ? 'stderr' : 'stdout' }">${ line }</span>`;
 			this.intro.value = `${ this.intro.value }${ this.intro.value && '<br>' }${ newLine }`;
 		},
 		appendOutput (line, stderr = false, intro = false) {
-			console.log('appenOutput:', line);
+			console.log('appendOutput', line);
 
 			this.$refs.terminal.setIsInProgress(true);
 			this.history

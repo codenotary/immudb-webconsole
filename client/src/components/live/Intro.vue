@@ -18,7 +18,9 @@ export default {
 	computed: {
 		sanitizeIntro () {
 			if (this.intro) {
-				return sanitizeHtml(this.intro.value);
+				const { value } = this.intro;
+				const _value = value.replace(/\/n/, '<br>');
+				return sanitizeHtml(_value);
 			}
 			return '';
 		},
