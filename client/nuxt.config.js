@@ -357,6 +357,7 @@ export default {
 	content: {
 		dir: '../content',
 		apiPrefix: 'api-content',
+		liveEdit: false,
 		markdown: {
 			remarkEmoji: {
 				emoticon: true,

@@ -136,6 +136,16 @@
 		font-size: 0.96em !important;
 	}
 
+	code {
+		padding: 0 !important;
+
+		&,
+		span {
+			background-color: transparent !important;
+			text-shadow: none !important;
+		}
+	}
+
 	pre {
 		white-space: pre !important;
 		white-space: pre-wrap !important;

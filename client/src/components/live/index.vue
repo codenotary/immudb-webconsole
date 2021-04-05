@@ -4,7 +4,6 @@
 		class="ma-0 pa-0 bg fill-height shadow"
 		elevation="0"
 	>
-		{{ message }}
 		<v-card-title class="ma-0 py-0 py-sm-2 px-0 d-flex justify-start align-center">
 			<v-icon
 				class="ml-2 title"
@@ -36,9 +35,11 @@
 					:title="title"
 					:prompt="prompt"
 					:commands="commands"
-					:history="termHistory"
+					:history.sync="history"
 					:stdin.sync="termStdin"
-					:cursor.sync="termCursor"
+					:is-in-progress="!showPrompt"
+					:hide-prompt="showPrompt"
+					@execute="terminate"
 				/>
 			</div>
 		</v-card-text>
@@ -46,15 +47,17 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import { createStdout, createStderr } from 'vue-command';
-import {
-	WEBSOCKET_MODULE,
-	SOCKET_MESSAGE,
-} from '@/store/websocket/constants';
+import { mapActions } from 'vuex';
+import { createStdout, createStderr, createDummyStdout } from 'vue-command';
 import {
 	mdiConsoleLine,
 } from '@mdi/js';
+import {
+	OUTPUT_MODULE,
+	APPEND_CODE_OUTPUT,
+	SET_IMMUDB,
+} from '@/store/output/constants';
+import LiveIntro from '@/components/live/Intro';
 
 export default {
 	name: 'Live',
@@ -63,57 +66,112 @@ export default {
 			mdiConsoleLine,
 			title: 'immuclient',
 			prompt: 'demo@user: #',
-			commands: {},
+			intro: {
+				value: '',
+			},
+			introFinished: false,
+			commands: {
+				intro: () => undefined,
+				clear: () => undefined,
+			},
 			termStdin: '',
-			termHistory: [],
-			termCursor: 0,
+			history: [],
 		};
 	},
 	computed: {
-		...mapGetters(WEBSOCKET_MODULE, {
-			message: SOCKET_MESSAGE,
-		}),
+		showPrompt () {
+			return !this.introFinished;
+		},
 	},
 	watch: {
-		termStdin: {
-			handler (newVal) {
-				this.commands = {};
-				this.commands[this.termStdin] = this.executeCmd;
-			},
-		},
-		message: {
-			deep: true,
-			handler (newVal) {
+		termStdin (newVal) {
+			if (newVal) {
 				console.log(newVal);
-			},
+				this.onExecute(newVal);
+			}
 		},
 	},
 	mounted () {
+		// init the live terminal with a LiveIntro component
+		this.$nextTick(() => {
+			this.history = [LiveIntro];
+		});
+
+		// manage websocket messages
 		this.$options.sockets.onmessage = (data) => {
 			const msg = JSON.parse(event.data);
-			console.log(msg);
+			if (msg) {
+				const { line, flux, tree, token } = msg;
+
+				// append code output
+				this.appendCodeOutput(msg);
+				tree && this.setImmudb({ immudb: tree });
+				token && this.setImmudb({ token });
+
+				// append live terminal output
+				if (this.introFinished) {
+					this.appendOutput(line, flux === 'stderr', true);
+				}
+				else if (line === '--MARK--\n') {
+					this.introFinished = true;
+				}
+				else {
+					this.appendIntro(line, flux === 'stderr');
+				}
+			}
+		};
+	},
+	created () {
+		this.commands.intro = () => {
+			return LiveIntro;
+		};
+
+		this.commands.clear = () => {
+			this.history = [];
+			this.termStdin = '';
+			return createDummyStdout();
 		};
 	},
 	beforeDestroy () {
 		delete this.$options.sockets.onmessage;
+
+		if (this.$refs.vueCommand) {
+			this.$refs.vueCommand.scroll.resizeObserver.disconnect();
+		}
+	},
+	provide () {
+		return {
+			intro: this.intro,
+		};
 	},
 	methods: {
-		executeCmd (cmd) {
-			const data = {
-				line: this.termStdin,
-				cmd: undefined,
-			};
+		...mapActions(OUTPUT_MODULE, {
+			appendCodeOutput: APPEND_CODE_OUTPUT,
+			setImmudb: SET_IMMUDB,
+		}),
+		appendIntro (line, stderr = false) {
+			console.log('appendIntro', line);
 
-			return new Promise((resolve, reject) => {
-				try {
-					this.$socket.sendObj(data);
-					resolve(createStdout());
-				}
-				catch (err) {
-					console.error(err);
-					resolve(createStderr(err));
-				}
-			});
+			const newLine = `<span class="${ stderr ? 'stderr' : 'stdout' }">${ line }</span>`;
+			this.intro.value = `${ this.intro.value }${ this.intro.value && '<br>' }${ newLine }`;
+		},
+		appendOutput (line, stderr = false, intro = false) {
+			console.log('appendOutput', line);
+
+			this.$refs.terminal.setIsInProgress(true);
+			this.history
+					.push(
+						intro
+							? createStdout(line)
+							: stderr
+								? createStderr(line)
+								: createStdout(line),
+					);
+			this.$refs.terminal.setIsInProgress(false);
+		},
+		onExecute (data) {
+			console.log('onExecute', data, this.termStdin);
+			this.$socket && this.$socket.sendObj(data);
 		},
 	},
 };
@@ -143,6 +201,18 @@ export default {
 					.term-std {
 						min-height: 100%;
 						height: unset;
+					}
+
+					.term-cont {
+						.term-hist {
+							margin: $spacer-4 0;
+
+							.term-stdout,
+							.term-stderr {
+								word-wrap: break-word;
+								white-space: pre-wrap;
+							}
+						}
 					}
 				}
 			}

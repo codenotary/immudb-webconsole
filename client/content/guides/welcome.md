@@ -2,7 +2,19 @@
 title: Welcome
 sort: 0
 active: true
+code1: # import the client c
 ---
+
+```js
+const http = require('http')
+const bodyParser = require('body-parser')
+
+http.createServer((req, res) => {
+  bodyParser.parse(req, (error, body) => {
+    res.end(body)
+  })
+}).listen(3000)
+```
 
 lorem ipsum dolor sit amet
 
