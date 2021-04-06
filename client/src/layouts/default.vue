@@ -49,7 +49,7 @@ export default {
 
 <style lang="scss">
 	.v-main {
-		max-height: calc(100vh - #{$spacer-12});
+		max-height: calc(100vh - #{$spacer-11});
 
 		@media (max-width: 480px) {
 			height: auto !important;
