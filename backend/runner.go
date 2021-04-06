@@ -59,9 +59,12 @@ func (rn *runner) loop() {
 				log.Printf("Incoming error: %s", err.Error())
 				break
 			}
-			jresp, _ := json.Marshal(outgoingLine)
 			Debug.Printf("=> %v", outgoingLine)
-			outgoing <- jresp
+			for _,ll := range(outLineSplit(outgoingLine)) {
+				jresp, _ := json.Marshal(ll)
+				Debug.Printf("=[]=> %v", outgoingLine)
+				outgoing <- jresp
+			}
 		}
 		fin <- true
 	}(atc.Reader)

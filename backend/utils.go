@@ -64,3 +64,25 @@ func demux(rd io.Reader) (outLine OutputLine, err error) {
 	}
 	return
 }
+
+func outLineSplit(outLine OutputLine) (ret []OutputLine) {
+	k:=0
+	for i,c := range outLine.Line {
+		if c=='\n' {
+			l := OutputLine{
+				Timestamp: float64(time.Now().UnixNano()) / 1000000000.0,
+				Line: outLine.Line[k:i+1],
+			}
+			ret=append(ret,l)
+			k=i+1
+		}
+	}
+	if k<len(outLine.Line) {
+		l := OutputLine{
+			Timestamp: float64(time.Now().UnixNano()) / 1000000000.0,
+			Line: outLine.Line[k:],
+		}
+		ret=append(ret,l)
+	}
+	return
+}
