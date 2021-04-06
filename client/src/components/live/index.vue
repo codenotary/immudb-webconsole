@@ -77,6 +77,7 @@ export default {
 				value: '',
 			},
 			introFinished: true,
+			ignoredFirstEmptyMessage: false,
 			commands: {
 				intro: () => undefined,
 				clear: () => undefined,
@@ -115,18 +116,31 @@ export default {
 
 			if (msg) {
 				const { line, flux, tree, token } = msg;
-				if (!line.startsWith('bash-5.1#')) {
-					// append code output
-					this.appendCodeOutput(msg);
-					tree && this.setImmudb({ immudb: tree });
-					token && this.setImmudb({ token });
 
+				// update merkle tree output
+				tree && this.setImmudb({ immudb: tree });
+				token && this.setImmudb({ token });
+
+				// updated code output
+				msg && this.appendCodeOutput(msg);
+
+				// parse msg
+				if (line === '--MARK--\n') {
+					this.introFinished = true;
+				}
+				else if (line.startsWith('bash-5.1#')) {
+					if (this.ignoredFirstEmptyMessage) {
+						this.history
+								.push(createDummyStdout());
+					}
+					else {
+						this.ignoredFirstEmptyMessage = true;
+					}
+				}
+				else {
 					// append live terminal output
 					if (this.introFinished) {
 						this.appendOutput(line, flux === 'stderr', true);
-					}
-					else if (line === '--MARK--\n') {
-						this.introFinished = true;
 					}
 					else {
 						this.appendIntro(line, flux === 'stderr');
@@ -182,8 +196,8 @@ export default {
 
 			terminal.setIsInProgress(this.pointer + 1);
 
-			this.history
-					.push(createStdout(`>> ${ stdin }`));
+			// this.history
+			// 		.push(createStdout(`>> ${ stdin }`));
 
 			terminal.setIsInProgress(false);
 		};
@@ -256,9 +270,11 @@ export default {
 
 								.term-hist {
 									.term-ps,
-									.term-stdin {
-										margin-top: $spacer-4;
-										margin-bottom: $spacer-4;
+									.term-stdin,
+									.term-stdout,
+									.term-stderr {
+										font-family: Inconsolata, monospace;
+										font-size: 0.875rem !important;
 									}
 
 									.term-stdout,

@@ -273,7 +273,7 @@ export default {
 				this.stopKeepalive();
 				KEEPALIVE_INTERVAL_ID = setInterval(async () => {
 					await this.$socket.sendObj({});
-				}, 1 * (n || 60) * 1000);
+				}, 1 * (n || 15) * 1000);
 			}
 			catch (err) {
 				console.error(err);
