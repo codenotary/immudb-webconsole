@@ -35,10 +35,15 @@
 					:title="title"
 					:prompt="prompt"
 					:commands="commands"
+					:built-in="builtIn"
+					:is-in-progress="isInProgress"
 					:history.sync="history"
 					:stdin.sync="termStdin"
-					:hide-prompt="showPrompt"
-					@execute="onExecute"
+					:pointer.sync="pointer"
+					:hide-prompt="hidePrompt"
+					:help-text="helpText"
+					:help-timeout="helpTimeout"
+					show-help
 				/>
 			</div>
 		</v-card-text>
@@ -60,6 +65,9 @@ import LiveIntro from '@/components/live/Intro';
 
 export default {
 	name: 'Live',
+	props: {
+		outputPrefix: { type: String, default: '>>' },
+	},
 	data () {
 		return {
 			mdiConsoleLine,
@@ -68,26 +76,24 @@ export default {
 			intro: {
 				value: '',
 			},
-			introFinished: false,
+			introFinished: true,
 			commands: {
 				intro: () => undefined,
 				clear: () => undefined,
 			},
+			builtIn: undefined,
+			isInProgress: false,
 			termStdin: '',
+			pointer: 0,
+			executed: new Set(),
 			history: [],
+			helpText: 'Type help',
+			helpTimeout: 5000,
 		};
 	},
 	computed: {
-		showPrompt () {
+		hidePrompt () {
 			return !this.introFinished;
-		},
-	},
-	watch: {
-		termStdin (newVal) {
-			if (newVal) {
-				console.log(newVal);
-				this.onExecute(newVal);
-			}
 		},
 	},
 	mounted () {
@@ -95,10 +101,12 @@ export default {
 		this.$nextTick(() => {
 			this.history = [LiveIntro];
 		});
+		this.introFinished = false;
 
 		// manage websocket messages
 		this.$options.sockets.onmessage = (data) => {
 			const msg = JSON.parse(event.data);
+
 			if (msg) {
 				const { line, flux, tree, token } = msg;
 				if (!line.startsWith('bash-5.1#')) {
@@ -120,13 +128,27 @@ export default {
 
 					// scroll to latest row
 					const { terminal: { $el: el } } = this.$refs;
-					el.scrollTop = el.scrollHeight;
+					if (el) {
+						el.scrollTop = el.scrollHeight - (this.introFinished ? 0 : 64);
+					}
 				}
 			}
 		};
 	},
 	created () {
+		this.commands.help = () => {
+			this.$socket && this.$socket.sendObj({
+				cmd: undefined,
+				line: 'immuclient help\n',
+			});
+		};
+
 		this.commands.intro = () => {
+			// this.termStdin = '';
+			setTimeout(() => {
+				this.history
+						.push(createDummyStdout());
+			}, 300);
 			return LiveIntro;
 		};
 
@@ -134,6 +156,33 @@ export default {
 			this.history = [];
 			this.termStdin = '';
 			return createDummyStdout();
+		};
+
+		this.builtIn = (stdin) => {
+			if (Object.keys(this.commands).includes(stdin)) {
+				return;
+			}
+
+			this.isInProgress = true;
+
+			// send message to WS
+			this.$socket && this.$socket.sendObj({
+				cmd: undefined,
+				line: `${ stdin }\n`,
+			});
+
+			this.executed.delete(stdin);
+			this.executed.add(stdin);
+			this.pointer += 1;
+			// this.history
+			// 		.push(createStdout('>> hello world'));
+			// this.history
+			// 		.push(createStdout(stdin));
+			this.history
+					.push(createDummyStdout());
+			this.termStdin = '';
+
+			this.isInProgress = false;
 		};
 	},
 	beforeDestroy () {
@@ -159,20 +208,16 @@ export default {
 		},
 		appendOutput (line, stderr = false, intro = false) {
 			this.$refs.terminal.setIsInProgress(true);
+			const _line = `${ this.outputPrefix } ${ line }`;
 			this.history
 					.push(
 						intro
-							? createStdout(line)
+							? createStdout(_line)
 							: stderr
-								? createStderr(line)
-								: createStdout(line),
+								? createStderr(_line)
+								: createStdout(_line),
 					);
 			this.$refs.terminal.setIsInProgress(false);
-		},
-		onExecute (data) {
-			console.log('onExecute', data, this.termStdin);
-			// this.terminate();
-			this.$socket && this.$socket.sendObj(data);
 		},
 	},
 };
@@ -218,6 +263,17 @@ export default {
 										word-wrap: break-word;
 										white-space: pre-wrap;
 									}
+
+									.term-stdin {
+										input {
+											opacity: 1;
+											animation-name: fadeInOpacity;
+											animation-iteration-count: 1;
+											animation-timing-function: ease-in;
+											animation-delay: 4.9s;
+											animation-duration: 0.6s;
+										}
+									}
 								}
 							}
 						}
@@ -225,6 +281,16 @@ export default {
 				}
 			}
 		}
+	}
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
 	}
 }
 </style>
