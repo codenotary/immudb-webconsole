@@ -206,10 +206,6 @@ export default {
 		};
 
 		this.builtIn = (stdin) => {
-			if (Object.keys(this.commands).includes(stdin)) {
-				return;
-			}
-
 			const { terminal } = this.$refs;
 
 			terminal.setIsInProgress(true);
@@ -221,11 +217,7 @@ export default {
 				line: `${ stdin }\n`,
 			});
 
-			terminal.setIsInProgress(this.pointer + 1);
-
-			// this.history
-			// 		.push(createStdout(`>> ${ stdin }`));
-
+			this.$nextTick(() => terminal.setPointer(this.pointer + 1));
 			terminal.setIsInProgress(false);
 		};
 	},
@@ -233,7 +225,8 @@ export default {
 		delete this.$options.sockets.onmessage;
 
 		if (this.$refs.vueCommand) {
-			this.$refs.vueCommand.scroll.resizeObserver.disconnect();
+			this.$refs.vueCommand.scroll.resizeObserver
+					.disconnect();
 		}
 	},
 	provide () {
@@ -247,8 +240,10 @@ export default {
 			setImmudb: SET_IMMUDB,
 		}),
 		appendIntro (line, stderr = false) {
-			const newLine = `<span class="${ stderr ? 'stderr' : 'stdout' }">${ line }</span>`;
-			this.intro.value = `${ this.intro.value }${ this.intro.value && '<br>' }${ newLine }`;
+			const m = this.intro.value ? 8 : 0;
+			const classname = stderr ? 'stderr' : 'stdout';
+			const newLine = `<span class="ma-0 mb-${ m } pa-0 ${ classname }">${ line }</span>`;
+			this.intro.value += newLine;
 		},
 		appendOutput (line, stderr = false, intro = false) {
 			this.$refs.terminal.setIsInProgress(true);

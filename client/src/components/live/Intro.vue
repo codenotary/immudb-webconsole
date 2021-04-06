@@ -1,11 +1,9 @@
 <template>
-	<div class="live-intro-wrapper">
+	<div class="live-intro-wrapper ma-0 mb-4 pa-0 pb-4">
 		<span
 			class="live-intro"
 			v-html="sanitizeIntro"
 		/>
-		<br>
-		<br>
 	</div>
 </template>
 
@@ -19,8 +17,11 @@ export default {
 		sanitizeIntro () {
 			if (this.intro) {
 				const { value } = this.intro;
-				const _value = value.replace(/\/n/, '<br>');
-				return sanitizeHtml(_value);
+				// TODO allow classnames
+				// return sanitizeHtml(value, {
+				// 	allowedAttributes: 'class',
+				// });
+				return sanitizeHtml(value);
 			}
 			return '';
 		},
