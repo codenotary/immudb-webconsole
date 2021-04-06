@@ -101,6 +101,12 @@ export default {
 		this.$nextTick(() => {
 			this.history = [LiveIntro];
 		});
+
+		// increase show help timeout
+		setTimeout(() => {
+			this.helpTimeout = 15000;
+		}, this.helpTimeout + 1);
+
 		this.introFinished = false;
 
 		// manage websocket messages
@@ -163,7 +169,10 @@ export default {
 				return;
 			}
 
-			this.isInProgress = true;
+			const { terminal } = this.$refs;
+
+			terminal.setIsInProgress(true);
+			this.executed.add(createStdout(stdin));
 
 			// send message to WS
 			this.$socket && this.$socket.sendObj({
@@ -171,18 +180,12 @@ export default {
 				line: `${ stdin }\n`,
 			});
 
-			this.executed.delete(stdin);
-			this.executed.add(stdin);
-			this.pointer += 1;
-			// this.history
-			// 		.push(createStdout('>> hello world'));
-			// this.history
-			// 		.push(createStdout(stdin));
-			this.history
-					.push(createDummyStdout());
-			this.termStdin = '';
+			terminal.setIsInProgress(this.pointer + 1);
 
-			this.isInProgress = false;
+			this.history
+					.push(createStdout(`>> ${ stdin }`));
+
+			terminal.setIsInProgress(false);
 		};
 	},
 	beforeDestroy () {
@@ -262,17 +265,6 @@ export default {
 									.term-stderr {
 										word-wrap: break-word;
 										white-space: pre-wrap;
-									}
-
-									.term-stdin {
-										input {
-											opacity: 1;
-											animation-name: fadeInOpacity;
-											animation-iteration-count: 1;
-											animation-timing-function: ease-in;
-											animation-delay: 4.9s;
-											animation-duration: 0.6s;
-										}
 									}
 								}
 							}
