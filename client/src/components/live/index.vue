@@ -29,6 +29,7 @@
 		>
 			<div
 				class="command-line-wrapper ma-0 pa-0"
+				@keydown.ctrl.72="onHelp"
 				@keydown.ctrl.88="onExit"
 			>
 				<vue-command
@@ -153,13 +154,15 @@ export default {
 									: line;
 
 								if (this.ignoredFirstPrompt) {
-									console.log('=====', line);
 									this.history
 											.push(createDummyStdout());
 								}
 								else {
 									this.ignoredFirstPrompt = true;
 								}
+							}
+							else if (/^\s*$/.test(line)) {
+								console.error('SKIP: just new line');
 							}
 							else {
 								// reset default prompt
@@ -192,10 +195,7 @@ export default {
 	},
 	created () {
 		this.commands.help = () => {
-			this.$socket && this.$socket.sendObj({
-				cmd: undefined,
-				line: 'immuclient help\n',
-			});
+			this.onHelp();
 		};
 
 		this.commands.intro = () => {
@@ -209,36 +209,18 @@ export default {
 		};
 
 		this.builtIn = (stdin) => {
-			// filter out exit
-			if (stdin === 'exit') {
-				if (this.prompt !== DEFAULT_PROMPT) {
-					// send exit message to WS
-					this.$socket && this.$socket.sendObj({
-						cmd: undefined,
-						line: 'exit\n',
-					});
-					this.prompt = DEFAULT_PROMPT;
-				}
-				else {
-					this.appendOutput('command not allowed at this level', true);
-				}
-			}
-
 			// filter out login
 			if (stdin === 'login') {
-				if (this.prompt !== DEFAULT_PROMPT) {
-					// send login message to WS
-					this.$socket && this.$socket.sendObj({
-						cmd: undefined,
-						line: 'login\n',
-					});
-				}
-				else {
-					this.appendOutput('command not allowed at this level', true);
-				}
+				this.onLogin();
 			}
-
-			this.onBuiltIn(stdin);
+			// filter out exit
+			if (stdin === 'exit') {
+				this.onExit();
+			}
+			else {
+				// execute on built in
+				this.onBuiltIn(stdin);
+			}
 		};
 	},
 	beforeDestroy () {
@@ -272,15 +254,16 @@ export default {
 		},
 		appendOutput (line, stderr = false) {
 			try {
-				this.$refs.terminal.setIsInProgress(true);
+				const { terminal } = this.$refs;
+				terminal.setIsInProgress(true);
 				const _line = `${ this.outputPrefix } ${ line }`;
 				this.history
 						.push(
 							stderr
-								? createStderr(_line)
-								: createStdout(_line),
+								? createStderr(_line, true)
+								: createStdout(_line, false, true),
 						);
-				this.$refs.terminal.setIsInProgress(false);
+				terminal.setIsInProgress(false);
 			}
 			catch (err) {
 				console.error(err);
@@ -306,10 +289,36 @@ export default {
 				console.error(err);
 			}
 		},
+		onHelp () {
+			this.$socket && this.$socket.sendObj({
+				cmd: undefined,
+				line: 'immuclient help\n',
+			});
+		},
+		onLogin () {
+			if (this.prompt !== DEFAULT_PROMPT) {
+				// send login message to WS
+				this.$socket && this.$socket.sendObj({
+					cmd: undefined,
+					line: 'login\n',
+				});
+			}
+			else {
+				this.appendOutput('command not allowed at this level', true);
+			}
+		},
 		onExit () {
-			// execute exit command
-			const { terminal } = this.$refs;
-			terminal && terminal.execute('exit');
+			if (this.prompt !== DEFAULT_PROMPT) {
+				// send exit message to WS
+				this.$socket && this.$socket.sendObj({
+					cmd: undefined,
+					line: 'exit\n',
+				});
+				this.prompt = DEFAULT_PROMPT;
+			}
+			else {
+				this.appendOutput('command not allowed at this level', true);
+			}
 		},
 	},
 };
