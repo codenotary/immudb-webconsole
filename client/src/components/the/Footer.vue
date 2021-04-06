@@ -229,7 +229,7 @@ export default {
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	height: $spacer-12;
+	height: $spacer-11;
 
 	@media (max-width: 480px) {
 		height: $spacer-20;

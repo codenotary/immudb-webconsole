@@ -125,9 +125,10 @@ export default {
 
 	.v-item-group {
 		background-color: inherit !important;
+		z-index: 2;
 
 		.v-slide-group__content {
-			height: 44px !important;
+			height: $spacer-11 !important;
 
 			.v-tabs-slider-wrapper {
 				bottom: -4px;

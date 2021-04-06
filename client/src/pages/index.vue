@@ -298,8 +298,8 @@ export default {
 
 <style lang="scss">
 .playground-theme {
-	height: calc(100% - #{$spacer-2}) !important;
-	max-height: calc(100% - #{$spacer-2}) !important;
+	height: 100% !important;
+	max-height: 100% !important;
 	padding: 0 $spacer-3 0 0;
 	margin: 0;
 
