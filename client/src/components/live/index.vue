@@ -117,6 +117,10 @@ export default {
 					else {
 						this.appendIntro(line, flux === 'stderr');
 					}
+
+					// scroll to latest row
+					const { terminal: { $el: el } } = this.$refs;
+					el.scrollTop = el.scrollHeight;
 				}
 			}
 		};
@@ -199,11 +203,10 @@ export default {
 							height: unset;
 
 							.term-cont {
-								padding-bottom: $spacer-12;
+								margin: 0 !important;
+								padding: $spacer-4 $spacer-4 $spacer-12;
 
 								.term-hist {
-									// margin: $spacer-4 0;
-
 									.term-ps,
 									.term-stdin {
 										margin-top: $spacer-4;
