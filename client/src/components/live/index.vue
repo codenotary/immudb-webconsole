@@ -123,11 +123,13 @@ export default {
 		this.$options.sockets.onmessage = (event) => {
 			try {
 				const { data } = event;
-				const chunks = data.split('}{');
+				const chunks = data && data.split('}{');
 
-				chunks.map((_) => {
-					console.log(_);
-					const msg = JSON.parse(_);
+				chunks && chunks.map((_) => {
+					let _data = _;
+					_data = _data.startsWith('{') ? _data : `{${ _data }`;
+					_data = _data.endsWith('}') ? _data : `${ _data }}`;
+					const msg = JSON.parse(_data);
 
 					if (msg) {
 						const { line, flux, tree, token } = msg;
