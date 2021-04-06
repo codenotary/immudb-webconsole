@@ -43,7 +43,7 @@
 					:hide-prompt="hidePrompt"
 					:help-text="helpText"
 					:help-timeout="helpTimeout"
-					show-help
+					:show-help="showPrompt"
 				/>
 			</div>
 		</v-card-text>
@@ -63,6 +63,8 @@ import {
 } from '@/store/output/constants';
 import LiveIntro from '@/components/live/Intro';
 
+const DEFAULT_PROMPT = 'demo@user: #';
+
 export default {
 	name: 'Live',
 	props: {
@@ -72,7 +74,7 @@ export default {
 		return {
 			mdiConsoleLine,
 			title: 'immuclient',
-			prompt: 'demo@user: #',
+			prompt: DEFAULT_PROMPT,
 			intro: {
 				value: '',
 			},
@@ -95,6 +97,9 @@ export default {
 	computed: {
 		hidePrompt () {
 			return !this.introFinished;
+		},
+		showPrompt () {
+			return this.promp === DEFAULT_PROMPT;
 		},
 	},
 	mounted () {
@@ -129,6 +134,9 @@ export default {
 					this.introFinished = true;
 				}
 				else if (line.startsWith('bash-5.1#')) {
+					// reset default prompt
+					this.prompt = DEFAULT_PROMPT;
+
 					if (this.ignoredFirstEmptyMessage) {
 						this.history
 								.push(createDummyStdout());
@@ -137,7 +145,16 @@ export default {
 						this.ignoredFirstEmptyMessage = true;
 					}
 				}
+				else if (!line.endsWith('\n')) {
+					// use prompt from WS
+					this.prompt = line;
+					this.history
+							.push(createDummyStdout());
+				}
 				else {
+					// reset default prompt
+					this.prompt = DEFAULT_PROMPT;
+
 					// append live terminal output
 					if (this.introFinished) {
 						this.appendOutput(line, flux === 'stderr', true);
@@ -243,17 +260,7 @@ export default {
 <style lang="scss">
 #Live {
 	&.v-card {
-		.v-card__title {
-			height: 44px !important;
-
-			@media (max-width: 480px) {
-				height: 32px !important;
-			}
-		}
-
 		.v-card__text {
-			height: calc(100% - 44px) !important;
-
 			.command-line-wrapper {
 				&,
 				.vue-command {

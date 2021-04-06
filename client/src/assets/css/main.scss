@@ -12,8 +12,17 @@ html {
 	}
 
 	.v-card {
+		@media (max-width: 480px) {
+			height: auto !important;
+		}
+
 		.v-card__title {
 			min-height: $spacer-11 !important;
+			height: 44px !important;
+
+			@media (max-width: 480px) {
+				height: 32px !important;
+			}
 		}
 
 		&.theme-- {
@@ -28,6 +37,11 @@ html {
 					background-color: #1e2028;
 				}
 			}
+		}
+
+		.v-card__text {
+			height: calc(100% - 44px) !important;
+			margin-top: 4px;
 		}
 
 		&.shadow {
