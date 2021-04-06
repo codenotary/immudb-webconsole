@@ -206,24 +206,6 @@ export default {
 
 <style lang="scss">
 #Topic {
-	&.v-card {
-		.v-card__title {
-			height: 44px !important;
-
-			@media (max-width: 480px) {
-				height: 32px !important;
-			}
-		}
-
-		.v-card__text {
-			height: calc(100% - 44px) !important;
-		}
-
-		@media (max-width: 480px) {
-			height: auto !important;
-		}
-	}
-
 	.language-selector {
 		width: auto !important;
 		min-width: unset !important;

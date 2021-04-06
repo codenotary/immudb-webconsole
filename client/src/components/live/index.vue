@@ -43,7 +43,7 @@
 					:hide-prompt="hidePrompt"
 					:help-text="helpText"
 					:help-timeout="helpTimeout"
-					show-help
+					:show-help="showPrompt"
 				/>
 			</div>
 		</v-card-text>
@@ -63,6 +63,8 @@ import {
 } from '@/store/output/constants';
 import LiveIntro from '@/components/live/Intro';
 
+const DEFAULT_PROMPT = 'demo@user: #';
+
 export default {
 	name: 'Live',
 	props: {
@@ -72,11 +74,12 @@ export default {
 		return {
 			mdiConsoleLine,
 			title: 'immuclient',
-			prompt: 'demo@user: #',
+			prompt: DEFAULT_PROMPT,
 			intro: {
 				value: '',
 			},
 			introFinished: true,
+			ignoredFirstEmptyMessage: false,
 			commands: {
 				intro: () => undefined,
 				clear: () => undefined,
@@ -94,6 +97,9 @@ export default {
 	computed: {
 		hidePrompt () {
 			return !this.introFinished;
+		},
+		showPrompt () {
+			return this.promp === DEFAULT_PROMPT;
 		},
 	},
 	mounted () {
@@ -115,18 +121,43 @@ export default {
 
 			if (msg) {
 				const { line, flux, tree, token } = msg;
-				if (!line.startsWith('bash-5.1#')) {
-					// append code output
-					this.appendCodeOutput(msg);
-					tree && this.setImmudb({ immudb: tree });
-					token && this.setImmudb({ token });
+
+				// update merkle tree output
+				tree && this.setImmudb({ immudb: tree });
+				token && this.setImmudb({ token });
+
+				// updated code output
+				msg && this.appendCodeOutput(msg);
+
+				// parse msg
+				if (line === '--MARK--\n') {
+					this.introFinished = true;
+				}
+				else if (line.startsWith('bash-5.1#')) {
+					// reset default prompt
+					this.prompt = DEFAULT_PROMPT;
+
+					if (this.ignoredFirstEmptyMessage) {
+						this.history
+								.push(createDummyStdout());
+					}
+					else {
+						this.ignoredFirstEmptyMessage = true;
+					}
+				}
+				else if (!line.endsWith('\n')) {
+					// use prompt from WS
+					this.prompt = line;
+					this.history
+							.push(createDummyStdout());
+				}
+				else {
+					// reset default prompt
+					this.prompt = DEFAULT_PROMPT;
 
 					// append live terminal output
 					if (this.introFinished) {
 						this.appendOutput(line, flux === 'stderr', true);
-					}
-					else if (line === '--MARK--\n') {
-						this.introFinished = true;
 					}
 					else {
 						this.appendIntro(line, flux === 'stderr');
@@ -182,8 +213,8 @@ export default {
 
 			terminal.setIsInProgress(this.pointer + 1);
 
-			this.history
-					.push(createStdout(`>> ${ stdin }`));
+			// this.history
+			// 		.push(createStdout(`>> ${ stdin }`));
 
 			terminal.setIsInProgress(false);
 		};
@@ -229,17 +260,7 @@ export default {
 <style lang="scss">
 #Live {
 	&.v-card {
-		.v-card__title {
-			height: 44px !important;
-
-			@media (max-width: 480px) {
-				height: 32px !important;
-			}
-		}
-
 		.v-card__text {
-			height: calc(100% - 44px) !important;
-
 			.command-line-wrapper {
 				&,
 				.vue-command {
@@ -256,9 +277,11 @@ export default {
 
 								.term-hist {
 									.term-ps,
-									.term-stdin {
-										margin-top: $spacer-4;
-										margin-bottom: $spacer-4;
+									.term-stdin,
+									.term-stdout,
+									.term-stderr {
+										font-family: Inconsolata, monospace;
+										font-size: 0.875rem !important;
 									}
 
 									.term-stdout,
