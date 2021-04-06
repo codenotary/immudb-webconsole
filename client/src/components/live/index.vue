@@ -120,58 +120,71 @@ export default {
 		this.introFinished = false;
 
 		// manage websocket messages
-		this.$options.sockets.onmessage = (data) => {
-			const msg = JSON.parse(event.data);
+		this.$options.sockets.onmessage = (event) => {
+			try {
+				const { data } = event;
+				const chunks = data.split('}{');
 
-			if (msg) {
-				const { line, flux, tree, token } = msg;
+				chunks.map((_) => {
+					console.log(_);
+					const msg = JSON.parse(_);
 
-				// update merkle tree output
-				tree && this.setImmudb({ immudb: tree });
-				token && this.setImmudb({ token });
+					if (msg) {
+						const { line, flux, tree, token } = msg;
 
-				// updated code output
-				msg && this.appendCodeOutput(msg);
+						// update merkle tree output
+						tree && this.setImmudb({ immudb: tree });
+						token && this.setImmudb({ token });
 
-				if (line) {
-					// parse msg
-					if (line === '--MARK--\n') {
-						this.introFinished = true;
+						// updated code output
+						msg && this.appendCodeOutput(msg);
+
+						if (line) {
+							// parse msg
+							if (line === '--MARK--\n') {
+								this.introFinished = true;
+							}
+							else if (!line.endsWith('\n')) {
+								// use prompt from WS
+								this.prompt = line.startsWith(WS_PROMPT)
+									? DEFAULT_PROMPT
+									: line;
+
+								if (this.ignoredFirstPrompt) {
+									console.log('=====', line);
+									this.history
+											.push(createDummyStdout());
+								}
+								else {
+									this.ignoredFirstPrompt = true;
+								}
+							}
+							else {
+								// reset default prompt
+								this.prompt = DEFAULT_PROMPT;
+
+								// append live terminal output
+								if (this.introFinished) {
+									// this.appendOutput(line, flux === 'stderr');
+								}
+								else {
+									this.appendIntro(line, flux === 'stderr');
+								}
+
+								// scroll to latest row
+								const { terminal: { $el: el } } = this.$refs;
+								if (el) {
+									el.scrollTop = el.scrollHeight - (this.introFinished ? 0 : 64);
+								}
+							}
+						}
 					}
-					else if (!line.endsWith('\n')) {
-						// use prompt from WS
-						this.prompt = line.startsWith(WS_PROMPT)
-							? DEFAULT_PROMPT
-							: line;
-
-						if (this.ignoredFirstPrompt) {
-							console.log('=====', line);
-							this.history
-									.push(createDummyStdout());
-						}
-						else {
-							this.ignoredFirstPrompt = true;
-						}
-					}
-					else {
-						// reset default prompt
-						this.prompt = DEFAULT_PROMPT;
-
-						// append live terminal output
-						if (this.introFinished) {
-							this.appendOutput(line, flux === 'stderr', true);
-						}
-						else {
-							this.appendIntro(line, flux === 'stderr');
-						}
-
-						// scroll to latest row
-						const { terminal: { $el: el } } = this.$refs;
-						if (el) {
-							el.scrollTop = el.scrollHeight - (this.introFinished ? 0 : 64);
-						}
-					}
-				}
+				});
+			}
+			catch (err) {
+				const { data } = event;
+				console.error(err);
+				console.error(data);
 			}
 		};
 	},
@@ -202,14 +215,29 @@ export default {
 				});
 				this.prompt = DEFAULT_PROMPT;
 			}
-			return createDummyStdout();
+			else {
+				return createDummyStdout();
+			}
+		};
+
+		this.commands.login = () => {
+			if (this.prompt !== DEFAULT_PROMPT) {
+				// send login message to WS
+				this.$socket && this.$socket.sendObj({
+					cmd: undefined,
+					line: 'login\n',
+				});
+			}
+			else {
+				this.appendOutput('command not allowed at this level', true);
+			}
 		};
 
 		this.builtIn = (stdin) => {
 			const { terminal } = this.$refs;
 
 			terminal.setIsInProgress(true);
-			this.executed.add(createStdout(stdin));
+			// this.executed.add(createStdout(stdin));
 
 			// send message to WS
 			this.$socket && this.$socket.sendObj({
@@ -245,27 +273,21 @@ export default {
 			const newLine = `<span class="ma-0 mb-${ m } pa-0 ${ classname }">${ line }</span>`;
 			this.intro.value += newLine;
 		},
-		appendOutput (line, stderr = false, intro = false) {
+		appendOutput (line, stderr = false) {
 			this.$refs.terminal.setIsInProgress(true);
 			const _line = `${ this.outputPrefix } ${ line }`;
 			this.history
 					.push(
-						intro
-							? createStdout(_line)
-							: stderr
-								? createStderr(_line)
-								: createStdout(_line),
+						stderr
+							? createStderr(_line)
+							: createStdout(_line),
 					);
 			this.$refs.terminal.setIsInProgress(false);
 		},
 		onExit () {
-			// send exit message to WS
-			this.$socket && this.$socket.sendObj({
-				cmd: undefined,
-				line: 'exit\n',
-			});
-			this.history
-					.push(createDummyStdout());
+			// execute exit command
+			const { terminal } = this.$refs;
+			terminal && terminal.execute('exit');
 		},
 	},
 };
