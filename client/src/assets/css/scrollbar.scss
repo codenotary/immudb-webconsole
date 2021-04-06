@@ -90,6 +90,8 @@ body {
 			.v-date-picker-years,
 			.v-card__content,
 			.v-card__text {
+				overflow: auto !important;
+
 				&::-webkit-scrollbar-track,
 				&::-webkit-scrollbar {
 					background-color: $light-track-color !important;
