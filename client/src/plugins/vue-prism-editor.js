@@ -1,7 +1,14 @@
+import Vue from 'vue';
+import PrismEditor from 'vue-prism-editor';
 import Prism from 'prismjs';
 
-// Include a theme:
+import 'prismjs/themes/prism.css';
 import 'prismjs/themes/prism-tomorrow.css';
+import '@/assets/css/prism.scss';
+
+// Include additional languages
+import 'prismjs/components/prism-bash.js';
+import 'prismjs/components/prism-python';
 
 // Include the toolbar plugin: (optional)
 import 'prismjs/plugins/toolbar/prism-toolbar';
@@ -20,8 +27,7 @@ import 'prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard';
 import 'prismjs/plugins/highlight-keywords/prism-highlight-keywords';
 import 'prismjs/plugins/show-language/prism-show-language';
 
-// Include additional languages
-import 'prismjs/components/prism-bash.js';
+Vue.component('PrismEditor', PrismEditor);
 
 // Set vue SFC to markdown
 Prism.languages.vue = Prism.languages.markup;

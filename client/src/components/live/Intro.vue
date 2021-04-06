@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="live-intro-wrapper">
 		<span
 			class="live-intro"
 			v-html="sanitizeIntro"
@@ -29,7 +29,8 @@ export default {
 </script>
 
 <style lang="scss">
-.live-intro {
-	// background-color: blue !important;
+.live-intro-wrapper {
+	border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+	margin-bottom: $spacer-6;
 }
 </style>
