@@ -126,11 +126,17 @@ export default {
 	.v-item-group {
 		background-color: inherit !important;
 
-		.v-tabs-slider-wrapper {
-			height: 4px !important;
+		.v-slide-group__content {
+			height: 44px !important;
 
-			.v-tabs-slider {
-				position: relative;
+			.v-tabs-slider-wrapper {
+				bottom: -4px;
+				height: 4px !important;
+				z-index: 99 !important;
+
+				.v-tabs-slider {
+					position: relative;
+				}
 			}
 		}
 	}

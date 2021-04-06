@@ -68,6 +68,8 @@ export default {
 
 <style lang="scss">
 #OutputCode {
+	height: calc(100% - 16px) !important;
+
 	#CodeFilter {
 		position: absolute;
 		top: $spacer-2;

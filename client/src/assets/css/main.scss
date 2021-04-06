@@ -39,9 +39,11 @@ html {
 			}
 		}
 
-		.v-card__text {
-			height: calc(100% - 44px) !important;
-			margin-top: 4px;
+		&.pane {
+			.v-card__text {
+				height: calc(100% - 48px) !important;
+				margin-top: 4px !important;
+			}
 		}
 
 		&.shadow {

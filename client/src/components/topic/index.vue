@@ -1,7 +1,7 @@
 <template>
 	<v-card
 		id="Topic"
-		class="ma-0 pa-0 bg fill-height shadow"
+		class="ma-0 pa-0 bg fill-height pane shadow"
 		elevation="0"
 	>
 		<v-card-title class="ma-0 py-0 py-sm-2 px-0 d-flex justify-start align-center">
@@ -219,6 +219,8 @@ export default {
 	}
 
 	.v-treeview {
+		padding-left: 2px !important;
+
 		&.theme-- {
 			&light {
 				.v-treeview-node__label {
@@ -316,7 +318,7 @@ export default {
 							position: absolute;
 							top: 0;
 							bottom: 0;
-							left: -1px;
+							left: -1px !important;
 							width: 2px;
 						}
 

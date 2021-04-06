@@ -100,6 +100,8 @@ export default {
 
 <style lang="scss">
 #OutputMerkleTree {
+	height: calc(100% - 32px) !important;
+
 	#merkleTree {
 		max-height: 100%;
 	}

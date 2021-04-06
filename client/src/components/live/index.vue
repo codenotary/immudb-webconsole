@@ -1,7 +1,7 @@
 <template>
 	<v-card
 		id="Live"
-		class="ma-0 pa-0 bg fill-height shadow"
+		class="ma-0 pa-0 bg fill-height pane shadow"
 		elevation="0"
 	>
 		<v-card-title class="ma-0 py-0 py-sm-2 px-0 d-flex justify-start align-center">
@@ -27,7 +27,10 @@
 		<v-card-text
 			class="ma-0 pa-0 bg-terminal"
 		>
-			<div class="command-line-wrapper ma-0 pa-0">
+			<div
+				class="command-line-wrapper ma-0 pa-0"
+				@keydown.ctrl.88="onExit"
+			>
 				<vue-command
 					id="LiveCommandLine"
 					ref="terminal"
@@ -79,7 +82,6 @@ export default {
 				value: '',
 			},
 			introFinished: true,
-			ignoredFirstEmptyMessage: false,
 			commands: {
 				intro: () => undefined,
 				clear: () => undefined,
@@ -129,44 +131,42 @@ export default {
 				// updated code output
 				msg && this.appendCodeOutput(msg);
 
-				// parse msg
-				if (line === '--MARK--\n') {
-					this.introFinished = true;
-				}
-				else if (line.startsWith('bash-5.1#')) {
-					// reset default prompt
-					this.prompt = DEFAULT_PROMPT;
+				if (line) {
+					// parse msg
+					if (line === '--MARK--\n') {
+						this.introFinished = true;
+					}
+					else if (line.startsWith('bash-5.1#')) {
+						// reset default prompt
+						this.prompt = DEFAULT_PROMPT;
 
-					if (this.ignoredFirstEmptyMessage) {
+						this.history
+								.push(createDummyStdout());
+
+					}
+					else if (!line.endsWith('\n')) {
+						// use prompt from WS
+						this.prompt = line;
 						this.history
 								.push(createDummyStdout());
 					}
 					else {
-						this.ignoredFirstEmptyMessage = true;
-					}
-				}
-				else if (!line.endsWith('\n')) {
-					// use prompt from WS
-					this.prompt = line;
-					this.history
-							.push(createDummyStdout());
-				}
-				else {
-					// reset default prompt
-					this.prompt = DEFAULT_PROMPT;
+						// reset default prompt
+						this.prompt = DEFAULT_PROMPT;
 
-					// append live terminal output
-					if (this.introFinished) {
-						this.appendOutput(line, flux === 'stderr', true);
-					}
-					else {
-						this.appendIntro(line, flux === 'stderr');
-					}
+						// append live terminal output
+						if (this.introFinished) {
+							this.appendOutput(line, flux === 'stderr', true);
+						}
+						else {
+							this.appendIntro(line, flux === 'stderr');
+						}
 
-					// scroll to latest row
-					const { terminal: { $el: el } } = this.$refs;
-					if (el) {
-						el.scrollTop = el.scrollHeight - (this.introFinished ? 0 : 64);
+						// scroll to latest row
+						const { terminal: { $el: el } } = this.$refs;
+						if (el) {
+							el.scrollTop = el.scrollHeight - (this.introFinished ? 0 : 64);
+						}
 					}
 				}
 			}
@@ -181,7 +181,6 @@ export default {
 		};
 
 		this.commands.intro = () => {
-			// this.termStdin = '';
 			setTimeout(() => {
 				this.history
 						.push(createDummyStdout());
@@ -192,6 +191,18 @@ export default {
 		this.commands.clear = () => {
 			this.history = [];
 			this.termStdin = '';
+			return createDummyStdout();
+		};
+
+		this.commands.exit = () => {
+			if (this.prompt !== DEFAULT_PROMPT) {
+				// send exit message to WS
+				this.$socket && this.$socket.sendObj({
+					cmd: undefined,
+					line: 'exit\n',
+				});
+				this.prompt = DEFAULT_PROMPT;
+			}
 			return createDummyStdout();
 		};
 
@@ -253,6 +264,15 @@ export default {
 					);
 			this.$refs.terminal.setIsInProgress(false);
 		},
+		onExit () {
+			// send exit message to WS
+			this.$socket && this.$socket.sendObj({
+				cmd: undefined,
+				line: 'exit\n',
+			});
+			this.history
+					.push(createDummyStdout());
+		},
 	},
 };
 </script>
@@ -260,6 +280,8 @@ export default {
 <style lang="scss">
 #Live {
 	&.v-card {
+		top: 2px;
+
 		.v-card__text {
 			.command-line-wrapper {
 				&,
