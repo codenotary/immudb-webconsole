@@ -66,6 +66,7 @@ import {
 } from '@/store/output/constants';
 import LiveIntro from '@/components/live/Intro';
 
+const WS_PROMPT = 'bash-5.1#';
 const DEFAULT_PROMPT = 'demo@user: #';
 
 export default {
@@ -82,6 +83,7 @@ export default {
 				value: '',
 			},
 			introFinished: true,
+			ignoredFirstPrompt: false,
 			commands: {
 				intro: () => undefined,
 				clear: () => undefined,
@@ -136,19 +138,20 @@ export default {
 					if (line === '--MARK--\n') {
 						this.introFinished = true;
 					}
-					else if (line.startsWith('bash-5.1#')) {
-						// reset default prompt
-						this.prompt = DEFAULT_PROMPT;
-
-						this.history
-								.push(createDummyStdout());
-
-					}
 					else if (!line.endsWith('\n')) {
 						// use prompt from WS
-						this.prompt = line;
-						this.history
-								.push(createDummyStdout());
+						this.prompt = line.startsWith(WS_PROMPT)
+							? DEFAULT_PROMPT
+							: line;
+
+						if (this.ignoredFirstPrompt) {
+							console.log('=====', line);
+							this.history
+									.push(createDummyStdout());
+						}
+						else {
+							this.ignoredFirstPrompt = true;
+						}
 					}
 					else {
 						// reset default prompt
@@ -181,10 +184,6 @@ export default {
 		};
 
 		this.commands.intro = () => {
-			setTimeout(() => {
-				this.history
-						.push(createDummyStdout());
-			}, 300);
 			return LiveIntro;
 		};
 
