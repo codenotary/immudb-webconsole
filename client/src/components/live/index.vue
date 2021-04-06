@@ -167,7 +167,7 @@ export default {
 
 								// append live terminal output
 								if (this.introFinished) {
-									// this.appendOutput(line, flux === 'stderr');
+									this.appendOutput(line, flux === 'stderr');
 								}
 								else {
 									this.appendIntro(line, flux === 'stderr');
@@ -208,47 +208,37 @@ export default {
 			return createDummyStdout();
 		};
 
-		this.commands.exit = () => {
-			if (this.prompt !== DEFAULT_PROMPT) {
-				// send exit message to WS
-				this.$socket && this.$socket.sendObj({
-					cmd: undefined,
-					line: 'exit\n',
-				});
-				this.prompt = DEFAULT_PROMPT;
-			}
-			else {
-				return createDummyStdout();
-			}
-		};
-
-		this.commands.login = () => {
-			if (this.prompt !== DEFAULT_PROMPT) {
-				// send login message to WS
-				this.$socket && this.$socket.sendObj({
-					cmd: undefined,
-					line: 'login\n',
-				});
-			}
-			else {
-				this.appendOutput('command not allowed at this level', true);
-			}
-		};
-
 		this.builtIn = (stdin) => {
-			const { terminal } = this.$refs;
+			// filter out exit
+			if (stdin === 'exit') {
+				if (this.prompt !== DEFAULT_PROMPT) {
+					// send exit message to WS
+					this.$socket && this.$socket.sendObj({
+						cmd: undefined,
+						line: 'exit\n',
+					});
+					this.prompt = DEFAULT_PROMPT;
+				}
+				else {
+					this.appendOutput('command not allowed at this level', true);
+				}
+			}
 
-			terminal.setIsInProgress(true);
-			// this.executed.add(createStdout(stdin));
+			// filter out login
+			if (stdin === 'login') {
+				if (this.prompt !== DEFAULT_PROMPT) {
+					// send login message to WS
+					this.$socket && this.$socket.sendObj({
+						cmd: undefined,
+						line: 'login\n',
+					});
+				}
+				else {
+					this.appendOutput('command not allowed at this level', true);
+				}
+			}
 
-			// send message to WS
-			this.$socket && this.$socket.sendObj({
-				cmd: undefined,
-				line: `${ stdin }\n`,
-			});
-
-			this.$nextTick(() => terminal.setPointer(this.pointer + 1));
-			terminal.setIsInProgress(false);
+			this.onBuiltIn(stdin);
 		};
 	},
 	beforeDestroy () {
@@ -270,21 +260,51 @@ export default {
 			setImmudb: SET_IMMUDB,
 		}),
 		appendIntro (line, stderr = false) {
-			const m = this.intro.value ? 8 : 0;
-			const classname = stderr ? 'stderr' : 'stdout';
-			const newLine = `<span class="ma-0 mb-${ m } pa-0 ${ classname }">${ line }</span>`;
-			this.intro.value += newLine;
+			try {
+				const m = this.intro.value ? 8 : 0;
+				const classname = stderr ? 'stderr' : 'stdout';
+				const newLine = `<span class="ma-0 mb-${ m } pa-0 ${ classname }">${ line }</span>`;
+				this.intro.value += newLine;
+			}
+			catch (err) {
+				console.error(err);
+			}
 		},
 		appendOutput (line, stderr = false) {
-			this.$refs.terminal.setIsInProgress(true);
-			const _line = `${ this.outputPrefix } ${ line }`;
-			this.history
-					.push(
-						stderr
-							? createStderr(_line)
-							: createStdout(_line),
-					);
-			this.$refs.terminal.setIsInProgress(false);
+			try {
+				this.$refs.terminal.setIsInProgress(true);
+				const _line = `${ this.outputPrefix } ${ line }`;
+				this.history
+						.push(
+							stderr
+								? createStderr(_line)
+								: createStdout(_line),
+						);
+				this.$refs.terminal.setIsInProgress(false);
+			}
+			catch (err) {
+				console.error(err);
+			}
+		},
+		onBuiltIn (stdin) {
+			try {
+				const { terminal } = this.$refs;
+
+				terminal.setIsInProgress(true);
+				// this.executed.add(createStdout(stdin));
+
+				// send message to WS
+				this.$socket && this.$socket.sendObj({
+					cmd: undefined,
+					line: `${ stdin }\n`,
+				});
+
+				this.$nextTick(() => terminal.setPointer(this.pointer + 1));
+				terminal.setIsInProgress(false);
+			}
+			catch (err) {
+				console.error(err);
+			}
 		},
 		onExit () {
 			// execute exit command
