@@ -141,7 +141,7 @@ export default {
 			this.onHelp();
 		};
 
-		this.commands.immudb = () => {
+		this.commands.__bootstrap__ = () => {
 			return LiveIntro;
 		};
 
@@ -307,7 +307,7 @@ export default {
 		},
 		onIntro () {
 			const { terminal } = this.$refs;
-			terminal && terminal.execute('immudb');
+			terminal && terminal.execute('__bootstrap__');
 		},
 		onLogin () {
 			if (this.prompt !== WS_PROMPT) {
