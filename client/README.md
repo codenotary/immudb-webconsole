@@ -4,6 +4,7 @@
 
 The playground UI mainly consist of 4 resizable panes with the following layout.
 
+```
 `----`-----------`-----------`
 |    |           |           |
 | 1  |     2     |   3a/3b   |
@@ -14,6 +15,7 @@ The playground UI mainly consist of 4 resizable panes with the following layout.
 |           4a/4b            |
 |                            |
 `----------------------------`
+```
 
 - #### 1 Topic pane
 That pane contains a navigable treeview component used to select the various topics.
