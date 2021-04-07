@@ -344,6 +344,7 @@ func wsRunnerEvents(rn *runner, ws *websocket.Conn) {
 			buf = buf[:n]
 			Debug.Printf("--> %s", string(buf))
 			clIn <- buf
+			/*
 			outline := OutputLine{
 					Timestamp: float64(time.Now().UnixNano()) / 1000000000.0,
 				}
@@ -352,6 +353,7 @@ func wsRunnerEvents(rn *runner, ws *websocket.Conn) {
 				Debug.Printf("Error writing socket for %s: %s", rn.shortid, err.Error())
 				break
 			}
+			*/
 		}
 		Debug.Printf("Exiting goroutine for %s", rn.shortid)
 		end <- true
