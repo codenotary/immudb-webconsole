@@ -6,6 +6,7 @@ export const RESET_MERKLE_TREE = 'resetMerkleTree';
 export const RESET_OUTPUT = 'resetOutput';
 export const APPEND_CODE_HISTORY = 'appendCodeHistory';
 export const SET_IMMUDB = 'setImmudb';
+export const APPEND_IMMUDB = 'appenImmudb';
 export const SET_MERKLE_TREE = 'setMerkleTree';
 export const SET_METRICS = 'setMetrics';
 export const SET_MERKLE_TREE_MODE = 'setMerkleTreeMode';

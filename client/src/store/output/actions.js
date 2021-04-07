@@ -16,6 +16,7 @@ import {
 	RESET_MERKLE_TREE,
 	RESET_OUTPUT,
 	APPEND_CODE_HISTORY,
+	APPEND_IMMUDB,
 	SET_IMMUDB,
 	SET_MERKLE_TREE,
 	SET_MERKLE_TREE_MODE,
@@ -24,7 +25,7 @@ import {
 } from './constants';
 
 export default {
-	async [RUN_CODE]({ commit, rootGetters }, payload) {
+	async [RUN_CODE]({ commit, dispatch, rootGetters }, payload) {
 		const LOADING_LABEL = 'runCode';
 		try {
 			if (payload) {
@@ -49,26 +50,27 @@ export default {
 					const { data } = await CodeService.runCode(language, params);
 
 					if (data) {
-						const { immudb, tree, output, token, verified } = data;
+						dispatch(APPEND_IMMUDB, data);
+						const { output } = data;
 
-						commit(SET_IMMUDB, {
-							immudb,
-							token,
-						});
+						// commit(SET_IMMUDB, {
+						// 	immudb,
+						// 	token,
+						// });
 
-						const decompressedTree = decompress(tree) || '';
-						const jsonDecompressedTree = decompressedTree && JSON.parse(decompressedTree);
+						// const decompressedTree = decompress(tree) || '';
+						// const jsonDecompressedTree = decompressedTree && JSON.parse(decompressedTree);
 
-						commit(SET_MERKLE_TREE, {
-							graph: await Vue.prototype.$workers
-									.parseMerkleTreeGraph(jsonDecompressedTree, 6),
-							json: jsonDecompressedTree,
-						});
+						// commit(SET_MERKLE_TREE, {
+						// 	graph: await Vue.prototype.$workers
+						// 			.parseMerkleTreeGraph(jsonDecompressedTree, 6),
+						// 	json: jsonDecompressedTree,
+						// });
 
-						commit(SET_METRICS, {
-							size: jsonDecompressedTree && jsonDecompressedTree.length,
-							verified,
-						});
+						// commit(SET_METRICS, {
+						// 	size: jsonDecompressedTree && jsonDecompressedTree.length,
+						// 	verified,
+						// });
 
 						commit(APPEND_CODE_OUTPUT, {
 							output,
@@ -102,6 +104,28 @@ export default {
 			}
 			throw err;
 		}
+	},
+	async [APPEND_IMMUDB]({ commit }, payload) {
+		const { immudb, tree, token, verified } = payload;
+
+		commit(SET_IMMUDB, {
+			immudb,
+			token,
+		});
+
+		const decompressedTree = decompress(tree) || '';
+		const jsonDecompressedTree = decompressedTree && JSON.parse(decompressedTree);
+
+		commit(SET_MERKLE_TREE, {
+			graph: await Vue.prototype.$workers
+					.parseMerkleTreeGraph(jsonDecompressedTree, 6),
+			json: jsonDecompressedTree,
+		});
+
+		commit(SET_METRICS, {
+			size: jsonDecompressedTree && jsonDecompressedTree.length,
+			verified,
+		});
 	},
 	[RESET_IMMUDB]({ commit }) {
 		commit(RESET_IMMUDB);

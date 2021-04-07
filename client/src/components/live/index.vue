@@ -57,34 +57,27 @@
 
 <script>
 import { mapActions } from 'vuex';
-// import { createStdout, createStderr, createDummyStdout } from 'vue-command';
-import { createDummyStdout } from 'vue-command';
+import { createStdout, createStderr, createDummyStdout } from 'vue-command';
 import {
 	mdiConsoleLine,
 } from '@mdi/js';
 import {
 	OUTPUT_MODULE,
 	APPEND_CODE_OUTPUT,
-	SET_IMMUDB,
+	APPEND_IMMUDB,
 } from '@/store/output/constants';
 import LiveIntro from '@/components/live/Intro';
-import LiveMessage from '@/components/live/Message';
 
 const WS_PROMPT = 'bash-5.1#';
-const DEFAULT_PROMPT = 'demo@user: #';
 
 export default {
 	name: 'Live',
-	props: {
-		outputPrefix: { type: String, default: '>>' },
-	},
 	data () {
 		return {
 			mdiConsoleLine,
 			title: 'immuclient',
-			prompt: DEFAULT_PROMPT,
+			prompt: WS_PROMPT,
 			introFinished: true,
-			ignoredFirstPrompt: false,
 			commands: {
 				intro: () => undefined,
 				clear: () => undefined,
@@ -101,8 +94,6 @@ export default {
 			intro: {
 				value: '',
 			},
-			message: '',
-			flux: 'stdout',
 		};
 	},
 	computed: {
@@ -110,7 +101,7 @@ export default {
 			return !this.introFinished;
 		},
 		showPrompt () {
-			return this.promp === DEFAULT_PROMPT;
+			return this.promp === WS_PROMPT;
 		},
 	},
 	mounted () {
@@ -137,61 +128,7 @@ export default {
 					_data = _data.startsWith('{') ? _data : `{${ _data }`;
 					_data = _data.endsWith('}') ? _data : `${ _data }}`;
 					const msg = JSON.parse(_data);
-
-					if (msg) {
-						const { line, flux, tree, token } = msg;
-
-						// update merkle tree output
-						tree && this.setImmudb({ immudb: tree });
-						token && this.setImmudb({ token });
-
-						// updated code output
-						msg && this.appendCodeOutput(msg);
-
-						if (line) {
-							// parse msg
-							if (line === '--MARK--\n') {
-								this.introFinished = true;
-							}
-							else if (!line.endsWith('\n')) {
-								// use prompt from WS
-								this.prompt = line.startsWith(WS_PROMPT)
-									? DEFAULT_PROMPT
-									: line;
-
-								if (this.ignoredFirstPrompt) {
-									this.history
-											.push(createDummyStdout());
-								}
-								else {
-									this.ignoredFirstPrompt = true;
-								}
-							}
-							else if (/^\s*$/.test(line)) {
-								// console.error('SKIP: just new line');
-							}
-							else {
-								// reset default prompt
-								this.prompt = DEFAULT_PROMPT;
-
-								// append live terminal output
-								if (this.introFinished) {
-									this.appendOutput(line, flux);
-								}
-								else {
-									this.appendIntro(line, flux);
-								}
-
-								// scroll to latest row
-								const { terminal: { $el: el } } = this.$refs;
-								if (el) {
-									this.$nextTick(() => {
-										el.scrollTop = el.scrollHeight;
-									});
-								}
-							}
-						}
-					}
+					msg && this.parseMsg(msg);
 				});
 			}
 			catch (err) {
@@ -242,15 +179,73 @@ export default {
 	provide () {
 		return {
 			intro: this.intro,
-			message: () => this.message,
-			flux: () => this.flux,
 		};
 	},
 	methods: {
 		...mapActions(OUTPUT_MODULE, {
 			appendCodeOutput: APPEND_CODE_OUTPUT,
-			setImmudb: SET_IMMUDB,
+			appendImmudb: APPEND_IMMUDB,
 		}),
+		getPrompt (data) {
+			return data;
+		},
+		parseMsg (data) {
+			const { line, tree, token, verified } = data;
+
+			// update merkle tree output
+			(tree || token) && this.appendImmudb({
+				immudb: tree,
+				token,
+				verified,
+			});
+
+			// updated code output
+			data && this.appendCodeOutput(data);
+
+			if (line) {
+				const chunks = line.split('\r\n');
+
+				// parse msg
+				if (line === '--MARK--\n') {
+					this.introFinished = true;
+					this.intro.value += '<br>';
+				}
+				else if (chunks && chunks.length > 2 && !line.endsWith('\n')) {
+					const idx = line.lastIndexOf('\r\n');
+					this.parseMsg({ line: `${ line.substring(0, idx) }\n` });
+					this.parseMsg({ line: line.substring(idx, line.length) });
+				}
+				else if (!line.endsWith('\n')) {
+					this.prompt = line;
+
+					this.history
+							.push(createDummyStdout());
+				}
+				else if (/^\s*$/.test(line)) {
+					// console.error('SKIP: just new line');
+				}
+				else {
+					// reset default prompt
+					this.prompt = WS_PROMPT;
+
+					// append live terminal output
+					if (this.introFinished) {
+						this.appendOutput(line);
+					}
+					else {
+						this.appendIntro(line);
+					}
+
+					// scroll to latest row
+					const { terminal: { $el: el } } = this.$refs;
+					if (el) {
+						this.$nextTick(() => {
+							el.scrollTop = el.scrollHeight;
+						});
+					}
+				}
+			}
+		},
 		appendIntro (line, stderr = false) {
 			try {
 				const m = this.intro.value ? 8 : 0;
@@ -262,24 +257,16 @@ export default {
 				console.error(err);
 			}
 		},
-		appendOutput (line, flux) {
+		appendOutput (line) {
 			try {
 				const { terminal } = this.$refs;
 				terminal.setIsInProgress(true);
-				const _line = `${ this.outputPrefix } ${ line }`;
-				this.message = _line;
-				this.flux = flux;
-				console.log(flux);
-				this.$nextTick(() => {
-					this.history
-							.push(LiveMessage);
-				});
-				// this.history
-				// 		.push(
-				// 			stderr
-				// 				? createStderr(_line, true)
-				// 				: createStdout(_line, false, true),
-				// 		);
+				this.history
+						.push(
+							this.flux === 'stderr'
+								? createStderr(line.trim(), false, false)
+								: createStdout(line.trim(), false, false, false),
+						);
 				terminal.setPointer(this.pointer + 1);
 				terminal.setIsInProgress(false);
 			}
@@ -291,7 +278,14 @@ export default {
 			try {
 				const { terminal } = this.$refs;
 
-				terminal.setIsInProgress(true);
+				terminal && terminal.setIsInProgress(true);
+
+				this.$nextTick(() => {
+					terminal && terminal.setPointer(this.pointer + 1);
+					// console.log(terminal);
+					// this.executed.add(stdin);
+					// terminal && terminal.executed.add(stdin);
+				});
 
 				// send message to WS
 				this.$socket && this.$socket.sendObj({
@@ -299,9 +293,9 @@ export default {
 					line: `${ stdin }\n`,
 				});
 
-				terminal.executed.add(stdin);
-				terminal.setPointer(this.pointer + 1);
-				terminal.setIsInProgress(false);
+				this.$nextTick(() => {
+					terminal && terminal.setIsInProgress(false);
+				});
 			}
 			catch (err) {
 				console.error(err);
@@ -314,7 +308,7 @@ export default {
 			});
 		},
 		onLogin () {
-			if (this.prompt !== DEFAULT_PROMPT) {
+			if (this.prompt !== WS_PROMPT) {
 				// send login message to WS
 				this.$socket && this.$socket.sendObj({
 					cmd: undefined,
@@ -326,13 +320,13 @@ export default {
 			}
 		},
 		onExit () {
-			if (this.prompt !== DEFAULT_PROMPT) {
+			if (this.prompt !== WS_PROMPT) {
 				// send exit message to WS
 				this.$socket && this.$socket.sendObj({
 					cmd: undefined,
 					line: 'exit\n',
 				});
-				this.prompt = DEFAULT_PROMPT;
+				this.prompt = WS_PROMPT;
 			}
 			else {
 				this.appendOutput('command not allowed at this level', true);
@@ -367,14 +361,51 @@ export default {
 									.term-stdin,
 									.term-stdout,
 									.term-stderr {
-										font-family: Inconsolata, monospace;
-										font-size: 0.875rem !important;
+										&,
+										input {
+											font-family: Inconsolata, monospace !important;
+											font-size: 0.875rem !important;
+										}
 									}
 
 									.term-stdout,
 									.term-stderr {
+										position: relative;
 										word-wrap: break-word;
 										white-space: pre-wrap;
+										tab-size: $spacer-16;
+									}
+
+									&.stdout-only {
+										:not(.live-intro) {
+											&.term-stdout,
+											&.term-stderr {
+												display: inline-block;
+												margin: $spacer-2 auto;
+												padding-left: $spacer-4;
+
+												&::before {
+													content: '';
+													position: absolute;
+													top: 0;
+													bottom: 0;
+													left: 0;
+													width: 2px;
+												}
+											}
+
+											&.term-stdout {
+												&::before {
+													background-color: $primary;
+												}
+											}
+
+											&.term-stderr {
+												&::before {
+													background-color: $primary;
+												}
+											}
+										}
 									}
 								}
 							}
@@ -383,16 +414,6 @@ export default {
 				}
 			}
 		}
-	}
-}
-
-@keyframes fadeInOpacity {
-	0% {
-		opacity: 0;
-	}
-
-	100% {
-		opacity: 1;
 	}
 }
 </style>

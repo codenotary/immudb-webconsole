@@ -7,6 +7,7 @@
 		@resize="onResizeFourthPane"
 	>
 		<pane
+			:size="exampleSize"
 			min-size="20"
 			max-size="100"
 		>
@@ -134,6 +135,11 @@ export default {
 		}
 	},
 	fetchOnServer: false,
+	data () {
+		return {
+			exampleSize: 20,
+		};
+	},
 	computed: {
 		...mapGetters(VIEW_MODULE, {
 			mobile: MOBILE,
@@ -164,7 +170,7 @@ export default {
 			if (this.mobile) {
 				return { size: 1, minSize: 1, maxSize: 1 };
 			}
-			return { size: 20, minSize: 20, maxSize: 60 };
+			return { size: 15, minSize: 20, maxSize: 60 };
 		},
 		getGuidePane () {
 			if (this.mobile) {
@@ -268,7 +274,7 @@ export default {
 				output: data && data[1] && data[1].size,
 			});
 		},
-		startKeepalive (n = 60) {
+		startKeepalive (n = 15) {
 			try {
 				this.stopKeepalive();
 				KEEPALIVE_INTERVAL_ID = setInterval(async () => {
