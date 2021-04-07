@@ -1,7 +1,7 @@
 V_COMMIT := $(shell git rev-parse HEAD|head -c 7)
 VARS = --build-arg V_COMMIT=$(V_COMMIT)
 
-all: build run stop
+all: build 
 
 .PHONY: build backend frontend
 build:

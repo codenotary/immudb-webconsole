@@ -31,7 +31,7 @@ type runner struct {
 
 var runners map[string]*runner
 
-const TIMEOUT = 2 * time.Minute
+const TIMEOUT = 30 * time.Second
 
 func (rn *runner) loop() {
 	Debug.Printf("Preparing loop for container %s", rn.container)
@@ -60,11 +60,8 @@ func (rn *runner) loop() {
 				break
 			}
 			Debug.Printf("=> %v", outgoingLine)
-			for _,ll := range(outLineSplit(outgoingLine)) {
-				jresp, _ := json.Marshal(ll)
-				Debug.Printf("=[]=> %v", outgoingLine)
-				outgoing <- jresp
-			}
+			jresp, _ := json.Marshal(outgoingLine)
+			outgoing <- jresp
 		}
 		fin <- true
 	}(atc.Reader)
