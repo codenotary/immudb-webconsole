@@ -41,6 +41,7 @@
 					:commands="commands"
 					:built-in="builtIn"
 					:is-in-progress="isInProgress"
+					:executed.sync="executed"
 					:history.sync="history"
 					:stdin.sync="termStdin"
 					:pointer.sync="pointer"
@@ -56,7 +57,8 @@
 
 <script>
 import { mapActions } from 'vuex';
-import { createStdout, createStderr, createDummyStdout } from 'vue-command';
+// import { createStdout, createStderr, createDummyStdout } from 'vue-command';
+import { createDummyStdout } from 'vue-command';
 import {
 	mdiConsoleLine,
 } from '@mdi/js';
@@ -66,6 +68,7 @@ import {
 	SET_IMMUDB,
 } from '@/store/output/constants';
 import LiveIntro from '@/components/live/Intro';
+import LiveMessage from '@/components/live/Message';
 
 const WS_PROMPT = 'bash-5.1#';
 const DEFAULT_PROMPT = 'demo@user: #';
@@ -80,9 +83,6 @@ export default {
 			mdiConsoleLine,
 			title: 'immuclient',
 			prompt: DEFAULT_PROMPT,
-			intro: {
-				value: '',
-			},
 			introFinished: true,
 			ignoredFirstPrompt: false,
 			commands: {
@@ -97,6 +97,12 @@ export default {
 			history: [],
 			helpText: 'Type help',
 			helpTimeout: 5000,
+			// provide data
+			intro: {
+				value: '',
+			},
+			message: '',
+			flux: 'stdout',
 		};
 	},
 	computed: {
@@ -162,7 +168,7 @@ export default {
 								}
 							}
 							else if (/^\s*$/.test(line)) {
-								console.error('SKIP: just new line');
+								// console.error('SKIP: just new line');
 							}
 							else {
 								// reset default prompt
@@ -170,16 +176,18 @@ export default {
 
 								// append live terminal output
 								if (this.introFinished) {
-									this.appendOutput(line, flux === 'stderr');
+									this.appendOutput(line, flux);
 								}
 								else {
-									this.appendIntro(line, flux === 'stderr');
+									this.appendIntro(line, flux);
 								}
 
 								// scroll to latest row
 								const { terminal: { $el: el } } = this.$refs;
 								if (el) {
-									el.scrollTop = el.scrollHeight - (this.introFinished ? 0 : 64);
+									this.$nextTick(() => {
+										el.scrollTop = el.scrollHeight;
+									});
 								}
 							}
 						}
@@ -234,6 +242,8 @@ export default {
 	provide () {
 		return {
 			intro: this.intro,
+			message: () => this.message,
+			flux: () => this.flux,
 		};
 	},
 	methods: {
@@ -252,17 +262,25 @@ export default {
 				console.error(err);
 			}
 		},
-		appendOutput (line, stderr = false) {
+		appendOutput (line, flux) {
 			try {
 				const { terminal } = this.$refs;
 				terminal.setIsInProgress(true);
 				const _line = `${ this.outputPrefix } ${ line }`;
-				this.history
-						.push(
-							stderr
-								? createStderr(_line, true)
-								: createStdout(_line, false, true),
-						);
+				this.message = _line;
+				this.flux = flux;
+				console.log(flux);
+				this.$nextTick(() => {
+					this.history
+							.push(LiveMessage);
+				});
+				// this.history
+				// 		.push(
+				// 			stderr
+				// 				? createStderr(_line, true)
+				// 				: createStdout(_line, false, true),
+				// 		);
+				terminal.setPointer(this.pointer + 1);
 				terminal.setIsInProgress(false);
 			}
 			catch (err) {
@@ -274,7 +292,6 @@ export default {
 				const { terminal } = this.$refs;
 
 				terminal.setIsInProgress(true);
-				// this.executed.add(createStdout(stdin));
 
 				// send message to WS
 				this.$socket && this.$socket.sendObj({
@@ -282,7 +299,8 @@ export default {
 					line: `${ stdin }\n`,
 				});
 
-				this.$nextTick(() => terminal.setPointer(this.pointer + 1));
+				terminal.executed.add(stdin);
+				terminal.setPointer(this.pointer + 1);
 				terminal.setIsInProgress(false);
 			}
 			catch (err) {

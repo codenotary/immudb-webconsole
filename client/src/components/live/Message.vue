@@ -1,8 +1,9 @@
 <template>
-	<div class="live-intro-wrapper ma-0 mb-4 pa-0 pb-4">
+	<div class="live-message-wrapper ma-0 pa-0">
 		<span
-			class="live-intro"
-			v-html="sanitizeIntro"
+			class="live-message"
+			:class="classname"
+			v-html="sanitizeMessages"
 		/>
 	</div>
 </template>
@@ -11,27 +12,18 @@
 import sanitizeHtml from 'sanitize-html';
 
 export default {
-	name: 'LiveIntro',
-	inject: ['terminate', 'intro'],
+	name: 'LiveMessage',
+	inject: ['terminate', 'message', 'flux'],
 	computed: {
-		sanitizeIntro () {
-			if (this.intro) {
-				const { value } = this.intro;
-				// TODO allow classnames
-				// return sanitizeHtml(value, {
-				// 	allowedAttributes: 'class',
-				// });
-				return sanitizeHtml(value);
+		sanitizeMessages () {
+			if (this.message()) {
+				return sanitizeHtml(this.message());
 			}
 			return '';
+		},
+		classname () {
+			return this.flux();
 		},
 	},
 };
 </script>
-
-<style lang="scss">
-.live-intro-wrapper {
-	border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-	margin-bottom: $spacer-6;
-}
-</style>
