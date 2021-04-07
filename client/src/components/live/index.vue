@@ -84,7 +84,7 @@ export default {
 			},
 			builtIn: undefined,
 			isInProgress: false,
-			termStdin: '',
+			termStdin: './immudb -d',
 			pointer: 0,
 			executed: new Set(),
 			history: [],
@@ -106,9 +106,7 @@ export default {
 	},
 	mounted () {
 		// init the live terminal with a LiveIntro component
-		this.$nextTick(() => {
-			this.history = [LiveIntro];
-		});
+		this.$nextTick(() => this.onIntro());
 
 		// increase show help timeout
 		setTimeout(() => {
@@ -143,7 +141,7 @@ export default {
 			this.onHelp();
 		};
 
-		this.commands.intro = () => {
+		this.commands.immudb = () => {
 			return LiveIntro;
 		};
 
@@ -284,7 +282,7 @@ export default {
 					terminal && terminal.setPointer(this.pointer + 1);
 					// console.log(terminal);
 					// this.executed.add(stdin);
-					// terminal && terminal.executed.add(stdin);
+					terminal && terminal.executed.add(stdin);
 				});
 
 				// send message to WS
@@ -306,6 +304,10 @@ export default {
 				cmd: undefined,
 				line: 'immuclient help\n',
 			});
+		},
+		onIntro () {
+			const { terminal } = this.$refs;
+			terminal && terminal.execute('immudb');
 		},
 		onLogin () {
 			if (this.prompt !== WS_PROMPT) {
