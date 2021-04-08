@@ -227,19 +227,18 @@ export default {
 			else if (type === MESSAGE_TYPES.IMMUDB) {
 				this.parseImmudbMsg(data);
 			}
-			else {
-				// TODO: remove that line as the WS sends types
-				this.parseConsoleMsg(data);
-			}
 		},
-		parseConsoleMsg (data) {
+		async parseConsoleMsg (data) {
 			const { line } = data;
 
 			// updated code output
 			data && this.appendCodeOutput(data);
 
 			if (line) {
-				const chunks = line.split('\r\n');
+				const chunks = line
+						.split('\r\n')
+						.filter(_ => _ !== '\r\n')
+						.filter(_ => !!_);
 
 				// parse msg
 				if (line === '--MARK--\n') {
@@ -249,10 +248,10 @@ export default {
 						value: `${ value }<br>`,
 					});
 				}
-				else if (chunks && chunks.length > 2 && !line.endsWith('\n')) {
+				else if (chunks && chunks.length > 1 && !line.endsWith('\n')) {
 					const idx = line.lastIndexOf('\r\n');
-					this.parseMsg({ line: `${ line.substring(0, idx) }\n` });
-					this.parseMsg({ line: line.substring(idx, line.length) });
+					await this.parseConsoleMsg({ line: `${ line.substring(0, idx) }\n` });
+					await this.parseConsoleMsg({ line: line.substring(idx, line.length) });
 				}
 				else if (!line.endsWith('\n')) {
 					this.prompt = line;
