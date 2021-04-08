@@ -3,6 +3,11 @@ import {
 	PUSH_LOADING,
 	POP_LOADING,
 } from '@/store/view/constants';
+import {
+	OUTPUT_MODULE,
+	IMMUDB,
+	TOKEN,
+} from '@/store/output/constants';
 import { LiveService } from '@/services/live';
 import {
 	FETCH_LIVE,
@@ -13,10 +18,13 @@ import {
 } from './constants';
 
 export default {
-	async [FETCH_LIVE]({ commit }, payload) {
+	async [FETCH_LIVE]({ commit, rootGetters }, payload) {
 		const LOADING_LABEL = 'fetchLive';
 		try {
 			const { live } = payload || {};
+			const immudb = rootGetters[`${ OUTPUT_MODULE }/${ IMMUDB }`];
+			const token = rootGetters[`${ OUTPUT_MODULE }/${ TOKEN }`];
+
 			if (live) {
 				// show live pane
 				commit(SET_LIVE_ACTIVE, {
@@ -25,7 +33,7 @@ export default {
 				commit(`${ VIEW_MODULE }/${ PUSH_LOADING }`, { label: LOADING_LABEL }, { root: true });
 
 				// fetch containerid (opening new container)
-				await LiveService.startContainer()
+				await LiveService.startContainer({ immudb, token })
 						.then((response) => {
 							commit(SET_CONTAINER_ID, response && response.data);
 							commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
