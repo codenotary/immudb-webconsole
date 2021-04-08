@@ -29,8 +29,9 @@
 		>
 			<div
 				class="command-line-wrapper ma-0 pa-0"
-				@keydown.ctrl.72="onHelp"
-				@keydown.ctrl.88="onExit"
+				@keydown.ctrl="onCtrl"
+				@keydown.ctrl.72="onCtrlH"
+				@keydown.ctrl.88="onCtrlX"
 			>
 				<vue-command
 					id="LiveCommandLine"
@@ -66,6 +67,11 @@ import {
 	APPEND_CODE_OUTPUT,
 	APPEND_IMMUDB,
 } from '@/store/output/constants';
+import {
+	WEBSOCKET_MODULE,
+	SOCKET_OBJ_MESSAGE,
+	MESSAGE_TYPES,
+} from '@/store/websocket/constants';
 import LiveIntro from '@/components/live/Intro';
 
 const WS_PROMPT = 'bash-5.1#';
@@ -184,18 +190,27 @@ export default {
 			appendCodeOutput: APPEND_CODE_OUTPUT,
 			appendImmudb: APPEND_IMMUDB,
 		}),
+		...mapActions(WEBSOCKET_MODULE, {
+			sendObj: SOCKET_OBJ_MESSAGE,
+		}),
 		getPrompt (data) {
 			return data;
 		},
 		parseMsg (data) {
-			const { line, tree, token, verified } = data;
-
-			// update merkle tree output
-			(tree || token) && this.appendImmudb({
-				immudb: tree,
-				token,
-				verified,
-			});
+			const { type } = data;
+			if (type === MESSAGE_TYPES.CONSOLE) {
+				this.parseConsoleMsg(data);
+			}
+			else if (type === MESSAGE_TYPES.IMMUDB) {
+				this.parseImmudbMsg(data);
+			}
+			else {
+				// TODO: remove that line as the WS sends types
+				this.parseConsoleMsg(data);
+			}
+		},
+		parseConsoleMsg (data) {
+			const { line } = data;
 
 			// updated code output
 			data && this.appendCodeOutput(data);
@@ -244,6 +259,17 @@ export default {
 				}
 			}
 		},
+		parseImmudbMsg (data) {
+			const { immudb, tree, token, verified } = data;
+
+			// update merkle tree output
+			this.appendImmudb({
+				immudb,
+				tree,
+				token,
+				verified,
+			});
+		},
 		appendIntro (line, stderr = false) {
 			try {
 				const m = this.intro.value ? 8 : 0;
@@ -280,13 +306,11 @@ export default {
 
 				this.$nextTick(() => {
 					terminal && terminal.setPointer(this.pointer + 1);
-					// console.log(terminal);
-					// this.executed.add(stdin);
 					terminal && terminal.executed.add(stdin);
 				});
 
 				// send message to WS
-				this.$socket && this.$socket.sendObj({
+				this.sendObj({
 					cmd: undefined,
 					line: `${ stdin }\n`,
 				});
@@ -299,8 +323,31 @@ export default {
 				console.error(err);
 			}
 		},
+		onCtrl (data) {
+			if (data) {
+				const { keyCode, altKey, shiftKey } = data;
+				let command = 'ctrl';
+				altKey && (command += '+alt');
+				shiftKey && (command += '+shift');
+				keyCode && (command += `+${ keyCode }`);
+				if (keyCode !== 17) {
+					this.$nextTick(() => {
+						this.sendObj({
+							cmd: undefined,
+							line: `${ command }\n`,
+						});
+					});
+				}
+			}
+		},
+		onCtrlH () {
+			this.onHelp();
+		},
+		onCtrlX () {
+			this.onExit();
+		},
 		onHelp () {
-			this.$socket && this.$socket.sendObj({
+			this.sendObj({
 				cmd: undefined,
 				line: 'immuclient help\n',
 			});
@@ -312,7 +359,7 @@ export default {
 		onLogin () {
 			if (this.prompt !== WS_PROMPT) {
 				// send login message to WS
-				this.$socket && this.$socket.sendObj({
+				this.sendObj({
 					cmd: undefined,
 					line: 'login\n',
 				});
@@ -324,7 +371,7 @@ export default {
 		onExit () {
 			if (this.prompt !== WS_PROMPT) {
 				// send exit message to WS
-				this.$socket && this.$socket.sendObj({
+				this.sendObj({
 					cmd: undefined,
 					line: 'exit\n',
 				});

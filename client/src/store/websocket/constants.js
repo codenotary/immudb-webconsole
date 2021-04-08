@@ -11,13 +11,10 @@ export const SOCKET_IS_CONNECTED = 'SOCKET_IS_CONNECTED';
 export const SOCKET_MESSAGE = 'SOCKET_MESSAGE';
 
 export const SOCKET_SEND_MESSAGE = 'SOCKET_SEND_MESSAGE';
+export const SOCKET_OBJ_MESSAGE = 'SOCKET_SEND_OBJ_MESSAGE';
 
 export const MESSAGE_TYPES = {
 	KEEPALIVE: 'keepalive',
-	BACKUP: 'backup',
-};
-
-export const BACKUP_STATUSES = {
-	ONGOING: 'ongoing',
-	FINISHED: 'finished',
+	CONSOLE: 'console',
+	IMMUDB: 'immudb',
 };
