@@ -72,12 +72,14 @@ import {
 } from '@/store/websocket/constants';
 import {
 	LIVE_MODULE,
+	SET_LIVE_PROMPT,
 	SET_LIVE_INTRO,
+	PROMPT,
 	INTRO,
 } from '@/store/live/constants';
 import LiveIntro from '@/components/live/Intro';
 
-const WS_PROMPT = 'bash-5.1#';
+const DEFAULT_PROMPT = 'bash-5.1#';
 
 export default {
 	name: 'Live',
@@ -85,7 +87,6 @@ export default {
 		return {
 			mdiConsoleLine,
 			title: 'immuclient',
-			prompt: WS_PROMPT,
 			commands: {
 				__bootstrap__: () => undefined,
 				clear: () => undefined,
@@ -107,13 +108,14 @@ export default {
 	},
 	computed: {
 		...mapGetters(LIVE_MODULE, {
+			prompt: PROMPT,
 			intro: INTRO,
 		}),
 		hidePrompt () {
 			return this.intro && !this.intro.finished;
 		},
 		showPrompt () {
-			return this.promp === WS_PROMPT;
+			return this.promp === DEFAULT_PROMPT;
 		},
 	},
 	watch: {
@@ -207,6 +209,7 @@ export default {
 			appendImmudb: APPEND_IMMUDB,
 		}),
 		...mapActions(LIVE_MODULE, {
+			setLivePrompt: SET_LIVE_PROMPT,
 			setLiveIntro: SET_LIVE_INTRO,
 		}),
 		...mapActions(WEBSOCKET_MODULE, {
@@ -254,7 +257,9 @@ export default {
 					await this.parseConsoleMsg({ line: line.substring(idx, line.length) });
 				}
 				else if (!line.endsWith('\n')) {
-					this.prompt = line;
+					this.setLivePrompt({
+						prompt: line,
+					});
 					this.appendDummyStdout();
 				}
 				else if (/^\s*$/.test(line)) {
@@ -262,7 +267,9 @@ export default {
 				}
 				else {
 					// reset default prompt
-					this.prompt = WS_PROMPT;
+					this.setLivePrompt({
+						prompt: DEFAULT_PROMPT,
+					});
 
 					// append live terminal output
 					if (this.intro.finished) {
@@ -378,7 +385,7 @@ export default {
 			this.$nextTick(() => this.scrollToBottom());
 		},
 		onLogin () {
-			if (this.prompt !== WS_PROMPT) {
+			if (this.prompt !== DEFAULT_PROMPT) {
 				// send login message to WS
 				this.sendObj({
 					cmd: undefined,
@@ -390,13 +397,15 @@ export default {
 			}
 		},
 		onExit () {
-			if (this.prompt !== WS_PROMPT) {
+			if (this.prompt !== DEFAULT_PROMPT) {
 				// send exit message to WS
 				this.sendObj({
 					cmd: undefined,
 					line: 'exit\n',
 				});
-				this.prompt = WS_PROMPT;
+				this.setLivePrompt({
+					prompt: DEFAULT_PROMPT,
+				});
 			}
 			else {
 				this.appendOutput('command not allowed at this level', true);

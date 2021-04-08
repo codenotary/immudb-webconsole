@@ -12,6 +12,7 @@ import { LiveService } from '@/services/live';
 import {
 	FETCH_LIVE,
 	SET_LIVE_ACTIVE,
+	SET_LIVE_PROMPT,
 	SET_LIVE_INTRO,
 	SET_CONTAINER_ID,
 	STOP_LIVE,
@@ -47,6 +48,9 @@ export default {
 	},
 	[SET_LIVE_ACTIVE]({ commit }, payload) {
 		commit(SET_LIVE_ACTIVE, payload);
+	},
+	[SET_LIVE_PROMPT]({ commit }, payload) {
+		commit(SET_LIVE_PROMPT, payload);
 	},
 	[SET_LIVE_INTRO]({ commit }, payload) {
 		commit(SET_LIVE_INTRO, payload);
