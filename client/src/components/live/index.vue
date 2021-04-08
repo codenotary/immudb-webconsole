@@ -29,7 +29,6 @@
 		>
 			<div
 				class="command-line-wrapper ma-0 pa-0"
-				@keydown.ctrl="onCtrl"
 				@keydown.ctrl.72="onCtrlH"
 				@keydown.ctrl.88="onCtrlX"
 			>
@@ -41,7 +40,6 @@
 					:prompt="prompt"
 					:commands="commands"
 					:built-in="builtIn"
-					:is-in-progress="isInProgress"
 					:executed.sync="executed"
 					:history.sync="history"
 					:stdin.sync="termStdin"
@@ -57,7 +55,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import { createStdout, createStderr, createDummyStdout } from 'vue-command';
 import {
 	mdiConsoleLine,
@@ -72,6 +70,11 @@ import {
 	SOCKET_OBJ_MESSAGE,
 	MESSAGE_TYPES,
 } from '@/store/websocket/constants';
+import {
+	LIVE_MODULE,
+	SET_LIVE_INTRO,
+	INTRO,
+} from '@/store/live/constants';
 import LiveIntro from '@/components/live/Intro';
 
 const WS_PROMPT = 'bash-5.1#';
@@ -83,43 +86,54 @@ export default {
 			mdiConsoleLine,
 			title: 'immuclient',
 			prompt: WS_PROMPT,
-			introFinished: true,
 			commands: {
-				intro: () => undefined,
+				__bootstrap__: () => undefined,
 				clear: () => undefined,
 			},
 			builtIn: undefined,
-			isInProgress: false,
 			termStdin: './immudb -d',
 			pointer: 0,
 			executed: new Set(),
 			history: [],
 			helpText: 'Type help',
 			helpTimeout: 5000,
-			// provide data
-			intro: {
-				value: '',
+			// provide
+			provided: {
+				intro: {
+					value: '',
+				},
 			},
 		};
 	},
 	computed: {
+		...mapGetters(LIVE_MODULE, {
+			intro: INTRO,
+		}),
 		hidePrompt () {
-			return !this.introFinished;
+			return this.intro && !this.intro.finished;
 		},
 		showPrompt () {
 			return this.promp === WS_PROMPT;
 		},
 	},
+	watch: {
+		intro: {
+			deep: true,
+			immediate: true,
+			handler (newVal) {
+				const { value } = newVal || {};
+				value && (this.provided.intro.value = value);
+			},
+		},
+	},
 	mounted () {
 		// init the live terminal with a LiveIntro component
-		this.$nextTick(() => this.onIntro());
+		this.$nextTick(() => this.onBootstrap());
 
 		// increase show help timeout
 		setTimeout(() => {
 			this.helpTimeout = 15000;
 		}, this.helpTimeout + 1);
-
-		this.introFinished = false;
 
 		// manage websocket messages
 		this.$options.sockets.onmessage = (event) => {
@@ -147,7 +161,8 @@ export default {
 			this.onHelp();
 		};
 
-		this.commands.__bootstrap__ = () => {
+		this.commands.__bootstrap__ = ({ _ }) => {
+			setTimeout(() => !_[1] && this.appendDummyStdout(), 300);
 			return LiveIntro;
 		};
 
@@ -175,14 +190,15 @@ export default {
 	beforeDestroy () {
 		delete this.$options.sockets.onmessage;
 
-		if (this.$refs.vueCommand) {
-			this.$refs.vueCommand.scroll.resizeObserver
+		const { terminal } = this.$refs;
+		if (terminal) {
+			terminal && terminal.scroll.resizeObserver
 					.disconnect();
 		}
 	},
 	provide () {
 		return {
-			intro: this.intro,
+			intro: this.provided.intro,
 		};
 	},
 	methods: {
@@ -190,11 +206,18 @@ export default {
 			appendCodeOutput: APPEND_CODE_OUTPUT,
 			appendImmudb: APPEND_IMMUDB,
 		}),
+		...mapActions(LIVE_MODULE, {
+			setLiveIntro: SET_LIVE_INTRO,
+		}),
 		...mapActions(WEBSOCKET_MODULE, {
 			sendObj: SOCKET_OBJ_MESSAGE,
 		}),
 		getPrompt (data) {
 			return data;
+		},
+		appendDummyStdout () {
+			this.history
+					.push(createDummyStdout());
 		},
 		parseMsg (data) {
 			const { type } = data;
@@ -220,8 +243,11 @@ export default {
 
 				// parse msg
 				if (line === '--MARK--\n') {
-					this.introFinished = true;
-					this.intro.value += '<br>';
+					const { value } = this.intro || { value: '' };
+					this.setLiveIntro({
+						finished: true,
+						value: `${ value }<br>`,
+					});
 				}
 				else if (chunks && chunks.length > 2 && !line.endsWith('\n')) {
 					const idx = line.lastIndexOf('\r\n');
@@ -230,9 +256,7 @@ export default {
 				}
 				else if (!line.endsWith('\n')) {
 					this.prompt = line;
-
-					this.history
-							.push(createDummyStdout());
+					this.appendDummyStdout();
 				}
 				else if (/^\s*$/.test(line)) {
 					// console.error('SKIP: just new line');
@@ -242,7 +266,7 @@ export default {
 					this.prompt = WS_PROMPT;
 
 					// append live terminal output
-					if (this.introFinished) {
+					if (this.intro.finished) {
 						this.appendOutput(line);
 					}
 					else {
@@ -250,12 +274,7 @@ export default {
 					}
 
 					// scroll to latest row
-					const { terminal: { $el: el } } = this.$refs;
-					if (el) {
-						this.$nextTick(() => {
-							el.scrollTop = el.scrollHeight;
-						});
-					}
+					this.scrollToBottom();
 				}
 			}
 		},
@@ -272,10 +291,12 @@ export default {
 		},
 		appendIntro (line, stderr = false) {
 			try {
-				const m = this.intro.value ? 8 : 0;
+				const { value } = this.intro || { value: '' };
 				const classname = stderr ? 'stderr' : 'stdout';
-				const newLine = `<span class="ma-0 mb-${ m } pa-0 ${ classname }">${ line }</span>`;
-				this.intro.value += newLine;
+				const newLine = `<span class="ma-0 pa-0 ${ classname }">${ line }</span>`;
+				this.setLiveIntro({
+					value: `${ value }${ newLine }`,
+				});
 			}
 			catch (err) {
 				console.error(err);
@@ -352,9 +373,10 @@ export default {
 				line: 'immuclient help\n',
 			});
 		},
-		onIntro () {
+		onBootstrap () {
 			const { terminal } = this.$refs;
-			terminal && terminal.execute('__bootstrap__');
+			terminal && terminal.execute(`__bootstrap__${ this.intro.finished ? '' : ' DO_NOT_APPEND' }`);
+			this.$nextTick(() => this.scrollToBottom());
 		},
 		onLogin () {
 			if (this.prompt !== WS_PROMPT) {
@@ -379,6 +401,15 @@ export default {
 			}
 			else {
 				this.appendOutput('command not allowed at this level', true);
+			}
+		},
+		scrollToBottom () {
+			// scroll to latest row
+			const { terminal: { $el: el } } = this.$refs;
+			if (el) {
+				this.$nextTick(() => {
+					el.scrollTop = el.scrollHeight;
+				});
 			}
 		},
 	},

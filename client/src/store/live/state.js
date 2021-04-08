@@ -1,5 +1,8 @@
 export default () => ({
 	active: false,
-	commands: {},
 	containerId: undefined,
+	intro: {
+		finished: false,
+		value: '',
+	},
 });

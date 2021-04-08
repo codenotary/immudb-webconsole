@@ -7,9 +7,9 @@
 		@resize="onResizeFourthPane"
 	>
 		<pane
-			:size="exampleSize"
-			min-size="20"
-			max-size="100"
+			:size.sync="banana"
+			:min-size="getConstraints.examples.minSize"
+			:max-size="getConstraints.examples.maxSize"
 		>
 			<splitpanes
 				:class="`theme--${ $vuetify.theme.dark ? 'dark' : 'light' }`"
@@ -18,9 +18,9 @@
 			>
 				<pane
 					v-if="!mobile"
-					:size.sync="getTopicPane.size"
-					:min-size="getTopicPane.minSize"
-					:max-size="getTopicPane.maxSize"
+					:size.sync="sizes.topic"
+					:min-size="getConstraints.topic.minSize"
+					:max-size="getConstraints.topic.maxSize"
 				>
 					<LazyTopic />
 				</pane>
@@ -33,9 +33,9 @@
 					>
 						<pane
 							v-if="showGuide"
-							:size.sync="getGuidePane.size"
-							:min-size="getGuidePane.minSize"
-							:max-size="getGuidePane.maxSize"
+							:size.sync="sizes.guide"
+							:min-size="getConstraints.guide.minSize"
+							:max-size="getConstraints.guide.maxSize"
 						>
 							<LazyGuide />
 						</pane>
@@ -43,18 +43,18 @@
 							v-if="showCode"
 						>
 							<LazyCode
-								:size.sync="getCodePane.size"
-								:min-size="getCodePane.minSize"
-								:max-size="getCodePane.maxSize"
+								:size.sync="sizes.code"
+								:min-size="getConstraints.code.minSize"
+								:max-size="getConstraints.code.maxSize"
 							/>
 						</pane>
 						<pane
 							v-if="!showCode && showLive"
 						>
 							<LazyLive
-								:size.sync="getLivePane.size"
-								:min-size="getLivePane.minSize"
-								:max-size="getLivePane.maxSize"
+								:size.sync="sizes.live"
+								:min-size="getConstraints.live.minSize"
+								:max-size="getConstraints.live.maxSize"
 							/>
 						</pane>
 					</splitpanes>
@@ -62,12 +62,12 @@
 			</splitpanes>
 		</pane>
 		<pane
-			:size="getOutputPane.size"
-			:min-size="getOutputPane.minSize"
-			:max-size="getOutputPane.maxSize"
+			:size="sizes.output"
+			:min-size="getConstraints.output.minSize"
+			:max-size="getConstraints.output.maxSize"
 		>
 			<LazyOutput
-				:sizes="getOutputPane.size"
+				:sizes="sizes.output"
 			/>
 		</pane>
 	</splitpanes>
@@ -99,6 +99,7 @@ import {
 import {
 	LIVE_MODULE,
 	FETCH_LIVE,
+	SET_LIVE_ACTIVE,
 	ACTIVE,
 	STOP_LIVE,
 	CONTAINER_ID,
@@ -137,7 +138,15 @@ export default {
 	fetchOnServer: false,
 	data () {
 		return {
-			exampleSize: 20,
+			banana: 64,
+			sizes: {
+				example: 64,
+				topic: 15,
+				guide: 100,
+				code: 0,
+				live: 0,
+				output: 33,
+			},
 		};
 	},
 	computed: {
@@ -166,38 +175,52 @@ export default {
 		showLive () {
 			return this.liveActive;
 		},
-		getTopicPane () {
+		getConstraints () {
 			if (this.mobile) {
-				return { size: 1, minSize: 1, maxSize: 1 };
+				return {
+					examples: { minSize: 100, maxSize: 100 },
+					topic: { minSize: 1, maxSize: 1 },
+					guide: { minSize: 0, maxSize: 0 },
+					code: { minSize: 0, maxSize: 0 },
+					live: { minSize: 0, maxSize: 0 },
+					output: { minSize: 100, maxSize: 100 },
+				};
 			}
-			return { size: 15, minSize: 20, maxSize: 60 };
-		},
-		getGuidePane () {
-			if (this.mobile) {
-				return { size: 100, minSize: 100, maxSize: 100 };
+			else {
+				return {
+					examples: { minSize: 20, maxSize: 80 },
+					topic: { minSize: 10, maxSize: 40 },
+					guide: { minSize: 20, maxSize: 80 },
+					code: { minSize: 20, maxSize: 80 },
+					live: { minSize: 20, maxSize: 80 },
+					output: { minSize: 20, maxSize: 80 },
+				};
 			}
-			return { size: 100, minSize: 20, maxSize: 100 };
-		},
-		getCodePane () {
-			if (this.mobile) {
-				return { size: 20, minSize: 60, maxSize: 100 };
-			}
-			return { size: 0, minSize: 20, maxSize: 100 };
-		},
-		getLivePane () {
-			if (this.mobile) {
-				return { size: 20, minSize: 60, maxSize: 100 };
-			}
-			return { size: 0, minSize: 20, maxSize: 100 };
-		},
-		getOutputPane () {
-			if (this.mobile) {
-				return { size: 20, minSize: 20, maxSize: 100 };
-			}
-			return { size: 33, minSize: 20, maxSize: 100 };
 		},
 	},
 	watch: {
+		mobile (newVal) {
+			if (newVal) {
+				this.sizes = {
+					examples: 100,
+					topic: 1,
+					guide: 100,
+					code: 20,
+					live: 20,
+					output: 20,
+				};
+			}
+			else {
+				this.sizes = {
+					examples: 64,
+					topic: 15,
+					guide: 100,
+					code: 0,
+					live: 0,
+					output: 33,
+				};
+			}
+		},
 		'$route.query': {
 			deep: true,
 			immediate: true,
@@ -215,8 +238,9 @@ export default {
 				const topic = await this.$content('guides', topicParam).fetch();
 				const { code, live } = topic || DEFAULT_TOPIC;
 				this.setActiveGuide(topic);
+				this.setLiveActive({ active: live });
 				this.fetchCode({ code });
-				this.fetchLive({ live });
+				!this.containerId && this.fetchLive({ live });
 			},
 		},
 		containerId: {
@@ -264,6 +288,7 @@ export default {
 		}),
 		...mapActions(LIVE_MODULE, {
 			fetchLive: FETCH_LIVE,
+			setLiveActive: SET_LIVE_ACTIVE,
 			stopLive: STOP_LIVE,
 		}),
 		onPageClose () {

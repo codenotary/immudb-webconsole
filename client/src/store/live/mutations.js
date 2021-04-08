@@ -1,6 +1,6 @@
 import {
 	SET_LIVE_ACTIVE,
-	SET_COMMANDS,
+	SET_LIVE_INTRO,
 	SET_CONTAINER_ID,
 } from './constants';
 
@@ -11,13 +11,11 @@ export default {
 			state.active = active;
 		}
 	},
-	[SET_COMMANDS](state, payload) {
-		const { commands } = payload;
-		if (commands) {
-			commands && (state.commands = commands);
-		}
-		else {
-			state.commands = [];
+	[SET_LIVE_INTRO](state, payload) {
+		if (payload) {
+			const { finished, value } = payload;
+			finished && (state.intro.finished = finished);
+			value && (state.intro.value = value);
 		}
 	},
 	[SET_CONTAINER_ID](state, payload) {
