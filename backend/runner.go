@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"context"
 	"encoding/json"
 	"errors"
@@ -149,8 +150,23 @@ func (rn *runner) dumpImmudb() {
 	}
 	_, err = os.Stat(path.Join(rn.ephdir, "verified"))
 	verified := (err == nil)
+	// create a tarball of immudb DATA
+	err = doTarball(rn.ctx, rn.ephdir, path.Join(rn.ephdir, "data"), path.Join(rn.ephdir, "data.tar.gz"))
+	if err != nil {
+		log.Printf("Error while compressing immudb data: %s", err.Error())
+		return
+	}
+	
+	immutarball, err := ioutil.ReadFile(path.Join(rn.ephdir, "data.tar.gz"))
+	if err != nil && !os.IsNotExist(err) {
+		log.Printf("Error while reding immudb data archive: %s", err.Error())
+		return
+	}
+	
 	outline := OutputLine{
 		Timestamp: float64(time.Now().UnixNano()) / 1000000000.0,
+		Type:      "immudb",
+		Immudb:    immutarball,
 		Tree:      dump,
 		Token:     token,
 		Verified:  verified,
@@ -190,6 +206,8 @@ func httpRet(w http.ResponseWriter, ret *runnerResponse) {
 // @id newRunner
 // @tags runner
 // @summary Launch a new container for interactive use
+// @accept application/json
+// @param request body runRequest true "Run request"
 // @produce application/json
 // @success 200 {object} runnerResponse
 // @failure 400
@@ -206,6 +224,22 @@ func newRunner(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		log.Printf("Error: %s", err.Error())
 		return
+	}
+	// extract immudb state
+	var reqData runRequest
+	err = json.NewDecoder(req.Body).Decode(&reqData)
+	if err != nil && err!=io.EOF {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		log.Printf("Error: %s", err.Error())
+		return
+	}
+	if len(reqData.Immudb) > 0 {
+		err = extractTarball(bytes.NewReader(reqData.Immudb), dir)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			log.Printf("Error: %s", err.Error())
+			return
+		}
 	}
 	ctx := context.Background()
 	c_id, err := startContainer(ctx, "player-immuclient", dir)

@@ -3,7 +3,13 @@ definitions:
   main.OutputLine:
     properties:
       flux:
+        description: type=console
         type: string
+      immudb:
+        description: type=immudb
+        items:
+          type: integer
+        type: array
       line:
         type: string
       timestamp:
@@ -16,6 +22,9 @@ definitions:
         items:
           type: integer
         type: array
+      type:
+        description: '{console|immudb}'
+        type: string
       verified:
         type: boolean
     type: object
@@ -207,7 +216,16 @@ paths:
       - runner
   /run/new:
     post:
+      consumes:
+      - application/json
       operationId: newRunner
+      parameters:
+      - description: Run request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/main.runRequest'
       produces:
       - application/json
       responses:

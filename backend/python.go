@@ -26,11 +26,15 @@ type runRequest struct {
 
 type OutputLine struct {
 	Timestamp float64 `json:"timestamp"`
-	Flux      string  `json:"flux,omitempty"`
-	Line      string  `json:"line,omitempty"`
-	Tree      []byte  `json:"tree,omitempty"`
-	Token     []byte  `json:"token,omitempty"`
-	Verified  bool    `json:"verified,omitempty"`
+	Type      string  `json:"type"` // {console|immudb}
+	// type=console
+	Flux string `json:"flux,omitempty"`
+	Line string `json:"line,omitempty"`
+	// type=immudb
+	Immudb   []byte `json:"immudb,omitempty"`
+	Tree     []byte `json:"tree,omitempty"`
+	Token    []byte `json:"token,omitempty"`
+	Verified bool   `json:"verified,omitempty"`
 }
 
 type InputLine struct {

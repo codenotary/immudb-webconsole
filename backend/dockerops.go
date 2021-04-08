@@ -128,6 +128,7 @@ func readback(dir string) (response runResponse, err error) {
 func errorResponse(msg string, immudb []byte) (response runResponse) {
 	response.Output = []OutputLine{{
 		Timestamp: float64(time.Now().UnixNano()) / 1000000000.0,
+		Type:      "console",
 		Flux:      "execerr",
 		Line:      msg,
 	}}

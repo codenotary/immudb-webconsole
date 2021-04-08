@@ -24,6 +24,7 @@ func randString(n int) string {
 }
 
 func demux(rd io.Reader) (outLine OutputLine, err error) {
+	outLine.Type = "console"
 	head := make([]byte, 8)
 	n, err := rd.Read(head)
 	if err != nil {
@@ -64,4 +65,3 @@ func demux(rd io.Reader) (outLine OutputLine, err error) {
 	}
 	return
 }
-

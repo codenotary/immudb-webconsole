@@ -182,6 +182,9 @@ var doc = `{
         },
         "/run/new": {
             "post": {
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -190,6 +193,17 @@ var doc = `{
                 ],
                 "summary": "Launch a new container for interactive use",
                 "operationId": "newRunner",
+                "parameters": [
+                    {
+                        "description": "Run request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/main.runRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -212,7 +226,15 @@ var doc = `{
             "type": "object",
             "properties": {
                 "flux": {
+                    "description": "type=console",
                     "type": "string"
+                },
+                "immudb": {
+                    "description": "type=immudb",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
                 },
                 "line": {
                     "type": "string"
@@ -231,6 +253,10 @@ var doc = `{
                     "items": {
                         "type": "integer"
                     }
+                },
+                "type": {
+                    "description": "{console|immudb}",
+                    "type": "string"
                 },
                 "verified": {
                     "type": "boolean"
