@@ -156,13 +156,13 @@ func (rn *runner) dumpImmudb() {
 		log.Printf("Error while compressing immudb data: %s", err.Error())
 		return
 	}
-	
+
 	immutarball, err := ioutil.ReadFile(path.Join(rn.ephdir, "data.tar.gz"))
 	if err != nil && !os.IsNotExist(err) {
 		log.Printf("Error while reding immudb data archive: %s", err.Error())
 		return
 	}
-	
+
 	outline := OutputLine{
 		Timestamp: float64(time.Now().UnixNano()) / 1000000000.0,
 		Type:      "immudb",
@@ -228,7 +228,7 @@ func newRunner(w http.ResponseWriter, req *http.Request) {
 	// extract immudb state
 	var reqData runRequest
 	err = json.NewDecoder(req.Body).Decode(&reqData)
-	if err != nil && err!=io.EOF {
+	if err != nil && err != io.EOF {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		log.Printf("Error: %s", err.Error())
 		return
@@ -376,14 +376,14 @@ func wsRunnerEvents(rn *runner, ws *websocket.Conn) {
 			Debug.Printf("--> %s", string(buf))
 			clIn <- buf
 			/*
-			outline := OutputLine{
-					Timestamp: float64(time.Now().UnixNano()) / 1000000000.0,
+				outline := OutputLine{
+						Timestamp: float64(time.Now().UnixNano()) / 1000000000.0,
+					}
+				jout, _ := json.Marshal(outline)
+				if _,err := ws.Write(jout); err != nil {
+					Debug.Printf("Error writing socket for %s: %s", rn.shortid, err.Error())
+					break
 				}
-			jout, _ := json.Marshal(outline)
-			if _,err := ws.Write(jout); err != nil {
-				Debug.Printf("Error writing socket for %s: %s", rn.shortid, err.Error())
-				break
-			}
 			*/
 		}
 		Debug.Printf("Exiting goroutine for %s", rn.shortid)
