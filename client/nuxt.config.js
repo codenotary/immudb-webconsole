@@ -105,6 +105,11 @@ export default {
 			ssr: false,
 		},
 		{
+			src: './assets/css/ansi.scss',
+			lang: 'scss',
+			ssr: false,
+		},
+		{
 			src: 'vue-json-pretty/lib/styles.css',
 			lang: 'css',
 			ssr: false,
