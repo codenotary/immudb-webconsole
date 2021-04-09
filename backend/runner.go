@@ -90,17 +90,19 @@ func (rn *runner) loop() {
 		case s := <-rn.clientIn:
 			idletimeout.Reset(TIMEOUT)
 			Debug.Printf("<== %s", string(s))
-			var line InputLine
+			var line WSInput
 			err := json.Unmarshal(s, &line)
 			if err != nil {
 				log.Printf("Error while reading command: %s [%+v]", err.Error(), s)
 				break
 			}
-			if line.Line != "" {
+			switch {
+			case line.Line != "":
 				atc.Conn.Write([]byte(line.Line))
-			}
-			if line.Cmd == "dump" {
+			case line.Cmd == "dump":
 				rn.dumpImmudb()
+			case line.Cmd == "exec":
+				rn.execCode(line.Code)
 			}
 		case ev := <-watcher.Events:
 			Debug.Printf("File event incoming: %+v", ev)
@@ -163,7 +165,7 @@ func (rn *runner) dumpImmudb() {
 		return
 	}
 
-	outline := OutputLine{
+	outline := WSOutput{
 		Timestamp: float64(time.Now().UnixNano()) / 1000000000.0,
 		Type:      "immudb",
 		Immudb:    immutarball,
@@ -175,7 +177,42 @@ func (rn *runner) dumpImmudb() {
 	for _, c := range rn.clientOut {
 		c <- jout
 	}
+}
 
+func (rn *runner) execCode(code string) {
+	Debug.Printf("Executing code in container %s [%s]", rn.shortid, rn.container)
+	// put code into ephimeral volume
+	err := ioutil.WriteFile(path.Join(rn.ephdir, "runme.py"), []byte(code), 0644)
+	if err != nil {
+		log.Printf("Error: %s", err.Error())
+		return
+	}
+	defer os.Remove(path.Join(rn.ephdir, "runme.py"))
+	defer os.Remove(path.Join(rn.ephdir, "output"))
+	cmd := []string{"/bin/sh", "-c", "/usr/local/bin/jts /app/bin/python3 /tmp/runme.py > /tmp/output"}
+	output, err := containerExec(rn.ctx, cmd, rn.container)
+	if err != nil {
+		log.Printf("Got error while executing: %s.%s", err.Error(), output)
+		return
+	}
+	bOutput, err := ioutil.ReadFile(path.Join(rn.ephdir, "output"))
+	if err != nil && !os.IsNotExist(err) {
+		log.Printf("Error while reading python output: %s", err.Error())
+		return
+	}
+	var jOutput []OutputLine
+	if err = json.Unmarshal(bOutput, &jOutput); err != nil {
+		log.Printf("Error while decoding python output: %s [%s]", err.Error(), string(bOutput))
+		return
+	}
+	response := WSOutput{
+		Timestamp: float64(time.Now().UnixNano()) / 1000000000.0,
+		Type:      "exec",
+		Lines:     jOutput}
+	jout, _ := json.Marshal(response)
+	for _, c := range rn.clientOut {
+		c <- jout
+	}
 }
 
 type runnerResponse struct {
@@ -243,6 +280,7 @@ func newRunner(w http.ResponseWriter, req *http.Request) {
 	}
 	ctx := context.Background()
 	c_id, err := startContainer(ctx, "player-immuclient", dir)
+	// c_id, err := startContainer(ctx, "player-live", dir)
 	if err != nil {
 		httpRet(w, &runnerResponse{Status: "fail", Error: err.Error()})
 		return
@@ -376,7 +414,7 @@ func wsRunnerEvents(rn *runner, ws *websocket.Conn) {
 			Debug.Printf("--> %s", string(buf))
 			clIn <- buf
 			/*
-				outline := OutputLine{
+				outline := WSOutput{
 						Timestamp: float64(time.Now().UnixNano()) / 1000000000.0,
 					}
 				jout, _ := json.Marshal(outline)

@@ -1,6 +1,6 @@
 basePath: /api/v1
 definitions:
-  main.OutputLine:
+  main.WSOutput:
     properties:
       flux:
         description: type=console
@@ -12,6 +12,11 @@ definitions:
         type: array
       line:
         type: string
+      lines:
+        description: type=exec
+        items:
+          $ref: '#/definitions/main.WSOutput'
+        type: array
       timestamp:
         type: number
       token:
@@ -23,7 +28,7 @@ definitions:
           type: integer
         type: array
       type:
-        description: '{console|immudb}'
+        description: '{console|immudb|exec}'
         type: string
       verified:
         type: boolean
@@ -76,7 +81,7 @@ definitions:
         type: array
       output:
         items:
-          $ref: '#/definitions/main.OutputLine'
+          $ref: '#/definitions/main.WSOutput'
         type: array
       token:
         items:

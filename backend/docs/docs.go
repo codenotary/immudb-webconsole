@@ -222,7 +222,7 @@ var doc = `{
         }
     },
     "definitions": {
-        "main.OutputLine": {
+        "main.WSOutput": {
             "type": "object",
             "properties": {
                 "flux": {
@@ -238,6 +238,13 @@ var doc = `{
                 },
                 "line": {
                     "type": "string"
+                },
+                "lines": {
+                    "description": "type=exec",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/main.WSOutput"
+                    }
                 },
                 "timestamp": {
                     "type": "number"
@@ -255,7 +262,7 @@ var doc = `{
                     }
                 },
                 "type": {
-                    "description": "{console|immudb}",
+                    "description": "{console|immudb|exec}",
                     "type": "string"
                 },
                 "verified": {
@@ -337,7 +344,7 @@ var doc = `{
                 "output": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/main.OutputLine"
+                        "$ref": "#/definitions/main.WSOutput"
                     }
                 },
                 "token": {

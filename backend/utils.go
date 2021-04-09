@@ -23,7 +23,7 @@ func randString(n int) string {
 	return string(b)
 }
 
-func demux(rd io.Reader) (outLine OutputLine, err error) {
+func demux(rd io.Reader) (outLine WSOutput, err error) {
 	outLine.Type = "console"
 	head := make([]byte, 8)
 	n, err := rd.Read(head)
