@@ -200,5 +200,10 @@ export default {
 	.toolbar-item {
 		margin-right: $spacer-2;
 	}
+
+	pre {
+		display: flex;
+		background: #222;
+	}
 }
 </style>

@@ -18,6 +18,10 @@ import 'prismjs/plugins/toolbar/prism-toolbar.css';
 import 'prismjs/plugins/line-numbers/prism-line-numbers';
 import 'prismjs/plugins/line-numbers/prism-line-numbers.css';
 
+// Include the command line plugin: (optional)
+import 'prismjs/plugins/command-line/prism-command-line';
+import 'prismjs/plugins/command-line/prism-command-line.css';
+
 // Include the line highlight plugin: (optional)
 import 'prismjs/plugins/line-highlight/prism-line-highlight';
 import 'prismjs/plugins/line-highlight/prism-line-highlight.css';
