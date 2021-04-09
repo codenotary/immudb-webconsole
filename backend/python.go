@@ -2,20 +2,14 @@ package main
 
 import (
 	"bytes"
-	// 	"context"
 	"encoding/json"
-	//         "errors"
 	"fmt"
-	// 	"github.com/docker/docker/api/types"
-	// 	"github.com/docker/docker/api/types/container"
-	// 	"github.com/docker/docker/api/types/mount"
 	"github.com/docker/docker/client"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"path"
-	// 	"time"
 )
 
 type runRequest struct {
@@ -24,9 +18,9 @@ type runRequest struct {
 	Token  []byte `json:"token"`
 }
 
-type OutputLine struct {
+type WSOutput struct {
 	Timestamp float64 `json:"timestamp"`
-	Type      string  `json:"type"` // {console|immudb}
+	Type      string  `json:"type"` // {console|immudb|exec}
 	// type=console
 	Flux string `json:"flux,omitempty"`
 	Line string `json:"line,omitempty"`
@@ -35,11 +29,20 @@ type OutputLine struct {
 	Tree     []byte `json:"tree,omitempty"`
 	Token    []byte `json:"token,omitempty"`
 	Verified bool   `json:"verified,omitempty"`
+	// type=exec
+	Lines []OutputLine `json:"lines,omitempty"`
 }
 
-type InputLine struct {
+type OutputLine struct {
+	Timestamp float64 `json:"timestamp"`
+	Flux      string  `json:"flux,omitempty"`
+	Line      string  `json:"line,omitempty"`
+}
+
+type WSInput struct {
 	Line string `json:"line"`
-	Cmd  string `json:"cmd"`
+	Cmd  string `json:"cmd"` // {dump|exec}
+	Code string `json:"code"`
 }
 
 type runResponse struct {

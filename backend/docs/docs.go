@@ -226,40 +226,13 @@ var doc = `{
             "type": "object",
             "properties": {
                 "flux": {
-                    "description": "type=console",
                     "type": "string"
-                },
-                "immudb": {
-                    "description": "type=immudb",
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
                 },
                 "line": {
                     "type": "string"
                 },
                 "timestamp": {
                     "type": "number"
-                },
-                "token": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "tree": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "type": {
-                    "description": "{console|immudb}",
-                    "type": "string"
-                },
-                "verified": {
-                    "type": "boolean"
                 }
             }
         },
