@@ -23,11 +23,10 @@
 				link-layout="bezier"
 				:duration="300"
 				node-text="label"
-				:node-text-margin="32"
 				:min-zoom="0.3"
 				:max-zoom="9"
-				:margin-y="10"
-				:margin-x="10"
+				:margin-y="16"
+				:margin-x="16"
 				:radius="10"
 				:stroke-width="4"
 				zoomable
@@ -191,7 +190,7 @@ export default {
 				.d3-text {
 					transform:
 						rotate(270deg)
-						translate(0, $spacer-4) !important;
+						translate(0, -$spacer-2) !important;
 				}
 			}
 
@@ -203,7 +202,7 @@ export default {
 				.d3-text {
 					transform:
 						rotate(270deg)
-						translate($spacer-16, $spacer-12) !important;
+						translate($spacer-2, $spacer-12) !important;
 				}
 			}
 
@@ -214,8 +213,8 @@ export default {
 
 				.d3-text {
 					transform:
-						rotate(270deg)
-						translate(0, $spacer-12) !important;
+						rotate(0deg)
+						translate($spacer-12, $spacer-1) !important;
 				}
 			}
 		}

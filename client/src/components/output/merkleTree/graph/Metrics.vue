@@ -77,7 +77,7 @@
 				<v-icon
 					class="ma-0 pa-0"
 					color="primary"
-					small	
+					small
 				>
 					{{ mdiCircle }}
 				</v-icon>
@@ -115,10 +115,9 @@
 
 <script>
 import {
+	mdiImageFilterCenterFocus,
 	mdiCircle,
 } from '@mdi/js';
-
-import { mdiImageFilterCenterFocus } from '@mdi/js';
 
 export default {
 	name: 'OutputMerkleTreeGraphMetrics',
