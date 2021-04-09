@@ -236,7 +236,7 @@ export default {
 				!this.containerId && this.fetchLive({ live });
 
 				setTimeout(() => {
-					console.log(code, live);
+					// console.log(code, live);
 					// update pane sizes
 					this.setPaneSizes({
 						guide: code || live ? 50 : 100,

@@ -138,9 +138,8 @@ export default {
 		},
 		onExport () {
 			try {
-				const { merkleTree } = this.$refs;
-				console.log(merkleTree);
-				// saveSvgAsPng(merkleTree, 'merkleTree.png');
+				// const { merkleTree } = this.$refs;
+				// console.log(merkleTree);
 			}
 			catch (err) {
 				console.error(err);

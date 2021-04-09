@@ -142,6 +142,16 @@ export default {
 		// init the live terminal with a LiveIntro component
 		this.$nextTick(() => this.onBootstrap());
 
+		/// TODO THIS IS JUST A PATCH, IT SHOULD BE
+		/// REMOVED REFACTORYING THE LIVE VUEX STORE
+		setTimeout(() => {
+			console.log(this.history.length);
+			if (this.history.length < 3) {
+				this.appendDummyStdout();
+				this.intro.finished = true;
+			};
+		}, 1200);
+
 		// increase show help timeout
 		setTimeout(() => {
 			this.helpTimeout = 15000;
@@ -265,7 +275,7 @@ export default {
 				}
 				else if (!line.endsWith('\n')) {
 					this.setLivePrompt({
-						prompt: line,
+						prompt: line.trim(),
 					});
 					this.appendDummyStdout();
 				}
