@@ -2,11 +2,11 @@
 	<div
 		id="OutputMerkleTree"
 		ref="merkleTreeWrapper"
-		class="ma-0 pa-0 px-1 fill-height"
+		class="ma-0 pa-0 fill-height"
 	>
 		<div
 			v-if="(graph && graph.length) || (json && json.length)"
-			class="ma-0 mt-2 pa-0"
+			class="ma-0 pa-0"
 		>
 			<OutputMerkleTreeSelector
 				id="MerkleTreeSelector"

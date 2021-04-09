@@ -69,10 +69,55 @@
 				</tbody>
 			</template>
 		</v-simple-table>
+		<div class="my-4 mx-0 pa-0 d-flex flex-column">
+			<span class="ma-0 mb-2 pa-0 subtitle-2">
+				Legend
+			</span>
+			<div class="ma-0 mb-2 pa-0 d-flex justify-start align-center">
+				<v-icon
+					class="ma-0 pa-0"
+					color="primary"
+					small	
+				>
+					{{ mdiCircle }}
+				</v-icon>
+				<span class="ma-0 ml-2 pa-0 caption">
+					Root
+				</span>
+			</div>
+			<div class="ma-0 mb-2 pa-0 d-flex justify-start align-center">
+				<v-icon
+					class="ma-0 pa-0"
+					color="#999"
+					small
+				>
+					{{ mdiCircle }}
+				</v-icon>
+				<span class="ma-0 ml-2 pa-0 caption">
+					Node
+				</span>
+			</div>
+			<div class="ma-0 mb-2 pa-0 d-flex justify-start align-center">
+				<v-icon
+					class="ma-0 pa-0"
+					color="success"
+					small
+				>
+					{{ mdiCircle }}
+				</v-icon>
+				<span class="ma-0 ml-2 pa-0 caption">
+					Leaf
+				</span>
+			</div>
+		</div>
 	</div>
 </template>
 
 <script>
+import {
+	mdiCircle,
+} from '@mdi/js';
+
 import { mdiImageFilterCenterFocus } from '@mdi/js';
 
 export default {
@@ -83,6 +128,7 @@ export default {
 	data () {
 		return {
 			mdiImageFilterCenterFocus,
+			mdiCircle,
 		};
 	},
 	computed: {

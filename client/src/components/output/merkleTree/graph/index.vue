@@ -31,28 +31,34 @@
 				:radius="10"
 				:stroke-width="4"
 				zoomable
+				@clickedNode="onNodeClicked"
 			>
 				<template
 					#node="{ data, node: {depth}, radius }"
 				>
-					<template v-if="data.children && data.children.length">
-						<circle
-							:r="radius"
+					<template>
+						<g
+							:class="`d3-${ data.children && data.children.length
+								? depth === 0
+									? 'root'
+									: 'node'
+								: 'leaf'
+							}`"
 						>
-							<title>
-								A: {{ data.text }} {{ depth }}
-							</title>
-						</circle>
-					</template>
-					<template v-else>
-						<circle
-							:r="radius"
-							fill="green"
-						>
-							<title>
-								B: {{ data.text }} {{ depth }}
-							</title>
-						</circle>
+							<circle
+								class="d3-circle"
+								:r="radius"
+							>
+								<title>
+									{{ data.data.htree }}
+								</title>
+							</circle>
+							<text
+								class="d3-text"
+								:text="`${ data.text } - ${ depth }`"
+								:label="`${ data.text } - ${ depth }`"
+							/>
+						</g>
 					</template>
 				</template>
 				<template #popUp="{ data, node }">
@@ -62,9 +68,15 @@
 					/>
 				</template>
 				<template #behavior="{ on, actions }">
-					<popUpOnClickText v-bind="{ on, actions }" />
+					<popUpOnHoverText v-bind="{ on, actions }" />
 				</template>
 			</tree>
+			<OutputMerkleTreeGraphModal
+				v-model="modal.show"
+				:node="modal.node"
+				:item="modal.data"
+				@close="model.show = false"
+			/>
 		</no-ssr>
 	</span>
 </template>
@@ -76,19 +88,28 @@ import {
 	PANE_SIZES,
 } from '@/store/view/constants';
 import NoSSR from 'vue-no-ssr';
-import { tree, popUpOnClickText } from 'vued3tree';
+import { tree, popUpOnHoverText } from 'vued3tree';
 
 export default {
 	name: 'OutputMerkleTreeGraph',
 	components: {
 		tree,
-		popUpOnClickText,
+		popUpOnHoverText,
 		'no-ssr': NoSSR,
 	},
 	props: {
 		graph: { type: Object, default: () => {} },
 		metrics: { type: Object, default: () => {} },
 		size: { type: Number, default: 1 },
+	},
+	data () {
+		return {
+			modal: {
+				show: false,
+				data: undefined,
+				node: undefined,
+			},
+		};
 	},
 	computed: {
 		...mapGetters(VIEW_MODULE, {
@@ -98,7 +119,6 @@ export default {
 			const { innerHeight } = window;
 			if (this.paneSizes) {
 				const { output } = this.paneSizes;
-				console.log(output, innerHeight);
 				return (output / 100 * innerHeight) - 96;
 			}
 			return 600;
@@ -114,6 +134,16 @@ export default {
 		onResetZoom () {
 			if (this.$refs.merkleTree) {
 				this.$refs.merkleTree.resetZoom();
+			}
+		},
+		onNodeClicked (event) {
+			if (event) {
+				const { node, data } = event;
+				this.modal = {
+					show: true,
+					node,
+					data,
+				};
 			}
 		},
 	},
@@ -132,6 +162,63 @@ export default {
 		position: absolute;
 		top: $spacer-15;
 		right: $spacer-4;
+	}
+
+	g.node {
+		g.d3- {
+			&root,
+			&node,
+			&leaf {
+				.d3-circle {
+					stroke: none !important;
+				}
+
+				.d3-text {
+					fill: white !important;
+					stroke: none !important;
+					font-size: 1rem !important;
+					font-weight: 700 !important;
+					text-shadow: none !important;
+					text-anchor: middle !important;
+				}
+			}
+
+			&root {
+				.d3-circle {
+					fill: #1976d2 !important;
+				}
+
+				.d3-text {
+					transform:
+						rotate(270deg)
+						translate(0, $spacer-4) !important;
+				}
+			}
+
+			&node {
+				.d3-circle {
+					fill: #999 !important;
+				}
+
+				.d3-text {
+					transform:
+						rotate(270deg)
+						translate($spacer-16, $spacer-12) !important;
+				}
+			}
+
+			&leaf {
+				.d3-circle {
+					fill: #4caf50 !important;
+				}
+
+				.d3-text {
+					transform:
+						rotate(270deg)
+						translate(0, $spacer-12) !important;
+				}
+			}
+		}
 	}
 }
 </style>
