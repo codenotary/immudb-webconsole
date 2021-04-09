@@ -1,6 +1,6 @@
 ---
-title: The SDKs
-sort: 4
+title: The CLI tools
+sort: 10
 node: true
 active: true
 ---

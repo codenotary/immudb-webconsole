@@ -1,6 +1,6 @@
 ---
-title: hello world
-sort: 0
+title: Your first transaction
+sort: 10
 code: hello_world
 active: true
 ---

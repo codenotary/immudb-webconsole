@@ -1,5 +1,5 @@
 ---
-title: Login
+title: Logging into the immudb server
 sort: 0
 code: login
 active: true

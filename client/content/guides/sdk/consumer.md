@@ -1,6 +1,6 @@
 ---
 title: Consumer
-sort: 5
+sort: 50
 code: consumer
 active: true
 ---

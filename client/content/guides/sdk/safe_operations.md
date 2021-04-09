@@ -1,6 +1,6 @@
 ---
 title: Safe operations
-sort: 1
+sort: 20
 code: safe_operations
 active: true
 ---

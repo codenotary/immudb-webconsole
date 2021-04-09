@@ -1,6 +1,6 @@
 ---
 title: Money
-sort: 2
+sort: 30
 code: money
 active: true
 ---
