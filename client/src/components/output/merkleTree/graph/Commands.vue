@@ -53,6 +53,30 @@
 			</template>
 			<span v-html="$t('output.merkleTree.commands.info')" />
 		</v-tooltip>
+		<!-- <v-divider class="my-1 mx-0 pa-0" />
+		<v-tooltip
+			left
+		>
+			<template v-slot:activator="{ on, attrs }">
+				<v-btn
+					class="command ma-0 pa-1 bg-tertiary"
+					:alt="$t('output.merkleTree.commands.save')"
+					small
+					depressed
+					tile
+					v-bind="attrs"
+					v-on="on"
+					@click="onExport"
+				>
+					<v-icon
+						class="grey--text text--lighten-1"
+					>
+						{{ mdiContentSaveOutline }}
+					</v-icon>
+				</v-btn>
+			</template>
+			<span v-html="$t('output.merkleTree.commands.save')" />
+		</v-tooltip> -->
 		<OutputMerkleTreeGraphInfo
 			v-model="infoModal"
 		/>
@@ -63,6 +87,7 @@
 import {
 	mdiImageFilterCenterFocus,
 	mdiInformationOutline,
+	mdiContentSaveOutline,
 } from '@mdi/js';
 
 export default {
@@ -71,12 +96,16 @@ export default {
 		return {
 			mdiImageFilterCenterFocus,
 			mdiInformationOutline,
+			mdiContentSaveOutline,
 			infoModal: false,
 		};
 	},
 	methods: {
 		onResetZoom () {
 			this.$emit('resetZoom');
+		},
+		onExport () {
+			this.$emit('export');
 		},
 	},
 };

@@ -9,6 +9,7 @@
 		<OutputMerkleTreeGraphCommands
 			id="MerkleTreeGraphCommands"
 			@resetZoom="onResetZoom"
+			@export="onExport"
 		/>
 		<no-ssr>
 			<tree
@@ -135,6 +136,16 @@ export default {
 				this.$refs.merkleTree.resetZoom();
 			}
 		},
+		onExport () {
+			try {
+				const { merkleTree } = this.$refs;
+				console.log(merkleTree);
+				// saveSvgAsPng(merkleTree, 'merkleTree.png');
+			}
+			catch (err) {
+				console.error(err);
+			}
+		},
 		onNodeClicked (event) {
 			if (event) {
 				const { node, data } = event;
@@ -151,6 +162,11 @@ export default {
 
 <style lang="scss">
 #OutputMerkleTree {
+	#MerkleTreeGraphMetrics,
+	#MerkleTreeGraphCommands {
+		z-index: 10;
+	}
+
 	#MerkleTreeGraphMetrics {
 		position: absolute;
 		top: $spacer-15;
