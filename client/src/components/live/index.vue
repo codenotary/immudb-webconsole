@@ -78,6 +78,7 @@ import {
 	INTRO,
 } from '@/store/live/constants';
 import LiveIntro from '@/components/live/Intro';
+const AnsiToHtml = require('ansi-to-html');
 
 const DEFAULT_PROMPT = 'bash-5.1#';
 
@@ -295,13 +296,15 @@ export default {
 				verified,
 			});
 		},
+		parseLine (line) {
+			const ansi = new AnsiToHtml();
+			return ansi.toHtml(line.trim());
+		},
 		appendIntro (line, stderr = false) {
 			try {
 				const { value } = this.intro || { value: '' };
-				const classname = stderr ? 'stderr' : 'stdout';
-				const newLine = `<span class="ma-0 pa-0 ${ classname }">${ line }</span>`;
 				this.setLiveIntro({
-					value: `${ value }${ newLine }`,
+					value: `${ value }${ this.parseLine(line) }`,
 				});
 			}
 			catch (err) {
@@ -315,8 +318,8 @@ export default {
 				this.history
 						.push(
 							this.flux === 'stderr'
-								? createStderr(line.trim(), false, false)
-								: createStdout(line.trim(), false, false, false),
+								? createStderr(this.parseLine(line), false, false)
+								: createStdout(this.parseLine(line), false, false, false),
 						);
 				terminal.setPointer(this.pointer + 1);
 				terminal.setIsInProgress(false);
