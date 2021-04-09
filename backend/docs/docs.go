@@ -222,51 +222,17 @@ var doc = `{
         }
     },
     "definitions": {
-        "main.WSOutput": {
+        "main.OutputLine": {
             "type": "object",
             "properties": {
                 "flux": {
-                    "description": "type=console",
                     "type": "string"
-                },
-                "immudb": {
-                    "description": "type=immudb",
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
                 },
                 "line": {
                     "type": "string"
                 },
-                "lines": {
-                    "description": "type=exec",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/main.WSOutput"
-                    }
-                },
                 "timestamp": {
                     "type": "number"
-                },
-                "token": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "tree": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "type": {
-                    "description": "{console|immudb|exec}",
-                    "type": "string"
-                },
-                "verified": {
-                    "type": "boolean"
                 }
             }
         },
@@ -344,7 +310,7 @@ var doc = `{
                 "output": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/main.WSOutput"
+                        "$ref": "#/definitions/main.OutputLine"
                     }
                 },
                 "token": {

@@ -1,37 +1,13 @@
 basePath: /api/v1
 definitions:
-  main.WSOutput:
+  main.OutputLine:
     properties:
       flux:
-        description: type=console
         type: string
-      immudb:
-        description: type=immudb
-        items:
-          type: integer
-        type: array
       line:
         type: string
-      lines:
-        description: type=exec
-        items:
-          $ref: '#/definitions/main.WSOutput'
-        type: array
       timestamp:
         type: number
-      token:
-        items:
-          type: integer
-        type: array
-      tree:
-        items:
-          type: integer
-        type: array
-      type:
-        description: '{console|immudb|exec}'
-        type: string
-      verified:
-        type: boolean
     type: object
   main.listrunnerResponse:
     properties:
@@ -81,7 +57,7 @@ definitions:
         type: array
       output:
         items:
-          $ref: '#/definitions/main.WSOutput'
+          $ref: '#/definitions/main.OutputLine'
         type: array
       token:
         items:
