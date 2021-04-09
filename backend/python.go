@@ -35,8 +35,8 @@ type WSOutput struct {
 
 type OutputLine struct {
 	Timestamp float64 `json:"timestamp"`
-	Flux string `json:"flux,omitempty"`
-	Line string `json:"line,omitempty"`
+	Flux      string  `json:"flux,omitempty"`
+	Line      string  `json:"line,omitempty"`
 }
 
 type WSInput struct {
@@ -47,10 +47,10 @@ type WSInput struct {
 
 type runResponse struct {
 	Output   []OutputLine `json:"output"`
-	Immudb   []byte     `json:"immudb"`
-	Tree     []byte     `json:"tree"`
-	Token    []byte     `json:"token"`
-	Verified bool       `json:"verified"`
+	Immudb   []byte       `json:"immudb"`
+	Tree     []byte       `json:"tree"`
+	Token    []byte       `json:"token"`
+	Verified bool         `json:"verified"`
 }
 
 // @id pythonExec
