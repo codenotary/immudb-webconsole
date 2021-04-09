@@ -6,7 +6,7 @@
 	>
 		<div
 			v-if="(graph && graph.length) || (json && json.length)"
-			class="ma-4 pa-0 pb-0"
+			class="ma-0 mt-2 pa-0"
 		>
 			<OutputMerkleTreeSelector
 				id="MerkleTreeSelector"

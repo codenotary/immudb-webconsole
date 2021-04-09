@@ -4,10 +4,10 @@
 		:class="`theme--${ $vuetify.theme.dark ? 'dark' : 'light' }`"
 		horizontal
 		:push-other-panes="true"
-		@resize="onResizeFourthPane"
+		@resize="onResize({ examples: $event[0], output: $event[1] })"
 	>
 		<pane
-			:size.sync="banana"
+			:size.sync="sizes.examples"
 			:min-size="getConstraints.examples.minSize"
 			:max-size="getConstraints.examples.maxSize"
 		>
@@ -15,6 +15,7 @@
 				:class="`theme--${ $vuetify.theme.dark ? 'dark' : 'light' }`"
 				:push-other-panes="true"
 				:horizontal="mobile"
+				@resize="onResize({ topic: $event[0] })"
 			>
 				<pane
 					v-if="!mobile"
@@ -30,6 +31,7 @@
 						:class="`theme--${ $vuetify.theme.dark ? 'dark' : 'light' }`"
 						:push-other-panes="true"
 						:horizontal="mobile"
+						@resize="onResize({ guide: $event[0], code: $event[1], live: $event[1] })"
 					>
 						<pane
 							v-if="showGuide"
@@ -108,6 +110,7 @@ import {
 	VIEW_MODULE,
 	SET_PANE_SIZES,
 	MOBILE,
+	PANE_SIZES,
 } from '@/store/view/constants';
 import { Splitpanes, Pane } from 'splitpanes';
 import 'splitpanes/dist/splitpanes.css';
@@ -136,22 +139,10 @@ export default {
 		}
 	},
 	fetchOnServer: false,
-	data () {
-		return {
-			banana: 64,
-			sizes: {
-				example: 64,
-				topic: 15,
-				guide: 100,
-				code: 0,
-				live: 0,
-				output: 33,
-			},
-		};
-	},
 	computed: {
 		...mapGetters(VIEW_MODULE, {
 			mobile: MOBILE,
+			sizes: PANE_SIZES,
 		}),
 		...mapGetters(TOPIC_MODULE, {
 			activeTopic: ACTIVE_TOPIC,
@@ -189,10 +180,10 @@ export default {
 			else {
 				return {
 					examples: { minSize: 20, maxSize: 80 },
-					topic: { minSize: 10, maxSize: 40 },
-					guide: { minSize: 20, maxSize: 80 },
-					code: { minSize: 20, maxSize: 80 },
-					live: { minSize: 20, maxSize: 80 },
+					topic: { minSize: 20, maxSize: 40 },
+					guide: { minSize: 20, maxSize: 100 },
+					code: { minSize: 20, maxSize: 100 },
+					live: { minSize: 20, maxSize: 100 },
 					output: { minSize: 20, maxSize: 80 },
 				};
 			}
@@ -201,24 +192,24 @@ export default {
 	watch: {
 		mobile (newVal) {
 			if (newVal) {
-				this.sizes = {
+				this.setPaneSizes({
 					examples: 100,
 					topic: 1,
 					guide: 100,
 					code: 20,
 					live: 20,
 					output: 20,
-				};
+				});
 			}
 			else {
-				this.sizes = {
+				this.setPaneSizes({
 					examples: 64,
 					topic: 15,
 					guide: 100,
 					code: 0,
 					live: 0,
 					output: 33,
-				};
+				});
 			}
 		},
 		'$route.query': {
@@ -294,10 +285,18 @@ export default {
 		onPageClose () {
 			this.stopKeepalive();
 		},
-		onResizeFourthPane(data) {
-			this.setPaneSizes({
-				output: data && data[1] && data[1].size,
-			});
+		onResize(data) {
+			if (data) {
+				const { examples, topic, guide, code, live, output } = data;
+				this.setPaneSizes({
+					examples: examples ? examples.size : undefined,
+					topic: topic ? topic.size : undefined,
+					guide: guide ? guide.size : undefined,
+					code: code ? code.size : undefined,
+					live: live ? live.size : undefined,
+					output: output ? output.size : undefined,
+				});
+			}
 		},
 		startKeepalive (n = 15) {
 			try {

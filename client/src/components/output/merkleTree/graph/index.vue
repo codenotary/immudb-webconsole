@@ -98,7 +98,8 @@ export default {
 			const { innerHeight } = window;
 			if (this.paneSizes) {
 				const { output } = this.paneSizes;
-				return (output / 100 * innerHeight) - 144;
+				console.log(output, innerHeight);
+				return (output / 100 * innerHeight) - 96;
 			}
 			return 600;
 		},

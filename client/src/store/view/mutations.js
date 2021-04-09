@@ -50,10 +50,12 @@ export default {
 				.filter(_ => _.label !== label);
 	},
 	[SET_PANE_SIZES](state, payload) {
-		const { topic, guide, code, output } = payload;
+		const { examples, topic, guide, code, live, output } = payload;
+		examples !== undefined && (state.paneSizes.examples = examples);
 		topic !== undefined && (state.paneSizes.topic = topic);
 		guide !== undefined && (state.paneSizes.guide = guide);
 		code !== undefined && (state.paneSizes.code = code);
+		live !== undefined && (state.paneSizes.live = live);
 		output !== undefined && (state.paneSizes.output = output);
 	},
 	[STORE_NUXT_HYDRATED](state, payload) {

@@ -14,10 +14,12 @@ export default () => ({
 	},
 	loading: [],
 	paneSizes: {
-		topic: 600,
-		guide: 600,
-		code: 600,
-		output: 600,
+		examples: 64,
+		topic: 20,
+		guide: 100,
+		code: 50,
+		live: 50,
+		output: 33,
 	},
 	nuxtHydrated: false,
 });
