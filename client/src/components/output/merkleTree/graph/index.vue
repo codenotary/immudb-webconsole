@@ -42,7 +42,7 @@
 									? 'root'
 									: 'node'
 								: 'leaf'
-							}`"
+							} theme--${ $vuetify.theme.dark ? 'dark' : 'light' }`"
 						>
 							<circle
 								class="d3-circle"
@@ -173,12 +173,19 @@ export default {
 				}
 
 				.d3-text {
-					fill: white !important;
 					stroke: none !important;
-					font-size: 1rem !important;
+					font-size: 0.875rem !important;
 					font-weight: 700 !important;
 					text-shadow: none !important;
 					text-anchor: middle !important;
+				}
+
+				&.theme--dark {
+					fill: #f1f1f1 !important;
+				}
+
+				&.theme--light {
+					fill: #111 !important;
 				}
 			}
 
@@ -188,6 +195,7 @@ export default {
 				}
 
 				.d3-text {
+					font-size: 1rem !important;
 					transform:
 						rotate(270deg)
 						translate(0, -$spacer-2) !important;
