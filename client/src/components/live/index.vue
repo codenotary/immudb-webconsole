@@ -25,7 +25,7 @@
 			</h4>
 		</v-card-title>
 		<v-card-text
-			class="ma-0 pa-0 bg-terminal"
+			class="ma-0 pa-0"
 		>
 			<div
 				class="command-line-wrapper ma-0 pa-0"
@@ -35,7 +35,7 @@
 				<vue-command
 					id="LiveCommandLine"
 					ref="terminal"
-					class="ma-0 pa-0 custom-scrollbar"
+					class="ma-0 pa-0 bg-terminal custom-scrollbar"
 					:title="title"
 					:prompt="prompt"
 					:commands="commands"
@@ -72,14 +72,19 @@ import {
 } from '@/store/websocket/constants';
 import {
 	LIVE_MODULE,
-	SET_LIVE_PROMPT,
-	SET_LIVE_INTRO,
+	SET_PROMPT,
+	SET_INTRO,
 	PROMPT,
+	// HISTORY,
+	// EXECUTED,242424
+	// POINTER,
+	// TERM_STDIN,
 	INTRO,
 } from '@/store/live/constants';
 import LiveIntro from '@/components/live/Intro';
-const AnsiToHtml = require('ansi-to-html');
+import AnsiUp from 'ansi_up';
 
+const StripAnsi = require('strip-ansi');
 const DEFAULT_PROMPT = 'bash-5.1#';
 
 export default {
@@ -110,13 +115,17 @@ export default {
 	computed: {
 		...mapGetters(LIVE_MODULE, {
 			prompt: PROMPT,
+			// history: HISTORY,
+			// executed: EXECUTED,
+			// pointer: POINTER,
+			// termStdin: TERM_STDIN,
 			intro: INTRO,
 		}),
 		hidePrompt () {
 			return this.intro && !this.intro.finished;
 		},
 		showPrompt () {
-			return this.promp === DEFAULT_PROMPT;
+			return this.prompt === DEFAULT_PROMPT;
 		},
 	},
 	watch: {
@@ -210,15 +219,12 @@ export default {
 			appendImmudb: APPEND_IMMUDB,
 		}),
 		...mapActions(LIVE_MODULE, {
-			setLivePrompt: SET_LIVE_PROMPT,
-			setLiveIntro: SET_LIVE_INTRO,
+			setLivePrompt: SET_PROMPT,
+			setLiveIntro: SET_INTRO,
 		}),
 		...mapActions(WEBSOCKET_MODULE, {
 			sendObj: SOCKET_OBJ_MESSAGE,
 		}),
-		getPrompt (data) {
-			return data;
-		},
 		appendDummyStdout () {
 			this.history
 					.push(createDummyStdout());
@@ -296,9 +302,15 @@ export default {
 				verified,
 			});
 		},
-		parseLine (line) {
-			const ansi = new AnsiToHtml();
-			return ansi.toHtml(line.trim());
+		parseLine (line, ansi = true) {
+			if (ansi) {
+				const ansiUp = new AnsiUp();
+				ansiUp.use_classes = true;
+				return ansiUp.ansi_to_html(line.trim()) + '<br>';
+			}
+			else {
+				return StripAnsi(line.trim()) + '<br>';
+			}
 		},
 		appendIntro (line, stderr = false) {
 			try {
@@ -439,6 +451,11 @@ export default {
 					height: 100%;
 
 					.vue-command {
+						.term-bar,
+						.term-std {
+							background-color: transparent !important;
+						}
+
 						.term-std {
 							min-height: 100%;
 							height: unset;

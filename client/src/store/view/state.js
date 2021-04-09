@@ -14,7 +14,7 @@ export default () => ({
 	},
 	loading: [],
 	paneSizes: {
-		examples: 64,
+		examples: 67,
 		topic: 20,
 		guide: 100,
 		code: 50,

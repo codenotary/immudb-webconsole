@@ -12,8 +12,12 @@ import { LiveService } from '@/services/live';
 import {
 	FETCH_LIVE,
 	SET_LIVE_ACTIVE,
-	SET_LIVE_PROMPT,
-	SET_LIVE_INTRO,
+	SET_PROMPT,
+	ADD_HISTORY,
+	ADD_EXECUTED,
+	SET_POINTER,
+	SET_TERM_STDIN,
+	SET_INTRO,
 	SET_CONTAINER_ID,
 	STOP_LIVE,
 } from './constants';
@@ -49,11 +53,23 @@ export default {
 	[SET_LIVE_ACTIVE]({ commit }, payload) {
 		commit(SET_LIVE_ACTIVE, payload);
 	},
-	[SET_LIVE_PROMPT]({ commit }, payload) {
-		commit(SET_LIVE_PROMPT, payload);
+	[SET_PROMPT]({ commit }, payload) {
+		commit(SET_PROMPT, payload);
 	},
-	[SET_LIVE_INTRO]({ commit }, payload) {
-		commit(SET_LIVE_INTRO, payload);
+	[ADD_HISTORY]({ commit }, payload) {
+		commit(ADD_HISTORY, payload);
+	},
+	[ADD_EXECUTED]({ commit }, payload) {
+		commit(ADD_EXECUTED, payload);
+	},
+	[SET_POINTER]({ commit }, payload) {
+		commit(SET_POINTER, payload);
+	},
+	[SET_TERM_STDIN]({ commit }, payload) {
+		commit(SET_TERM_STDIN, payload);
+	},
+	[SET_INTRO]({ commit }, payload) {
+		commit(SET_INTRO, payload);
 	},
 	[SET_CONTAINER_ID]({ commit }, payload) {
 		commit(SET_CONTAINER_ID, payload);

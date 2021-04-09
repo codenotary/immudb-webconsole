@@ -42,21 +42,21 @@
 							<LazyGuide />
 						</pane>
 						<pane
-							v-if="showCode"
-						>
-							<LazyCode
-								:size.sync="sizes.code"
-								:min-size="getConstraints.code.minSize"
-								:max-size="getConstraints.code.maxSize"
-							/>
-						</pane>
-						<pane
 							v-if="!showCode && showLive"
 						>
 							<LazyLive
 								:size.sync="sizes.live"
 								:min-size="getConstraints.live.minSize"
 								:max-size="getConstraints.live.maxSize"
+							/>
+						</pane>
+						<pane
+							v-if="!showLive && showCode"
+						>
+							<LazyCode
+								:size.sync="sizes.code"
+								:min-size="getConstraints.code.minSize"
+								:max-size="getConstraints.code.maxSize"
 							/>
 						</pane>
 					</splitpanes>
@@ -68,6 +68,7 @@
 			:min-size="getConstraints.output.minSize"
 			:max-size="getConstraints.output.maxSize"
 		>
+			<!-- S; {{ sizes }} SHOW { CODE: {{ !!showCode }} LIVE: {{ !!showLive }} } -->
 			<LazyOutput
 				:sizes="sizes.output"
 			/>
@@ -179,12 +180,12 @@ export default {
 			}
 			else {
 				return {
-					examples: { minSize: 20, maxSize: 80 },
-					topic: { minSize: 20, maxSize: 40 },
-					guide: { minSize: 20, maxSize: 100 },
-					code: { minSize: 20, maxSize: 100 },
-					live: { minSize: 20, maxSize: 100 },
-					output: { minSize: 20, maxSize: 80 },
+					examples: { minSize: 0, maxSize: 100 },
+					topic: { minSize: 0, maxSize: 100 },
+					guide: { minSize: 0, maxSize: 100 },
+					code: { minSize: 0, maxSize: 100 },
+					live: { minSize: 0, maxSize: 100 },
+					output: { minSize: 0, maxSize: 100 },
 				};
 			}
 		},
@@ -203,11 +204,11 @@ export default {
 			}
 			else {
 				this.setPaneSizes({
-					examples: 64,
+					examples: 67,
 					topic: 15,
 					guide: 100,
-					code: 0,
-					live: 0,
+					code: 50,
+					live: 50,
 					output: 33,
 				});
 			}
@@ -224,6 +225,7 @@ export default {
 		},
 		activeTopic: {
 			deep: true,
+			immediate: true,
 			async handler (newVal) {
 				const topicParam = this.getParam(PARAMS.TOPIC) || 'welcome';
 				const topic = await this.$content('guides', topicParam).fetch();
@@ -232,6 +234,16 @@ export default {
 				this.setLiveActive({ active: live });
 				this.fetchCode({ code });
 				!this.containerId && this.fetchLive({ live });
+
+				setTimeout(() => {
+					console.log(code, live);
+					// update pane sizes
+					this.setPaneSizes({
+						guide: code || live ? 50 : 100,
+						code: code ? 50 : 0,
+						live: live ? 50 : 0,
+					});
+				}, 30);
 			},
 		},
 		containerId: {

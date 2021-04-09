@@ -194,3 +194,16 @@ export default {
 	},
 };
 </script>
+
+<style lang="scss">
+#Guide {
+	.toolbar-item {
+		margin-right: $spacer-2;
+	}
+
+	pre {
+		display: flex;
+		background: #222;
+	}
+}
+</style>
