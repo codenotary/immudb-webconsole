@@ -1,5 +1,5 @@
 ---
-title: Safe operations
+title: Verifying safe operations
 sort: 30
 live: true
 active: true
@@ -9,13 +9,13 @@ In the past examples, we have seen the use of set and get, as well as a demonstr
 
 The set and get commands have "safe" counterparts, safeset and safeget. These commands use hashing to verify the Merkle tree's integrity.
 
-The following example will work best by viewing the Merkle tree in the preview below. Let's run the following:
+If there are existing transactions, then the safeset command will index all transactions and verify the mathematical consistency of the previous database state. You should see that `verified` is set to true. Let's run the following:
 
 ```
 immuclient> safeset 1 baz
 ```
 
-If there are existing transactions, then the safeset command will index all transactions. You should see that `verified` is set to true. Let's run the following:
+Likewise, we can fetch a value from the database, checking that the value we get is mathematically consistent with the database state:
 
 ```
 immuclient> safeget 1

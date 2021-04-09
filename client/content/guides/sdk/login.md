@@ -1,11 +1,16 @@
 ---
-title: Logging into the immudb server
+title: Logging into immudb
 sort: 0
 code: login
 active: true
 ---
 
+Before any operations can be run by immuclient, it is necessary to authenticate against the running immudb server.
 
-As a first step, we are learning to connect to an immudb running server. Immudb is immediatly ready to use with a default database out of the box, a default user and a default password. The database is called **defaultdb**, while the default user is called **immudb** with password **immudb**.
+When immudb is first run, it is ready to use immediately with the default database and credentials:
 
-In this example we import the client class from immudb-py package, we establish a connection with the database and then login with default credentials
+- Database name: **defaultdb**
+- User: **immudb**
+- Password: **immudb**
+
+In this example we import the client class from immudb-py package, establish a connection with the database, and then login with default credentials.

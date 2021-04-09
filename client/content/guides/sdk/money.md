@@ -1,8 +1,8 @@
 ---
-title: Money
-sort: 30
+title: "Example: Money transfer notarization"
+sort: 60
 code: money
 active: true
 ---
 
-In this example you will see a basic abstraction of a money transfer data storing using immudb
+Putting it all together, in this example you will see a basic abstraction of a money transfer data storing program using immudb. 
