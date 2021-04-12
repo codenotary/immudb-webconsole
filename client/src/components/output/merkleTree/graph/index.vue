@@ -5,6 +5,7 @@
 		<OutputMerkleTreeGraphMetrics
 			id="MerkleTreeGraphMetrics"
 			:metrics="metrics"
+			:warning-threshold="warningThreshold"
 		/>
 		<OutputMerkleTreeGraphCommands
 			id="MerkleTreeGraphCommands"
@@ -22,12 +23,12 @@
 				layout-type="vertical"
 				node-text-display="all"
 				link-layout="bezier"
-				:duration="300"
+				:duration="getDuration"
 				node-text="label"
 				:min-zoom="0.3"
 				:max-zoom="9"
-				:margin-y="16"
-				:margin-x="16"
+				:margin-y="getMargin.y"
+				:margin-x="getMargin.x"
 				:radius="10"
 				:stroke-width="4"
 				zoomable
@@ -36,30 +37,31 @@
 				<template
 					#node="{ data, node: {depth}, radius }"
 				>
-					<template>
-						<g
-							:class="`d3-${ data.children && data.children.length
-								? depth === 0
-									? 'root'
-									: 'node'
-								: 'leaf'
-							} theme--${ $vuetify.theme.dark ? 'dark' : 'light' }`"
-						>
-							<circle
-								class="d3-circle"
-								:r="radius"
-							>
-								<title>
-									{{ data.data.htree }}
-								</title>
-							</circle>
-							<text
-								class="d3-text"
-								:text="`${ data.text } - ${ depth }`"
-								:label="`${ data.text } - ${ depth }`"
-							/>
-						</g>
-					</template>
+					<circle
+						class="d3-circle"
+						:class="`d3-${ data.children && data.children.length
+							? depth === 0
+								? 'root'
+								: 'node'
+							: 'leaf'
+						} theme--${ $vuetify.theme.dark ? 'dark' : 'light' }`"
+						:r="radius"
+					>
+						<title>
+							{{ data.data.htree }}
+						</title>
+					</circle>
+					<text
+						class="d3-text"
+						:class="`d3-${ data.children && data.children.length
+							? depth === 0
+								? 'root'
+								: 'node'
+							: 'leaf'
+						} theme--${ $vuetify.theme.dark ? 'dark' : 'light' }`"
+						:text="`${ data.label }`"
+						:label="`${ data.label }`"
+					/>
 				</template>
 				<template #popUp="{ data, node }">
 					<OutputMerkleTreeGraphPopUp
@@ -87,6 +89,7 @@ import {
 	VIEW_MODULE,
 	PANE_SIZES,
 } from '@/store/view/constants';
+
 import NoSSR from 'vue-no-ssr';
 import { tree, popUpOnHoverText } from 'vued3tree';
 
@@ -100,7 +103,7 @@ export default {
 	props: {
 		graph: { type: Object, default: () => {} },
 		metrics: { type: Object, default: () => {} },
-		size: { type: Number, default: 1 },
+		warningThreshold: { type: Number, default: 64 },
 	},
 	data () {
 		return {
@@ -124,7 +127,33 @@ export default {
 			return 600;
 		},
 		getMargin () {
-			return this.size * 20;
+			const { size } = this.metrics || { size: 16 };
+
+			return {
+				y: size * -2,
+				x: size * -8,
+			};
+		},
+		getDuration () {
+			const { size } = this.metrics || { size: this.warningThreshold + 1 };
+
+			return size > 64 ? 30 : 300;
+		},
+	},
+	watch: {
+		metrics: {
+			deep: true,
+			handler (newVal) {
+				if (newVal) {
+					const { size } = newVal;
+
+					if (size > this.warningThreshold) {
+						this.$toasted.info(this.$t('output.merkleTree.warning.title'), {
+							duration: 5000,
+						});
+					}
+				}
+			},
 		},
 	},
 	methods: {
@@ -179,65 +208,64 @@ export default {
 	}
 
 	g.node {
-		g.d3- {
-			&root,
-			&node,
-			&leaf {
-				.d3-circle {
+		.d3-circle {
+			&.d3- {
+				&root,
+				&node,
+				&leaf {
 					stroke: none !important;
 				}
 
-				.d3-text {
-					stroke: none !important;
-					font-size: 0.875rem !important;
-					font-weight: 700 !important;
-					text-shadow: none !important;
-					text-anchor: middle !important;
-				}
-
-				&.theme--dark {
-					fill: #f1f1f1 !important;
-				}
-
-				&.theme--light {
-					fill: #111 !important;
-				}
-			}
-
-			&root {
-				.d3-circle {
+				&root {
 					fill: #1976d2 !important;
 				}
 
-				.d3-text {
+				&node {
+					fill: #999 !important;
+				}
+
+				&leaf {
+					fill: #4caf50 !important;
+				}
+			}
+		}
+
+		.d3-text {
+			&.d3- {
+				&root,
+				&node,
+				&leaf {
+					stroke: none !important;
+					text-shadow: none !important;
+					font-size: 0.875rem !important;
+					font-weight: 700;
+
+					&.theme--dark {
+						fill: #f1f1f1 !important;
+					}
+
+					&.theme--light {
+						fill: #111 !important;
+					}
+				}
+
+				&root {
 					font-size: 1rem !important;
 					transform:
 						rotate(270deg)
 						translate(0, -$spacer-2) !important;
 				}
-			}
 
-			&node {
-				.d3-circle {
-					fill: #999 !important;
-				}
-
-				.d3-text {
+				&node {
 					transform:
 						rotate(270deg)
 						translate($spacer-2, $spacer-12) !important;
 				}
-			}
 
-			&leaf {
-				.d3-circle {
-					fill: #4caf50 !important;
-				}
-
-				.d3-text {
+				&leaf {
 					transform:
 						rotate(0deg)
-						translate($spacer-12, $spacer-1) !important;
+						translate($spacer-4, $spacer-1) !important;
 				}
 			}
 		}

@@ -3,5 +3,5 @@ import Toasted from 'vue-toasted';
 
 Vue.use(Toasted, {
 	duration: 2000,
-	iconPack: 'fontawesome',
+	iconPack: 'mdi',
 });

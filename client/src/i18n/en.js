@@ -77,6 +77,9 @@ export default {
 					save: 'Export Merkle tree as image.',
 				},
 			},
+			warning: {
+				title: 'The Merkle Tree size is exceeding the scope of the playground and the\n graph may result glitched.',
+			},
 		},
 		metrics: {
 			verified: 'Verified',

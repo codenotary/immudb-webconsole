@@ -64,6 +64,27 @@
 							class="ma-0 py-0 px-4 caption text-right"
 						>
 							{{ item && item.value }}
+							<v-tooltip
+								v-if="showWarning"
+								right
+								:max-width="160"
+								color="warning"
+							>
+								<template v-slot:activator="{ on, attrs }">
+									<v-icon
+										class="ma-0 ml-2 pa-0"
+										color="warning"
+										:size="18"
+										v-bind="attrs"
+										v-on="on"
+									>
+										{{ mdiAlert }}
+									</v-icon>
+								</template>
+								<span>
+									{{ $t('output.merkleTree.warning.title') }}
+								</span>
+							</v-tooltip>
 						</td>
 					</tr>
 				</tbody>
@@ -117,17 +138,20 @@
 import {
 	mdiImageFilterCenterFocus,
 	mdiCircle,
+	mdiAlert,
 } from '@mdi/js';
 
 export default {
 	name: 'OutputMerkleTreeGraphMetrics',
 	props: {
 		metrics: { type: Object, default: () => {} },
+		warningThreshold: { type: Number, default: 64 },
 	},
 	data () {
 		return {
 			mdiImageFilterCenterFocus,
 			mdiCircle,
+			mdiAlert,
 		};
 	},
 	computed: {
@@ -143,6 +167,11 @@ export default {
 						});
 			}
 			return [];
+		},
+		showWarning () {
+			const { size } = this.metrics || { size: 65 };
+
+			return size > this.warningThreshold;
 		},
 	},
 	methods: {
