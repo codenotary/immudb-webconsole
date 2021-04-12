@@ -7,7 +7,8 @@
 			id="TheBanner"
 			@mouseenter.native="bannerHover = true"
 			@mouseleave.native="hobannerHoverver = false"
-			@close="bannerOpen = false"
+			@submit="onSubmitBanner"
+			@close="onCloseBanner"
 		/>
 		<TheNavigationDrawer />
 		<TheAppBar
@@ -31,6 +32,7 @@ import {
 import LayoutMixin from '@/mixins/LayoutMixin';
 
 const ACTIVATION_DELAY = 3000;
+const BANNER_COOKIE = 'starImmudbBannerCookie';
 
 export default {
 	mixins: [
@@ -50,7 +52,9 @@ export default {
 	},
 	mounted () {
 		setTimeout(() => {
-			this.active = true;
+			if (!this.$cookies.get(BANNER_COOKIE)) {
+				this.active = true;
+			}
 		}, ACTIVATION_DELAY);
 	},
 	methods: {
@@ -65,6 +69,14 @@ export default {
 					this.$vuetify.theme.dark = data === 'dark';
 				}, 0);
 			}
+		},
+		onSubmitBanner () {
+			this.bannerOpen = false;
+			this.$cookies.set(BANNER_COOKIE, '7D');
+		},
+		onCloseBanner () {
+			this.bannerOpen = false;
+			this.$cookies.set(BANNER_COOKIE, '1D');
 		},
 	},
 };
@@ -83,7 +95,7 @@ export default {
 	}
 
 	.v-main {
-		max-height: calc(100vh - #{$spacer-12} - #{$spacer-6});
+		max-height: calc(100vh - #{$spacer-12});
 		margin-top: $spacer-12;
 
 		@media (max-width: 480px) {

@@ -13,6 +13,7 @@
 			target="_blank"
 			rel="noopener"
 			:alt="$t('banner.title')"
+			@click="onSubmit"
 		>
 			<v-icon
 				class="ma-0 pa-0"
@@ -66,6 +67,9 @@ export default {
 	methods: {
 		onClose () {
 			this.$emit('close');
+		},
+		onSubmit () {
+			this.$emit('submit');
 		},
 	},
 };

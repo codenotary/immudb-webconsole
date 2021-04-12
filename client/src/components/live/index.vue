@@ -152,7 +152,6 @@ export default {
 		/// TODO THIS IS JUST A PATCH, IT SHOULD BE
 		/// REMOVED REFACTORYING THE LIVE VUEX STORE
 		setTimeout(() => {
-			console.log(this.history.length);
 			if (this.history.length < 3) {
 				this.appendDummyStdout();
 				this.intro.finished = true;
@@ -340,16 +339,19 @@ export default {
 				console.error(err);
 			}
 		},
-		appendOutput (line) {
+		appendOutput (line, append = false) {
 			try {
 				const { terminal } = this.$refs;
 				terminal.setIsInProgress(true);
-				this.history
-						.push(
-							this.flux === 'stderr'
-								? createStderr(this.parseLine(line), false, false)
-								: createStdout(this.parseLine(line), false, false, false),
-						);
+				console.log(createStdout(this.parseLine(line), false, false, append));
+				this.$nextTick(() => {
+					this.history
+							.push(
+								this.flux === 'stderr'
+									? createStderr(this.parseLine(line), false, append)
+									: createStdout(this.parseLine(line), false, false, append),
+							);
+				});
 				terminal.setPointer(this.pointer + 1);
 				terminal.setIsInProgress(false);
 			}
@@ -406,20 +408,19 @@ export default {
 			this.onExit();
 		},
 		onHelp () {
-			if (this.isDefaultClient) {
-				this.appendOutput();
-				this.appendOutput('please issue the command \'immuclient\' to enter immuclient interactive mode or just issue \'immuclient --help\'', true);
-			}
-			else {
-				this.sendObj({
-					cmd: undefined,
-					line: 'help\n',
-				});
-			}
+			// if (this.isDefaultClient) {
+			// 	this.appendOutput('please issue the command \'immuclient\' to enter immuclient interactive mode or just issue \'immuclient --help\'', true);
+			// }
+			// else {
+			this.sendObj({
+				cmd: undefined,
+				line: 'help\n',
+			});
+			// }
 		},
 		onBootstrap () {
 			const { terminal } = this.$refs;
-			terminal && terminal.execute(`__bootstrap__${ this.intro.finished ? '' : ' DO_NOT_APPEND' }`);
+			terminal && terminal.execute(`./bootstrap__${ this.intro.finished ? '' : ' _' }`);
 			this.$nextTick(() => this.scrollToBottom());
 		},
 		onLogin () {
