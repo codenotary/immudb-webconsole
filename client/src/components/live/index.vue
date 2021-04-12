@@ -86,6 +86,7 @@ import AnsiUp from 'ansi_up';
 
 const StripAnsi = require('strip-ansi');
 const DEFAULT_PROMPT = 'bash-5.1#';
+const IMMUCLIENT_PROMPT = 'immuclient>';
 
 export default {
 	name: 'Live',
@@ -126,6 +127,12 @@ export default {
 		},
 		showPrompt () {
 			return this.prompt === DEFAULT_PROMPT;
+		},
+		isDefaultClient () {
+			return this.prompt === DEFAULT_PROMPT;
+		},
+		isImmuClient () {
+			return this.prompt === IMMUCLIENT_PROMPT;
 		},
 	},
 	watch: {
@@ -399,10 +406,16 @@ export default {
 			this.onExit();
 		},
 		onHelp () {
-			this.sendObj({
-				cmd: undefined,
-				line: 'immuclient help\n',
-			});
+			if (this.isDefaultClient) {
+				this.appendOutput();
+				this.appendOutput('please issue the command \'immuclient\' to enter immuclient interactive mode or just issue \'immuclient --help\'', true);
+			}
+			else {
+				this.sendObj({
+					cmd: undefined,
+					line: 'help\n',
+				});
+			}
 		},
 		onBootstrap () {
 			const { terminal } = this.$refs;
@@ -410,7 +423,7 @@ export default {
 			this.$nextTick(() => this.scrollToBottom());
 		},
 		onLogin () {
-			if (this.prompt !== DEFAULT_PROMPT) {
+			if (!this.isDefaultClient) {
 				// send login message to WS
 				this.sendObj({
 					cmd: undefined,
@@ -422,7 +435,7 @@ export default {
 			}
 		},
 		onExit () {
-			if (this.prompt !== DEFAULT_PROMPT) {
+			if (!this.isDefaultClient) {
 				// send exit message to WS
 				this.sendObj({
 					cmd: undefined,

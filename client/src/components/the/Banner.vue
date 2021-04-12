@@ -2,7 +2,7 @@
 	<v-system-bar
 		v-if="open"
 		id="TheBanner"
-		class="primary d-flex justify-center align-center"
+		class="primary darken-1 d-flex justify-center align-center"
 		fixed
 		app
 	>
