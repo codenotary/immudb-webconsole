@@ -37,6 +37,7 @@
 						depressed
 						text
 						href="https://en.wikipedia.org/wiki/Merkle_tree"
+						target="_blank"
 						rel="noopener"
 						:alt="$t('common.moreInfo')"
 					>
