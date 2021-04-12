@@ -120,6 +120,7 @@ let KEEPALIVE_INTERVAL_ID;
 
 export default {
 	name: 'Dashboard',
+	layout: 'with-banner',
 	components: {
 		Splitpanes,
 		Pane,

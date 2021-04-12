@@ -1,5 +1,8 @@
 export default {
 	title: 'immudb playground',
+	banner: {
+		title: 'Start immudb on github',
+	},
 	common: {
 		codenotary: 'CodeNotary',
 		immudb: 'immudb',
