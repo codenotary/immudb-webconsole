@@ -1,6 +1,7 @@
 <template>
 	<splitpanes
-		class="playground-theme py-0 pr-4"
+		id="PlaygroundTheme"
+		class="py-0 pr-4"
 		:class="`theme--${ $vuetify.theme.dark ? 'dark' : 'light' }`"
 		horizontal
 		:push-other-panes="true"
@@ -340,7 +341,7 @@ export default {
 </script>
 
 <style lang="scss">
-.playground-theme {
+#PlaygroundTheme {
 	height: 100% !important;
 	max-height: 100% !important;
 	padding: 0 $spacer-3 0 0;

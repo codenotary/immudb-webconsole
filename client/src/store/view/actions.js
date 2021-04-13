@@ -8,7 +8,7 @@ import {
 	ADD_BREADCRUMBS,
 	POP_LOADING,
 	PUSH_LOADING,
-	STORE_NUXT_HYDRATED,
+	SET_NUXT_HYDRATED,
 	SET_PANE_SIZES,
 } from './constants';
 
@@ -43,7 +43,7 @@ export default {
 	[SET_PANE_SIZES]({ commit }, payload) {
 		commit(SET_PANE_SIZES, payload);
 	},
-	[STORE_NUXT_HYDRATED]({ commit }, payload) {
-		commit(STORE_NUXT_HYDRATED, payload);
+	[SET_NUXT_HYDRATED]({ commit }, payload) {
+		commit(SET_NUXT_HYDRATED, payload);
 	},
 };

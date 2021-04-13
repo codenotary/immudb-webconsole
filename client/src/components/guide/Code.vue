@@ -9,7 +9,7 @@
 			class="ma-0 pa-0 d-flex flex-row justify-start align-center fill-width"
 		>
 			<span
-				class="ma-0 pa-0"
+				class="ma-0 pa-0 white--text"
 				style="width: 33%;"
 			>
 				{{ item.prompt }}

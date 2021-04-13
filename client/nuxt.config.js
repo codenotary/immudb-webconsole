@@ -4,9 +4,6 @@ import Sass from 'sass';
 const IS_PROD = process.env.NODE_ENV === 'production';
 const EXPERIMENTAL = false && !IS_PROD;
 
-const DEFAULT_THEME = 'dark';
-const UI_THEME = process.env.UI_THEME || DEFAULT_THEME;
-
 export default {
 	/*
 	** Ssr propery
@@ -196,6 +193,7 @@ export default {
 	** https://nuxtjs.org/guide/plugins
 	*/
 	plugins: [
+		{ src: '~/plugins/vee-validate.js', ssr: false },
 		{ src: '~/plugins/vue-clipboards.js', ssr: false },
 		{ src: '~/plugins/vue-command.js', ssr: false },
 		{ src: '~/plugins/vue-cookies.js', ssr: false },
@@ -204,8 +202,8 @@ export default {
 		{ src: '~/plugins/vue-native-websocket.client.js', ssr: false },
 		{ src: '~/plugins/vue-prism-editor.js', ssr: false },
 		{ src: '~/plugins/vue-toasted.js', ssr: false },
-		{ src: '~/plugins/vee-validate.js', ssr: false },
 		{ src: '~/plugins/vue-worker.js', ssr: false },
+		{ src: '~/plugins/vuex-persist.js', ssr: false },
 	],
 
 	/*
@@ -330,7 +328,6 @@ export default {
 	** https://nuxtjs.org/api/configuration-env/
 	*/
 	env: {
-		UI_THEME,
 		API_URL: process.env.API_URL || '/api/v1/',
 		WEBSOCKET_URL: process.env.WEBSOCKET_URL || '/api/v1/',
 		GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID || '',
@@ -415,7 +412,7 @@ export default {
 				customProperties: true,
 				variations: true,
 			},
-			dark: UI_THEME === 'dark',
+			dark: true,
 			themes: {
 				light: {
 					primary: '#1976d2',
