@@ -6,7 +6,7 @@
 		<TheBanner
 			id="TheBanner"
 			@mouseenter.native="bannerHover = true"
-			@mouseleave.native="hobannerHoverver = false"
+			@mouseleave.native="bannerHover = false"
 			@submit="onSubmitBanner"
 			@close="onCloseBanner"
 		/>
