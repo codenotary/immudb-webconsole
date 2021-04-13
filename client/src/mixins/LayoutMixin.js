@@ -6,7 +6,7 @@ import {
 	IS_LOADING,
 	SET_THEME,
 	SET_MOBILE,
-	STORE_NUXT_HYDRATED,
+	SET_NUXT_HYDRATED,
 } from '@/store/view';
 
 export default {
@@ -30,14 +30,8 @@ export default {
 			}, 0);
 		},
 	},
-	created () {
-		// add theme class to body,
-		// to allow customization of scrollbar color
-		this.toggleBodyClass(`theme--${ process.env.UI_THEME }`);
-		this.storeTheme(process.env.UI_THEME);
-	},
 	mounted () {
-		this.storeNuxtHydrated(true);
+		this.setNuxtHydrated(true);
 		this.onResize();
 
 		if (typeof window !== 'undefined') {
@@ -53,12 +47,12 @@ export default {
 	},
 	methods: {
 		...mapActions(VIEW_MODULE, {
-			storeTheme: SET_THEME,
-			storeMobile: SET_MOBILE,
-			storeNuxtHydrated: STORE_NUXT_HYDRATED,
+			setTheme: SET_THEME,
+			setMobile: SET_MOBILE,
+			setNuxtHydrated: SET_NUXT_HYDRATED,
 		}),
 		onResize () {
-			this.storeMobile(window.innerWidth < 600);
+			this.setMobile(window.innerWidth < 600);
 		},
 		toggleBodyClass(className, add = true) {
 			// const el = document && document.body;

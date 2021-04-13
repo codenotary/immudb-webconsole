@@ -6,7 +6,7 @@
 		<TheBanner
 			id="TheBanner"
 			@mouseenter.native="bannerHover = true"
-			@mouseleave.native="hobannerHoverver = false"
+			@mouseleave.native="bannerHover = false"
 			@submit="onSubmitBanner"
 			@close="onCloseBanner"
 		/>
@@ -95,7 +95,7 @@ export default {
 	}
 
 	.v-main {
-		max-height: calc(100vh - #{$spacer-12});
+		max-height: calc(100vh - #{$spacer-11});
 		margin-top: $spacer-12;
 
 		@media (max-width: 480px) {

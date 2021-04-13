@@ -9,7 +9,7 @@ import {
 	PUSH_LOADING,
 	POP_LOADING,
 	SET_PANE_SIZES,
-	STORE_NUXT_HYDRATED,
+	SET_NUXT_HYDRATED,
 } from './constants';
 
 export default {
@@ -58,7 +58,7 @@ export default {
 		live !== undefined && (state.paneSizes.live = live);
 		output !== undefined && (state.paneSizes.output = output);
 	},
-	[STORE_NUXT_HYDRATED](state, payload) {
+	[SET_NUXT_HYDRATED](state, payload) {
 		state.nuxtHydrated = payload;
 	},
 };
