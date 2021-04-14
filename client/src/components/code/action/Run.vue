@@ -10,8 +10,8 @@
 				small
 				primary
 				:alt="$t('code.run')"
-				:loading="isLoading"
-				:disabled="isLoading || !code"
+				:loading="isLoading || loading"
+				:disabled="isLoading || !code || loading"
 				v-bind="attrs"
 				v-on="on"
 				@click="onSubmit"
@@ -64,6 +64,7 @@ export default {
 	data () {
 		return {
 			mdiPlay,
+			loading: false,
 		};
 	},
 	computed: {
@@ -73,6 +74,11 @@ export default {
 	},
 	methods: {
 		onSubmit () {
+			this.loading = true;
+			// TODO: implement a loding WS logic
+			setTimeout(() => {
+				this.loading = false;
+			}, 600);
 			this.$emit('submit');
 		},
 	},
