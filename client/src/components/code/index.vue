@@ -168,7 +168,7 @@ export default {
 			try {
 				await this.sendObj({
 					code: this.code || '',
-					language: this.activeLanguage || '',
+					language: this.activeLanguage.label || '',
 				});
 			}
 			catch (err) {
