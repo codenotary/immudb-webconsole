@@ -21,6 +21,7 @@ export default ({ store }) => {
 		store: storeWebsocket,
 		connectManually: true,
 		passToStoreHandler: (eventName, event) => {
+			console.log(eventName);
 			if (!eventName.startsWith('SOCKET_')) {
 				return;
 			}

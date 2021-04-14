@@ -6,10 +6,18 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import {
+	LIVE_MODULE,
+	INTRO,
+} from '@/store/live/constants';
+
 export default {
 	name: 'LiveIntro',
-	inject: ['terminate', 'intro'],
 	computed: {
+		...mapGetters(LIVE_MODULE, {
+			intro: INTRO,
+		}),
 		sanitizeIntro () {
 			if (this.intro) {
 				const { value } = this.intro;

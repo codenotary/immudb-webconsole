@@ -64,17 +64,19 @@ import {
 } from '@/store/view/constants';
 import {
 	OUTPUT_MODULE,
-	RUN_CODE,
 	RESET_IMMUDB,
 	RESET_MERKLE_TREE,
 	RESET_OUTPUT,
-	IMMUDB,
-	TOKEN,
 } from '@/store/output/constants';
 import {
 	CODE_MODULE,
 	ACTIVE_CODE,
+	ACTIVE_LANGUAGE,
 } from '@/store/code/constants';
+import {
+	WEBSOCKET_MODULE,
+	SOCKET_OBJ_MESSAGE,
+} from '@/store/websocket/constants';
 import {
 	mdiXml,
 } from '@mdi/js';
@@ -102,10 +104,7 @@ export default {
 		}),
 		...mapGetters(CODE_MODULE, {
 			activeCode: ACTIVE_CODE,
-		}),
-		...mapGetters(OUTPUT_MODULE, {
-			immudb: IMMUDB,
-			token: TOKEN,
+			activeLanguage: ACTIVE_LANGUAGE,
 		}),
 	},
 	watch: {
@@ -142,8 +141,10 @@ export default {
 		document.removeEventListener('keydown', this._keyListener);
 	},
 	methods: {
+		...mapActions(WEBSOCKET_MODULE, {
+			sendObj: SOCKET_OBJ_MESSAGE,
+		}),
 		...mapActions(OUTPUT_MODULE, {
-			runCode: RUN_CODE,
 			resetImmudb: RESET_IMMUDB,
 			resetMerkleTree: RESET_MERKLE_TREE,
 			resetOutput: RESET_OUTPUT,
@@ -165,10 +166,9 @@ export default {
 		},
 		async onSubmit () {
 			try {
-				await this.runCode({
+				await this.sendObj({
 					code: this.code || '',
-					immudb: this.immudb || '',
-					token: this.token || '',
+					language: this.activeLanguage || '',
 				});
 			}
 			catch (err) {

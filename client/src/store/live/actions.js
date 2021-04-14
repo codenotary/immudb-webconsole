@@ -1,3 +1,4 @@
+import { createStdout, createStderr, createDummyStdout } from 'vue-command';
 import {
 	VIEW_MODULE,
 	PUSH_LOADING,
@@ -9,21 +10,28 @@ import {
 	TOKEN,
 } from '@/store/output/constants';
 import { LiveService } from '@/services/live';
+import parseAnsi from '@/helpers/parseAnsi';
 import {
 	FETCH_LIVE,
 	SET_LIVE_ACTIVE,
+	SET_IN_PROGRESS,
 	SET_PROMPT,
-	ADD_HISTORY,
-	ADD_EXECUTED,
+	SET_HISTORY,
+	SET_EXECUTED,
 	SET_POINTER,
 	SET_TERM_STDIN,
 	SET_INTRO,
 	SET_CONTAINER_ID,
+	CLEAR_OUTPUT,
+	APPEND_DUMMY_OUTPUT,
+	APPEND_OUTPUT,
+	APPEND_EXECUTED,
 	STOP_LIVE,
+	SET_COMMAND,
 } from './constants';
 
 export default {
-	async [FETCH_LIVE]({ commit, rootGetters }, payload) {
+	async [FETCH_LIVE]({ commit, rootGetters }) {
 		const LOADING_LABEL = 'fetchLive';
 		try {
 			const immudb = rootGetters[`${ OUTPUT_MODULE }/${ IMMUDB }`];
@@ -53,14 +61,53 @@ export default {
 	[SET_LIVE_ACTIVE]({ commit }, payload) {
 		commit(SET_LIVE_ACTIVE, payload);
 	},
+	[SET_IN_PROGRESS]({ commit }, payload) {
+		commit(SET_IN_PROGRESS, payload);
+	},
 	[SET_PROMPT]({ commit }, payload) {
 		commit(SET_PROMPT, payload);
 	},
-	[ADD_HISTORY]({ commit }, payload) {
-		commit(ADD_HISTORY, payload);
+	[CLEAR_OUTPUT]({ commit }) {
+		commit(SET_IN_PROGRESS, true);
+		commit(SET_TERM_STDIN, '');
+		commit(SET_HISTORY, [createDummyStdout()]);
+		commit(SET_IN_PROGRESS, false);
 	},
-	[ADD_EXECUTED]({ commit }, payload) {
-		commit(ADD_EXECUTED, payload);
+	[APPEND_DUMMY_OUTPUT]({ commit }) {
+		try {
+			commit(SET_IN_PROGRESS, true);
+			commit(APPEND_OUTPUT, createDummyStdout());
+			commit(SET_IN_PROGRESS, false);
+		}
+		catch (err) {
+			console.error(err);
+		}
+	},
+	[APPEND_OUTPUT]({ commit, state }, payload) {
+		try {
+			if (payload) {
+				commit(SET_IN_PROGRESS, true);
+				const { line, flux, append } = payload;
+				commit(APPEND_OUTPUT, flux === 'stderr'
+					? createStderr(parseAnsi(line), false, append)
+					: createStdout(parseAnsi(line), false, false, append),
+				);
+				commit(SET_POINTER, state.pointer + 1);
+				commit(SET_IN_PROGRESS, false);
+			}
+		}
+		catch (err) {
+			console.error(err);
+		}
+	},
+	[APPEND_EXECUTED]({ commit }, payload) {
+		commit(APPEND_EXECUTED, payload);
+	},
+	[SET_HISTORY]({ commit }, payload) {
+		commit(SET_HISTORY, payload);
+	},
+	[SET_EXECUTED]({ commit }, payload) {
+		commit(SET_EXECUTED, payload);
 	},
 	[SET_POINTER]({ commit }, payload) {
 		commit(SET_POINTER, payload);
@@ -73,6 +120,9 @@ export default {
 	},
 	[SET_CONTAINER_ID]({ commit }, payload) {
 		commit(SET_CONTAINER_ID, payload);
+	},
+	[SET_COMMAND]({ commit }, payload) {
+		commit(SET_COMMAND, payload);
 	},
 	async [STOP_LIVE]({ commit, state }) {
 		const LOADING_LABEL = 'stopLive';

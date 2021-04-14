@@ -81,6 +81,7 @@
 import { mapActions, mapGetters } from 'vuex';
 import LayoutMixin from '@/mixins/LayoutMixin';
 import { ParamMixin, PARAMS } from '@/mixins/ParamMixin';
+import WebsocketMessagesMixin from '@/mixins/WebsocketMessagesMixin';
 import { metaTitle } from '@/helpers/meta';
 import {
 	TOPIC_MODULE,
@@ -129,6 +130,7 @@ export default {
 	mixins: [
 		LayoutMixin,
 		ParamMixin,
+		WebsocketMessagesMixin,
 	],
 	async fetch() {
 		try {
@@ -227,7 +229,7 @@ export default {
 		},
 		activeTopic: {
 			deep: true,
-			immediate: true,
+			immediate: false,
 			async handler (newVal) {
 				const topicParam = this.getParam(PARAMS.TOPIC) || 'welcome';
 				const topic = await this.$content('guides', topicParam).fetch();
@@ -235,10 +237,8 @@ export default {
 				this.setActiveGuide(topic);
 				this.setLiveActive({ active: live });
 				this.fetchCode({ code });
-				!this.containerId && this.fetchLive({ live });
 
 				setTimeout(() => {
-					// console.log(code, live);
 					// update pane sizes
 					this.setPaneSizes({
 						guide: code || live ? 50 : 100,
@@ -267,6 +267,8 @@ export default {
 	},
 	async beforeMount () {
 		window.addEventListener('beforeunload', await this.onPageClose);
+
+		!this.containerId && await this.fetchLive();
 	},
 	mounted () {
 		// track google analytics pageview

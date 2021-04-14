@@ -1,15 +1,33 @@
-import { mapActions } from 'vuex';
-import { createStdout, createStderr, createDummyStdout } from 'vue-command';
+import { mapActions, mapGetters } from 'vuex';
+import {
+	OUTPUT_MODULE,
+	APPEND_CODE_OUTPUT,
+	APPEND_IMMUDB,
+} from '@/store/output/constants';
 import {
 	LIVE_MODULE,
-	SET_PROMPT,
 	SET_INTRO,
+	SET_PROMPT,
+	APPEND_DUMMY_OUTPUT,
+	APPEND_OUTPUT,
+	APPEND_EXECUTED,
+	INTRO,
+	DEFAULT_PROMPT,
 } from '@/store/live/constants';
-import LiveIntro from '@/components/live/Intro';
-const AnsiToHtml = require('ansi-to-html');
+import {
+	MESSAGE_TYPES,
+} from '@/store/websocket/constants';
+import parseAnsi from '@/helpers/parseAnsi';
+
+const INTRO_END_MSG = '--MARK--\n';
 
 export default {
-	name: 'LiveTerminalMixin',
+	name: 'WebsocketMessagesMixin',
+	computed: {
+		...mapGetters(LIVE_MODULE, {
+			intro: INTRO,
+		}),
+	},
 	mounted () {
 		// manage websocket messages
 		this.$options.sockets.onmessage = (event) => {
@@ -33,14 +51,17 @@ export default {
 		};
 	},
 	methods: {
-		...mapActions(LIVE_MODULE, {
-			setLivePrompt: SET_PROMPT,
-			setLiveIntro: SET_INTRO,
+		...mapActions(OUTPUT_MODULE, {
+			appendCodeOutput: APPEND_CODE_OUTPUT,
+			appendImmudb: APPEND_IMMUDB,
 		}),
-		appendDummyStdout () {
-			this.history
-					.push(createDummyStdout());
-		},
+		...mapActions(LIVE_MODULE, {
+			setPrompt: SET_PROMPT,
+			setIntro: SET_INTRO,
+			appendDummyOutput: APPEND_DUMMY_OUTPUT,
+			appendOutput: APPEND_OUTPUT,
+			appendExecuted: APPEND_EXECUTED,
+		}),
 		parseMsg (data) {
 			const { type } = data;
 			if (type === MESSAGE_TYPES.CONSOLE) {
@@ -53,7 +74,7 @@ export default {
 		async parseConsoleMsg (data) {
 			const { line } = data;
 
-			// updated code output
+			// updated store output code
 			data && this.appendCodeOutput(data);
 
 			if (line) {
@@ -63,9 +84,9 @@ export default {
 						.filter(_ => !!_);
 
 				// parse msg
-				if (line === '--MARK--\n') {
+				if (line === INTRO_END_MSG) {
 					const { value } = this.intro || { value: '' };
-					this.setLiveIntro({
+					this.setIntro({
 						finished: true,
 						value: `${ value }<br>`,
 					});
@@ -76,30 +97,27 @@ export default {
 					await this.parseConsoleMsg({ line: line.substring(idx, line.length) });
 				}
 				else if (!line.endsWith('\n')) {
-					this.setLivePrompt({
+					this.setPrompt({
 						prompt: line,
 					});
-					this.appendDummyStdout();
+					this.appendDummyOutput();
 				}
 				else if (/^\s*$/.test(line)) {
 					// console.error('SKIP: just new line');
 				}
 				else {
 					// reset default prompt
-					this.setLivePrompt({
+					this.setPrompt({
 						prompt: DEFAULT_PROMPT,
 					});
 
 					// append live terminal output
 					if (this.intro.finished) {
-						this.appendOutput(line);
+						this.$nextTick(() => this.appendOutput({ line }));
 					}
 					else {
-						this.appendIntro(line);
+						this.parseIntro(line);
 					}
-
-					// scroll to latest row
-					this.scrollToBottom();
 				}
 			}
 		},
@@ -114,39 +132,12 @@ export default {
 				verified,
 			});
 		},
-		parseLine (line) {
-			const ansi = new AnsiToHtml();
-			return ansi.toHtml(line.trim(), {
-				fg: '#FFF',
-				bg: '#000',
-				newline: true,
-				escapeXML: true,
-				stream: true,
-			});
-		},
-		appendIntro (line, stderr = false) {
+		parseIntro (line) {
 			try {
 				const { value } = this.intro || { value: '' };
-				this.setLiveIntro({
-					value: `${ value }${ this.parseLine(line) }`,
+				this.setIntro({
+					value: `${ value }${ parseAnsi(line) }<br>`,
 				});
-			}
-			catch (err) {
-				console.error(err);
-			}
-		},
-		appendOutput (line) {
-			try {
-				const { terminal } = this.$refs;
-				terminal.setIsInProgress(true);
-				this.history
-						.push(
-							this.flux === 'stderr'
-								? createStderr(this.parseLine(line), false, false)
-								: createStdout(this.parseLine(line), false, false, false),
-						);
-				terminal.setPointer(this.pointer + 1);
-				terminal.setIsInProgress(false);
 			}
 			catch (err) {
 				console.error(err);

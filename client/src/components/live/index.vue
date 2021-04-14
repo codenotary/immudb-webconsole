@@ -37,14 +37,15 @@
 					ref="terminal"
 					class="ma-0 pa-0 bg-terminal custom-scrollbar"
 					:title="title"
+					:is-in-progress="isInProgress"
 					:prompt="prompt"
 					:commands="commands"
 					:built-in="builtIn"
-					:executed.sync="executed"
-					:history.sync="history"
-					:stdin.sync="termStdin"
-					:pointer.sync="pointer"
-					:hide-prompt="hidePrompt"
+					:stdin.sync="_termStdin"
+					:pointer.sync="_pointer"
+					:executed.sync="_executed"
+					:history.sync="_history"
+					:hide-prom="hidePrompt"
 					:help-text="helpText"
 					:help-timeout="helpTimeout"
 					:show-help="showPrompt"
@@ -56,7 +57,6 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import { createStdout, createStderr, createDummyStdout } from 'vue-command';
 import {
 	mdiConsoleLine,
 } from '@mdi/js';
@@ -68,25 +68,34 @@ import {
 import {
 	WEBSOCKET_MODULE,
 	SOCKET_OBJ_MESSAGE,
-	MESSAGE_TYPES,
 } from '@/store/websocket/constants';
 import {
 	LIVE_MODULE,
+	SET_IN_PROGRESS,
 	SET_PROMPT,
-	SET_INTRO,
+	SET_TERM_STDIN,
+	SET_POINTER,
+	CLEAR_OUTPUT,
+	APPEND_DUMMY_OUTPUT,
+	APPEND_OUTPUT,
+	APPEND_EXECUTED,
+	SET_HISTORY,
+	SET_EXECUTED,
+	SET_COMMAND,
+	IS_IN_PROGRESS,
 	PROMPT,
-	// HISTORY,
-	// EXECUTED,242424
-	// POINTER,
-	// TERM_STDIN,
+	HISTORY,
+	EXECUTED,
+	POINTER,
+	TERM_STDIN,
 	INTRO,
+	COMMAND,
+	DEFAULT_PROMPT,
+	IMMUCLIENT_PROMPT,
 } from '@/store/live/constants';
 import LiveIntro from '@/components/live/Intro';
-import AnsiUp from 'ansi_up';
 
-const StripAnsi = require('strip-ansi');
-const DEFAULT_PROMPT = 'bash-5.1#';
-const IMMUCLIENT_PROMPT = 'immuclient>';
+// const isEqual = require('lodash.isequal');
 
 export default {
 	name: 'Live',
@@ -99,28 +108,20 @@ export default {
 				clear: () => undefined,
 			},
 			builtIn: undefined,
-			termStdin: './immudb -d',
-			pointer: 0,
-			executed: new Set(),
-			history: [],
 			helpText: 'Type help',
 			helpTimeout: 5000,
-			// provide
-			provided: {
-				intro: {
-					value: '',
-				},
-			},
 		};
 	},
 	computed: {
 		...mapGetters(LIVE_MODULE, {
+			isInProgress: IS_IN_PROGRESS,
 			prompt: PROMPT,
-			// history: HISTORY,
-			// executed: EXECUTED,
-			// pointer: POINTER,
-			// termStdin: TERM_STDIN,
+			history: HISTORY,
+			executed: EXECUTED,
+			pointer: POINTER,
+			termStdin: TERM_STDIN,
 			intro: INTRO,
+			commandToExecute: COMMAND,
 		}),
 		hidePrompt () {
 			return this.intro && !this.intro.finished;
@@ -134,73 +135,87 @@ export default {
 		isImmuClient () {
 			return this.prompt === IMMUCLIENT_PROMPT;
 		},
+		_termStdin: {
+			get () {
+				return this.termStdin;
+			},
+			set (newVal) {
+				this.setTermStdin(newVal);
+			},
+		},
+		_pointer: {
+			get () {
+				return this.pointer;
+			},
+			set (newVal) {
+				this.setPointer(newVal);
+			},
+		},
+		_history: {
+			get () {
+				console.log('history GET', this.history);
+				return this.history;
+			},
+			set (newVal) {
+				console.log('history SET', newVal);
+				this.setHistory(newVal);
+			},
+		},
+		_executed: {
+			get () {
+				return new Set(this.executed);
+			},
+			set (newVal) {
+				this.setExecuted(newVal);
+			},
+		},
 	},
 	watch: {
-		intro: {
-			deep: true,
-			immediate: true,
+		commandToExecute: {
 			handler (newVal) {
-				const { value } = newVal || {};
-				value && (this.provided.intro.value = value);
+				if (newVal) {
+					this.$nextTick(() => {
+						const { terminal } = this.$refs;
+						if (terminal && terminal.$children &&
+							terminal.$children[terminal.$children.length - 1]) {
+							const stdin = terminal.$children[terminal.$children.length - 1];
+							stdin.local.stdin = newVal.trim();
+							stdin.handle();
+						}
+					});
+					this.setCommand('');
+				}
 			},
 		},
 	},
 	mounted () {
 		// init the live terminal with a LiveIntro component
-		this.$nextTick(() => this.onBootstrap());
-
-		/// TODO THIS IS JUST A PATCH, IT SHOULD BE
-		/// REMOVED REFACTORYING THE LIVE VUEX STORE
-		setTimeout(() => {
-			if (this.history.length < 3) {
-				this.appendDummyStdout();
-				this.intro.finished = true;
-			};
-		}, 1200);
+		this.$nextTick(() => {
+			this.onBootstrap();
+			this.scrollToBottom();
+		});
 
 		// increase show help timeout
 		setTimeout(() => {
 			this.helpTimeout = 15000;
 		}, this.helpTimeout + 1);
-
-		// manage websocket messages
-		this.$options.sockets.onmessage = (event) => {
-			try {
-				const { data } = event;
-				const chunks = data && data.split('}{');
-
-				chunks && chunks.map((_) => {
-					let _data = _;
-					_data = _data.startsWith('{') ? _data : `{${ _data }`;
-					_data = _data.endsWith('}') ? _data : `${ _data }}`;
-					const msg = JSON.parse(_data);
-					msg && this.parseMsg(msg);
-				});
-			}
-			catch (err) {
-				const { data } = event;
-				console.error(err);
-				console.error(data);
-			}
-		};
 	},
 	created () {
 		this.commands.help = () => {
 			this.onHelp();
 		};
 
-		this.commands.__bootstrap__ = ({ _ }) => {
-			setTimeout(() => !_[1] && this.appendDummyStdout(), 300);
+		this.commands['./bootstrap'] = ({ _ }) => {
+			setTimeout(() => !_[1] && this.appendDummyOutput(), 300);
 			return LiveIntro;
 		};
 
-		this.commands.clear = () => {
-			this.history = [];
-			this.termStdin = '';
-			return createDummyStdout();
-		};
-
 		this.builtIn = (stdin) => {
+			// filter out clear
+			if (stdin === 'clear') {
+				this.clearOutput();
+				this.appendDummyOutput();
+			}
 			// filter out login
 			if (stdin === 'login') {
 				this.onLogin();
@@ -224,150 +239,34 @@ export default {
 					.disconnect();
 		}
 	},
-	provide () {
-		return {
-			intro: this.provided.intro,
-		};
-	},
 	methods: {
 		...mapActions(OUTPUT_MODULE, {
 			appendCodeOutput: APPEND_CODE_OUTPUT,
 			appendImmudb: APPEND_IMMUDB,
 		}),
 		...mapActions(LIVE_MODULE, {
-			setLivePrompt: SET_PROMPT,
-			setLiveIntro: SET_INTRO,
+			setInProgress: SET_IN_PROGRESS,
+			setPrompt: SET_PROMPT,
+			setTermStdin: SET_TERM_STDIN,
+			setPointer: SET_POINTER,
+			clearOutput: CLEAR_OUTPUT,
+			appendDummyOutput: APPEND_DUMMY_OUTPUT,
+			appendOutput: APPEND_OUTPUT,
+			appendExecuted: APPEND_EXECUTED,
+			setHistory: SET_HISTORY,
+			setExecuted: SET_EXECUTED,
+			setCommand: SET_COMMAND,
 		}),
 		...mapActions(WEBSOCKET_MODULE, {
 			sendObj: SOCKET_OBJ_MESSAGE,
 		}),
-		appendDummyStdout () {
-			this.history
-					.push(createDummyStdout());
-		},
-		parseMsg (data) {
-			const { type } = data;
-			if (type === MESSAGE_TYPES.CONSOLE) {
-				this.parseConsoleMsg(data);
-			}
-			else if (type === MESSAGE_TYPES.IMMUDB) {
-				this.parseImmudbMsg(data);
-			}
-		},
-		async parseConsoleMsg (data) {
-			const { line } = data;
-
-			// updated code output
-			data && this.appendCodeOutput(data);
-
-			if (line) {
-				const chunks = line
-						.split('\r\n')
-						.filter(_ => _ !== '\r\n')
-						.filter(_ => !!_);
-
-				// parse msg
-				if (line === '--MARK--\n') {
-					const { value } = this.intro || { value: '' };
-					this.setLiveIntro({
-						finished: true,
-						value: `${ value }<br>`,
-					});
-				}
-				else if (chunks && chunks.length > 1 && !line.endsWith('\n')) {
-					const idx = line.lastIndexOf('\r\n');
-					await this.parseConsoleMsg({ line: `${ line.substring(0, idx) }\n` });
-					await this.parseConsoleMsg({ line: line.substring(idx, line.length) });
-				}
-				else if (!line.endsWith('\n')) {
-					this.setLivePrompt({
-						prompt: line.trim(),
-					});
-					this.appendDummyStdout();
-				}
-				else if (/^\s*$/.test(line)) {
-					// console.error('SKIP: just new line');
-				}
-				else {
-					// reset default prompt
-					this.setLivePrompt({
-						prompt: DEFAULT_PROMPT,
-					});
-
-					// append live terminal output
-					if (this.intro.finished) {
-						this.appendOutput(line);
-					}
-					else {
-						this.appendIntro(line);
-					}
-
-					// scroll to latest row
-					this.scrollToBottom();
-				}
-			}
-		},
-		parseImmudbMsg (data) {
-			const { immudb, tree, token, verified } = data;
-
-			// update merkle tree output
-			this.appendImmudb({
-				immudb,
-				tree,
-				token,
-				verified,
-			});
-		},
-		parseLine (line, ansi = true) {
-			if (ansi) {
-				const ansiUp = new AnsiUp();
-				ansiUp.use_classes = true;
-				return ansiUp.ansi_to_html(line.trim()) + '<br>';
-			}
-			else {
-				return StripAnsi(line.trim()) + '<br>';
-			}
-		},
-		appendIntro (line, stderr = false) {
-			try {
-				const { value } = this.intro || { value: '' };
-				this.setLiveIntro({
-					value: `${ value }${ this.parseLine(line) }`,
-				});
-			}
-			catch (err) {
-				console.error(err);
-			}
-		},
-		appendOutput (line, append = false) {
-			try {
-				const { terminal } = this.$refs;
-				terminal.setIsInProgress(true);
-				console.log(createStdout(this.parseLine(line), false, false, append));
-				this.$nextTick(() => {
-					this.history
-							.push(
-								this.flux === 'stderr'
-									? createStderr(this.parseLine(line), false, append)
-									: createStdout(this.parseLine(line), false, false, append),
-							);
-				});
-				terminal.setPointer(this.pointer + 1);
-				terminal.setIsInProgress(false);
-			}
-			catch (err) {
-				console.error(err);
-			}
-		},
 		onBuiltIn (stdin) {
 			try {
-				const { terminal } = this.$refs;
-
-				terminal && terminal.setIsInProgress(true);
+				this.setInProgress(true);
 
 				this.$nextTick(() => {
-					terminal && terminal.setPointer(this.pointer + 1);
-					terminal && terminal.executed.add(stdin);
+					this.setPointer(this.pointer + 1);
+					this.appendExecuted(stdin);
 				});
 
 				// send message to WS
@@ -377,7 +276,8 @@ export default {
 				});
 
 				this.$nextTick(() => {
-					terminal && terminal.setIsInProgress(false);
+					this.setInProgress(false);
+					this.scrollToBottom();
 				});
 			}
 			catch (err) {
@@ -408,19 +308,22 @@ export default {
 			this.onExit();
 		},
 		onHelp () {
-			// if (this.isDefaultClient) {
-			// 	this.appendOutput('please issue the command \'immuclient\' to enter immuclient interactive mode or just issue \'immuclient --help\'', true);
-			// }
-			// else {
-			this.sendObj({
-				cmd: undefined,
-				line: 'help\n',
-			});
-			// }
+			if (this.isDefaultClient) {
+				this.appendOutput({
+					line: 'please issue the command \'immuclient\' to enter immuclient interactive mode or just issue \'immuclient --help\'',
+					append: true,
+				});
+			}
+			else {
+				this.sendObj({
+					cmd: undefined,
+					line: 'help\n',
+				});
+			}
 		},
 		onBootstrap () {
 			const { terminal } = this.$refs;
-			terminal && terminal.execute(`./bootstrap__${ this.intro.finished ? '' : ' _' }`);
+			terminal && terminal.execute(`./bootstrap${ this.intro.finished ? '' : ' _' }`);
 			this.$nextTick(() => this.scrollToBottom());
 		},
 		onLogin () {
@@ -432,7 +335,10 @@ export default {
 				});
 			}
 			else {
-				this.appendOutput('command not allowed at this level', true);
+				this.appendOutput({
+					line: 'command not allowed at this level',
+					append: true,
+				});
 			}
 		},
 		onExit () {
@@ -442,17 +348,21 @@ export default {
 					cmd: undefined,
 					line: 'exit\n',
 				});
+				/// TODO emit event to set live prompt
 				this.setLivePrompt({
 					prompt: DEFAULT_PROMPT,
 				});
 			}
 			else {
-				this.appendOutput('command not allowed at this level', true);
+				this.appendOutput({
+					line: 'command not allowed at this level',
+					append: true,
+				});
 			}
 		},
 		scrollToBottom () {
 			// scroll to latest row
-			const { terminal: { $el: el } } = this.$refs;
+			const { terminal: { $el: el } } = this.$refs || {};
 			if (el) {
 				this.$nextTick(() => {
 					el.scrollTop = el.scrollHeight;

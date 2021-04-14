@@ -24,7 +24,19 @@
 				:readonly="false"
 			/>
 			<v-btn
-				v-if="!run"
+				v-if="runnable"
+				class="run"
+				color="success lighten-2"
+				depressed
+				icon
+				@click="onRun(item)"
+			>
+				<v-icon :size="24">
+					{{ mdiPlayCircleOutline }}
+				</v-icon>
+			</v-btn>
+			<v-btn
+				v-else
 				class="copy"
 				color="blue lighten-2"
 				depressed
@@ -37,25 +49,22 @@
 				</v-icon>
 			</v-btn>
 		</span>
-		<v-btn
-			v-if="run"
-			class="run"
-			color="blue lighten-2"
-			depressed
-			icon
-			@click="onRun"
-		>
-			<v-icon :size="24">
-				{{ mdiPlay }}
-			</v-icon>
-		</v-btn>
 	</div>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+import {
+	LIVE_MODULE,
+	SET_COMMAND,
+} from '@/store/live/constants';
+import {
+	WEBSOCKET_MODULE,
+	SOCKET_OBJ_MESSAGE,
+} from '@/store/websocket/constants';
 import {
 	mdiContentCopy,
-	mdiPlay,
+	mdiPlayCircleOutline,
 } from '@mdi/js';
 import copy from 'copy-to-clipboard';
 
@@ -64,21 +73,33 @@ export default {
 	props: {
 		language: { type: String, default: 'bash' },
 		data: { type: Array, default: () => [] },
-		run: { type: Boolean, default: false },
+		runnable: { type: Boolean, default: false },
 	},
 	data () {
 		return {
 			mdiContentCopy,
-			mdiPlay,
+			mdiPlayCircleOutline,
 		};
 	},
 	methods: {
+		...mapActions(LIVE_MODULE, {
+			setCommand: SET_COMMAND,
+		}),
+		...mapActions(WEBSOCKET_MODULE, {
+			sendObj: SOCKET_OBJ_MESSAGE,
+		}),
 		onCopy (data) {
 			copy(data);
 			this.$toasted.success(`Copied code '${ data }' to clipboard`, { icon: 'check-circle' });
 		},
-		onRun () {
-			console.log('RUN', this.data);
+		onRun (data) {
+			const { code } = data;
+			try {
+				this.setCommand(code && code.trim());
+			}
+			catch (err) {
+				console.error(err);
+			}
 		},
 	},
 };

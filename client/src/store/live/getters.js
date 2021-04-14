@@ -1,5 +1,6 @@
 import {
 	ACTIVE,
+	IS_IN_PROGRESS,
 	PROMPT,
 	HISTORY,
 	EXECUTED,
@@ -7,11 +8,15 @@ import {
 	TERM_STDIN,
 	INTRO,
 	CONTAINER_ID,
+	COMMAND,
 } from './constants';
 
 export default {
 	[ACTIVE](state) {
 		return state.active;
+	},
+	[IS_IN_PROGRESS](state) {
+		return state.inProgress;
 	},
 	[PROMPT](state) {
 		return state.prompt;
@@ -33,5 +38,8 @@ export default {
 	},
 	[CONTAINER_ID](state) {
 		return state.containerId;
+	},
+	[COMMAND](state) {
+		return state.command;
 	},
 };

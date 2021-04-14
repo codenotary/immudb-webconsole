@@ -1,12 +1,16 @@
 import {
+	SET_CONTAINER_ID,
 	SET_LIVE_ACTIVE,
+	SET_INTRO,
+	SET_IN_PROGRESS,
 	SET_PROMPT,
-	ADD_HISTORY,
-	ADD_EXECUTED,
 	SET_POINTER,
 	SET_TERM_STDIN,
-	SET_INTRO,
-	SET_CONTAINER_ID,
+	APPEND_OUTPUT,
+	APPEND_EXECUTED,
+	SET_HISTORY,
+	SET_EXECUTED,
+	SET_COMMAND,
 } from './constants';
 
 export default {
@@ -16,23 +20,36 @@ export default {
 			state.active = active;
 		}
 	},
+	[SET_IN_PROGRESS](state, payload) {
+		state.inProgress = payload;
+	},
 	[SET_PROMPT](state, payload) {
 		if (payload) {
 			const { prompt } = payload;
 			state.prompt = prompt;
 		}
 	},
-	[ADD_HISTORY](state, payload) {
-		if (payload) {
-			const { history } = payload;
-			state.history = [...state.history, history];
+	[APPEND_OUTPUT](state, payload) {
+		if (payload && state.history && state.history.length) {
+			state.history = [...state.history, payload];
+		}
+		else if (payload) {
+			state.history = [payload];
 		}
 	},
-	[ADD_EXECUTED](state, payload) {
-		if (payload) {
-			const { executed } = payload;
-			state.executed.add(executed);
+	[APPEND_EXECUTED](state, payload) {
+		if (payload && state.executed && state.executed.length) {
+			state.executed = [...state.executed, payload];
 		}
+		else if (payload) {
+			state.executed = [payload];
+		}
+	},
+	[SET_HISTORY](state, payload) {
+		state.history = payload;
+	},
+	[SET_EXECUTED](state, payload) {
+		state.executed = payload;
 	},
 	[SET_POINTER](state, payload) {
 		if (payload) {
@@ -58,5 +75,8 @@ export default {
 			const { id } = payload;
 			state.containerId = id;
 		}
+	},
+	[SET_COMMAND](state, payload) {
+		state.command = payload;
 	},
 };
