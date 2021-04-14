@@ -28,7 +28,7 @@ So a bash command to list files should be:
 {"line":"ls\n"}
 ```
 
-It is possible to send out-of-band commands, usingthe "cmd" parameter. At the moment, the only supported command are "dump", which will provide the immudb tree, and "exec", which will execute the code supplied by the "code" parameter with a python interpreter.
+It is possible to send out-of-band commands, using the "cmd" parameter. At the moment, the only supported command are "dump", which will provide the immudb tree, and "exec", which will execute the code supplied by the "code" parameter with a python interpreter.
 
 
 ## Server message format
