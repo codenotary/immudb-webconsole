@@ -3,7 +3,7 @@ import VuexPersistence from 'vuex-persist';
 export default ({ store }) => {
 	window.onNuxtReady(() => {
 		new VuexPersistence({
-			key: 'vuex-log-analyzer',
+			key: 'vuex-immudb-playground',
 			storage: window.localStorage,
 			asyncStorage: false,
 			supportCircular: false,
