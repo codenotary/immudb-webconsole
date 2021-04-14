@@ -4,6 +4,7 @@
 		color="accent"
 		group
 		dense
+		style="z-index: 5;"
 	>
 		<v-btn
 			class="ma-0 py-0 px-2"
