@@ -169,6 +169,7 @@ export default {
 				await this.sendObj({
 					code: this.code || '',
 					language: this.activeLanguage.label || '',
+					cmd: 'exec',
 				});
 			}
 			catch (err) {
