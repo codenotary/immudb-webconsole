@@ -279,8 +279,7 @@ func newRunner(w http.ResponseWriter, req *http.Request) {
 		}
 	}
 	ctx := context.Background()
-	c_id, err := startContainer(ctx, "player-immuclient", dir)
-	// c_id, err := startContainer(ctx, "player-live", dir)
+	c_id, err := startContainer(ctx, "player-live", dir)
 	if err != nil {
 		httpRet(w, &runnerResponse{Status: "fail", Error: err.Error()})
 		return
