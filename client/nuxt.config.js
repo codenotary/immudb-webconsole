@@ -22,8 +22,8 @@ export default {
 	** See https://nuxtjs.org/api/configuration-server
 	*/
 	server: {
-		host: IS_PROD && process.env.HOST || '0.0.0.0',
-		port: IS_PROD && process.env.PORT || 8080,
+		host: '0.0.0.0',
+		port: 8080,
 	},
 
 	/*
@@ -39,11 +39,6 @@ export default {
 	** See https://nuxtjs.org/api/configuration-srcdir
 	*/
 	srcDir: 'src/',
-
-	/*
-	Production tip enabled
-	*/
-	productionTip: true,
 
 	/*
 	** Devtools enabled
@@ -77,9 +72,9 @@ export default {
 			{ rel: 'manifest', href: '/site.webmanifest' },
 			{ hid: 'canonical', rel: 'canonical', href: DEFAULT_META.SITE_URL },
 		],
-		script: [
-			{ src: '/', type: 'text/javascript', charset: 'utf-8', defer: true },
-		],
+		// script: [
+		// 	{ src: '/', type: 'text/javascript', charset: 'utf-8', defer: true },
+		// ],
 	},
 
 	/*
@@ -160,7 +155,16 @@ export default {
 		transpile: [
 			'/^vuetify/',
 			'vee-validate',
+			'vue-clipboards',
+			'vue-command',
+			'vue-cookies',
+			'vue-gtag',
+			'vue-json-pretty',
+			'vue-native-websocket.client',
+			'vue-prism-editor',
+			'vue-toasted',
 			'vue-worker',
+			'vuex-persist',
 		],
 		optimization: {
 			splitChunks: {
