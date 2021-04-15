@@ -23,6 +23,10 @@
 			>
 				{{ $t('live.title') }}
 			</h4>
+			<v-spacer />
+			<LiveActionClear
+				@submit="onClear"
+			/>
 		</v-card-title>
 		<v-card-text
 			class="ma-0 pa-0"
@@ -57,6 +61,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import { createDummyStdout } from 'vue-command';
 import {
 	mdiConsoleLine,
 } from '@mdi/js';
@@ -95,8 +100,6 @@ import {
 } from '@/store/live/constants';
 import LiveIntro from '@/components/live/Intro';
 
-// const isEqual = require('lodash.isequal');
-
 export default {
 	name: 'Live',
 	data () {
@@ -106,6 +109,7 @@ export default {
 			commands: {
 				__bootstrap__: () => undefined,
 				clear: () => undefined,
+				help: () => undefined,
 			},
 			builtIn: undefined,
 			helpText: 'Type help',
@@ -127,13 +131,13 @@ export default {
 			return this.intro && !this.intro.finished;
 		},
 		showPrompt () {
-			return this.prompt === DEFAULT_PROMPT;
+			return this.prompt && this.prompt.trim() === DEFAULT_PROMPT;
 		},
 		isDefaultClient () {
-			return this.prompt === DEFAULT_PROMPT;
+			return this.prompt && this.prompt.trim() === DEFAULT_PROMPT;
 		},
 		isImmuClient () {
-			return this.prompt === IMMUCLIENT_PROMPT;
+			return this.prompt && this.prompt.trim() === IMMUCLIENT_PROMPT;
 		},
 		_termStdin: {
 			get () {
@@ -153,11 +157,11 @@ export default {
 		},
 		_history: {
 			get () {
-				console.log('history GET', this.history);
+				// console.log('history GET', this.history);
 				return this.history;
 			},
 			set (newVal) {
-				console.log('history SET', newVal);
+				// console.log('history SET', newVal);
 				this.setHistory(newVal);
 			},
 		},
@@ -187,6 +191,19 @@ export default {
 				}
 			},
 		},
+		executed: {
+			deep: true,
+			handler (newVal) {
+				// add last command to executed
+				this.$nextTick(() => {
+					const { terminal } = this.$refs;
+					const lastVal = newVal && newVal[newVal.length - 1];
+					if (terminal && terminal.local) {
+						terminal.local.executed.add(lastVal);
+					}
+				});
+			},
+		},
 	},
 	mounted () {
 		// init the live terminal with a LiveIntro component
@@ -201,8 +218,14 @@ export default {
 		}, this.helpTimeout + 1);
 	},
 	created () {
+		this.commands.clear = () => {
+			this.setHistory([]);
+			return createDummyStdout();
+		};
+
 		this.commands.help = () => {
 			this.onHelp();
+			return createDummyStdout();
 		};
 
 		this.commands['./bootstrap'] = ({ _ }) => {
@@ -306,6 +329,10 @@ export default {
 		},
 		onCtrlX () {
 			this.onExit();
+		},
+		onClear () {
+			const { terminal } = this.$refs;
+			terminal && terminal.execute('clear');
 		},
 		onHelp () {
 			if (this.isDefaultClient) {
@@ -414,6 +441,7 @@ export default {
 									.term-stderr {
 										position: relative;
 										word-wrap: break-word;
+										word-break: break-word !important;
 										white-space: pre-wrap;
 										tab-size: $spacer-16;
 									}

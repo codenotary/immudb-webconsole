@@ -1,15 +1,16 @@
-const AnsiToHtml = require('ansi-to-html');
+import AnsiUp from 'ansi_up';
+const StripAnsi = require('strip-ansi');
 
-const parseAnsi = (data) => {
+const parseAnsi = (data, ansi = true) => {
 	if (data) {
-		const ansi = new AnsiToHtml();
-		return ansi.toHtml(data.trim(), {
-			fg: '#FFF',
-			bg: '#000',
-			newline: true,
-			escapeXML: true,
-			stream: true,
-		});
+		if (ansi) {
+			const ansiUp = new AnsiUp();
+			ansiUp.use_classes = true;
+			return ansiUp.ansi_to_html(data.replace(/\s+$/, ''));
+		}
+		else {
+			return StripAnsi(data.replace(/\s+$/, ''));
+		}
 	}
 	return '';
 };

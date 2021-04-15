@@ -9,6 +9,7 @@ export default {
 		andTopic: 'And',
 		or: 'Or',
 		run: 'run',
+		clear: 'clear',
 		load: 'load',
 		loading: 'loading',
 		running: 'running',

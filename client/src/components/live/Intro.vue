@@ -1,6 +1,6 @@
 <template>
 	<span
-		class="live-intro ma-0 mb-4 pa-0 pb-4"
+		class="live-intro ma-0 pa-0"
 		v-html="sanitizeIntro"
 	/>
 </template>
