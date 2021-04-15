@@ -13,6 +13,10 @@ If there are existing transactions, then the safeset command will index all tran
 
 <guide-code language="bash" :data="[{ prompt: 'immuclient>', code: 'safeset 1 baz' }]" runnable></guide-code>
 
+If you look at the Merkle tree, you should see a new leaf node has been created due to this set operation, and the tree has been rebalanced. Every time you perform a new transaction, a new leaf node will be created and the tree will be rebalanced.
+
+![](/images/cli/set3.gif)
+
 Likewise, we can fetch a value from the database, checking that the value we get is mathematically consistent with the database state:
 
 <guide-code language="bash" :data="[{ prompt: 'immuclient>', code: 'safeget 1' }]" runnable></guide-code>
