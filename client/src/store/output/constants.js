@@ -1,6 +1,5 @@
 export const OUTPUT_MODULE = 'output';
 
-export const RUN_CODE = 'runCode';
 export const RESET_IMMUDB = 'resetImmudb';
 export const RESET_MERKLE_TREE = 'resetMerkleTree';
 export const RESET_OUTPUT = 'resetOutput';
