@@ -8,7 +8,7 @@
 
 <script>
 export default {
-	name : 'GuideImage',
+	name: 'GuideImage',
 	props: {
 		src: {
 			type: String,
