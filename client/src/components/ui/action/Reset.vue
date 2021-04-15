@@ -20,12 +20,12 @@
 						'gray--text text--lighten-2': $vuetify.theme.dark,
 					}"
 				>
-					{{ mdiReload }}
+					{{ mdiDeleteOutline }}
 				</v-icon>
 			</v-btn>
 		</template>
 		<span>
-			{{ $t('code.reset') }}
+			{{ $t('common.reset.button') }}
 		</span>
 	</v-tooltip>
 </template>
@@ -38,14 +38,14 @@ import {
 } from '@/store/view/constants';
 
 import {
-	mdiReload,
+	mdiDeleteOutline,
 } from '@mdi/js';
 
 export default {
 	name: 'CodeActionReset',
 	data () {
 		return {
-			mdiReload,
+			mdiDeleteOutline,
 		};
 	},
 	computed: {

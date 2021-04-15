@@ -24,6 +24,13 @@
 				{{ $t('live.title') }}
 			</h4>
 			<v-spacer />
+			<UiActionReset
+				@reset="onReset"
+			/>
+			<v-divider
+				class="my-0 ml-2 mr-3 pa-0"
+				vertical
+			/>
 			<LiveActionClear
 				@submit="onClear"
 			/>
@@ -47,9 +54,9 @@
 					:built-in="builtIn"
 					:stdin.sync="_termStdin"
 					:pointer.sync="_pointer"
-					:executed.sync="_executed"
-					:history.sync="_history"
-					:hide-prom="hidePrompt"
+					:executed="_executed"
+					:history="_history"
+					:hide-promt="hidePrompt"
 					:help-text="helpText"
 					:help-timeout="helpTimeout"
 					:show-help="showPrompt"
@@ -67,6 +74,9 @@ import {
 } from '@mdi/js';
 import {
 	OUTPUT_MODULE,
+	RESET_IMMUDB,
+	RESET_MERKLE_TREE,
+	RESET_OUTPUT,
 	APPEND_CODE_OUTPUT,
 	APPEND_IMMUDB,
 } from '@/store/output/constants';
@@ -111,6 +121,12 @@ export default {
 				clear: () => undefined,
 				help: () => undefined,
 			},
+			local: {
+				termStdin: '',
+				pointer: 0,
+				history: [],
+				executed: new Set(),
+			},
 			builtIn: undefined,
 			helpText: 'Type help',
 			helpTimeout: 5000,
@@ -141,7 +157,7 @@ export default {
 		},
 		_termStdin: {
 			get () {
-				return this.termStdin;
+				return this.local.termStdin;
 			},
 			set (newVal) {
 				this.setTermStdin(newVal);
@@ -149,7 +165,7 @@ export default {
 		},
 		_pointer: {
 			get () {
-				return this.pointer;
+				return this.local.pointer;
 			},
 			set (newVal) {
 				this.setPointer(newVal);
@@ -157,17 +173,15 @@ export default {
 		},
 		_history: {
 			get () {
-				// console.log('history GET', this.history);
-				return this.history;
+				return this.local.history;
 			},
 			set (newVal) {
-				// console.log('history SET', newVal);
 				this.setHistory(newVal);
 			},
 		},
 		_executed: {
 			get () {
-				return new Set(this.executed);
+				return this.local.executed; // new Set(this.executed);
 			},
 			set (newVal) {
 				this.setExecuted(newVal);
@@ -191,9 +205,30 @@ export default {
 				}
 			},
 		},
+		termStdin: {
+			handler (newVal) {
+				// this.local.termStdin = newVal;
+				this.local.termStdin = JSON.parse(JSON.stringify(newVal));
+			},
+		},
+		pointer: {
+			handler (newVal) {
+				// this.local.pointer = newVal;
+				this.local.pointer = JSON.parse(JSON.stringify(newVal || 0));
+			},
+		},
+		history: {
+			deep: true,
+			handler (newVal) {
+				this.local.history = newVal;
+				// this.local.history = JSON.parse(JSON.stringify(newVal));
+			},
+		},
 		executed: {
 			deep: true,
 			handler (newVal) {
+				this.local.execute = new Set(newVal);
+
 				// add last command to executed
 				this.$nextTick(() => {
 					const { terminal } = this.$refs;
@@ -216,6 +251,23 @@ export default {
 		setTimeout(() => {
 			this.helpTimeout = 15000;
 		}, this.helpTimeout + 1);
+
+		this._keyListener = function(e) {
+			if (e.key === 'r' && (e.ctrlKey || e.metaKey)) {
+				e.preventDefault();
+				if (!this.isLoading) {
+					this.onReset();
+				}
+			}
+			if (e.key === 'c' && (e.ctrlKey || e.metaKey)) {
+				e.preventDefault();
+				if (!this.isLoading && this.code) {
+					this.onClear();
+				}
+			}
+		};
+
+		document.addEventListener('keydown', this._keyListener.bind(this));
 	},
 	created () {
 		this.commands.clear = () => {
@@ -264,6 +316,9 @@ export default {
 	},
 	methods: {
 		...mapActions(OUTPUT_MODULE, {
+			resetImmudb: RESET_IMMUDB,
+			resetMerkleTree: RESET_MERKLE_TREE,
+			resetOutput: RESET_OUTPUT,
 			appendCodeOutput: APPEND_CODE_OUTPUT,
 			appendImmudb: APPEND_IMMUDB,
 		}),
@@ -329,6 +384,14 @@ export default {
 		},
 		onCtrlX () {
 			this.onExit();
+		},
+		onReset () {
+			this.resetImmudb();
+			this.resetMerkleTree();
+			this.resetOutput();
+			this.$toasted.info(this.$t('common.reset.success'), {
+				duration: 5000,
+			});
 		},
 		onClear () {
 			const { terminal } = this.$refs;

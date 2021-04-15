@@ -8,6 +8,7 @@ build:
 	docker-compose build $(VARS)
 	make -C player-py
 	make -C player-immuclient
+	make -C player-live
 
 backend:
 	docker-compose build $(VARS) playgroundbackend

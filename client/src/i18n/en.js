@@ -16,6 +16,10 @@ export default {
 		search: 'search',
 		filter: 'filter',
 		moreInfo: 'more info',
+		reset: {
+			button: 'Reset immudb (shortcut: Ctrl + r)',
+			success: 'immudb has been resetted',
+		},
 	},
 	sidebar: {
 		dashboard: 'Dashboard',
@@ -45,7 +49,6 @@ export default {
 	code: {
 		title: 'Code',
 		run: 'Execute code (shortcut: Ctrl + Enter)',
-		reset: 'Reset immudb (shortcut: Ctrl + r)',
 		unknown: 'Code block type unknown',
 		seeInDocumentation: 'See in documentation',
 	},

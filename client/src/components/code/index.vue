@@ -24,7 +24,7 @@
 				{{ $t('code.title') }}
 			</h4>
 			<v-spacer />
-			<CodeActionReset
+			<UiActionReset
 				@reset="onReset"
 			/>
 			<v-divider
@@ -163,6 +163,9 @@ export default {
 			this.resetImmudb();
 			this.resetMerkleTree();
 			this.resetOutput();
+			this.$toasted.info(this.$t('common.reset.success'), {
+				duration: 5000,
+			});
 		},
 		async onSubmit () {
 			try {

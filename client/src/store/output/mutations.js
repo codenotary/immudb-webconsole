@@ -19,6 +19,10 @@ export default {
 		state.merkleTree = {
 			graph: {},
 			json: [],
+			metrics: {
+				size: 0,
+				verified: false,
+			},
 		};
 	},
 	[RESET_OUTPUT](state) {
