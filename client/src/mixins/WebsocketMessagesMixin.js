@@ -67,6 +67,9 @@ export default {
 			if (type === MESSAGE_TYPES.CONSOLE) {
 				this.parseConsoleMsg(data);
 			}
+			if (type === MESSAGE_TYPES.EXEC) {
+				this.parseExecMsg(data);
+			}
 			else if (type === MESSAGE_TYPES.IMMUDB) {
 				this.parseImmudbMsg(data);
 			}
@@ -119,6 +122,13 @@ export default {
 						this.parseIntro(line);
 					}
 				}
+			}
+		},
+		parseExecMsg (data) {
+			if (data) {
+				const { lines } = data;
+				// updated store output code
+				data && this.appendCodeOutput({ output: lines });
 			}
 		},
 		parseImmudbMsg (data) {

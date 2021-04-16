@@ -16,5 +16,6 @@ export const SOCKET_OBJ_MESSAGE = 'SOCKET_SEND_OBJ_MESSAGE';
 export const MESSAGE_TYPES = {
 	KEEPALIVE: 'keepalive',
 	CONSOLE: 'console',
+	EXEC: 'exec',
 	IMMUDB: 'immudb',
 };
