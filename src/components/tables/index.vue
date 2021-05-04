@@ -292,43 +292,48 @@ export default {
 			}, 30);
 		},
 		async onAddDemoData () {
-			this.$emit('update:start');
+			try {
+				this.$emit('update:start');
 
-			/* eslint-disable quotes */
-			// create and fill customers table with random data
-			await this.runSqlExec("CREATE TABLE customers (id INTEGER, customer_name VARCHAR, email VARCHAR, address VARCHAR, city VARCHAR, postal_code VARCHAR, country VARCHAR, PRIMARY KEY id);");
-			await this.runSqlExec("UPSERT INTO customers (id, customer_name, email, address, city, postal_code, country) values (1, 'Isidro Behnen', 'ibehnen0@mail.ru', 'ibehnen0@chronoengine.com', 'Arvika', '2.124.67.107', 'SE');");
-			await this.runSqlExec("UPSERT INTO customers (id, customer_name, email, address, city, postal_code, country) values (2, 'Claudianus Boldt', 'cboldt1@adobe.com', 'cboldt1@elpais.com', 'Kimhae', '125.89.31.130', 'KR');");
-			await this.runSqlExec("UPSERT INTO customers (id, customer_name, email, address, city, postal_code, country) values (3, 'Ginny Kelshaw', 'gkelshaw2@bbb.org', 'gkelshaw2@123-reg.co.uk', 'Nova Lima', '231.174.212.41', 'BR');");
-			await this.runSqlExec("UPSERT INTO customers (id, customer_name, email, address, city, postal_code, country) values (4, 'Paola Elverston', 'pelverston3@ox.ac.uk', 'pelverston3@cdc.gov', 'Morales', '114.130.229.206', 'GT');");
-			await this.runSqlExec("UPSERT INTO customers (id, customer_name, email, address, city, postal_code, country) values (1, 'Asa Antrum', 'aantrum0@apple.com', 'aantrum0@prweb.com', 'Selkirk', '193.5.161.248', 'CA');");
-			await this.runSqlExec("UPSERT INTO customers (id, customer_name, email, address, city, postal_code, country) values (2, 'Neila Rowena', 'nrowena1@google.ca', 'nrowena1@netscape.com', 'Liangdong', '65.163.125.159', 'CN');");
-			await this.runSqlExec("UPSERT INTO customers (id, customer_name, email, address, city, postal_code, country) values (3, 'Rex Massinger', 'rmassinger2@weibo.com', 'rmassinger2@jiathis.com', 'Jesús Menéndez', '165.100.211.115', 'CU');");
-			await this.runSqlExec("UPSERT INTO customers (id, customer_name, email, address, city, postal_code, country) values (4, 'Whit Shilton', 'wshilton3@amazonaws.com', 'wshilton3@cdbaby.com', 'Bobowo', '167.156.190.237', 'PL');");
+				/* eslint-disable quotes */
+				// create and fill customers table with random data
+				await this.runSqlExec("CREATE TABLE customers (id INTEGER, customer_name VARCHAR, email VARCHAR, address VARCHAR, city VARCHAR, postal_code VARCHAR, country VARCHAR, PRIMARY KEY id);");
+				await this.runSqlExec("UPSERT INTO customers (id, customer_name, email, address, city, postal_code, country) values (1, 'Isidro Behnen', 'ibehnen0@mail.ru', 'ibehnen0@chronoengine.com', 'Arvika', '2.124.67.107', 'SE');");
+				await this.runSqlExec("UPSERT INTO customers (id, customer_name, email, address, city, postal_code, country) values (2, 'Claudianus Boldt', 'cboldt1@adobe.com', 'cboldt1@elpais.com', 'Kimhae', '125.89.31.130', 'KR');");
+				await this.runSqlExec("UPSERT INTO customers (id, customer_name, email, address, city, postal_code, country) values (3, 'Ginny Kelshaw', 'gkelshaw2@bbb.org', 'gkelshaw2@123-reg.co.uk', 'Nova Lima', '231.174.212.41', 'BR');");
+				await this.runSqlExec("UPSERT INTO customers (id, customer_name, email, address, city, postal_code, country) values (4, 'Paola Elverston', 'pelverston3@ox.ac.uk', 'pelverston3@cdc.gov', 'Morales', '114.130.229.206', 'GT');");
+				await this.runSqlExec("UPSERT INTO customers (id, customer_name, email, address, city, postal_code, country) values (1, 'Asa Antrum', 'aantrum0@apple.com', 'aantrum0@prweb.com', 'Selkirk', '193.5.161.248', 'CA');");
+				await this.runSqlExec("UPSERT INTO customers (id, customer_name, email, address, city, postal_code, country) values (2, 'Neila Rowena', 'nrowena1@google.ca', 'nrowena1@netscape.com', 'Liangdong', '65.163.125.159', 'CN');");
+				await this.runSqlExec("UPSERT INTO customers (id, customer_name, email, address, city, postal_code, country) values (3, 'Rex Massinger', 'rmassinger2@weibo.com', 'rmassinger2@jiathis.com', 'Jesús Menéndez', '165.100.211.115', 'CU');");
+				await this.runSqlExec("UPSERT INTO customers (id, customer_name, email, address, city, postal_code, country) values (4, 'Whit Shilton', 'wshilton3@amazonaws.com', 'wshilton3@cdbaby.com', 'Bobowo', '167.156.190.237', 'PL');");
 
-			// create products table with random data
-			await this.runSqlExec("CREATE TABLE products (id INTEGER, product VARCHAR, price VARCHAR, PRIMARY KEY id);");
-			await this.runSqlExec("UPSERT INTO products (id, product, price) values (1, 'Juice - V8, Tomato', '$4.04');");
-			await this.runSqlExec("UPSERT INTO products (id, product, price) values (2, 'Grapes - Red', '$5.03');");
-			await this.runSqlExec("UPSERT INTO products (id, product, price) values (3, 'Compound - Mocha', '$6.75');");
-			await this.runSqlExec("UPSERT INTO products (id, product, price) values (4, 'Pear - Asian', '$1.10');");
-			await this.runSqlExec("UPSERT INTO products (id, product, price) values (5, 'Wine - Mas Chicet Rose, Vintage', '$6.75');");
-			await this.runSqlExec("UPSERT INTO products (id, product, price) values (6, 'Lady Fingers', '$5.32');");
-			await this.runSqlExec("UPSERT INTO products (id, product, price) values (7, 'Shrimp - 31/40', '$9.04');");
-			await this.runSqlExec("UPSERT INTO products (id, product, price) values (8, 'Pork - Bones', '$2.65');");
-			await this.runSqlExec("UPSERT INTO products (id, product, price) values (9, 'Table Cloth 62x114 White', '$0.73');");
-			await this.runSqlExec("UPSERT INTO products (id, product, price) values (10, 'Beef - Ground, Extra Lean, Fresh', '$7.29');");
+				// create products table with random data
+				await this.runSqlExec("CREATE TABLE products (id INTEGER, product VARCHAR, price VARCHAR, PRIMARY KEY id);");
+				await this.runSqlExec("UPSERT INTO products (id, product, price) values (1, 'Juice - V8, Tomato', '$4.04');");
+				await this.runSqlExec("UPSERT INTO products (id, product, price) values (2, 'Grapes - Red', '$5.03');");
+				await this.runSqlExec("UPSERT INTO products (id, product, price) values (3, 'Compound - Mocha', '$6.75');");
+				await this.runSqlExec("UPSERT INTO products (id, product, price) values (4, 'Pear - Asian', '$1.10');");
+				await this.runSqlExec("UPSERT INTO products (id, product, price) values (5, 'Wine - Mas Chicet Rose, Vintage', '$6.75');");
+				await this.runSqlExec("UPSERT INTO products (id, product, price) values (6, 'Lady Fingers', '$5.32');");
+				await this.runSqlExec("UPSERT INTO products (id, product, price) values (7, 'Shrimp - 31/40', '$9.04');");
+				await this.runSqlExec("UPSERT INTO products (id, product, price) values (8, 'Pork - Bones', '$2.65');");
+				await this.runSqlExec("UPSERT INTO products (id, product, price) values (9, 'Table Cloth 62x114 White', '$0.73');");
+				await this.runSqlExec("UPSERT INTO products (id, product, price) values (10, 'Beef - Ground, Extra Lean, Fresh', '$7.29');");
 
-			// create orders table with random data
-			await this.runSqlExec("CREATE TABLE orders (id INTEGER, customerID INTEGER, productID INTEGER, PRIMARY KEY id);");
-			await this.runSqlExec("UPSERT INTO orders (id, customerID, productID) VALUES (1, 1, 1);");
-			await this.runSqlExec("UPSERT INTO orders (id, customerID, productID) VALUES (2, 5, 2);");
-			await this.runSqlExec("UPSERT INTO orders (id, customerID, productID) VALUES (3, 4, 3);");
-			await this.runSqlExec("UPSERT INTO orders (id, customerID, productID) VALUES (4, 3, 4);");
-			await this.runSqlExec("UPSERT INTO orders (id, customerID, productID) VALUES (5, 2, 5);");
-			/* eslint-enable quotes */
+				// create orders table with random data
+				await this.runSqlExec("CREATE TABLE orders (id INTEGER, customerID INTEGER, productID INTEGER, PRIMARY KEY id);");
+				await this.runSqlExec("UPSERT INTO orders (id, customerID, productID) VALUES (1, 1, 1);");
+				await this.runSqlExec("UPSERT INTO orders (id, customerID, productID) VALUES (2, 5, 2);");
+				await this.runSqlExec("UPSERT INTO orders (id, customerID, productID) VALUES (3, 4, 3);");
+				await this.runSqlExec("UPSERT INTO orders (id, customerID, productID) VALUES (4, 3, 4);");
+				await this.runSqlExec("UPSERT INTO orders (id, customerID, productID) VALUES (5, 2, 5);");
+				/* eslint-enable quotes */
 
-			this.$emit('update:end');
+				this.$emit('update:end');
+			}
+			catch (err) {
+				console.error(err);
+			}
 		},
 	},
 };

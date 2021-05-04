@@ -175,7 +175,8 @@ export default {
 	** https://nuxtjs.org/guide/plugins
 	*/
 	plugins: [
-		{ src: '~/plugins/event-bus', ssr: false },
+		{ src: '~/plugins/axios.js', srr: false },
+		{ src: '~/plugins/event-bus.js', ssr: false },
 		{ src: '~/plugins/vee-validate.js', ssr: false },
 		{ src: '~/plugins/vue-clipboards.js', ssr: false },
 		{ src: '~/plugins/vue-cookies.js', ssr: false },
@@ -205,6 +206,7 @@ export default {
 	** Nuxt.js modules
 	*/
 	modules: [
+		'nuxt-client-init-module',
 		// Doc: https://axios.nuxtjs.org/setup
 		'@nuxtjs/axios',
 		// Doc: https://github.com/robcresswell/nuxt-compress

@@ -82,46 +82,48 @@ export default {
 
 			await ImmudbService.tableList()
 					.then(async (response) => {
-						const { data: { rows } } = response;
-						let tables = [];
+						if (response) {
+							const { data: { rows } } = response;
+							let tables = [];
 
-						if (rows && rows.length) {
-							tables = rows.reduce((acc, { values }) => {
-								return [...acc, {
-									label: values[0].s,
-									value: values[0].s,
-									type: 'tab',
-								}];
-							}, []);
-							const responseList = await Promise.all(tables.map(_ =>
-								ImmudbService.tableDescrive({ tableName: _ && _.value }),
-							));
+							if (rows && rows.length) {
+								tables = rows.reduce((acc, { values }) => {
+									return [...acc, {
+										label: values[0].s,
+										value: values[0].s,
+										type: 'tab',
+									}];
+								}, []);
+								const responseList = await Promise.all(tables.map(_ =>
+									ImmudbService.tableDescrive({ tableName: _ && _.value }),
+								));
 
-							if (responseList && responseList.length) {
-								responseList.map((_, idx) => {
-									const { data: { rows: cols } } = _;
-									if (cols && cols.length) {
-										tables[idx].children = cols.map((row) => {
-											if (row) {
-												return {
-													label: row.values[0] && row.values[0].s,
-													value: row.values[0] && row.values[0].s,
-													tags: row.values[1] && row.values[1].s,
-													primary: row.values[2] && row.values[2].s === 'PRIMARY KEY',
-													foreignKey: row.values[2] && row.values[2].s === 'FOREIGN KEY',
-													type: 'col',
-												};
-											}
-											return {};
-										});
-									}
-								});
+								if (responseList && responseList.length) {
+									responseList.map((_, idx) => {
+										const { data: { rows: cols } } = _;
+										if (cols && cols.length) {
+											tables[idx].children = cols.map((row) => {
+												if (row) {
+													return {
+														label: row.values[0] && row.values[0].s,
+														value: row.values[0] && row.values[0].s,
+														tags: row.values[1] && row.values[1].s,
+														primary: row.values[2] && row.values[2].s === 'PRIMARY KEY',
+														foreignKey: row.values[2] && row.values[2].s === 'FOREIGN KEY',
+														type: 'col',
+													};
+												}
+												return {};
+											});
+										}
+									});
+								}
 							}
-						}
 
-						commit(SET_TABLES, {
-							tables,
-						});
+							commit(SET_TABLES, {
+								tables,
+							});
+						}
 					})
 					.catch((err) => {
 						console.error(err);
@@ -178,15 +180,17 @@ export default {
 				sql,
 			})
 					.then((response) => {
-						const { data } = response;
-						commit(`${ OUTPUT_MODULE }/${ APPEND_CODE_OUTPUT }`, {
-							output: {
-								...data || {},
-								flux: 'stdtable',
-								tx,
-								timeTravel: tx !== txPresent,
-							},
-						}, { root: true });
+						if (response) {
+							const { data } = response;
+							commit(`${ OUTPUT_MODULE }/${ APPEND_CODE_OUTPUT }`, {
+								output: {
+									...data || {},
+									flux: 'stdtable',
+									tx,
+									timeTravel: tx !== txPresent,
+								},
+							}, { root: true });
+						}
 					})
 					.catch((err) => {
 						console.error(err);

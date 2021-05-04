@@ -19,7 +19,7 @@
 	},
 	"dependencies": {
 		"@mdi/js": "^5.9.55",
-		"@nuxt/core": "^2.14.10",
+		"@nuxt/core": "^2.15.4",
 		"@nuxtjs/axios": "^5.12.2",
 		"axios": "^0.21.1",
 		"copy-to-clipboard": "^3.3.1",
@@ -28,7 +28,8 @@
 		"moment": "^2.29.1",
 		"moment-range": "^4.0.2",
 		"npm": "^7.8.0",
-		"nuxt": "^2.14.0",
+		"nuxt": "^2.15.4",
+		"nuxt-client-init-module": "^0.3.0",
 		"nuxt-compress": "^4.1.0",
 		"nuxt-font-loader-strategy": "^1.1.6",
 		"nuxt-i18n": "^6.15.1",

@@ -1,6 +1,6 @@
 export default () => ({
 	health: null,
-	token: null,
+	// token: null,
 	tables: [],
 	state: {
 		db: '',

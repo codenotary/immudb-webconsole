@@ -3,7 +3,7 @@ import * as qs from 'qs';
 
 export const API_CONFIG = {
 	returnRejectedPromiseOnError: true,
-	timeout: 12000,
+	timeout: 30000,
 	paramsSerializer: params => qs.stringify(params, { indices: false }),
 	headers: {
 		common: {
@@ -15,6 +15,16 @@ export const API_CONFIG = {
 		},
 	},
 };
+
+try {
+	const vuexStorage = localStorage.getItem('vuex-immudb-webconsole');
+	const storangeJSON = JSON.parse(vuexStorage);
+	const { immudb: { token } } = storangeJSON;
+	API_CONFIG.headers.common.Authorization = `Bearer ${ token }`;
+}
+catch (err) {
+	console.error(err);
+}
 
 // Backend api proxy instance
 export const ApiService = axios.create({

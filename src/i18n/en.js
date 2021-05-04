@@ -19,6 +19,18 @@ export default {
 		moreInfo: 'more info',
 		comingSoon: 'Coming soon',
 	},
+	login: {
+		title: 'Please login first',
+		label: {
+			username: 'Username',
+			password: 'Password',
+		},
+		placeholder: {
+			username: 'Insert immudb username',
+			password: 'Insert immudb password',
+		},
+		submit: 'Login',
+	},
 	sidebar: {
 		dashboard: 'Dashboard',
 		query: 'Query',

@@ -1,5 +1,6 @@
 import {
 	TOKEN,
+	AUTHENTICATED,
 	HEALTH,
 	STATE,
 	TABLES,
@@ -10,6 +11,9 @@ import {
 export default {
 	[TOKEN](state) {
 		return state.token;
+	},
+	[AUTHENTICATED](state) {
+		return !!state.token;
 	},
 	[HEALTH](state) {
 		return state.health;

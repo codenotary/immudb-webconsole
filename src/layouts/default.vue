@@ -9,6 +9,12 @@
 			<nuxt />
 		</v-main>
 		<TheFooter />
+
+		<!-- MODALS -->
+		<UiModalAuth
+			:value="!isAuthenticated"
+			@submit="onLogin"
+		/>
 	</v-app>
 </template>
 
@@ -28,6 +34,7 @@ import {
 	FETCH_TABLES,
 	RUN_SQL_EXEC,
 	SET_STATE,
+	AUTHENTICATED,
 	STATE,
 } from '@/store/immudb/constants';
 import LayoutMixin from '@/mixins/LayoutMixin';
@@ -40,40 +47,22 @@ export default {
 	mixins: [
 		LayoutMixin,
 	],
-	async fetch () {
-		try {
-			this.setFetchPending(true);
-			await this.immudbLogin({
-				user: 'immudb',
-				password: 'immudb',
-			});
-			await this.fetchHealth();
-			await this.fetchState();
-			const { txId } = this.state;
-			if (txId) {
-				await this.setState(this.state);
-				await this.runSqlExec(`USE SNAPSHOT SINCE TX ${ txId } BEFORE TX ${ txId }`);
-			}
-			await this.fetchTables();
-			this.setFetchPending(false);
-		}
-		catch (err) {
-			console.error(err);
-			this.setFetchPending(false);
-		}
-	},
-	fetchOnServer: false,
 	computed: {
 		...mapGetters(VIEW_MODULE, {
 			mobile: MOBILE,
 		}),
 		...mapGetters(IMMUDB_MODULE, {
+			isAuthenticated: AUTHENTICATED,
 			state: STATE,
 		}),
 	},
 	mounted() {
-		// Fetch immudb state every 10 seconds
-		this.startPolling();
+		setTimeout(() => {
+			this.onInit({
+				user: 'immudb',
+				password: 'immudb',
+			});
+		}, 600);
 	},
 	beforeDestroy () {
 		this.stopPolling();
@@ -100,13 +89,48 @@ export default {
 				}, 0);
 			}
 		},
-		async updateTables (finished = false) {
-			if (finished) {
+		async onInit (data) {
+			try {
+				this.setFetchPending(true);
+				!this.isAuthenticated &&
+					await this.immudbLogin(data);
+				await this.fetchHealth();
+				await this.fetchState();
+				const { txId } = this.state;
+				if (txId) {
+					await this.setState(this.state);
+					await this.runSqlExec(`USE SNAPSHOT SINCE TX ${ txId } BEFORE TX ${ txId }`);
+				}
 				await this.fetchTables();
-				this.$fetchState.pending = false;
+				this.setFetchPending(false);
+
+				// Fetch immudb state every 10 seconds
+				this.startPolling();
 			}
-			else {
-				this.$fetchState.pending = true;
+			catch (err) {
+				console.error(err);
+				this.setFetchPending(false);
+				this.$toasted.error(this.$t(err), {
+					duration: 3000,
+					icon: 'alert',
+				});
+			}
+		},
+		async onLogin (data) {
+			await this.onInit(data);
+		},
+		async updateTables (finished = false) {
+			try {
+				if (finished) {
+					await this.fetchTables();
+					this.$fetchState.pending = false;
+				}
+				else {
+					this.$fetchState.pending = true;
+				}
+			}
+			catch (err) {
+				console.error(err);
 			}
 		},
 		startPolling () {

@@ -13,6 +13,7 @@ export const SET_TABLES = 'setTables';
 export const SET_TX = 'setTx';
 
 export const TOKEN = 'token';
+export const AUTHENTICATED = 'authentiacted';
 export const HEALTH = 'health';
 export const STATE = 'state';
 export const TABLES = 'getTables';
