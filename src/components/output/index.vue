@@ -75,14 +75,16 @@ export default {
 
 <style lang="scss">
 #Output {
-	&.theme-- {
-		&light.shadow .v-card .v-card__title,
-		&dark.shadow .v-card .v-card__title {
-			padding-top: 0 !important;
-		}
-	}
-
 	&.v-card {
+		&.theme-- {
+			&light.shadow,
+			&dark.shadow {
+				.v-card__title {
+					padding-top: 0 !important;
+				}
+			}
+		}
+
 		.v-card__text {
 			height: calc(100% - 48px) !important;
 			margin-top: 0 !important;
