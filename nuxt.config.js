@@ -308,7 +308,7 @@ export default {
 	** https://nuxtjs.org/api/configuration-env/
 	*/
 	env: {
-		API_URL: IS_PROD? '/api/v1/immurestproxy/' : '/api',
+		API_URL: IS_PROD? '/api' : '/api',
 	},
 
 	/*
@@ -318,7 +318,7 @@ export default {
 	proxy: {
 		'/api/': {
 			target: 'http://localhost:9997',
-			pathRewrite: { '^/api/': '/api/v1/immurestproxy/' },
+			pathRewrite: { '^/api/': '/api/' },
 			xfwd: true,
 			logLevel: 'debug',
 		},
