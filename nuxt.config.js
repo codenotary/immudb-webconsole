@@ -206,7 +206,6 @@ export default {
 	** Nuxt.js modules
 	*/
 	modules: [
-		'nuxt-client-init-module',
 		// Doc: https://axios.nuxtjs.org/setup
 		'@nuxtjs/axios',
 		// Doc: https://github.com/robcresswell/nuxt-compress
