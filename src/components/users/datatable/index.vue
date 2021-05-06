@@ -11,7 +11,7 @@
 				>
 					<v-text-field
 						v-model="keyword"
-						:label="$t('search')"
+						:label="$t('users.table.search')"
 						single-line
 						hide-details
 						clearable

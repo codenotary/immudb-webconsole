@@ -69,9 +69,9 @@ import {
 	IS_FETCH_PENDING,
 } from '@/store/view/constants';
 import {
-	IMMUDB_MODULE,
+	DATABASE_MODULE,
 	FETCH_TABLES,
-} from '@/store/immudb/constants';
+} from '@/store/database/constants';
 import { Splitpanes, Pane } from 'splitpanes';
 import 'splitpanes/dist/splitpanes.css';
 
@@ -135,7 +135,7 @@ export default {
 			setPaneSizes: SET_PANE_SIZES,
 			setFetchPending: SET_FETCH_PENDING,
 		}),
-		...mapActions(IMMUDB_MODULE, {
+		...mapActions(DATABASE_MODULE, {
 			fetchTables: FETCH_TABLES,
 		}),
 		onResize(data) {

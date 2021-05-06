@@ -33,10 +33,13 @@ import {
 	AUTHENTICATED,
 } from '@/store/auth/constants';
 import {
+	DATABASE_MODULE,
+	FETCH_TABLES,
+} from '@/store/database/constants';
+import {
 	IMMUDB_MODULE,
 	FETCH_HEALTH,
 	FETCH_STATE,
-	FETCH_TABLES,
 	RUN_SQL_EXEC,
 	SET_STATE,
 	STATE,
@@ -91,12 +94,14 @@ export default {
 		...mapActions(AUTH_MODULE, {
 			immudbLogin: LOGIN,
 		}),
+		...mapActions(DATABASE_MODULE, {
+			fetchTables: FETCH_TABLES,
+		}),
 		...mapActions(IMMUDB_MODULE, {
 			fetchHealth: FETCH_HEALTH,
 			fetchState: FETCH_STATE,
 			setState: SET_STATE,
 			runSqlExec: RUN_SQL_EXEC,
-			fetchTables: FETCH_TABLES,
 		}),
 		_setTheme (data) {
 			if (data) {

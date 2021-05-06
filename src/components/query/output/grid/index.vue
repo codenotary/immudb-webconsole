@@ -39,7 +39,7 @@ import {
 export default {
 	name: 'QueryOutputGrid',
 	props: {
-		emptyMessage: { type: String, default: 'output.stdout.empty' },
+		emptyMessage: { type: String, default: 'query.output.empty' },
 	},
 	data () {
 		return {

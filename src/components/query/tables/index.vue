@@ -75,7 +75,7 @@
 								</v-icon>
 							</template>
 							<span>
-								{{ $t(`tables.${ props.item.type }`) }}
+								{{ $t(`query.tables.${ props.item.type }`) }}
 							</span>
 						</v-tooltip>
 						<span
@@ -166,10 +166,13 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import {
+	DATABASE_MODULE,
+	TABLES,
+} from '@/store/database/constants';
+import {
 	IMMUDB_MODULE,
 	RUN_SQL_EXEC,
 	STATE,
-	TABLES,
 } from '@/store/immudb/constants';
 import {
 	mdiDatabaseOutline,
@@ -196,9 +199,11 @@ export default {
 		};
 	},
 	computed: {
+		...mapGetters(DATABASE_MODULE, {
+			tables: TABLES,
+		}),
 		...mapGetters(IMMUDB_MODULE, {
 			state: STATE,
-			tables: TABLES,
 		}),
 		currentDB () {
 			if (this.state) {

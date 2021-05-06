@@ -17,7 +17,7 @@
 			<QueryOutputGrid
 				v-if="tab === 0"
 				class="ma-0 pa-0"
-				:empty-message="'output.grid.empty'"
+				:empty-message="'query.output.grid.empty'"
 			/>
 		</v-card-text>
 	</v-card>

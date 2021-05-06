@@ -111,6 +111,7 @@ export default {
 		},
 		table: {
 			name: 'name',
+			search: 'Search user',
 		},
 	},
 	settings: {

@@ -5,25 +5,26 @@ export const ImmudbService = {
 	login (config) {
 		return ApiService.post('/login', config);
 	},
+
+	// ANALYTICS
 	health (config) {
 		return ApiService.get('/health', config);
 	},
-
-	// METRICS & STATS
 	state (config) {
 		return ApiService.get('/db/state', config);
 	},
+
+	// USERS
+	userList (config) {
+		return ApiService.get('/user/list', config);
+	},
+
 	// DATABASE
 	tableList (config) {
 		return ApiService.get('/db/table/list', config);
 	},
-	tableDescrive (data, config) {
+	tableDescribe (data, config) {
 		return ApiService.post('/db/tables', data, config);
-	},
-
-	// USERS
-	users (config) {
-		return ApiService.get('users', config);
 	},
 
 	// SQL

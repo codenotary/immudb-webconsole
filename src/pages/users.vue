@@ -41,18 +41,30 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+import {
+	USER_MODULE,
+	FETCH_USER_LIST,
+} from '@/store/user/constants';
+
 import {
 	mdiAccountMultipleOutline,
 } from '@mdi/js';
 
 export default {
 	name: 'Users',
+	async fetch () {
+		await this.fetchUserList();
+	},
 	data () {
 		return {
 			mdiAccountMultipleOutline,
 		};
 	},
 	methods: {
+		...mapActions(USER_MODULE, {
+			fetchUserList: FETCH_USER_LIST,
+		}),
 		onAddUser () {
 			console.log('add user');
 		},
