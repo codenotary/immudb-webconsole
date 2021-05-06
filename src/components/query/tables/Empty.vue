@@ -28,7 +28,7 @@ import {
 } from '@mdi/js';
 
 export default {
-	name: 'TablesEmpty',
+	name: 'QueryTablesEmpty',
 	data () {
 		return {
 			mdiPlusCircleOutline,

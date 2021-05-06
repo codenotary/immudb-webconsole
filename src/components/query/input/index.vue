@@ -24,14 +24,14 @@
 				{{ $t('query.title') }}
 			</h4>
 			<v-spacer />
-			<QueryActionSelectSnapshot
+			<QueryInputActionSelectSnapshot
 				@update="onSnapshotUpdate"
 			/>
 			<v-divider
 				class="my-0 ml-2 mr-3 pa-0"
 				vertical
 			/>
-			<QueryActionRun
+			<QueryInputActionRun
 				:query="query"
 				@submit="onSubmit"
 			/>
@@ -40,7 +40,7 @@
 			class="ma-0 pa-0 bg-terminal custom-scrollbar"
 		>
 			<div class="ma-0 pa-0 fill-height">
-				<QueryBlock
+				<QueryInputBlock
 					:key="id"
 					class="ma-0 pa-0 fill-height"
 					:query.sync="query"

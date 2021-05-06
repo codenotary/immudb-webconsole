@@ -58,7 +58,7 @@ import {
 } from '@mdi/js';
 
 export default {
-	name: 'OutputSubNavbar',
+	name: 'QueryOutputSubNavbar',
 	props: {
 		tab: { type: Number, default: 0 },
 		tabHasUpdates: { type: Array, default: () => [] },

@@ -6,11 +6,11 @@
 		<div
 			v-if="output && output.length"
 		>
-			<OutputGridFilter
+			<QueryOutputGridFilter
 				id="GridFilter"
 				:filter.sync="filter"
 			/>
-			<OutputGridItem
+			<QueryOutputGridItem
 				v-for="(item, idx) in filterOutput"
 				:key="`output-${ idx }`"
 				:item="item"
@@ -37,7 +37,7 @@ import {
 } from '@/store/output/constants';
 
 export default {
-	name: 'OutputGrid',
+	name: 'QueryOutputGrid',
 	props: {
 		emptyMessage: { type: String, default: 'output.stdout.empty' },
 	},

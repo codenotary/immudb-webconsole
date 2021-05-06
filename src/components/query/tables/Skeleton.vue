@@ -41,6 +41,6 @@
 
 <script>
 export default {
-	name: 'TopicSkeleton',
+	name: 'QueryTopicSkeleton',
 };
 </script>

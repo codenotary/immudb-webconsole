@@ -57,7 +57,7 @@ import {
 } from '@mdi/js';
 
 export default {
-	name: 'QueryActionRun',
+	name: 'QueryInputActionRun',
 	props: {
 		query: { type: String, default: '' },
 	},

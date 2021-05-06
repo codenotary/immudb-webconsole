@@ -23,6 +23,6 @@
 
 <script>
 export default {
-	name: 'QuerySkeleton',
+	name: 'QueryInputSkeleton',
 };
 </script>

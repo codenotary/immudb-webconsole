@@ -24,7 +24,7 @@ import {
 } from '@/store/immudb/constants';
 
 export default {
-	name: 'QueryActionsSelectTransaction',
+	name: 'QueryInputActionsSelectTransaction',
 	data () {
 		return {
 			items: [],

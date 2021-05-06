@@ -143,7 +143,7 @@
 									</span>
 								</v-tooltip>
 							</div>
-							<QueryActionAdd
+							<QueryTablesActionAdd
 								:value="props.item.value"
 								@submit="onQueryUpdate"
 							/>
@@ -151,11 +151,11 @@
 					</span>
 				</template>
 			</v-treeview>
-			<TablesEmpty
+			<QueryTablesEmpty
 				v-else-if="!pending"
 				@submit="onAddDemoData"
 			/>
-			<TablesSkeleton
+			<QueryTablesSkeleton
 				v-else
 				class="ma-0 pa-4"
 			/>

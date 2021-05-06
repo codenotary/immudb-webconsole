@@ -37,7 +37,7 @@ import {
 } from '@mdi/js';
 
 export default {
-	name: 'TablesActionAdd',
+	name: 'QueryTablesActionAdd',
 	props: {
 		value: { type: String, default: '' },
 	},

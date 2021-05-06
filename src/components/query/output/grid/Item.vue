@@ -79,7 +79,7 @@
 				</span>
 			</div>
 			<p>
-				<OutputGridTable
+				<QueryOutputGridTable
 					v-if="showTable"
 					:item="item"
 				/>
@@ -106,7 +106,7 @@ import {
 } from '@mdi/js';
 
 export default {
-	name: 'OutputGridItem',
+	name: 'QueryOutputGridItem',
 	mixins: [timeUtils],
 	props: {
 		item: { type: Object, default: () => {} },

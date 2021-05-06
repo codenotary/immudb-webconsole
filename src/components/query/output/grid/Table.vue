@@ -37,7 +37,7 @@
 
 <script>
 export default {
-	name: 'OutputGridTable',
+	name: 'QueryOutputGridTable',
 	props: {
 		item: { type: Object, default: () => {} },
 	},

@@ -5,7 +5,7 @@
 		elevation="0"
 	>
 		<v-card-title class="ma-0 pa-0 d-flex justify-start align-center">
-			<OutputSubNavbar
+			<QueryOutputSubNavbar
 				:tab.sync="tab"
 				:tab-has-updates.sync="tabHasUpdates"
 			/>
@@ -14,7 +14,7 @@
 			ref="outputList"
 			class="ma-0 pa-2 bg-secondary custom-scrollbar"
 		>
-			<OutputGrid
+			<QueryOutputGrid
 				v-if="tab === 0"
 				class="ma-0 pa-0"
 				:empty-message="'output.grid.empty'"

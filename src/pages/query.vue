@@ -30,7 +30,7 @@
 					:min-size="getConstraints.tables.minSize"
 					:max-size="getConstraints.tables.maxSize"
 				>
-					<LazyTables
+					<LazyQueryTables
 						:pending="isFetchPending"
 						@update:start="updateTables(false)"
 						@update:end="updateTables(true)"
@@ -41,7 +41,7 @@
 					:min-size="getConstraints.query.minSize"
 					:max-size="getConstraints.query.maxSize"
 				>
-					<LazyQuery />
+					<LazyQueryInput />
 				</pane>
 			</splitpanes>
 		</pane>
@@ -50,7 +50,7 @@
 			:min-size="getConstraints.output.minSize"
 			:max-size="getConstraints.output.maxSize"
 		>
-			<LazyOutput
+			<LazyQueryOutput
 				:sizes="sizes.output"
 			/>
 		</pane>

@@ -16,7 +16,7 @@
 
 <script>
 export default {
-	name: 'OutputGridFilter',
+	name: 'QueryOutputGridFilter',
 	props: {
 		filter: { type: String, default: '' },
 	},

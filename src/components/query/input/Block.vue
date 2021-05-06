@@ -40,7 +40,7 @@ import { caretMixin } from '@/mixins/caretMixin';
 const PLACEHOLDER = 'Eg: SELECT * FROM <tablename>';
 
 export default {
-	name: 'QueryBlock',
+	name: 'QueryInputBlock',
 	mixins: [caretMixin],
 	props: {
 		query: { type: String, default: '' },
