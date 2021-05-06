@@ -8,11 +8,11 @@ fi
 # move to the webconsole path
 pushd '../immudb/webconsole/'
 
-# echo :: Deleting webconsole content
-# find . -not -name 'webconsole.go' -o -not -name 'webconsole_default.go' -delete
+echo :: Deleting webconsole content
+rm -fr ./dist
 
 # move back to the previous directorywebconsole
 popd
 
 echo :: Adding new dist files to webconsole
-cp -a ./dist/. ../immudb/webconsole/
+cp -a ./dist/. ../immudb/webconsole/dist/
