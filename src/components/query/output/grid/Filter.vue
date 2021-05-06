@@ -8,7 +8,7 @@
 		}"
 		color="grey darken-2"
 		:items="items"
-		:label="$t('output.filter.label')"
+		:label="$t('query.output.filter.label')"
 		hide-details
 		dense
 	/>

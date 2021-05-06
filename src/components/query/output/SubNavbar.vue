@@ -42,7 +42,7 @@
 							:content="tabHasUpdates[0]"
 							bordered
 						>
-							{{ $t('output.grid.title') }}
+							{{ $t('query.output.grid.title') }}
 						</v-badge>
 					</span>
 				</v-tab>

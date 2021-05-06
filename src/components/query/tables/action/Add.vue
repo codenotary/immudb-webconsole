@@ -23,11 +23,11 @@
 					{{ mdiPlus }}
 				</v-icon>
 				<span>
-					{{ $t('tables.add.button') }}
+					{{ $t('query.tables.add.button') }}
 				</span>
 			</v-btn>
 		</template>
-		{{ $t('tables.add.tooltip', { value }) }}
+		{{ $t('query.tables.add.tooltip', { value }) }}
 	</v-tooltip>
 </template>
 

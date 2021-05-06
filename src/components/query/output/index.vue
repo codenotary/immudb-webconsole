@@ -1,6 +1,6 @@
 <template>
 	<v-card
-		id="Output"
+		id="QueryOutput"
 		class="ma-0 pa-0 bg shadow fill-height"
 		elevation="0"
 	>
@@ -34,7 +34,7 @@ import { mdiViewList } from '@mdi/js';
 const isEqual = require('lodash.isequal');
 
 export default {
-	name: 'Output',
+	name: 'QueryOutput',
 	data () {
 		return {
 			mdiViewList,
@@ -74,7 +74,7 @@ export default {
 </script>
 
 <style lang="scss">
-#Output {
+#QueryOutput {
 	&.v-card {
 		&.theme-- {
 			&light.shadow,

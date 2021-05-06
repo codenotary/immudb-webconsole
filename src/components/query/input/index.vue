@@ -1,6 +1,6 @@
 <template>
 	<v-card
-		id="Query"
+		id="QueryInput"
 		class="ma-0 pa-0 bg fill-height pane shadow"
 		elevation="0"
 	>
@@ -21,7 +21,7 @@
 					'gray--text text--lighten-1': $vuetify.theme.dark,
 				}"
 			>
-				{{ $t('query.title') }}
+				{{ $t('query.input.title') }}
 			</h4>
 			<v-spacer />
 			<QueryInputActionSelectSnapshot
@@ -73,7 +73,7 @@ import {
 const uniqueId = require('lodash.uniqueid');
 
 export default {
-	name: 'Query',
+	name: 'QueryInput',
 	data () {
 		return {
 			mdiDatabaseSearchOutline,

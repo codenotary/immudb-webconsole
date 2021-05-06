@@ -9,7 +9,7 @@
 				depressed
 				small
 				primary
-				:alt="$t('query.run')"
+				:alt="$t('query.input.run.alt')"
 				:loading="isLoading"
 				:disabled="isLoading || !query"
 				v-bind="attrs"
@@ -24,7 +24,7 @@
 				<span
 					class="my-0 mx-2 body-2 text-capitalize"
 				>
-					{{ $t('common.run') }}
+					{{ $t('query.input.run.button') }}
 				</span>
 				<template #loader>
 					<v-progress-circular
@@ -34,13 +34,13 @@
 						:size="16"
 					/>
 					<span class="ma-0 ml-2 pa-0 caption">
-						{{ $t('common.running') }}
+						{{ $t('query.input.run.loading') }}
 					</span>
 				</template>
 			</v-btn>
 		</template>
 		<span>
-			{{ $t('query.run') }}
+			{{ $t('query.input.run.tooltip') }}
 		</span>
 	</v-tooltip>
 </template>

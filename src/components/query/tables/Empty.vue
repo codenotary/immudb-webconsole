@@ -1,7 +1,7 @@
 <template>
 	<div class="ma-0 py-4 px-2 d-flex flex-column justify-start align-center">
 		<p class="ma-0 mb-4 pa-0 text-center">
-			{{ $t('tables.empty.label') }}
+			{{ $t('query.tables.empty.label') }}
 		</p>
 		<v-btn
 			class="ma-0 py-0 px-2 d-flex justify-center align-center"
@@ -16,7 +16,7 @@
 				{{ mdiPlusCircleOutline }}
 			</v-icon>
 			<span class="ma-0 ml-1 pa-0 caption">
-				{{ $t('tables.empty.button') }}
+				{{ $t('query.tables.empty.button') }}
 			</span>
 		</v-btn>
 	</div>

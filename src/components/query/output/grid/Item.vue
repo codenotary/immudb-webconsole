@@ -54,7 +54,7 @@
 								{{ mdiHistory }}
 							</v-icon>
 							<span class="ma-0 ml-1 pa-0 caption">
-								{{ $t('output.grid.timeTravel') }}
+								{{ $t('query.output.grid.timeTravel') }}
 							</span>
 						</span>
 						<span
@@ -72,7 +72,7 @@
 								{{ mdiHistory }}
 							</v-icon>
 							<span class="ma-0 ml-1 pa-0 caption">
-								{{ $t('output.grid.present') }}
+								{{ $t('query.output.grid.present') }}
 							</span>
 						</span>
 					</v-chip>

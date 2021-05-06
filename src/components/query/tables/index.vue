@@ -1,6 +1,6 @@
 <template>
 	<v-card
-		id="Tables"
+		id="QueryTables"
 		class="ma-0 pa-0 bg fill-height pane shadow"
 		elevation="0"
 	>
@@ -21,7 +21,7 @@
 					'gray--text text--lighten-1': $vuetify.theme.dark,
 				}"
 			>
-				{{ $t('tables.title') }}
+				{{ $t('query.tables.title') }}
 			</h4>
 			<!-- O: {{ open }} -->
 		</v-card-title>
@@ -35,7 +35,7 @@
 				v-if="currentDB"
 				class="my-4 mx-0 pa-4 subtitle-2 font-weight-bold"
 			>
-				{{ $t('tables.activeDB') }} {{ currentDB }}
+				{{ $t('query.tables.activeDB') }} {{ currentDB }}
 			</span>
 			<v-divider
 				v-if="currentDB"
@@ -116,7 +116,7 @@
 										</v-icon>
 									</template>
 									<span>
-										{{ $t('tables.primaryKey') }}
+										{{ $t('query.tables.primaryKey') }}
 									</span>
 								</v-tooltip>
 								<v-tooltip
@@ -139,7 +139,7 @@
 										</v-icon>
 									</template>
 									<span>
-										{{ $t('tables.foreignKey') }}
+										{{ $t('query.tables.foreignKey') }}
 									</span>
 								</v-tooltip>
 							</div>
@@ -180,7 +180,7 @@ import {
 } from '@mdi/js';
 
 export default {
-	name: 'Tables',
+	name: 'QueryTables',
 	props: {
 		pending: { type: Boolean, default: false },
 	},
@@ -340,7 +340,7 @@ export default {
 </script>
 
 <style lang="scss">
-#Tables {
+#QueryTables {
 	.v-treeview {
 		padding-left: 2px !important;
 

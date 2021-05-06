@@ -8,7 +8,7 @@
 		:style="`max-width: ${ getWidth }px;`"
 		:height="30"
 		:items="items"
-		:label="$t('query.snapshot.label')"
+		:label="$t('query.input.snapshot.label')"
 		:placeholder="value"
 		hide-details
 		dense
@@ -68,7 +68,7 @@ export default {
 						for (let i = 1; i <= lastId; i++) {
 							items = [...items, {
 								text: i === lastId
-									? `${ i } (${ this.$t('query.present') })`
+									? `${ i } (${ this.$t('query.input.present') })`
 									: `${ i }`,
 								value: `${ i }`,
 							}];
