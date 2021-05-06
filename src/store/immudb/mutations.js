@@ -1,13 +1,12 @@
 import {
+	SET_HEALTH,
 	SET_STATE,
-	SET_TABLES,
 	SET_TX,
 } from './constants';
 
 export default {
-	[SET_TABLES](state, payload) {
-		const { tables } = payload;
-		tables && (state.tables = tables);
+	[SET_HEALTH](state, payload) {
+		state.health = payload;
 	},
 	[SET_STATE](state, payload) {
 		if (payload) {

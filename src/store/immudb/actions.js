@@ -9,16 +9,14 @@ import {
 	APPEND_CODE_OUTPUT,
 } from '@/store/output/constants';
 import {
+	IMMUDB_MODULE,
 	FETCH_HEALTH,
 	FETCH_STATE,
 	SET_STATE,
 	SET_HEALTH,
-	FETCH_TABLES,
 	RUN_SQL_EXEC,
 	RUN_SQL_QUERY,
-	SET_TABLES,
 	SET_TX,
-	IMMUDB_MODULE,
 	TX,
 	TX_PRESENT,
 } from './constants';
@@ -34,68 +32,6 @@ export default {
 		const response = await ImmudbService.state();
 
 		commit(SET_STATE, response && response.data);
-	},
-	async [FETCH_TABLES]({ commit }, payload) {
-		const LOADING_LABEL = 'fetchTables';
-		try {
-			commit(`${ VIEW_MODULE }/${ PUSH_LOADING }`, { label: LOADING_LABEL, silently: true }, { root: true });
-
-			await ImmudbService.tableList()
-					.then(async (response) => {
-						if (response) {
-							const { data: { rows } } = response;
-							let tables = [];
-
-							if (rows && rows.length) {
-								tables = rows.reduce((acc, { values }) => {
-									return [...acc, {
-										label: values[0].s,
-										value: values[0].s,
-										type: 'tab',
-									}];
-								}, []);
-								const responseList = await Promise.all(tables.map(_ =>
-									ImmudbService.tableDescrive({ tableName: _ && _.value }),
-								));
-
-								if (responseList && responseList.length) {
-									responseList.map((_, idx) => {
-										const { data: { rows: cols } } = _;
-										if (cols && cols.length) {
-											tables[idx].children = cols.map((row) => {
-												if (row) {
-													return {
-														label: row.values[0] && row.values[0].s,
-														value: row.values[0] && row.values[0].s,
-														tags: row.values[1] && row.values[1].s,
-														primary: row.values[2] && row.values[2].s === 'PRIMARY KEY',
-														foreignKey: row.values[2] && row.values[2].s === 'FOREIGN KEY',
-														type: 'col',
-													};
-												}
-												return {};
-											});
-										}
-									});
-								}
-							}
-
-							commit(SET_TABLES, {
-								tables,
-							});
-						}
-					})
-					.catch((err) => {
-						console.error(err);
-						commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
-					});
-			commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
-		}
-		catch (err) {
-			console.error(err);
-			commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
-			throw err;
-		}
 	},
 	async [RUN_SQL_EXEC]({ commit }, payload) {
 		const LOADING_LABEL = 'runSqlExec';
@@ -173,9 +109,6 @@ export default {
 			}, { root: true });
 			throw err;
 		}
-	},
-	[SET_TABLES]({ commit }, payload) {
-		commit(SET_TABLES, payload);
 	},
 	[SET_STATE]({ commit }, payload) {
 		commit(SET_STATE, payload);

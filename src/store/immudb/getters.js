@@ -1,7 +1,6 @@
 import {
 	HEALTH,
 	STATE,
-	TABLES,
 	TX,
 	TX_PRESENT,
 } from './constants';
@@ -12,9 +11,6 @@ export default {
 	},
 	[STATE](state) {
 		return state.state;
-	},
-	[TABLES](state) {
-		return state.tables || [];
 	},
 	[TX](state) {
 		return state.state.txId || '1';
