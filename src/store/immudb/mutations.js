@@ -1,18 +1,10 @@
 import {
-	SET_TOKEN,
-	SET_HEALTH,
 	SET_STATE,
 	SET_TABLES,
 	SET_TX,
 } from './constants';
 
 export default {
-	[SET_TOKEN](state, payload) {
-		state.token = payload;
-	},
-	[SET_HEALTH](state, payload) {
-		state.health = payload;
-	},
 	[SET_TABLES](state, payload) {
 		const { tables } = payload;
 		tables && (state.tables = tables);
