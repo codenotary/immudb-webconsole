@@ -1,7 +1,7 @@
 <template>
 	<v-navigation-drawer
 		id="TheNavigationDrawer"
-		class="ma-0 pa-0 bg justify-space-between align-center"
+		class="ma-0 pa-0 bg d-flex justify-space-between align-center"
 		:class="{ mobile, mini }"
 		:value="!collapsed"
 		:permanent="!mobile"
@@ -60,12 +60,7 @@
 			/>
 		</v-btn>
 
-		<NavigationExamples
-			v-if="mobile"
-		/>
-
 		<v-list
-			v-if="!mobile"
 			class="px-0 pt-16 pt-sm-4 ma-0 custom-scrollbar"
 		>
 			<div
@@ -139,6 +134,52 @@
 				</v-tooltip>
 			</div>
 		</v-list>
+		<template #append>
+			<div class="ma-0 pa-0 pb-12">
+				<v-tooltip
+					v-if="isAuthenticated"
+					right
+				>
+					<template #activator="{ on, attrs }">
+						<v-list-item
+							class="py-1 d-flex justify-center"
+							:ripple="true"
+							:title="$t('sidebar.logout.alt')"
+							:alt="$t('sidebar.logout.alt')"
+							v-bind="attrs"
+							v-on="on"
+							@click="onLogout"
+						>
+							<v-icon
+								class="ma-0 body-2 text-center"
+								:class="{
+									'gray--text text--darken-1': !$vuetify.theme.dark,
+									'gray--text text--lighten-1': $vuetify.theme.dark,
+								}"
+							>
+								{{ mdiLogout }}
+							</v-icon>
+							<div
+								class="ma-0 pa-0 d-flex flex-column justify-center align-start"
+							>
+								<span
+									class="body-2"
+									:class="{
+										'gray--text text--darken-1': !$vuetify.theme.dark,
+										'gray--text text--lighten-1': $vuetify.theme.dark,
+									}"
+								>
+									{{ $t('sidebar.logout.alt') }}
+								</span>
+							</div>
+						</v-list-item>
+					</template>
+					<span class="body-2">
+						{{ $t('sidebar.logout.alt') }}
+					</span>
+				</v-tooltip>
+			</div>
+		</template>
 	</v-navigation-drawer>
 </template>
 
@@ -152,6 +193,11 @@ import {
 	SIDEBAR_MINI,
 } from '@/store/view/constants';
 import {
+	IMMUDB_MODULE,
+	SET_TOKEN,
+	AUTHENTICATED,
+} from '@/store/immudb/constants';
+import {
 	mdiMenu,
 	mdiDatabaseSearchOutline,
 	mdiChartBoxOutline,
@@ -159,6 +205,7 @@ import {
 	mdiAccountMultipleOutline,
 	mdiCogOutline,
 	mdiBookOpenOutline,
+	mdiLogout,
 } from '@mdi/js';
 
 export default {
@@ -172,6 +219,7 @@ export default {
 			mdiAccountMultipleOutline,
 			mdiCogOutline,
 			mdiBookOpenOutline,
+			mdiLogout,
 			items: [],
 		};
 	},
@@ -180,6 +228,9 @@ export default {
 			mobile: MOBILE,
 			collapsed: SIDEBAR_COLLAPSED,
 			mini: SIDEBAR_MINI,
+		}),
+		...mapGetters(IMMUDB_MODULE, {
+			isAuthenticated: AUTHENTICATED,
 		}),
 	},
 	watch: {
@@ -256,6 +307,9 @@ export default {
 		...mapActions(VIEW_MODULE, {
 			setSidebar: SET_SIDEBAR,
 		}),
+		...mapActions(IMMUDB_MODULE, {
+			setToken: SET_TOKEN,
+		}),
 		onMini () {
 			this.setSidebar({ mini: !this.mini });
 		},
@@ -263,6 +317,9 @@ export default {
 			this.setSidebar({
 				collapsed: !this.collapsed,
 			});
+		},
+		onLogout () {
+			this.setToken(null);
 		},
 	},
 };

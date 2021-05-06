@@ -38,6 +38,10 @@ export default {
 		users: 'Users',
 		settings: 'Settings',
 		guide: 'Guide',
+		logout: {
+			label: 'logout',
+			alt: 'Logout from immudb',
+		},
 	},
 	tables: {
 		title: 'Tables',
