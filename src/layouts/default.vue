@@ -12,7 +12,8 @@
 
 		<!-- MODALS -->
 		<UiModalAuth
-			:value="!isAuthenticated"
+			v-model="authModalOpen"
+			@close="onLogin"
 			@submit="onLogin"
 		/>
 	</v-app>
@@ -47,6 +48,11 @@ export default {
 	mixins: [
 		LayoutMixin,
 	],
+	data () {
+		return {
+			authModalOpen: false,
+		};
+	},
 	computed: {
 		...mapGetters(VIEW_MODULE, {
 			mobile: MOBILE,
@@ -56,13 +62,18 @@ export default {
 			state: STATE,
 		}),
 	},
-	mounted() {
-		setTimeout(() => {
-			this.onInit({
-				user: 'immudb',
-				password: 'immudb',
-			});
-		}, 600);
+	watch: {
+		isAuthenticated: {
+			immediate: true,
+			handler (newVal) {
+				if (newVal) {
+					this.onInit();
+				}
+				else {
+					this.authModalOpen = !newVal;
+				}
+			},
+		},
 	},
 	beforeDestroy () {
 		this.stopPolling();
@@ -89,11 +100,9 @@ export default {
 				}, 0);
 			}
 		},
-		async onInit (data) {
+		async onInit () {
 			try {
 				this.setFetchPending(true);
-				!this.isAuthenticated &&
-					await this.immudbLogin(data);
 				await this.fetchHealth();
 				await this.fetchState();
 				const { txId } = this.state;
@@ -117,7 +126,20 @@ export default {
 			}
 		},
 		async onLogin (data) {
-			await this.onInit(data);
+			try {
+				data && await this.immudbLogin(data);
+				await this.onInit();
+			}
+			catch (err) {
+				console.error(err);
+				this.$toasted.error(this.$t(err), {
+					duration: 3000,
+					icon: 'alert',
+				});
+				setTimeout(() => {
+					this.authModalOpen = true;
+				}, 30);
+			}
 		},
 		async updateTables (finished = false) {
 			try {

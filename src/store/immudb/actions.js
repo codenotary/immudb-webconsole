@@ -62,6 +62,7 @@ export default {
 		catch (err) {
 			console.error(err);
 			commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
+			commit(SET_TOKEN, null);
 			throw err;
 		}
 	},

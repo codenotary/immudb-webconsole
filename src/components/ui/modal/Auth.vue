@@ -122,12 +122,23 @@ export default {
 			},
 		};
 	},
+	watch: {
+		value (newVal) {
+			if (!newVal) {
+				this.$nextTick(() => {
+					const { observer } = this.$refs;
+					observer && observer.reset();
+				});
+			}
+		},
+	},
 	methods: {
 		onLogin () {
 			this.$emit('submit', {
 				user: this.form.user,
 				password: this.form.password,
 			});
+			this.$emit('input', false);
 		},
 	},
 };
