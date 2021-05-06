@@ -1,6 +1,6 @@
 <template>
 	<splitpanes
-		id="WebconsoleTheme"
+		id="QueryMultipanes"
 		class="py-0 pr-4"
 		:class="`theme--${ $vuetify.theme.dark ? 'dark' : 'light' }`"
 		horizontal
@@ -76,7 +76,7 @@ import { Splitpanes, Pane } from 'splitpanes';
 import 'splitpanes/dist/splitpanes.css';
 
 export default {
-	name: 'Dashboard',
+	name: 'Query',
 	layout: 'default',
 	components: {
 		Splitpanes,
@@ -165,7 +165,7 @@ export default {
 </script>
 
 <style lang="scss">
-#WebconsoleTheme {
+#QueryMultipanes {
 	height: 100% !important;
 	max-height: 100% !important;
 	padding: 0 $spacer-3 0 0;

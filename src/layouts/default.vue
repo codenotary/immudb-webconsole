@@ -28,14 +28,17 @@ import {
 	MOBILE,
 } from '@/store/view/constants';
 import {
-	IMMUDB_MODULE,
+	AUTH_MODULE,
 	LOGIN,
+	AUTHENTICATED,
+} from '@/store/auth/constants';
+import {
+	IMMUDB_MODULE,
 	FETCH_HEALTH,
 	FETCH_STATE,
 	FETCH_TABLES,
 	RUN_SQL_EXEC,
 	SET_STATE,
-	AUTHENTICATED,
 	STATE,
 } from '@/store/immudb/constants';
 import LayoutMixin from '@/mixins/LayoutMixin';
@@ -57,8 +60,10 @@ export default {
 		...mapGetters(VIEW_MODULE, {
 			mobile: MOBILE,
 		}),
-		...mapGetters(IMMUDB_MODULE, {
+		...mapGetters(AUTH_MODULE, {
 			isAuthenticated: AUTHENTICATED,
+		}),
+		...mapGetters(IMMUDB_MODULE, {
 			state: STATE,
 		}),
 	},
@@ -83,8 +88,10 @@ export default {
 			setTheme: SET_THEME,
 			setFetchPending: SET_FETCH_PENDING,
 		}),
-		...mapActions(IMMUDB_MODULE, {
+		...mapActions(AUTH_MODULE, {
 			immudbLogin: LOGIN,
+		}),
+		...mapActions(IMMUDB_MODULE, {
 			fetchHealth: FETCH_HEALTH,
 			fetchState: FETCH_STATE,
 			setState: SET_STATE,

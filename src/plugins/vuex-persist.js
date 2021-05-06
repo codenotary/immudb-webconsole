@@ -11,8 +11,8 @@ export default ({ store }) => {
 			view: {
 				theme: state.view.theme,
 			},
-			immudb: {
-				token: state.immudb.token,
+			auth: {
+				token: state.auth.token,
 			},
 		}),
 	}).plugin(store);

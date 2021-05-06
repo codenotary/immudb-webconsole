@@ -7,7 +7,7 @@
 				depressed
 				small
 				icon
-				:alt="$t('query.clear')"
+				:alt="$t('query.input.clear')"
 				:disabled="isLoading"
 				v-bind="attrs"
 				v-on="on"
@@ -25,7 +25,7 @@
 			</v-btn>
 		</template>
 		<span>
-			{{ $t('query.clear') }}
+			{{ $t('query.input.clear') }}
 		</span>
 	</v-tooltip>
 </template>

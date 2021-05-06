@@ -1,7 +1,7 @@
 import {
-	IMMUDB_MODULE,
+	AUTH_MODULE,
 	SET_TOKEN,
-} from '@/store/immudb/constants';
+} from '@/store/auth/constants';
 import { ApiService } from '@/services/index';
 
 /***
@@ -44,10 +44,10 @@ export default ({ store }) => {
 						PAYLOAD_MESSAGES_WHITELISTED.some(x => error && error.includes(x));
 
 					if (IS_UNHAUTORIZED_ERROR && !RETRY_REQUEST && !WHITELISTED) {
-						store.commit(`${ IMMUDB_MODULE }/${ SET_TOKEN }`, null);
+						store.commit(`${ AUTH_MODULE }/${ SET_TOKEN }`, null);
 					}
 					else if (IS_INTERNAL_SERVER_ERROR && message === PLEASE_LOGIN_FIRST) {
-						store.commit(`${ IMMUDB_MODULE }/${ SET_TOKEN }`, null);
+						store.commit(`${ AUTH_MODULE }/${ SET_TOKEN }`, null);
 					}
 
 					return Promise.reject(err);

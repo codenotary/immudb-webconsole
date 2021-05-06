@@ -18,8 +18,8 @@ export const API_CONFIG = {
 
 try {
 	const vuexStorage = localStorage.getItem('vuex-immudb-webconsole');
-	const storangeJSON = JSON.parse(vuexStorage);
-	const { immudb: { token } } = storangeJSON || { immudb: {} };
+	const storangeJSON = vuexStorage && JSON.parse(vuexStorage);
+	const { auth: { token } } = storangeJSON || { auth: {} };
 	API_CONFIG.headers.common.Authorization = `Bearer ${ token }`;
 }
 catch (err) {
