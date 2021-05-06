@@ -193,10 +193,10 @@ import {
 	SIDEBAR_MINI,
 } from '@/store/view/constants';
 import {
-	IMMUDB_MODULE,
+	AUTH_MODULE,
 	SET_TOKEN,
 	AUTHENTICATED,
-} from '@/store/immudb/constants';
+} from '@/store/auth/constants';
 import {
 	mdiMenu,
 	mdiDatabaseSearchOutline,
@@ -229,7 +229,7 @@ export default {
 			collapsed: SIDEBAR_COLLAPSED,
 			mini: SIDEBAR_MINI,
 		}),
-		...mapGetters(IMMUDB_MODULE, {
+		...mapGetters(AUTH_MODULE, {
 			isAuthenticated: AUTHENTICATED,
 		}),
 	},
@@ -270,7 +270,7 @@ export default {
 				},
 				{
 					title: 'sidebar.users',
-					tooltip: 'common.comingSoon',
+					tooltip: 'users.title',
 					icon: mdiAccountMultipleOutline,
 					to: this.localePath({ path: '/users' }),
 					alt: 'Users',
@@ -306,7 +306,7 @@ export default {
 		...mapActions(VIEW_MODULE, {
 			setSidebar: SET_SIDEBAR,
 		}),
-		...mapActions(IMMUDB_MODULE, {
+		...mapActions(AUTH_MODULE, {
 			setToken: SET_TOKEN,
 		}),
 		onMini () {
