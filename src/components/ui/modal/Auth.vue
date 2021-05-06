@@ -124,12 +124,14 @@ export default {
 	},
 	watch: {
 		value (newVal) {
-			if (!newVal) {
-				this.$nextTick(() => {
-					const { observer } = this.$refs;
-					observer && observer.reset();
-				});
-			}
+			this.form = {
+				user: '',
+				password: '',
+			};
+			this.$nextTick(() => {
+				const { observer } = this.$refs;
+				observer && observer.reset();
+			});
 		},
 	},
 	methods: {
