@@ -43,52 +43,75 @@ export default {
 			alt: 'Logout from immudb',
 		},
 	},
-	tables: {
-		title: 'Tables',
-		table: 'Table',
-		tab: 'Table',
-		row: 'Row',
-		col: 'Column',
-		column: 'Column',
-		view: 'View',
-		primaryKey: 'Primary key',
-		activeDB: 'Database:',
-		add: {
-			button: 'add',
-			tooltip: 'Add \'{value}\' to sql query',
-		},
-		empty: {
-			label: 'The current database is empty.',
-			button: 'add demo data',
-		},
-	},
-	query: {
-		title: 'SQL Query',
-		run: 'Run',
-		clear: 'clear query',
-		cleared: 'query cleared',
-		snapshot: {
-			label: 'Travel in time',
-			placeholder: 'Travel in time',
-		},
-		present: 'Present',
-	},
-	output: {
-		filter: {
-			label: 'filter by severity',
-		},
-		grid: {
-			title: 'Output',
-			empty: 'There is no output yet...',
-			present: 'Present',
-			timeTravel: 'Travelled in time',
-		},
-	},
 	analytics: {
 		title: 'Analytics',
 	},
+	query: {
+		tables: {
+			title: 'Tables',
+			table: 'Table',
+			tab: 'Table',
+			row: 'Row',
+			col: 'Column',
+			column: 'Column',
+			view: 'View',
+			primaryKey: 'Primary key',
+			activeDB: 'Database:',
+			add: {
+				button: 'add',
+				alt: 'Add \'{value}\' to sql query',
+				tooltip: 'Add \'{value}\' to sql query',
+			},
+			empty: {
+				label: 'The current database is empty.',
+				button: 'add demo data',
+			},
+		},
+		input: {
+			title: 'SQL Query',
+			snapshot: {
+				label: 'Travel in time',
+				alt: 'Travel in time',
+				placeholder: 'Travel in time',
+			},
+			present: 'Present',
+			run: {
+				button: 'Run',
+				alt: 'Run SQL query',
+				tooltip: 'Run SQL query',
+				loading: 'Running',
+			},
+			clear: {
+				button: 'Clear',
+				alt: 'Clear query',
+				tooltip: 'Clear query',
+				success: 'Query cleared',
+			},
+		},
+		output: {
+			filter: {
+				label: 'filter by severity',
+			},
+			grid: {
+				title: 'Output',
+				empty: 'There is no output yet...',
+				present: 'Present',
+				timeTravel: 'Travelled in time',
+			},
+		},
+	},
 	users: {
-		title: 'Users',
+		title: 'Manage users',
+		add: {
+			button: 'Add user',
+			alt: 'Add user',
+			tooltip: 'Add user',
+			loading: 'Creating',
+			success: 'User added',
+		},
+		table: {
+			name: 'name',
+		},
 	},
 	settings: {
 		title: 'Settings',
