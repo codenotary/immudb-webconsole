@@ -1,6 +1,7 @@
 <template>
 	<v-tooltip
 		top
+		:#open-delay="600"
 	>
 		<template v-slot:activator="{ on, attrs }">
 			<v-btn
@@ -13,11 +14,7 @@
 				@click.native.stop="onSubmit(value)"
 			>
 				<v-icon
-					class="ma-0 mr-1 pa-0"
-					:class="{
-						'grey--text text--darken-0': !$vuetify.theme.dark,
-						'grey--text text--lighten-2': $vuetify.theme.dark,
-					}"
+					class="ma-0 mr-1 pa-0 grey--text text--lighten-5"
 					small
 				>
 					{{ mdiPlus }}
