@@ -91,16 +91,11 @@ $border-color-light: #f9fcff;
 .primary-gradient {
 	background-color: transparent;
 	background-image: linear-gradient(180deg, map-get($blue, light), map-get($blue, base)) !important;
-
-	&.theme--dark.v-btn--disabled,
-	&.theme--light.v-btn--disabled {
-		color: rgba(255, 255, 255, 0.3) !important;
-	}
 }
 
 .secondary-gradient {
 	background-color: transparent;
-	background-image: linear-gradient(180deg, map-get($orange, light), map-get($orange, base)) !important;
+	background-image: linear-gradient(180deg, map-get($blue, light), map-get($blue, base)) !important;
 }
 
 .accent-gradient {
@@ -108,9 +103,19 @@ $border-color-light: #f9fcff;
 	background-image: linear-gradient(180deg, map-get($purple, light), map-get($purple, base)) !important;
 }
 
+.error-gradient {
+	background-color: transparent;
+	background-image: linear-gradient(180deg, map-get($red, base), map-get($red, dark)) !important;
+}
+
 .success-gradient {
 	background-color: transparent;
 	background-image: linear-gradient(180deg, map-get($green, light), map-get($green, base)) !important;
+}
+
+.warning-gradient {
+	background-color: transparent;
+	background-image: linear-gradient(180deg, map-get($orange, light), map-get($orange, base)) !important;
 }
 
 .v-application {

@@ -8,11 +8,11 @@
 		:overlay-opacity="0.95"
 	>
 		<v-card class="ma-0 pa-4">
-			<v-card-title class="ma-0 mb-4 pa-0">
+			<v-card-title class="ma-0 mb-2 pa-0">
 				{{ $t('login.title') }}
 			</v-card-title>
 			<v-card-text
-				class="ma-0 mb-4 pa-0"
+				class="ma-0 mb-2 pa-0"
 				style="overflow-x: hidden !important;"
 			>
 				<ValidationObserver

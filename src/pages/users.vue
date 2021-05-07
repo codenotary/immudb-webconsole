@@ -1,10 +1,10 @@
 <template>
 	<v-card
 		id="Users"
-		class="ma-0 pa-0 bg fill-height pane shadow"
+		class="ma-0 pa-0 pr-4 bg fill-height pane shadow"
 		elevation="0"
 	>
-		<v-card-title class="ma-0 py-0 py-sm-2 pl-1 pr-6 d-flex justify-start align-center">
+		<v-card-title class="ma-0 py-0 py-sm-2 pl-1 pr-0 d-flex justify-start align-center">
 			<v-icon
 				class="ml-2"
 				:class="{
@@ -32,7 +32,7 @@
 				vertical
 			/>
 			<UsersActionAdd
-				@submit="onAddUser"
+				@submit="showAddUser = true"
 			/>
 		</v-card-title>
 		<v-card-text
@@ -43,17 +43,37 @@
 					class="ma-0 pa-0 fill-height"
 					:filter="filter"
 					:items="userList"
+					@disable="onDisableUser"
+					@enable="onEnableUser"
+					@update:password="onUpdatePassword"
+					@update:permissions="onUpdatePermissions"
 				/>
 			</div>
 		</v-card-text>
+
+		<!-- MODALS -->
+		<UsersModalAdd
+			v-model="showAddUser"
+			color="success"
+			@submit="onAddUser"
+		/>
 	</v-card>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import {
+	AUTH_MODULE,
+	AUTHENTICATED,
+} from '@/store/auth/constants';
+import {
 	USER_MODULE,
 	FETCH_USER_LIST,
+	SET_USER_LIST,
+	SET_ACTIVE_USER,
+	ADD_USER,
+	UPDATE_PASSWORD,
+	UPDATE_PERMISSIONS,
 	USER_LIST,
 } from '@/store/user/constants';
 
@@ -70,20 +90,120 @@ export default {
 		return {
 			mdiAccountMultipleOutline,
 			filter: '',
+			showAddUser: false,
 		};
 	},
 	computed: {
+		...mapGetters(AUTH_MODULE, {
+			authenticated: AUTHENTICATED,
+		}),
 		...mapGetters(USER_MODULE, {
 			userList: USER_LIST,
 		}),
 	},
+	watch: {
+		authenticated: {
+			deep: true,
+			handler (newVal) {
+				if (newVal) {
+					this.fetchUserList();
+				}
+				else {
+					this.setUserList([]);
+				}
+			},
+		},
+	},
 	methods: {
 		...mapActions(USER_MODULE, {
 			fetchUserList: FETCH_USER_LIST,
+			setUserList: SET_USER_LIST,
+			addUser: ADD_USER,
+			setActiveUser: SET_ACTIVE_USER,
+			updatePassword: UPDATE_PASSWORD,
+			updatePermissions: UPDATE_PERMISSIONS,
 		}),
-		onAddUser () {
-			console.log('add user');
+		async onAddUser (data) {
+			try {
+				await this.addUser(data);
+				await this.fetchUserList();
+				this.$toasted.success(this.$t('users.action.add.success'), {
+					duration: 3000,
+					icon: 'check-circle',
+				});
+			}
+			catch (err) {
+				this.showToastError(err);
+			}
+		},
+		async onDisableUser(data) {
+			try {
+				await this.setActiveUser(data);
+				await this.fetchUserList();
+				this.$toasted.success(this.$t('users.table.action.disable.success'), {
+					duration: 3000,
+					icon: 'check-circle',
+				});
+			}
+			catch (err) {
+				this.showToastError(err);
+			}
+		},
+		async onEnableUser(data) {
+			try {
+				await this.setActiveUser(data);
+				await this.fetchUserList();
+				this.$toasted.success(this.$t('users.table.action.enable.success'), {
+					duration: 3000,
+					icon: 'check-circle',
+				});
+			}
+			catch (err) {
+				this.showToastError(err);
+			}
+		},
+		async onUpdatePassword(data) {
+			try {
+				await this.updatePassword(data);
+				this.$toasted.success(this.$t('users.table.action.updatePassword.success'), {
+					duration: 3000,
+					icon: 'check-circle',
+				});
+			}
+			catch (err) {
+				this.showToastError(err);
+			}
+		},
+		async onUpdatePermissions(data) {
+			try {
+				await this.updatePermissions(data);
+				this.$toasted.success(this.$t('users.table.action.updatePermissions.success'), {
+					duration: 3000,
+					icon: 'check-circle',
+				});
+			}
+			catch (err) {
+				this.showToastError(err);
+			}
 		},
 	},
 };
 </script>
+
+<style lang="scss">
+#Users {
+	.v-card {
+		.v-card__text {
+			outline-offset: 15px;
+		}
+
+		&.theme-- {
+			&light {
+				.v-card__text {
+					outline: 1px solid rgba(0, 0, 0, 0.05);
+				}
+			}
+		}
+	}
+}
+</style>

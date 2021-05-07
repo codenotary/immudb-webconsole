@@ -31,7 +31,7 @@
 						>
 							<v-list-item-title
 								class="d-flex justify-start align-center"
-								:alt="$t('users.table.actions.disable.alt')"
+								:alt="$t('users.table.action.disable.alt', { user })"
 								v-bind="attrs"
 								v-on="on"
 							>
@@ -45,13 +45,13 @@
 									{{ mdiAccountCancelOutline }}
 								</v-icon>
 								<span class="ma-0 ml-2 pa-0 body-2">
-									{{ $t('users.table.actions.disable.label') }}
+									{{ $t('users.table.action.disable.label', { user }) }}
 								</span>
 							</v-list-item-title>
 						</v-list-item>
 					</template>
 					<span class="body-2">
-						{{ $t('users.table.actions.disable.tooltip') }}
+						{{ $t('users.table.action.disable.tooltip', { user }) }}
 					</span>
 				</v-tooltip>
 				<v-tooltip
@@ -64,7 +64,7 @@
 						>
 							<v-list-item-title
 								class="d-flex justify-start align-center"
-								:alt="$t('users.table.actions.enable.alt')"
+								:alt="$t('users.table.action.enable.alt', { user })"
 								v-bind="attrs"
 								v-on="on"
 							>
@@ -78,13 +78,13 @@
 									{{ mdiAccountCheckOutline }}
 								</v-icon>
 								<span class="ma-0 ml-2 pa-0 body-2">
-									{{ $t('users.table.actions.enable.label') }}
+									{{ $t('users.table.action.enable.label', { user }) }}
 								</span>
 							</v-list-item-title>
 						</v-list-item>
 					</template>
 					<span class="body-2">
-						{{ $t('users.table.actions.enable.tooltip') }}
+						{{ $t('users.table.action.enable.tooltip', { user }) }}
 					</span>
 				</v-tooltip>
 				<v-tooltip
@@ -92,11 +92,11 @@
 				>
 					<template #activator="{ on, attrs }">
 						<v-list-item
-							@click="showChangePasswordModal = true"
+							@click="showUpdatePasswordModal = true"
 						>
 							<v-list-item-title
 								class="d-flex justify-start align-center"
-								:alt="$t('users.table.actions.changePassword.alt')"
+								:alt="$t('users.table.action.updatePassword.alt')"
 								v-bind="attrs"
 								v-on="on"
 							>
@@ -110,13 +110,13 @@
 									{{ mdiFormTextboxPassword }}
 								</v-icon>
 								<span class="ma-0 ml-2 pa-0 body-2">
-									{{ $t('users.table.actions.changePassword.label') }}
+									{{ $t('users.table.action.updatePassword.label') }}
 								</span>
 							</v-list-item-title>
 						</v-list-item>
 					</template>
 					<span class="body-2">
-						{{ $t('users.table.actions.changePassword.tooltip') }}
+						{{ $t('users.table.action.updatePassword.tooltip') }}
 					</span>
 				</v-tooltip>
 				<v-tooltip
@@ -124,11 +124,11 @@
 				>
 					<template #activator="{ on, attrs }">
 						<v-list-item
-							@click="showChangePermissionsModal = true"
+							@click="showUpdatePermissionsModal = true"
 						>
 							<v-list-item-title
 								class="d-flex justify-start align-center"
-								:alt="$t('users.table.actions.changePermissions.alt')"
+								:alt="$t('users.table.action.updatePermissions.alt')"
 								v-bind="attrs"
 								v-on="on"
 							>
@@ -142,31 +142,51 @@
 									{{ mdiCardAccountDetailsOutline }}
 								</v-icon>
 								<span class="ma-0 ml-2 pa-0 body-2">
-									{{ $t('users.table.actions.changePermissions.label') }}
+									{{ $t('users.table.action.updatePermissions.label') }}
 								</span>
 							</v-list-item-title>
 						</v-list-item>
 					</template>
 					<span class="body-2">
-						{{ $t('users.table.actions.changePermissions.tooltip') }}
+						{{ $t('users.table.action.updatePermissions.tooltip') }}
 					</span>
 				</v-tooltip>
 			</v-list>
 		</v-menu>
 
 		<!-- MODALS -->
-		<!-- <UiModalConfirm
-			v-model="showDeleteUserModal"
-			color="warning"
-			:title="$t('ledgers.confirmEnableModal.title')"
-			:confirm-text="$t('ledgers.confirmEnableModal.confirmText')"
-			:cancel-text="$t('ledgers.confirmEnableModal.cancelText')"
-			@confirm="onDeleteUser"
+		<UiModalConfirm
+			v-model="showDisableUserModal"
+			color="error"
+			:title="$t('users.table.modal.disable.title', { user })"
+			:confirm-text="$t('common.confirm')"
+			:cancel-text="$t('common.cancel')"
+			@confirm="onDisableUser"
 		>
-			<p>
-				{{ $t('ledgers.confirmEnableModal.text') }}
-			</p>
-		</UiModalConfirm> -->
+			<p v-html="$t('users.table.modal.disable.sure')" />
+		</UiModalConfirm>
+		<UiModalConfirm
+			v-model="showEnableUserModal"
+			color="success"
+			:title="$t('users.table.modal.enable.title', { user })"
+			:confirm-text="$t('common.confirm')"
+			:cancel-text="$t('common.cancel')"
+			@confirm="onEnableUser"
+		>
+			<p v-html="$t('users.table.modal.enable.sure')" />
+		</UiModalConfirm>
+		<UsersModalUpdatePassword
+			v-model="showUpdatePasswordModal"
+			color="warning"
+			:user="user"
+			@confirm="onUpdatePassword"
+		/>
+		<!-- <UsersModalPassword
+			v-model="showUpdatePermissionsModal"
+			color="warning"
+			:user="user"
+			@confirm="onUpdatePermissions"
+		/> -->
 	</span>
 </template>
 
@@ -183,9 +203,7 @@ import {
 export default {
 	name: 'UsersDatatableActions',
 	props: {
-		id: { type: String, default: '' },
-		name: { type: String, default: '' },
-		disabled: { type: Boolean, default: false },
+		item: { type: Object, default: () => {} },
 	},
 	data() {
 		return {
@@ -197,13 +215,45 @@ export default {
 			mdiCardAccountDetailsOutline,
 			showDisableUserModal: false,
 			showEnableUserModal: false,
-			showChangePasswordModal: false,
-			showChangePermissionsModal: false,
+			showUpdatePasswordModal: false,
+			showUpdatePermissionsModal: false,
 		};
 	},
+	computed: {
+		user () {
+			if (this.item) {
+				const { user } = this.item;
+				return atob(user);
+			}
+			return false;
+		},
+		disabled () {
+			if (this.item) {
+				const { active } = this.item;
+				return !active;
+			}
+			return false;
+		},
+	},
 	methods: {
-		onDeleteUser(data) {
+		onDisableUser () {
+			this.$emit('disable', {
+				username: this.user,
+				active: false,
+			});
+		},
+		onEnableUser () {
+			this.$emit('enable', {
+				username: this.user,
+				active: true,
+			});
+		},
+		onUpdatePassword (data) {
 			console.log(data);
+			this.$emit('update:password', data);
+		},
+		onUpdatePermissions (data) {
+			this.$emit('update:permissions', data);
 		},
 	},
 };

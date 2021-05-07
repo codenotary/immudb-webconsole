@@ -135,9 +135,7 @@ export default {
 		onSubmitonReset () {
 			this.resetOutput();
 			this.query = '';
-			this.$toasted.info(this.$t('query.cleared'), {
-				duration: 3000,
-			});
+			this.showToastInfo(this.$t('query.cleared'));
 		},
 		onSnapshotUpdate (data) {
 			this.setTx(data);

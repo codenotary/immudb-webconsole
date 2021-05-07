@@ -363,7 +363,7 @@ export default {
 		}
 
 		&:hover {
-			background: map-get($blue, dark) !important;
+			background: map-get($blue, light) !important;
 			color: #f1f1f1 !important;
 
 			svg {

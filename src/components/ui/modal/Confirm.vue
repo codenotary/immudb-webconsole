@@ -8,7 +8,7 @@
 	>
 		<v-card class="ma-0 pa-4">
 			<v-card-title
-				class="ma-0 mb-4 pa-0"
+				class="ma-0 mb-2 pa-0"
 				:color="color"
 			>
 				<v-icon
@@ -26,7 +26,7 @@
 					{{ title }}
 				</strong>
 			</v-card-title>
-			<v-card-text class="ma-0 pa-0">
+			<v-card-text class="ma-0 mb-2 pa-0">
 				<slot>{{ text }}</slot>
 
 				<v-form
@@ -75,11 +75,11 @@ export default {
 		};
 	},
 	methods: {
-		onConfirm() {
-			this.$emit('confirm');
+		onClose () {
 			this.$emit('input', false);
 		},
-		onClose () {
+		onConfirm() {
+			this.$emit('confirm');
 			this.$emit('input', false);
 		},
 	},

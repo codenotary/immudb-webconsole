@@ -86,7 +86,7 @@ export default {
 		}
 
 		.v-card__text {
-			height: calc(100% - 48px) !important;
+			height: calc(100% - 44px) !important;
 			margin-top: 0 !important;
 			overflow-y: auto;
 			overflow-x: hidden;

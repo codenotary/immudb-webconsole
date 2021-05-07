@@ -4,6 +4,7 @@ import {
 
 export default {
 	[SET_USER_LIST](state, payload) {
-		state.userList = payload;
+		const { users } = payload;
+		users && (state.userList = users);
 	},
 };

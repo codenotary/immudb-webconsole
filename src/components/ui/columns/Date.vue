@@ -30,12 +30,12 @@ export default {
 				const value = this.value.replace('CEST', '');
 				if (this.tz === 'utc') {
 					return moment
-							.utc(value)
+							.utc(new Date(value))
 							.format(this.format);
 				}
 				else {
 					return moment
-							.utc(value)
+							.utc(new Date(value))
 							.local()
 							.format(this.format);
 				}

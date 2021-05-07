@@ -6,7 +6,6 @@ export const SET_HEALTH = 'setHealth';
 export const SET_STATE = 'setState';
 export const RUN_SQL_EXEC = 'runSqlExec';
 export const RUN_SQL_QUERY = 'runSqlQuery';
-export const SET_TABLES = 'setTables';
 export const SET_TX = 'setTx';
 
 export const HEALTH = 'health';

@@ -10,6 +10,8 @@ export default {
 		or: 'Or',
 		run: 'run',
 		clear: 'clear',
+		cancel: 'cancel',
+		confirm: 'confirm',
 		load: 'load',
 		reset: 'reset',
 		loading: 'loading',
@@ -102,49 +104,84 @@ export default {
 	},
 	users: {
 		title: 'Manage users',
-		add: {
-			button: 'Add user',
-			alt: 'Add user',
-			tooltip: 'Add user',
-			loading: 'Creating',
-			success: 'User added',
+		action: {
+			add: {
+				title: 'Add user',
+				button: 'Add user',
+				alt: 'Add user',
+				tooltip: 'Add user',
+				loading: 'Creating',
+				success: 'User added',
+			},
+		},
+		modal: {
+			add: {
+				title: 'Add user',
+				username: 'Username',
+				password: 'Password',
+				permission: 'Permission',
+				database: 'Database',
+			},
 		},
 		table: {
 			user: 'User',
 			createdBy: 'Created by',
 			createdAt: 'Created at',
 			active: 'Active',
-			actions: {
+			action: {
 				disable: {
 					label: 'Disable user',
-					tooltip: 'Disable user',
-					alt: 'Disable user',
+					tooltip: 'Disable user {user}',
+					alt: 'Disable user {user}',
 					success: 'User successfully disabled!',
 				},
 				enable: {
 					label: 'Enable user',
-					tooltip: 'Enable user',
-					alt: 'Enable user',
+					tooltip: 'Enable user {user}',
+					alt: 'Enable user {user}',
 					success: 'User successfully enabled!',
 				},
-				changePassword: {
+				updatePassword: {
 					label: 'Change password',
 					tooltip: 'Change password',
 					alt: 'Change password',
 					success: 'User password successfully changed!',
 				},
-				changePermissions: {
+				updatePermissions: {
 					label: 'Change permissions',
 					tooltip: 'Change permissions',
 					alt: 'Change permissions',
 					success: 'User permissions successfully changed!',
 				},
 			},
+			modal: {
+				disable: {
+					title: 'Disable user {user}',
+					sure: 'Are you sure you want to <span class="font-weight-bold">disable</span> this user?',
+					success: 'User successfully disabled!',
+				},
+				enable: {
+					title: 'Enable user {user}',
+					sure: 'Are you sure you want to <span class="font-weight-bold">enable</span> this user?',
+					success: 'User successfully enabled!',
+				},
+				updatePassword: {
+					title: 'Change password of user {user}',
+					oldPassword: 'Old password',
+					newPassword: 'New password',
+					confirmPassword: 'Confirm password',
+					success: 'User\'s password successfully updated!',
+				},
+				updatePermissions: {
+					title: 'Change permissions of user {user}',
+					success: 'User\'s permissions successfully updated!',
+				},
+			},
 		},
 		search: {
-			label: 'Filter user table',
-			placeholder: 'Filter user table',
-			tooltip: 'Filter user table by keyword',
+			label: 'Filter',
+			placeholder: 'Filter by user',
+			tooltip: 'Filter user table by user',
 		},
 	},
 	settings: {

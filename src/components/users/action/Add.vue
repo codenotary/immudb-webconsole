@@ -9,7 +9,7 @@
 				depressed
 				small
 				primary
-				:alt="$t('users.add.alt')"
+				:alt="$t('users.action.add.alt')"
 				:loading="isLoading"
 				:disabled="isLoading"
 				v-bind="attrs"
@@ -24,7 +24,7 @@
 				<span
 					class="my-0 mx-2 body-2 text-capitalize"
 				>
-					{{ $t('users.add.button') }}
+					{{ $t('users.action.add.button') }}
 				</span>
 				<template #loader>
 					<v-progress-circular
@@ -34,13 +34,13 @@
 						:size="16"
 					/>
 					<span class="ma-0 ml-2 pa-0 caption font-weight-bold">
-						{{ $t('users.add.loading') }}
+						{{ $t('users.action.add.loading') }}
 					</span>
 				</template>
 			</v-btn>
 		</template>
 		<span>
-			{{ $t('users.add.tooltip') }}
+			{{ $t('users.action.add.tooltip') }}
 		</span>
 	</v-tooltip>
 </template>

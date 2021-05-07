@@ -4,7 +4,7 @@
 		class="my-2 mx-0 pa-0 fill-height"
 	>
 		<v-simple-table class="sql-table ma-0 pa-0 bg-secondary">
-			<template v-slot:default>
+			<template #default>
 				<thead>
 					<tr>
 						<th

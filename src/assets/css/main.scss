@@ -285,6 +285,13 @@ a {
 				background-color: rgba(0, 0, 0, 0.05) !important;
 			}
 		}
+
+		td {
+			&.action-wrapper {
+				width: 1% !important;
+				white-space: nowrap !important;
+			}
+		}
 	}
 
 	&.rows-not-clickable {

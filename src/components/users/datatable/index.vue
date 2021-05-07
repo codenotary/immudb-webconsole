@@ -24,13 +24,17 @@
 				</template>
 				<template #[`item.active`]="{ item }">
 					<UiColumnsBadge
-						:value="item.active"
+						:value="!!item.active"
+						:color="!!item.active ? 'success' : 'error'"
 					/>
 				</template>
 				<template #[`item.actions`]="{ item }">
 					<UsersDatatableActions
-						:id="item.id"
-						:name="item.name"
+						:item="item"
+						@disable="onDisableUser"
+						@enable="onEnableUser"
+						@update:password="onUpdatePassword"
+						@update:permissions="onUpdatePermissions"
 					/>
 				</template>
 			</v-data-table>
@@ -78,13 +82,13 @@ export default {
 				{
 					text: this.$t('users.table.active'),
 					value: 'active',
-					align: 'start',
+					align: 'center',
 					sortable: true,
 				},
 				{
 					text: '',
 					value: 'actions',
-					align: 'center',
+					align: 'center action-wrapper',
 					sortable: false,
 				},
 			],
@@ -97,7 +101,10 @@ export default {
 		parsedItems () {
 			if (this.items && this.items.length) {
 				return this.items
-						.filter(_ => _.user.includes(this.filter));
+						.filter((_) => {
+							const _user = _.user && atob(_.user);
+							return _user && _user.includes(this.filter);
+						});
 			}
 			return [];
 		},
@@ -118,6 +125,18 @@ export default {
 				itemsPerPage,
 				filter: this.keyword,
 			});
+		},
+		onDisableUser (data) {
+			this.$emit('disable', data);
+		},
+		onEnableUser (data) {
+			this.$emit('enable', data);
+		},
+		onUpdatePassword (data) {
+			this.$emit('update:password', data);
+		},
+		onUpdatePermissions (data) {
+			this.$emit('update:permissions', data);
 		},
 	},
 };

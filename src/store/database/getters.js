@@ -1,9 +1,13 @@
 import {
-	TABLES,
+	DATABASE_LIST,
+	TABLE_LIST,
 } from './constants';
 
 export default {
-	[TABLES](state) {
-		return state.tables || [];
+	[DATABASE_LIST](state) {
+		return state.databaseList || [];
+	},
+	[TABLE_LIST](state) {
+		return state.tableList || [];
 	},
 };

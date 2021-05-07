@@ -5,11 +5,33 @@ import {
 	POP_LOADING,
 } from '@/store/view/constants';
 import {
+	FETCH_DATABASES,
 	FETCH_TABLES,
-	SET_TABLES,
+	SET_DATABASE_LIST,
+	SET_TABLE_LIST,
 } from './constants';
 
 export default {
+	async [FETCH_DATABASES]({ commit }) {
+		const LOADING_LABEL = 'fetchUserList';
+		try {
+			commit(`${ VIEW_MODULE }/${ PUSH_LOADING }`, { label: LOADING_LABEL, silently: true }, { root: true });
+
+			const response = await ImmudbService.databaseList();
+
+			if (response && response.data) {
+				commit(SET_DATABASE_LIST, response.data);
+				commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
+			}
+
+			return false;
+		}
+		catch (err) {
+			console.error(err);
+			commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
+			throw err;
+		}
+	},
 	async [FETCH_TABLES]({ commit }, payload) {
 		const LOADING_LABEL = 'fetchTables';
 		try {
@@ -55,7 +77,7 @@ export default {
 								}
 							}
 
-							commit(SET_TABLES, {
+							commit(SET_TABLE_LIST, {
 								tables,
 							});
 						}
@@ -72,7 +94,10 @@ export default {
 			throw err;
 		}
 	},
-	[SET_TABLES]({ commit }, payload) {
-		commit(SET_TABLES, payload);
+	[SET_DATABASE_LIST]({ commit }, payload) {
+		commit(SET_DATABASE_LIST, payload);
+	},
+	[SET_TABLE_LIST]({ commit }, payload) {
+		commit(SET_TABLE_LIST, payload);
 	},
 };

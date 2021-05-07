@@ -34,6 +34,7 @@ import {
 } from '@/store/auth/constants';
 import {
 	DATABASE_MODULE,
+	FETCH_DATABASES,
 	FETCH_TABLES,
 } from '@/store/database/constants';
 import {
@@ -95,6 +96,7 @@ export default {
 			immudbLogin: LOGIN,
 		}),
 		...mapActions(DATABASE_MODULE, {
+			fetchDatabases: FETCH_DATABASES,
 			fetchTables: FETCH_TABLES,
 		}),
 		...mapActions(IMMUDB_MODULE, {
@@ -122,6 +124,7 @@ export default {
 					await this.setState(this.state);
 					await this.runSqlExec(`USE SNAPSHOT SINCE TX ${ txId } BEFORE TX ${ txId }`);
 				}
+				await this.fetchDatabases();
 				await this.fetchTables();
 				this.setFetchPending(false);
 
@@ -131,10 +134,7 @@ export default {
 			catch (err) {
 				console.error(err);
 				this.setFetchPending(false);
-				this.$toasted.error(this.$t(err), {
-					duration: 3000,
-					icon: 'alert',
-				});
+				this.showToastError(err);
 			}
 		},
 		async onLogin (data) {
@@ -143,11 +143,7 @@ export default {
 				await this.onInit();
 			}
 			catch (err) {
-				console.error(err);
-				this.$toasted.error(this.$t(err), {
-					duration: 3000,
-					icon: 'alert',
-				});
+				this.showToastError(err);
 				setTimeout(() => {
 					this.authModalOpen = true;
 				}, 30);

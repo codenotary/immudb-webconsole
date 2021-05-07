@@ -167,7 +167,7 @@
 import { mapActions, mapGetters } from 'vuex';
 import {
 	DATABASE_MODULE,
-	TABLES,
+	TABLE_LIST,
 } from '@/store/database/constants';
 import {
 	IMMUDB_MODULE,
@@ -200,7 +200,7 @@ export default {
 	},
 	computed: {
 		...mapGetters(DATABASE_MODULE, {
-			tables: TABLES,
+			tables: TABLE_LIST,
 		}),
 		...mapGetters(IMMUDB_MODULE, {
 			state: STATE,
