@@ -32,8 +32,7 @@
 				<v-btn
 					class="ml-2 success-gradient"
 					color="success"
-					type="submit"
-					form="UpdatePasswordForm"
+					@click="onSubmit"
 				>
 					{{ $t('common.confirm') }}
 				</v-btn>
@@ -77,17 +76,14 @@ export default {
 		onUpdateDatabase (data) {
 			this.form.database = data;
 		},
-		async onSubmit() {
-			const valid = await this.$refs.observer.validate();
-			if (valid) {
-				this.$emit('submit', {
-					action: 'GRANT',
-					user: btoa(this.user),
-					permission: this.form.permission,
-					database: this.form.database,
-				});
-				this.$emit('input', false);
-			}
+		onSubmit() {
+			this.$emit('submit', {
+				action: 'GRANT',
+				username: this.user,
+				permission: this.form.permission,
+				database: this.form.database,
+			});
+			this.$emit('input', false);
 		},
 	},
 };

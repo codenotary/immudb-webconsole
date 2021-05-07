@@ -183,13 +183,13 @@
 			v-model="showUpdatePasswordModal"
 			color="warning"
 			:user="user"
-			@confirm="onUpdatePassword"
+			@submit="onUpdatePassword"
 		/>
 		<UsersModalUpdatePermissions
 			v-model="showUpdatePermissionsModal"
 			color="warning"
 			:user="user"
-			@confirm="onUpdatePermissions"
+			@submit="onUpdatePermissions"
 		/>
 	</span>
 </template>
@@ -257,6 +257,7 @@ export default {
 			this.$emit('update:password', data);
 		},
 		onUpdatePermissions (data) {
+			console.log(data);
 			this.$emit('update:permissions', data);
 		},
 	},

@@ -35,7 +35,6 @@ export default {
 			databaseList: DATABASE_LIST,
 		}),
 		parsedItems () {
-			console.log(this.databaseList);
 			if (this.databaseList && this.databaseList.length) {
 				return this.databaseList.map((_) => {
 					return {
@@ -48,8 +47,11 @@ export default {
 		},
 	},
 	watch: {
-		value (newVal) {
-			this.$emit('update', newVal);
+		value: {
+			immediate: true,
+			handler (newVal) {
+				this.$emit('update', newVal);
+			},
 		},
 	},
 };

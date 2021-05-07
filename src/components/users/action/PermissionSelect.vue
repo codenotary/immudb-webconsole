@@ -29,8 +29,11 @@ export default {
 		};
 	},
 	watch: {
-		value (newVal) {
-			this.$emit('update', newVal);
+		value: {
+			immediate: true,
+			handler (newVal) {
+				this.$emit('update', newVal);
+			},
 		},
 	},
 };
