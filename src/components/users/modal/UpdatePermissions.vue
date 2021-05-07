@@ -71,6 +71,12 @@ export default {
 		},
 	},
 	methods: {
+		onUpdatePermission (data) {
+			this.form.permission = data;
+		},
+		onUpdateDatabase (data) {
+			this.form.database = data;
+		},
 		async onSubmit() {
 			const valid = await this.$refs.observer.validate();
 			if (valid) {
