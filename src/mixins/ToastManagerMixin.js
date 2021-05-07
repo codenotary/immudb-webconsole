@@ -51,7 +51,7 @@ export default {
 				});
 			}
 		},
-		showToastError(err, statuses = [400, 401, 404, 405, 422, 500, 502, 503]) {
+		showToastError(err, statuses = [400, 401, 403, 404, 405, 422, 500, 502, 503]) {
 			if (this.$te(err)) { // if err is a $i18n key
 				this.$toasted.error(this.$t(err), {
 					icon: GENERIC_ERROR_ICON,
