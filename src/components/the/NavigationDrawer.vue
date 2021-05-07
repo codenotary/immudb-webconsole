@@ -72,6 +72,7 @@
 					v-if="item && !item.hidden"
 					:disabled="!mini"
 					right
+					:open-delay="300"
 				>
 					<template #activator="{ on, attrs }">
 						<v-list-item
@@ -139,6 +140,7 @@
 				<v-tooltip
 					v-if="isAuthenticated"
 					right
+					:open-delay="300"
 				>
 					<template #activator="{ on, attrs }">
 						<v-list-item

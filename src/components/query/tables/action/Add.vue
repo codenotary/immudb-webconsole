@@ -1,7 +1,7 @@
 <template>
 	<v-tooltip
 		top
-		:#open-delay="600"
+		:open-delay="300"
 	>
 		<template v-slot:activator="{ on, attrs }">
 			<v-btn

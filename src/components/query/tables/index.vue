@@ -58,7 +58,10 @@
 					<span
 						class="ma-0 pa-0 d-flex justify-space-start align-center fill-width"
 					>
-						<v-tooltip top>
+						<v-tooltip
+							top
+							:open-delay="300"
+						>
 							<template v-slot:activator="{ on, attrs }">
 								<v-icon
 									v-if="props.item.type !== 'node'"
@@ -100,6 +103,7 @@
 									v-if="props.item.primary"
 									class="ma-0 ml-1 pa-0"
 									top
+									:open-delay="300"
 								>
 									<template v-slot:activator="{ on: { onPrimary } , attrs: { attrsPrimary } }">
 										<v-icon
@@ -123,6 +127,7 @@
 									v-if="props.item.foreignKey"
 									class="ma-0 ml-1 pa-0"
 									top
+									:open-delay="300"
 								>
 									<template v-slot:activator="{ on: { onForeign } , attrs: { attrsForeign } }">
 										<v-icon

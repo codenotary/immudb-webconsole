@@ -23,7 +23,8 @@
 			<v-list class="user-datatable-actions">
 				<v-tooltip
 					v-if="!disabled"
-					right
+					left
+					:open-delay="100"
 				>
 					<template #activator="{ on, attrs }">
 						<v-list-item
@@ -56,7 +57,8 @@
 				</v-tooltip>
 				<v-tooltip
 					v-if="disabled"
-					right
+					left
+					:open-delay="100"
 				>
 					<template #activator="{ on, attrs }">
 						<v-list-item
@@ -88,7 +90,8 @@
 					</span>
 				</v-tooltip>
 				<v-tooltip
-					right
+					left
+					:open-delay="100"
 				>
 					<template #activator="{ on, attrs }">
 						<v-list-item
@@ -120,7 +123,8 @@
 					</span>
 				</v-tooltip>
 				<v-tooltip
-					right
+					left
+					:open-delay="100"
 				>
 					<template #activator="{ on, attrs }">
 						<v-list-item

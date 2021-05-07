@@ -70,6 +70,7 @@
 				>
 					<v-tooltip
 						top
+						:open-delay="300"
 					>
 						<template v-slot:activator="{ on, attrs }">
 							<v-btn
@@ -104,6 +105,7 @@
 				>
 					<v-tooltip
 						top
+						:open-delay="300"
 					>
 						<template v-slot:activator="{ on, attrs }">
 							<v-btn
