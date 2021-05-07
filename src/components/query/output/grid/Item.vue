@@ -7,7 +7,7 @@
 			<v-divider
 				class="my-2 mx-0"
 				style="opacity: 0.55;"
-			/>
+			/>subtitle
 		</div>
 		<div
 			v-else
@@ -41,37 +41,35 @@
 					>
 						<span
 							v-if="item.timeTravel"
+							class="ma-0 pa-0 pr-1 d-flex justify-center align-center"
 						>
 							<v-icon
-								class="ml-2 subtitle-1"
-								:class="{
-									'gray--text text--darken-1': !$vuetify.theme.dark,
-									'gray--text text--lighten-1': $vuetify.theme.dark,
-								}"
+								class="gray--text text--lighten-3"
 								dense
 								:size="20"
 							>
 								{{ mdiHistory }}
 							</v-icon>
-							<span class="ma-0 ml-1 pa-0 caption">
+							<span class="ma-0 ml-2 pa-0 caption">
 								{{ $t('query.output.grid.timeTravel') }}
 							</span>
 						</span>
 						<span
 							v-else
+							class="ma-0 pa-0 pr-1 d-flex justify-center align-center"
 						>
 							<v-icon
-								class="ml-2 subtitle-1"
+								class="gray--text text--lighten-3"
 								:class="{
-									'gray--text text--darken-1': !$vuetify.theme.dark,
-									'gray--text text--lighten-1': $vuetify.theme.dark,
+									'gray--text text--lighten-3': !$vuetify.theme.dark,
+									'gray--text text--lighten-3': $vuetify.theme.dark,
 								}"
 								dense
 								:size="20"
 							>
 								{{ mdiHistory }}
 							</v-icon>
-							<span class="ma-0 ml-1 pa-0 caption">
+							<span class="ma-0 ml-2 pa-0 caption">
 								{{ $t('query.output.grid.present') }}
 							</span>
 						</span>

@@ -180,7 +180,6 @@ export default {
 	methods: {
 		async onSubmit() {
 			const valid = await this.$refs.observer.validate();
-			console.log('SUBMIT', valid);
 			if (valid) {
 				this.$emit('submit', {
 					user: btoa(this.user),

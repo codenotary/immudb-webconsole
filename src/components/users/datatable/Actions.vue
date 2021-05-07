@@ -181,12 +181,12 @@
 			:user="user"
 			@confirm="onUpdatePassword"
 		/>
-		<!-- <UsersModalPassword
+		<UsersModalUpdatePermissions
 			v-model="showUpdatePermissionsModal"
 			color="warning"
 			:user="user"
 			@confirm="onUpdatePermissions"
-		/> -->
+		/>
 	</span>
 </template>
 

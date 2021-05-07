@@ -66,7 +66,6 @@
 							@update="onUpdatePermission"
 						/>
 						<UsersActionDatabaseSelect
-							:database-list="databaseList"
 							@update="onUpdateDatabase"
 						/>
 					</v-form>
@@ -93,11 +92,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import {
-	DATABASE_MODULE,
-	DATABASE_LIST,
-} from '@/store/database/constants';
 import { required } from 'vee-validate/dist/rules';
 import {
 	extend,
@@ -144,11 +138,6 @@ export default {
 				database: '',
 			},
 		};
-	},
-	computed: {
-		...mapGetters(DATABASE_MODULE, {
-			databaseList: DATABASE_LIST,
-		}),
 	},
 	watch: {
 		value (newVal) {

@@ -14,11 +14,16 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import {
+	DATABASE_MODULE,
+	DATABASE_LIST,
+} from '@/store/database/constants';
+
 export default {
 	name: 'UsersActionDatabaseSelect',
 	props: {
 		filter: { type: String, default: '' },
-		databaseList: { type: Array, default: () => [] },
 	},
 	data () {
 		return {
@@ -26,6 +31,9 @@ export default {
 		};
 	},
 	computed: {
+		...mapGetters(DATABASE_MODULE, {
+			databaseList: DATABASE_LIST,
+		}),
 		parsedItems () {
 			console.log(this.databaseList);
 			if (this.databaseList && this.databaseList.length) {
