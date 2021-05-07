@@ -149,6 +149,11 @@ export default {
 				chunks: 'async',
 			},
 		},
+		babel: {
+			plugins: [
+				['@babel/plugin-proposal-private-methods', { loose: true }]
+			],
+		},
 	},
 
 	/*
@@ -177,6 +182,7 @@ export default {
 	plugins: [
 		{ src: '~/plugins/axios.js', srr: false },
 		{ src: '~/plugins/event-bus.js', ssr: false },
+		{ src: '~/plugins/route.js', ssr: false },
 		{ src: '~/plugins/vee-validate.js', ssr: false },
 		{ src: '~/plugins/vue-clipboards.js', ssr: false },
 		{ src: '~/plugins/vue-cookies.js', ssr: false },

@@ -1,0 +1,112 @@
+<template>
+	<v-text-field
+		ref="expandingSearch"
+		:value="filter"
+		class="expanding-search"
+		:class="{ 'closed': isClosed }"
+		:label="$t('users.search.label')"
+		:placeholder="$t('users.search.placeholder')"
+		single-line
+		hide-details
+		dense
+		:clearable="!isClosed"
+		@input="onUpdate"
+		@click:clear="onClose"
+		@focus="onOpen"
+		@blur="onClose"
+	>
+		<template #prepend>
+			<v-tooltip
+				:disabled="active"
+				bottom
+			>
+				<template v-slot:activator="{ on, attrs }">
+					<v-icon
+						:class="{
+							'gray--text text--darken-1': !$vuetify.theme.dark,
+							'gray--text text--lighten-1': $vuetify.theme.dark,
+						}"
+						v-bind="attrs"
+						v-on="on"
+						@click="onOpen"
+					>
+						{{ mdiFilterOutline }}
+					</v-icon>
+				</template>
+				<span>
+					{{ $t('users.search.tooltip') }}
+				</span>
+			</v-tooltip>
+		</template>
+	</v-text-field>
+</template>
+
+<script>
+import {
+	mdiFilterOutline,
+	mdiClose,
+} from '@mdi/js';
+
+export default {
+	name: 'UsersActionFilter',
+	props: {
+		filter: { type: String, default: '' },
+	},
+	data () {
+		return {
+			mdiFilterOutline,
+			mdiClose,
+			active: false,
+		};
+	},
+	computed: {
+		isClosed () {
+			return !this.active && !this.filter;
+		},
+	},
+	methods: {
+		onOpen () {
+			this.active = true;
+			this.$nextTick(() => {
+				const { expandingSearch } = this.$refs;
+				expandingSearch && expandingSearch.focus();
+			});
+		},
+		onClose () {
+			this.active = false;
+			this.$emit('update:input', '');
+			this.$nextTick(() => {
+				const { expandingSearch } = this.$refs;
+				expandingSearch && expandingSearch.blur();
+			});
+		},
+		onUpdate (data) {
+			this.$emit('update:filter', data);
+		},
+	},
+};
+</script>
+
+<style lang="scss">
+.v-input.expanding-search {
+	transition: max-width 0.3s;
+	max-width: 320px;
+
+	.v-input__slot {
+		cursor: pointer;
+
+		&::before,
+		&::after {
+			border-color: transparent !important;
+		}
+	}
+
+	&.closed {
+		max-width: $spacer-8 !important;
+
+		.v-input__slot {
+			background-color: transparent !important;
+		}
+	}
+}
+</style>

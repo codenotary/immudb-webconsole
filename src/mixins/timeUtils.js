@@ -161,10 +161,15 @@ export default {
 		formatDate (value, format = 'full', iso = false) {
 			let m = typeof value === 'string' ? moment(value) : value;
 			m.constructor.name === 'Date' && (m = moment(new Date(value)));
-			const useFormat = format === 'full' ? this.format : (format === 'date' ? this.dateFormat : this.timeFormat);
+			const useFormat = format === 'full'
+				? this.format
+				: format === 'date'
+					? this.dateFormat
+					: this.timeFormat;
 			if (iso) {
 				return m.toISOString();
 			}
+			console.log(m, format);
 			return m.format(useFormat).split('+')[0];
 		},
 		parseComplexString (value) {

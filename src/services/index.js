@@ -16,16 +16,6 @@ export const API_CONFIG = {
 	},
 };
 
-try {
-	const vuexStorage = localStorage.getItem('vuex-immudb-webconsole');
-	const storangeJSON = vuexStorage && JSON.parse(vuexStorage);
-	const { auth: { token } } = storangeJSON || { auth: {} };
-	API_CONFIG.headers.common.Authorization = `Bearer ${ token }`;
-}
-catch (err) {
-	console.error(err);
-}
-
 // Backend api proxy instance
 export const ApiService = axios.create({
 	...API_CONFIG,

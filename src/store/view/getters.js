@@ -7,6 +7,7 @@ import {
 	BREADCRUMBS,
 	IS_LOADING,
 	PANE_SIZES,
+	TIMEZONE,
 	IS_NUXT_HYDRATED,
 	IS_FETCH_PENDING,
 } from './constants';
@@ -35,6 +36,9 @@ export default {
 	},
 	[PANE_SIZES](state) {
 		return state.paneSizes;
+	},
+	[TIMEZONE](state) {
+		return state.timezone;
 	},
 	[IS_NUXT_HYDRATED](state) {
 		return state.nuxtHydrated;

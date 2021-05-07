@@ -9,6 +9,7 @@ import {
 	PUSH_LOADING,
 	POP_LOADING,
 	SET_PANE_SIZES,
+	SET_TIMEZONE,
 	SET_NUXT_HYDRATED,
 	SET_FETCH_PENDING,
 } from './constants';
@@ -56,6 +57,9 @@ export default {
 		tables !== undefined && (state.paneSizes.tables = tables);
 		query !== undefined && (state.paneSizes.query = query);
 		output !== undefined && (state.paneSizes.output = output);
+	},
+	[SET_TIMEZONE](state, payload) {
+		state.timezone = payload;
 	},
 	[SET_NUXT_HYDRATED](state, payload) {
 		state.nuxtHydrated = payload;

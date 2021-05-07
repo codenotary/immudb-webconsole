@@ -4,7 +4,7 @@
 		class="ma-0 pa-0 bg fill-height pane shadow"
 		elevation="0"
 	>
-		<v-card-title class="ma-0 py-0 py-sm-2 px-0 d-flex justify-end align-center">
+		<v-card-title class="ma-0 py-0 py-sm-2 pl-1 pr-6 d-flex justify-start align-center">
 			<v-icon
 				class="ml-2"
 				:class="{
@@ -24,16 +24,25 @@
 				{{ $t('users.title') }}
 			</h4>
 			<v-spacer />
+			<UsersActionFilter
+				:filter.sync="filter"
+			/>
+			<v-divider
+				class="my-0 ml-2 mr-3 pa-0"
+				vertical
+			/>
 			<UsersActionAdd
 				@submit="onAddUser"
 			/>
 		</v-card-title>
 		<v-card-text
-			class="ma-0 pa-0 bg-secondary custom-scrollbar"
+			class="ma-0 pa-4 bg-secondary custom-scrollbar"
 		>
 			<div class="ma-0 pa-0 fill-height">
 				<UsersDatatable
 					class="ma-0 pa-0 fill-height"
+					:filter="filter"
+					:items="userList"
 				/>
 			</div>
 		</v-card-text>
@@ -41,10 +50,11 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import {
 	USER_MODULE,
 	FETCH_USER_LIST,
+	USER_LIST,
 } from '@/store/user/constants';
 
 import {
@@ -59,7 +69,13 @@ export default {
 	data () {
 		return {
 			mdiAccountMultipleOutline,
+			filter: '',
 		};
+	},
+	computed: {
+		...mapGetters(USER_MODULE, {
+			userList: USER_LIST,
+		}),
 	},
 	methods: {
 		...mapActions(USER_MODULE, {

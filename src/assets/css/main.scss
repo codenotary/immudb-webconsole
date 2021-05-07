@@ -45,7 +45,7 @@ html {
 		}
 
 		&.pane {
-			.v-card__text {
+			> .v-card__text {
 				height: calc(100% - 48px) !important;
 				margin-top: 4px !important;
 			}
@@ -270,9 +270,10 @@ a {
 }
 
 .v-data-table {
+	background-color: transparent !important;
+
 	tbody {
 		tr {
-			background-color: white;
 			cursor: pointer;
 
 			&.striped {

@@ -1,67 +1,41 @@
 <template>
-	<v-row class="ma-0 pa-0">
-		<v-col cols="12">
-			<v-row class="d-flex justify-end align-items">
-				<v-col
-					class="py-0"
-					cols="12"
-					sm="6"
-					md="4"
-					lg="3"
-				>
-					<v-text-field
-						v-model="keyword"
-						:label="$t('users.table.search')"
-						single-line
-						hide-details
-						clearable
-						@input="onKeywordUpdate"
-					>
-						<template #prepend>
-							<v-icon
-								:class="{
-									'gray--text text--darken-1': !$vuetify.theme.dark,
-									'gray--text text--lighten-1': $vuetify.theme.dark,
-								}"
-							>
-								{{ mdiMagnify }}
-							</v-icon>
-						</template>
-					</v-text-field>
-				</v-col>
-			</v-row>
-		</v-col>
-		<v-col
-			class="mt-2 px-0"
-			cols="12"
-		>
-			<v-divider />
-		</v-col>
-		<v-col
-			class="px-0 pt-0"
-			cols="12"
-		>
+	<v-card class="ma-0 pa-0 bg">
+		<v-card-text class="ma-0 pa-0 fill-height">
 			<v-data-table
 				ref="datatable"
-				class="no-hover"
+				class="no-hover fill-height d-flex flex-column justify-space-between align-stretch"
 				:headers="headers"
-				:items="items"
+				:items="parsedItems"
 				:items-per-page="itemsPerPage"
-				:server-items-length="totalItems"
 				item-key="id"
 				item-class="config.class"
 				:footer-props="footerProps"
 				@pagination="onPaginationUpdate"
 			>
+				<template #[`item.user`]="{ item }">
+					<UiColumnsBase64
+						:value="item.user"
+					/>
+				</template>
+				<template #[`item.createdat`]="{ item }">
+					<UiColumnsDate
+						:value="item.createdat"
+					/>
+				</template>
+				<template #[`item.active`]="{ item }">
+					<UiColumnsBadge
+						:value="item.active"
+					/>
+				</template>
 				<template #[`item.actions`]="{ item }">
-					<LedgerDatatableActions
+					<UsersDatatableActions
 						:id="item.id"
 						:name="item.name"
 					/>
 				</template>
 			</v-data-table>
-		</v-col>
-	</v-row>
+		</v-card-text>
+	</v-card>
 </template>
 
 <script>
@@ -77,20 +51,38 @@ export default {
 		items: { type: Array, default: () => [] },
 		itemsPerPage: { type: Number, default: 0 },
 		totalItems: { type: Number, default: 0 },
+		filter: { type: String, default: '' },
 	},
 	data() {
 		return {
 			mdiMagnify,
-			keyword: '',
 			headers: [
 				{
-					text: this.$t('ledgers.table.name'),
-					value: 'name',
+					text: this.$t('users.table.user'),
+					value: 'user',
 					align: 'start',
 					sortable: true,
 				},
 				{
-					text: this.$t('ledgers.table.actions'),
+					text: this.$t('users.table.createdBy'),
+					value: 'createdby',
+					align: 'start',
+					sortable: true,
+				},
+				{
+					text: this.$t('users.table.createdAt'),
+					value: 'createdat',
+					align: 'start',
+					sortable: true,
+				},
+				{
+					text: this.$t('users.table.active'),
+					value: 'active',
+					align: 'start',
+					sortable: true,
+				},
+				{
+					text: '',
 					value: 'actions',
 					align: 'center',
 					sortable: false,
@@ -100,6 +92,15 @@ export default {
 				itemsPerPageOptions: [10, 25, 50],
 			},
 		};
+	},
+	computed: {
+		parsedItems () {
+			if (this.items && this.items.length) {
+				return this.items
+						.filter(_ => _.user.includes(this.filter));
+			}
+			return [];
+		},
 	},
 	methods: {
 		onKeywordUpdate: debounce(function() {

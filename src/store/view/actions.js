@@ -9,6 +9,7 @@ import {
 	POP_LOADING,
 	PUSH_LOADING,
 	SET_PANE_SIZES,
+	SET_TIMEZONE,
 	SET_NUXT_HYDRATED,
 	SET_FETCH_PENDING,
 } from './constants';
@@ -43,6 +44,9 @@ export default {
 	},
 	[SET_PANE_SIZES]({ commit }, payload) {
 		commit(SET_PANE_SIZES, payload);
+	},
+	[SET_TIMEZONE]({ commit }, payload) {
+		commit(SET_TIMEZONE, payload);
 	},
 	[SET_NUXT_HYDRATED]({ commit }, payload) {
 		commit(SET_NUXT_HYDRATED, payload);

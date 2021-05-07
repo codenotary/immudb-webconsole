@@ -21,13 +21,17 @@ export default {
 		},
 	},
 	watch: {
-		theme (newVal) {
-			this.toggleBodyClass(`theme--${ newVal === 'dark' ? 'light' : 'dark' }`, false);
-			this.toggleBodyClass(`theme--${ newVal }`);
-			this.$vuetify.theme.dark = newVal === 'dark';
-			setTimeout(() => {
+		theme: {
+			deep: true,
+			immediate: true,
+			handler (newVal) {
+				this.toggleBodyClass(`theme--${ newVal === 'dark' ? 'light' : 'dark' }`, false);
+				this.toggleBodyClass(`theme--${ newVal }`);
 				this.$vuetify.theme.dark = newVal === 'dark';
-			}, 0);
+				setTimeout(() => {
+					this.$vuetify.theme.dark = newVal === 'dark';
+				}, 0);
+			},
 		},
 	},
 	mounted () {
@@ -55,8 +59,10 @@ export default {
 			this.setMobile(window.innerWidth < 600);
 		},
 		toggleBodyClass(className, add = true) {
-			// const el = document && document.body;
-			// add ? el.classList.add(className) : el.classList.remove(className);
+			const el = document && document.body;
+			add
+				? el.classList.add(className)
+				: el.classList.remove(className);
 		},
 	},
 };

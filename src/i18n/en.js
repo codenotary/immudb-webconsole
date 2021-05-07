@@ -110,8 +110,41 @@ export default {
 			success: 'User added',
 		},
 		table: {
-			name: 'name',
-			search: 'Search user',
+			user: 'User',
+			createdBy: 'Created by',
+			createdAt: 'Created at',
+			active: 'Active',
+			actions: {
+				disable: {
+					label: 'Disable user',
+					tooltip: 'Disable user',
+					alt: 'Disable user',
+					success: 'User successfully disabled!',
+				},
+				enable: {
+					label: 'Enable user',
+					tooltip: 'Enable user',
+					alt: 'Enable user',
+					success: 'User successfully enabled!',
+				},
+				changePassword: {
+					label: 'Change password',
+					tooltip: 'Change password',
+					alt: 'Change password',
+					success: 'User password successfully changed!',
+				},
+				changePermissions: {
+					label: 'Change permissions',
+					tooltip: 'Change permissions',
+					alt: 'Change permissions',
+					success: 'User permissions successfully changed!',
+				},
+			},
+		},
+		search: {
+			label: 'Filter user table',
+			placeholder: 'Filter user table',
+			tooltip: 'Filter user table by keyword',
 		},
 	},
 	settings: {

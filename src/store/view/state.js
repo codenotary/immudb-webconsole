@@ -19,6 +19,7 @@ export default () => ({
 		query: 75,
 		output: 40,
 	},
+	timezone: 'local',
 	nuxtHydrated: false,
 	nuxtFetchPending: false,
 });

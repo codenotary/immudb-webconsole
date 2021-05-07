@@ -33,7 +33,7 @@
 						:width="2"
 						:size="16"
 					/>
-					<span class="ma-0 ml-2 pa-0 caption">
+					<span class="ma-0 ml-2 pa-0 caption font-weight-bold">
 						{{ $t('users.add.loading') }}
 					</span>
 				</template>

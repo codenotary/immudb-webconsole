@@ -1,12 +1,13 @@
 import VuexPersistence from 'vuex-persist';
+import localforage from 'localforage';
 
 export default ({ store }) => {
 	// window.onNuxtReady(() => {
 	new VuexPersistence({
-		key: 'vuex-immudb-webconsole',
-		storage: window.localStorage,
-		asyncStorage: false,
-		supportCircular: false,
+		key: 'webconsole',
+		storage: localforage,
+		asyncStorage: true,
+		supportCircular: true,
 		reducer: state => ({
 			view: {
 				theme: state.view.theme,
