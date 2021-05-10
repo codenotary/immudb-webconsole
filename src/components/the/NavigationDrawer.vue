@@ -159,7 +159,7 @@
 									'gray--text text--lighten-1': $vuetify.theme.dark,
 								}"
 							>
-								{{ mdiLogout }}
+								{{ mdiLocationExit }}
 							</v-icon>
 							<div
 								class="ma-0 pa-0 d-flex flex-column justify-center align-start"
@@ -207,7 +207,7 @@ import {
 	mdiAccountCogOutline,
 	mdiCogOutline,
 	mdiBookOpenOutline,
-	mdiLogout,
+	mdiLocationExit,
 } from '@mdi/js';
 
 export default {
@@ -221,7 +221,7 @@ export default {
 			mdiAccountCogOutline,
 			mdiCogOutline,
 			mdiBookOpenOutline,
-			mdiLogout,
+			mdiLocationExit,
 			items: [],
 		};
 	},

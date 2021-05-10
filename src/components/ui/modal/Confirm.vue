@@ -11,20 +11,22 @@
 				class="ma-0 mb-2 pa-0"
 				:color="color"
 			>
-				<v-icon
-					:class="{
-						'gray--text text--darken-1': !$vuetify.theme.dark,
-						'gray--text text--lighten-1': $vuetify.theme.dark,
-					}"
-				>
-					{{ mdiAlertCircleOutline }}
-				</v-icon>
-				<strong
-					class="ma-0 ml-4 pa-0"
+				<slot name="icon">
+					<v-icon
+						:class="{
+							'gray--text text--darken-1': !$vuetify.theme.dark,
+							'gray--text text--lighten-1': $vuetify.theme.dark,
+						}"
+					>
+						{{ mdiAlertCircleOutline }}
+					</v-icon>
+				</slot>
+				<span
+					class="ma-0 ml-2 pa-0"
 					style="width: calc(100% - 64px);"
 				>
 					{{ title }}
-				</strong>
+				</span>
 			</v-card-title>
 			<v-card-text class="ma-0 mb-2 pa-0">
 				<slot>{{ text }}</slot>

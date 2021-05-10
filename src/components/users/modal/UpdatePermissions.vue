@@ -7,10 +7,24 @@
 	>
 		<v-card class="ma-0 pa-4">
 			<v-card-title class="ma-0 mb-2 pa-0">
-				<span v-if="add">
+				<v-icon
+					:class="{
+						'gray--text text--darken-1': !$vuetify.theme.dark,
+						'gray--text text--lighten-1': $vuetify.theme.dark,
+					}"
+				>
+					{{ mdiAccountCheckOutline }}
+				</v-icon>
+				<span
+					v-if="add"
+					class="ml-2"
+				>
 					{{ $t('users.table.permissions.add.title', { user }) }}
 				</span>
-				<span v-else>
+				<span
+					v-else
+					class="ml-2"
+				>
 					{{ $t('users.table.permissions.edit.title', { user }) }}
 				</span>
 			</v-card-title>
@@ -51,6 +65,10 @@
 </template>
 
 <script>
+import {
+	mdiAccountCheckOutline,
+} from '@mdi/js';
+
 export default {
 	name: 'UsersModalUpdatePermission',
 	props: {
@@ -65,6 +83,7 @@ export default {
 	},
 	data () {
 		return {
+			mdiAccountCheckOutline,
 			form: {
 				permission: '1',
 				database: '',

@@ -134,6 +134,16 @@
 			:cancel-text="$t('common.cancel')"
 			@confirm="onDisableUser"
 		>
+			<template #icon>
+				<v-icon
+					:class="{
+						'gray--text text--darken-1': !$vuetify.theme.dark,
+						'gray--text text--lighten-1': $vuetify.theme.dark,
+					}"
+				>
+					{{ mdiAccountCancelOutline }}
+				</v-icon>
+			</template>
 			<p v-html="$t('users.table.modal.disable.sure')" />
 		</UiModalConfirm>
 		<UiModalConfirm
@@ -144,6 +154,16 @@
 			:cancel-text="$t('common.cancel')"
 			@confirm="onEnableUser"
 		>
+			<template #icon>
+				<v-icon
+					:class="{
+						'gray--text text--darken-1': !$vuetify.theme.dark,
+						'gray--text text--lighten-1': $vuetify.theme.dark,
+					}"
+				>
+					{{ mdiAccountCheckOutline }}
+				</v-icon>
+			</template>
 			<p v-html="$t('users.table.modal.enable.sure')" />
 		</UiModalConfirm>
 		<UsersModalUpdatePassword

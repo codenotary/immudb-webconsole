@@ -9,7 +9,17 @@
 	>
 		<v-card class="ma-0 pa-4">
 			<v-card-title class="ma-0 mb-2 pa-0">
-				{{ $t('login.title') }}
+				<v-icon
+					:class="{
+						'gray--text text--darken-1': !$vuetify.theme.dark,
+						'gray--text text--lighten-1': $vuetify.theme.dark,
+					}"
+				>
+					{{ mdiLocationEnter }}
+				</v-icon>
+				<span class="ml-2">
+					{{ $t('login.title') }}
+				</span>
 			</v-card-title>
 			<v-card-text
 				class="ma-0 mb-2 pa-0"
@@ -91,6 +101,7 @@ import {
 	setInteractionMode,
 } from 'vee-validate';
 import {
+	mdiLocationEnter,
 	mdiEye,
 	mdiEyeOff,
 } from '@mdi/js';
@@ -113,6 +124,7 @@ export default {
 	},
 	data () {
 		return {
+			mdiLocationEnter,
 			mdiEye,
 			mdiEyeOff,
 			show: false,

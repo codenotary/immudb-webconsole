@@ -8,7 +8,15 @@
 	>
 		<v-card class="ma-0 pa-4">
 			<v-card-title class="ma-0 mb-2 pa-0">
-				<span>
+				<v-icon
+					:class="{
+						'gray--text text--darken-1': !$vuetify.theme.dark,
+						'gray--text text--lighten-1': $vuetify.theme.dark,
+					}"
+				>
+					{{ mdiAccountPlusOutline }}
+				</v-icon>
+				<span class="ml-2">
 					{{ $t('users.action.add.title', { user }) }}
 				</span>
 			</v-card-title>
@@ -101,6 +109,7 @@ import {
 	setInteractionMode,
 } from 'vee-validate';
 import {
+	mdiAccountPlusOutline,
 	mdiEye,
 	mdiEyeOff,
 } from '@mdi/js';
@@ -129,6 +138,7 @@ export default {
 	},
 	data () {
 		return {
+			mdiAccountPlusOutline,
 			mdiEye,
 			mdiEyeOff,
 			show: false,

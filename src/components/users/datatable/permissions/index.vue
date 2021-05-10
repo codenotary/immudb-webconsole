@@ -130,6 +130,8 @@ export default {
 .v-application {
 	&.theme--dark {
 		.permissions-detail {
+			border: 1px solid rgba(255, 255, 255, 0.25) !important;
+
 			table {
 				tr {
 					&:not(:last-child) {
@@ -142,6 +144,8 @@ export default {
 
 	&.theme--light {
 		.permissions-detail {
+			border: 1px solid rgba(0, 0, 0, 0.25) !important;
+
 			table {
 				tr {
 					&:not(:last-child) {
@@ -157,7 +161,7 @@ section.permissions-list-detail {
 	width: 98% !important;
 
 	.permissions-detail {
-		border: 1px solid rgba(0, 0, 0, 0.46) !important;
+		border: 1px solid rgba(0, 0, 0, 0.33) !important;
 		border-radius: 4px;
 
 		table {
