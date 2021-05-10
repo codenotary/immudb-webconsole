@@ -1,8 +1,12 @@
-# EMBEDDED WEBCONSOLE
+# immudb Embedded Web-Console
 
-## Run the webconsole
+[![build](https://github.com/codenotary/immudb-webconsole/actions/workflows/ci.yml/badge.svg)](https://github.com/codenotary/immudb-webconsole/actions/workflows/ci.yml)
 
-Prerequirement: install git and latest Node.js LTS version.
+An embedded management and query web-console for [immudb](https://github.com/codenotary/immudb).
+
+## Running the web-console
+
+Pre-requisites: install git and latest Node.js LTS version.
 
 ```bash
 # install dependencies
@@ -13,9 +17,9 @@ $ npm run dev
 
 ```
 
-The preview website on localhost:8080 will reflect changes everytime a .md file is updated and saved (live reload).
+The preview website on localhost:8080 will reflect changes every time a .md file is updated and saved (live reload).
 
-## Build Setup
+## Building
 
 ```bash
 # install dependencies
