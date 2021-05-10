@@ -1,7 +1,7 @@
 <template>
 	<section class="permissions-list-detail ma-0 pa-0 pl-4">
 		<div
-			class="permissions-detail ma-4 ml-4 pa-4 bg fill-width"
+			class="permissions-detail ma-4 ml-4 pa-4 pb-0 bg fill-width"
 			cols="12"
 			sm="3"
 		>

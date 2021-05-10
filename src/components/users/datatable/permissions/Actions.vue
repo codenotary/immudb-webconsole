@@ -10,33 +10,6 @@
 					icon
 					v-bind="attrs"
 					v-on="on"
-					@click="showDeletePermissionModal = true"
-				>
-					<v-icon
-						:class="{
-							'gray--text text--darken-1': !$vuetify.theme.dark,
-							'gray--text text--lighten-1': $vuetify.theme.dark,
-						}"
-						:size="20"
-					>
-						{{ mdiDelete }}
-					</v-icon>
-				</v-btn>
-			</template>
-			<span class="body-2">
-				{{ $t('users.table.permissions.remove.tooltip', { value: `${ database }:${ parsedPermission }`, user }) }}
-			</span>
-		</v-tooltip>
-		<v-tooltip
-			top
-			:open-delay="100"
-		>
-			<template #activator="{ on, attrs }">
-				<v-btn
-					:loading="isLoading"
-					icon
-					v-bind="attrs"
-					v-on="on"
 					@click="showUpdatePermissionModal = true"
 				>
 					<v-icon
@@ -54,18 +27,35 @@
 				{{ $t('users.table.permissions.edit.tooltip', { value: `${ database }:${ parsedPermission }`, user }) }}
 			</span>
 		</v-tooltip>
+		<v-tooltip
+			top
+			:open-delay="100"
+		>
+			<template #activator="{ on, attrs }">
+				<v-btn
+					:loading="isLoading"
+					icon
+					v-bind="attrs"
+					v-on="on"
+					@click="showDeletePermissionModal = true"
+				>
+					<v-icon
+						:class="{
+							'gray--text text--darken-1': !$vuetify.theme.dark,
+							'gray--text text--lighten-1': $vuetify.theme.dark,
+						}"
+						:size="20"
+					>
+						{{ mdiDelete }}
+					</v-icon>
+				</v-btn>
+			</template>
+			<span class="body-2">
+				{{ $t('users.table.permissions.remove.tooltip', { value: `${ database }:${ parsedPermission }`, user }) }}
+			</span>
+		</v-tooltip>
 
 		<!-- MODALS -->
-		<UiModalConfirm
-			v-model="showDeletePermissionModal"
-			color="error"
-			:title="$t('users.table.permissions.remove.title', { value: `${ database }:${ parsedPermission }`, user })"
-			:confirm-text="$t('common.confirm')"
-			:cancel-text="$t('common.cancel')"
-			@confirm="onDeletePermissions"
-		>
-			<p v-html="$t('users.table.modal.disable.sure')" />
-		</UiModalConfirm>
 		<UsersModalUpdatePermissions
 			v-model="showUpdatePermissionModal"
 			edit
@@ -76,6 +66,16 @@
 			:parsed="parsedPermission"
 			@submit="onUpdatePermissions"
 		/>
+		<UiModalConfirm
+			v-model="showDeletePermissionModal"
+			color="error"
+			:title="$t('users.table.permissions.remove.title', { value: `${ database }:${ parsedPermission }`, user })"
+			:confirm-text="$t('common.confirm')"
+			:cancel-text="$t('common.cancel')"
+			@confirm="onDeletePermissions"
+		>
+			<p v-html="$t('users.table.modal.disable.sure')" />
+		</UiModalConfirm>
 	</span>
 </template>
 
@@ -86,8 +86,8 @@ import {
 	IS_LOADING,
 } from '@/store/view/constants';
 import {
-	mdiDelete,
 	mdiPencil,
+	mdiDelete,
 } from '@mdi/js';
 
 export default {
@@ -98,10 +98,10 @@ export default {
 	},
 	data() {
 		return {
-			mdiDelete,
 			mdiPencil,
-			showDeletePermissionModal: false,
+			mdiDelete,
 			showUpdatePermissionModal: false,
+			showDeletePermissionModal: false,
 		};
 	},
 	computed: {
@@ -131,6 +131,9 @@ export default {
 		},
 	},
 	methods: {
+		onUpdatePermissions (data) {
+			this.$emit('update:permissions', data);
+		},
 		onDeletePermissions (data) {
 			this.$emit('update:permissions', {
 				action: 'REVOKE',
@@ -138,9 +141,6 @@ export default {
 				permission: this.permission,
 				database: this.database,
 			});
-		},
-		onUpdatePermissions (data) {
-			this.$emit('update:permissions', data);
 		},
 	},
 };
