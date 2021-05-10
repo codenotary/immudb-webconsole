@@ -1,17 +1,31 @@
 <template>
-	<v-card class="ma-0 pa-0 bg">
-		<v-card-text class="ma-0 pa-0 fill-height">
+	<v-card class="ma-0 pa-0">
+		<v-card-text class="ma-0 pa-0 bg fill-height">
 			<v-data-table
 				ref="datatable"
-				class="no-hover fill-height d-flex flex-column justify-space-between align-stretch"
+				class="d-flex flex-column justify-space-between align-stretch"
+				style="overflow-y: auto !important;"
 				:headers="headers"
 				:items="parsedItems"
 				:items-per-page="itemsPerPage"
 				item-key="id"
 				item-class="config.class"
 				:footer-props="footerProps"
-				@pagination="onPaginationUpdate"
+				show-expand
+				hide-default-footer
+				@click:row="(item, slot) => slot.expand(!slot.isExpanded)"
 			>
+				<template #[`item.data-table-expand`]="{ isExpanded }">
+					<v-icon
+						class="ma-0 pa-0"
+						:size="18"
+					>
+						{{ isExpanded
+							? mdiChevronUp
+							: mdiChevronDown
+						}}
+					</v-icon>
+				</template>
 				<template #[`item.user`]="{ item }">
 					<UiColumnsBase64
 						:value="item.user"
@@ -37,6 +51,16 @@
 						@update:permissions="onUpdatePermissions"
 					/>
 				</template>
+				<template #[`expanded-item`]="{ headers: expandedHeaders, item }">
+					<td :colspan="expandedHeaders.length">
+						<UsersDatatablePermissions
+							:items="item.permissions"
+							:user="getUser(item)"
+							@add:permission="onAddPermission"
+							@update:permissions="onUpdatePermissions"
+						/>
+					</td>
+				</template>
 			</v-data-table>
 		</v-card-text>
 	</v-card>
@@ -45,6 +69,8 @@
 <script>
 import {
 	mdiMagnify,
+	mdiChevronUp,
+	mdiChevronDown,
 } from '@mdi/js';
 
 const debounce = require('lodash.debounce');
@@ -57,10 +83,19 @@ export default {
 		totalItems: { type: Number, default: 0 },
 		filter: { type: String, default: '' },
 	},
-	data() {
+	data () {
 		return {
 			mdiMagnify,
+			mdiChevronUp,
+			mdiChevronDown,
 			headers: [
+				{
+					text: '',
+					value: 'data-table-expand',
+					align: 'start',
+					sortable: false,
+					groupable: false,
+				},
 				{
 					text: this.$t('users.table.user'),
 					value: 'user',
@@ -104,12 +139,25 @@ export default {
 						.filter((_) => {
 							const _user = _.user && atob(_.user);
 							return _user && _user.includes(this.filter);
+						})
+						.map((_, idx) => {
+							return {
+								id: idx,
+								..._,
+							};
 						});
 			}
 			return [];
 		},
 	},
 	methods: {
+		getUser (data) {
+			if (data) {
+				const { user } = data;
+				return atob(user);
+			}
+			return '';
+		},
 		onKeywordUpdate: debounce(function() {
 			const { page, itemsPerPage } = this.$refs.datatable;
 			this.$emit('update', {
@@ -134,6 +182,9 @@ export default {
 		},
 		onUpdatePassword (data) {
 			this.$emit('update:password', data);
+		},
+		onAddPermission (data) {
+			this.$emit('add:permission', data);
 		},
 		onUpdatePermissions (data) {
 			this.$emit('update:permissions', data);

@@ -7,8 +7,11 @@
 	>
 		<v-card class="ma-0 pa-4">
 			<v-card-title class="ma-0 mb-2 pa-0">
-				<span>
-					{{ $t('users.table.modal.updatePermissions.title', { user }) }}
+				<span v-if="add">
+					{{ $t('users.table.permissions.add.title', { user }) }}
+				</span>
+				<span v-else>
+					{{ $t('users.table.permissions.edit.title', { user }) }}
 				</span>
 			</v-card-title>
 			<v-card-text
@@ -19,6 +22,7 @@
 					@update="onUpdatePermission"
 				/>
 				<UsersActionDatabaseSelect
+					:disabled="edit"
 					@update="onUpdateDatabase"
 				/>
 			</v-card-text>
@@ -34,7 +38,12 @@
 					color="success"
 					@click="onSubmit"
 				>
-					{{ $t('common.confirm') }}
+					<span v-if="add">
+						{{ $t('users.table.permissions.add.button') }}
+					</span>
+					<span v-else>
+						{{ $t('common.confirm') }}
+					</span>
 				</v-btn>
 			</v-card-actions>
 		</v-card>
@@ -42,12 +51,17 @@
 </template>
 
 <script>
-
 export default {
-	name: 'UsersModalUpdatePassword',
+	name: 'UsersModalUpdatePermission',
 	props: {
+		add: { type: Boolean, default: false },
+		edit: { type: Boolean, default: false },
 		user: { type: String, default: '' },
+		database: { type: String, default: '' },
+		permission: { type: [String, Number], default: '' },
+		parsed: { type: String, default: '' },
 		value: { type: Boolean, default: false },
+		action: { type: String, default: 'GRANT' },
 	},
 	data () {
 		return {
@@ -68,6 +82,12 @@ export default {
 				observer && observer.reset();
 			});
 		},
+		database (newVal) {
+			this.form.database = newVal;
+		},
+		permission (newVal) {
+			this.form.permission = newVal;
+		},
 	},
 	methods: {
 		onUpdatePermission (data) {
@@ -76,8 +96,8 @@ export default {
 		onUpdateDatabase (data) {
 			this.form.database = data;
 		},
-		onSubmit() {
-			this.$emit('submit', {
+		async onSubmit() {
+			await this.$emit('submit', {
 				action: 'GRANT',
 				username: this.user,
 				permission: this.form.permission,

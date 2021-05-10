@@ -22,9 +22,9 @@ export default {
 		return {
 			value: '1',
 			items: [
-				{ text: 'admin', value: '2' },
+				{ text: 'admin', value: '254' },
 				{ text: 'read', value: '1' },
-				{ text: 'read & write', value: '3' },
+				{ text: 'read & write', value: '2' },
 			],
 		};
 	},

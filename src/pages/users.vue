@@ -36,16 +36,17 @@
 			/>
 		</v-card-title>
 		<v-card-text
-			class="ma-0 pa-4 bg-secondary custom-scrollbar"
+			class="ma-0 pa-4 bg-secondary fill-height custom-scrollbar"
 		>
-			<div class="ma-0 pa-0 fill-height">
+			<div class="ma-0 pa-0">
 				<UsersDatatable
-					class="ma-0 pa-0 fill-height"
+					class="ma-0 pa-0"
 					:filter="filter"
 					:items="userList"
 					@disable="onDisableUser"
 					@enable="onEnableUser"
 					@update:password="onUpdatePassword"
+					@add:permission="onUpdatePermissions"
 					@update:permissions="onUpdatePermissions"
 				/>
 			</div>
@@ -165,7 +166,21 @@ export default {
 		async onUpdatePassword(data) {
 			try {
 				await this.updatePassword(data);
+				await this.fetchUserList();
 				this.$toasted.success(this.$t('users.table.action.updatePassword.success'), {
+					duration: 3000,
+					icon: 'check-circle',
+				});
+			}
+			catch (err) {
+				this.showToastError(err);
+			}
+		},
+		async onAddPermission(data) {
+			try {
+				await this.updatePermissions(data);
+				await this.fetchUserList();
+				this.$toasted.success(this.$t('users.table.permissions.success'), {
 					duration: 3000,
 					icon: 'check-circle',
 				});
@@ -177,6 +192,7 @@ export default {
 		async onUpdatePermissions(data) {
 			try {
 				await this.updatePermissions(data);
+				await this.fetchUserList();
 				this.$toasted.success(this.$t('users.table.action.updatePermissions.success'), {
 					duration: 3000,
 					icon: 'check-circle',
@@ -192,14 +208,20 @@ export default {
 
 <style lang="scss">
 #Users {
-	.v-card {
-		.v-card__text {
-			outline-offset: 15px;
+	&.pane {
+		&::after {
+			content: '';
+			position: absolute;
+			top: calc(#{$spacer-12} + 1px);
+			right: calc(#{$spacer-4} + 1px);
+			bottom: 0;
+			left: 1px;
+			pointer-events: none !important;
 		}
 
 		&.theme-- {
 			&light {
-				.v-card__text {
+				&::after {
 					outline: 1px solid rgba(0, 0, 0, 0.05);
 				}
 			}

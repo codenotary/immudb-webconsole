@@ -272,6 +272,36 @@ a {
 .v-data-table {
 	background-color: transparent !important;
 
+	thead {
+		th {
+			&.groupable {
+				span:last-of-type {
+					position: relative;
+					margin-left: $spacer-2;
+					padding: $spacer-1 $spacer-2 $spacer-1 $spacer-7;
+					background-color: #82b1ff;
+					color: white;
+					border-radius: $spacer-4;
+					z-index: 1;
+					cursor: pointer;
+
+					&::after {
+						content: '';
+						position: absolute;
+						height: 16px;
+						width: 16px;
+						top: 3px;
+						left: 8px;
+						background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M1,1V5H2V19H1V23H5V22H19V23H23V19H22V5H23V1H19V2H5V1M5,4H19V5H20V19H19V20H5V19H4V5H5M6,6V14H9V18H18V9H14V6M8,8H12V12H8M14,11H16V16H11V14H14' /%3E%3C/svg%3E");
+						background-size: cover;
+						z-index: 2;
+						pointer-events: none;
+					}
+				}
+			}
+		}
+	}
+
 	tbody {
 		tr {
 			cursor: pointer;
@@ -294,16 +324,25 @@ a {
 		}
 	}
 
-	&.rows-not-clickable {
+	&.rows-not-clickable,
+	&.no-hover {
 		tbody {
 			tr {
 				cursor: default !important;
 
 				&:hover,
 				&.striped:hover {
-					background-color: rgba(0, 0, 0, 0.05) !important;
+					background-color: transparent !important;
 				}
 			}
+		}
+	}
+
+	.v-data-table__expanded__content {
+		box-shadow: none !important;
+
+		&:hover {
+			background-color: transparent !important;
 		}
 	}
 }

@@ -10,6 +10,7 @@ import {
 	ADD_USER,
 	SET_ACTIVE_USER,
 	UPDATE_PASSWORD,
+	ADD_PERMISSION,
 	UPDATE_PERMISSIONS,
 } from './constants';
 
@@ -72,6 +73,22 @@ export default {
 			commit(`${ VIEW_MODULE }/${ PUSH_LOADING }`, { label: LOADING_LABEL, silently: true }, { root: true });
 
 			await ImmudbService.updatePassword(payload);
+
+			commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL, silently: true }, { root: true });
+			return false;
+		}
+		catch (err) {
+			console.error(err);
+			commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
+			throw err;
+		}
+	},
+	async [ADD_PERMISSION]({ commit }, payload) {
+		const LOADING_LABEL = 'addPermissions';
+		try {
+			commit(`${ VIEW_MODULE }/${ PUSH_LOADING }`, { label: LOADING_LABEL, silently: true }, { root: true });
+
+			await ImmudbService.addPermissions(payload);
 
 			commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL, silently: true }, { root: true });
 			return false;

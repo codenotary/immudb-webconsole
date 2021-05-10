@@ -122,39 +122,6 @@
 						{{ $t('users.table.action.updatePassword.tooltip') }}
 					</span>
 				</v-tooltip>
-				<v-tooltip
-					left
-					:open-delay="100"
-				>
-					<template #activator="{ on, attrs }">
-						<v-list-item
-							@click="showUpdatePermissionsModal = true"
-						>
-							<v-list-item-title
-								class="d-flex justify-start align-center"
-								:alt="$t('users.table.action.updatePermissions.alt')"
-								v-bind="attrs"
-								v-on="on"
-							>
-								<v-icon
-									:class="{
-										'gray--text text--darken-1': !$vuetify.theme.dark,
-										'gray--text text--lighten-1': $vuetify.theme.dark,
-									}"
-									:size="20"
-								>
-									{{ mdiCardAccountDetailsOutline }}
-								</v-icon>
-								<span class="ma-0 ml-2 pa-0 body-2">
-									{{ $t('users.table.action.updatePermissions.label') }}
-								</span>
-							</v-list-item-title>
-						</v-list-item>
-					</template>
-					<span class="body-2">
-						{{ $t('users.table.action.updatePermissions.tooltip') }}
-					</span>
-				</v-tooltip>
 			</v-list>
 		</v-menu>
 
@@ -229,7 +196,7 @@ export default {
 				const { user } = this.item;
 				return atob(user);
 			}
-			return false;
+			return '';
 		},
 		disabled () {
 			if (this.item) {
@@ -253,11 +220,9 @@ export default {
 			});
 		},
 		onUpdatePassword (data) {
-			console.log(data);
 			this.$emit('update:password', data);
 		},
 		onUpdatePermissions (data) {
-			console.log(data);
 			this.$emit('update:permissions', data);
 		},
 	},

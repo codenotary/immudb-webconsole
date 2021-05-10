@@ -27,6 +27,9 @@ export const ImmudbService = {
 	updatePassword (data, config) {
 		return ApiService.post('/user/password/change', data, config);
 	},
+	addPermission (data, config) {
+		return ApiService.post('/user/changepermission', data, config);
+	},
 	updatePermissions (data, config) {
 		return ApiService.post('/user/changepermission', data, config);
 	},

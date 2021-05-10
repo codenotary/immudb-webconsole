@@ -7,6 +7,7 @@
 			'gray--text text--darken-1': !$vuetify.theme.dark,
 			'gray--text text--lighten-1': $vuetify.theme.dark,
 		}"
+		:disabled="disabled"
 		color="grey darken-2"
 		:items="parsedItems"
 		:label="$t('users.modal.add.database')"
@@ -24,6 +25,7 @@ export default {
 	name: 'UsersActionDatabaseSelect',
 	props: {
 		filter: { type: String, default: '' },
+		disabled: { type: Boolean, default: false },
 	},
 	data () {
 		return {
@@ -36,14 +38,17 @@ export default {
 		}),
 		parsedItems () {
 			if (this.databaseList && this.databaseList.length) {
-				return this.databaseList.map((_) => {
-					return {
-						text: _ && _.databaseName,
-						value: _ && _.databaseName,
-					};
-				});
+				return [
+					{ text: this.$t('common.all'), value: '*' },
+					...this.databaseList.map((_) => {
+						return {
+							text: _ && _.databaseName,
+							value: _ && _.databaseName,
+						};
+					}),
+				];
 			}
-			return [];
+			return [{ text: this.$t('common.all'), value: '*' }];
 		},
 	},
 	watch: {
