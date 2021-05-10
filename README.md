@@ -1,4 +1,6 @@
-# EMBEDDED WEBCONSOLE
+# immudb Embedded Web-Console
+
+[![build](https://github.com/codenotary/immudb-webconsole/actions/workflows/ci.yml/badge.svg)](https://github.com/codenotary/immudb-webconsole/actions/workflows/ci.yml)
 
 ## Run the webconsole
 
