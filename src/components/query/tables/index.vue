@@ -23,7 +23,6 @@
 			>
 				{{ $t('query.tables.title') }}
 			</h4>
-			<!-- O: {{ open }} -->
 		</v-card-title>
 		<v-card-text
 			class="ma-0 pa-0 bg-secondary custom-scrollbar"

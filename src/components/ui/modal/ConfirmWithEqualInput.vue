@@ -25,8 +25,6 @@
 					class="ma-0 ml-2 pa-0"
 					style="width: calc(100% - 64px);"
 				>
-					style="width: calc(100% - 64px);"
-				>
 					{{ title }}
 				</span>
 			</v-card-title>
@@ -116,7 +114,7 @@ extend('is', {
 setInteractionMode('eager');
 
 export default {
-	name: 'UiModalConfirmWithInput',
+	name: 'UiModalConfirmWithEqualInput',
 	components: {
 		ValidationObserver,
 		ValidationProvider,

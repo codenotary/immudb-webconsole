@@ -42,6 +42,11 @@
 				:footer-props="footerProps"
 				hide-default-footer
 			>
+				<template #[`item.database`]="{ item }">
+					<UsersDatatablePermissionsDatabase
+						:value="item.database"
+					/>
+				</template>
 				<template #[`item.permission`]="{ item }">
 					<UiColumnsPermission
 						:value="item.permission"

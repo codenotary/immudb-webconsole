@@ -25,6 +25,7 @@ export default {
 	name: 'UsersActionDatabaseSelect',
 	props: {
 		filter: { type: String, default: '' },
+		all: { type: Boolean, default: false },
 		disabled: { type: Boolean, default: false },
 	},
 	data () {
@@ -37,9 +38,16 @@ export default {
 			databaseList: DATABASE_LIST,
 		}),
 		parsedItems () {
+			let parsed = [];
+			if (this.all) {
+				parsed = [
+					...parsed,
+					{ type: Boolean, default: false },
+				];
+			}
 			if (this.databaseList && this.databaseList.length) {
-				return [
-					{ text: this.$t('common.all'), value: '*' },
+				parsed = [
+					...parsed,
 					...this.databaseList.map((_) => {
 						return {
 							text: _ && _.databaseName,
@@ -48,7 +56,7 @@ export default {
 					}),
 				];
 			}
-			return [{ text: this.$t('common.all'), value: '*' }];
+			return parsed;
 		},
 	},
 	watch: {

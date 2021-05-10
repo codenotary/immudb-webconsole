@@ -32,12 +32,13 @@
 				class="ma-0 mb-2 pa-0"
 				style="overflow-x: hidden !important;"
 			>
-				<UsersActionPermissionSelect
-					@update="onUpdatePermission"
-				/>
-				<UsersActionDatabaseSelect
+				<UiActionDatabaseSelect
+					all
 					:disabled="edit"
 					@update="onUpdateDatabase"
+				/>
+				<UsersActionPermissionSelect
+					@update="onUpdatePermission"
 				/>
 			</v-card-text>
 			<v-card-actions class="ma-0 pa-0 d-flex justify-end">

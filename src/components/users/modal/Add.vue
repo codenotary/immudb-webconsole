@@ -71,11 +71,12 @@
 								@click:append="show = !show"
 							/>
 						</ValidationProvider>
+						<UiActionDatabaseSelect
+							all
+							@update="onUpdateDatabase"
+						/>
 						<UsersActionPermissionSelect
 							@update="onUpdatePermission"
-						/>
-						<UsersActionDatabaseSelect
-							@update="onUpdateDatabase"
 						/>
 					</v-form>
 				</ValidationObserver>
