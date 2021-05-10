@@ -12,7 +12,7 @@
 					'gray--text text--lighten-1': $vuetify.theme.dark,
 				}"
 			>
-				{{ mdiAccountMultipleOutline }}
+				{{ mdiAccountCogOutline }}
 			</v-icon>
 			<h4
 				class="ma-0 ml-2 pa-0 pt-1 subtitle-1 font-weight-bold"
@@ -79,7 +79,7 @@ import {
 } from '@/store/user/constants';
 
 import {
-	mdiAccountMultipleOutline,
+	mdiAccountCogOutline,
 } from '@mdi/js';
 
 export default {
@@ -89,7 +89,7 @@ export default {
 	},
 	data () {
 		return {
-			mdiAccountMultipleOutline,
+			mdiAccountCogOutline,
 			filter: '',
 			showAddUser: false,
 		};
@@ -110,7 +110,7 @@ export default {
 					this.fetchUserList();
 				}
 				else {
-					this.setUserList([]);
+					this.setUserList({ users: [] });
 				}
 			},
 		},

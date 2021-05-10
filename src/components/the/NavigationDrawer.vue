@@ -177,7 +177,7 @@
 						</v-list-item>
 					</template>
 					<span class="body-2">
-						{{ $t('sidebar.logout.alt') }}
+						{{ $t('sidebar.logout.tooltip') }}
 					</span>
 				</v-tooltip>
 			</div>
@@ -204,7 +204,7 @@ import {
 	mdiDatabaseSearchOutline,
 	mdiChartBoxOutline,
 	mdiDatabaseCogOutline,
-	mdiAccountMultipleOutline,
+	mdiAccountCogOutline,
 	mdiCogOutline,
 	mdiBookOpenOutline,
 	mdiLogout,
@@ -218,7 +218,7 @@ export default {
 			mdiDatabaseSearchOutline,
 			mdiDatabaseCogOutline,
 			mdiChartBoxOutline,
-			mdiAccountMultipleOutline,
+			mdiAccountCogOutline,
 			mdiCogOutline,
 			mdiBookOpenOutline,
 			mdiLogout,
@@ -248,7 +248,7 @@ export default {
 			this.items = [
 				{
 					title: 'sidebar.dashboard',
-					tooltip: 'common.comingSoon',
+					tooltip: 'sidebar.dashboard',
 					icon: mdiChartBoxOutline,
 					to: this.localePath({ path: '/' }),
 					alt: 'Analytics',
@@ -264,7 +264,7 @@ export default {
 				},
 				{
 					title: 'sidebar.databases',
-					tooltip: 'common.comingSoon',
+					tooltip: 'sidebar.databases',
 					icon: mdiDatabaseCogOutline,
 					to: this.localePath({ path: '/databases' }),
 					alt: 'Databases',
@@ -273,13 +273,13 @@ export default {
 				{
 					title: 'sidebar.users',
 					tooltip: 'users.title',
-					icon: mdiAccountMultipleOutline,
+					icon: mdiAccountCogOutline,
 					to: this.localePath({ path: '/users' }),
 					alt: 'Users',
 				},
 				{
 					title: 'sidebar.settings',
-					tooltip: 'common.comingSoon',
+					tooltip: 'sidebar.settings',
 					icon: mdiCogOutline,
 					to: this.localePath({ path: '/settings' }),
 					alt: 'Settings',

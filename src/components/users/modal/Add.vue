@@ -3,6 +3,7 @@
 		class="user-type-modal"
 		:value="value"
 		max-width="600px"
+		persistent
 		@input="$emit('input', $event)"
 	>
 		<v-card class="ma-0 pa-4">

@@ -49,15 +49,16 @@ export default {
 		submit: 'Login',
 	},
 	sidebar: {
-		dashboard: 'Dashboard',
+		dashboard: 'Dashboard - coming soon',
 		query: 'Query',
-		databases: 'Databases',
+		databases: 'Databases - coming soon',
 		users: 'Users',
-		settings: 'Settings',
-		guide: 'Guide',
+		settings: 'Settings - coming soon',
+		guide: 'Guide - coming soon',
 		logout: {
 			label: 'logout',
 			alt: 'Logout from immudb',
+			tooltip: 'Logout',
 		},
 	},
 	analytics: {
