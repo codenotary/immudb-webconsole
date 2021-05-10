@@ -51,7 +51,7 @@ export default {
 	sidebar: {
 		dashboard: 'Dashboard - coming soon',
 		query: 'Query',
-		databases: 'Databases - coming soon',
+		databases: 'Databases',
 		users: 'Users',
 		settings: 'Settings - coming soon',
 		guide: 'Guide - coming soon',

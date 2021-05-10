@@ -268,7 +268,6 @@ export default {
 					icon: mdiDatabaseCogOutline,
 					to: this.localePath({ path: '/databases' }),
 					alt: 'Databases',
-					disabled: true,
 				},
 				{
 					title: 'sidebar.users',

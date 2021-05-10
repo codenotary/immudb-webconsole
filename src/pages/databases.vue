@@ -7,8 +7,5 @@
 <script>
 export default {
 	name: 'Databases',
-	middleware: [
-		'comingsoon',
-	],
 };
 </script>
