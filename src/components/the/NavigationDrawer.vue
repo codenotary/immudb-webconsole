@@ -366,22 +366,22 @@ export default {
 		&.theme-- {
 			&light {
 				&:hover {
-					background: map-get($blue, light) !important;
-					color: #595959 !important;
+					background: map-get($blue, dark) !important;
+					color: #f1f1f1 !important;
 
 					svg {
-						color: #595959 !important;
+						color: #f1f1f1 !important;
 					}
 				}
 			}
 
 			&dark {
 				&:hover {
-					background: map-get($blue, dark) !important;
-					color: #f1f1f1 !important;
+					background: map-get($blue, light) !important;
+					color: #595959 !important;
 
 					svg {
-						color: #f1f1f1 !important;
+						color: #595959 !important;
 					}
 				}
 			}

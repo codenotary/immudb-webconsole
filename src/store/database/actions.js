@@ -1,9 +1,14 @@
+import { ApiService } from '@/services';
 import { ImmudbService } from '@/services/immudb';
 import {
 	VIEW_MODULE,
 	PUSH_LOADING,
 	POP_LOADING,
 } from '@/store/view/constants';
+import {
+	AUTH_MODULE,
+	SET_TOKEN,
+} from '@/store/auth/constants';
 import {
 	FETCH_DATABASE_LIST,
 	FETCH_TABLES,
@@ -55,7 +60,18 @@ export default {
 		try {
 			commit(`${ VIEW_MODULE }/${ PUSH_LOADING }`, { label: LOADING_LABEL, silently: true }, { root: true });
 
-			await ImmudbService.useDatabase(payload);
+			const response = await ImmudbService.useDatabase(payload);
+
+			if (response && response.data) {
+				const { token } = response.data;
+				if (token) {
+					ApiService.defaults.headers.common = {
+						Authorization: `Bearer ${ token }`,
+					};
+
+					commit(`${ AUTH_MODULE }/${ SET_TOKEN }`, token, { root: true });
+				}
+			}
 
 			commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL, silently: true }, { root: true });
 			return false;

@@ -24,6 +24,7 @@
 				<template #[`item.actions`]="{ item }">
 					<DatabasesDatatableActions
 						:item="item"
+						:disabled="!!item.active"
 						@update:use="onUseDatabase"
 					/>
 				</template>

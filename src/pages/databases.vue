@@ -84,8 +84,8 @@ import {
 export default {
 	name: 'Databases',
 	async fetch () {
-		await this.fetchState();
 		await this.fetchDatabaseList();
+		await this.fetchState();
 	},
 	data () {
 		return {
@@ -138,8 +138,8 @@ export default {
 		async onAddDatabase (data) {
 			try {
 				await this.addDatabase(data);
-				await this.fetchState();
 				await this.fetchDatabaseList();
+				await this.fetchState();
 				this.$toasted.success(this.$t('databases.action.add.success'), {
 					duration: 3000,
 					icon: 'check-circle',
@@ -153,8 +153,8 @@ export default {
 			console.log('use', data);
 			try {
 				await this.useDatabase(data);
-				await this.fetchState();
 				await this.fetchDatabaseList();
+				await this.fetchState();
 				this.$toasted.success(this.$t('databases.table.action.use.success'), {
 					duration: 3000,
 					icon: 'check-circle',

@@ -9,6 +9,7 @@
 					:loading="isLoading"
 					color="secondary"
 					icon
+					:disabled="disabled"
 					v-bind="attrs"
 					v-on="on"
 					@click="showUseDatabaseModal = true"
@@ -67,6 +68,7 @@ export default {
 	name: 'DatabasesDatatableActions',
 	props: {
 		item: { type: Object, default: () => {} },
+		disabled: { type: Boolean, default: false },
 	},
 	data() {
 		return {

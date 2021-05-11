@@ -30,6 +30,7 @@ import {
 import {
 	AUTH_MODULE,
 	LOGIN,
+	TOKEN,
 	AUTHENTICATED,
 } from '@/store/auth/constants';
 import {
@@ -65,6 +66,7 @@ export default {
 			mobile: MOBILE,
 		}),
 		...mapGetters(AUTH_MODULE, {
+			token: TOKEN,
 			isAuthenticated: AUTHENTICATED,
 		}),
 		...mapGetters(IMMUDB_MODULE, {
@@ -72,6 +74,12 @@ export default {
 		}),
 	},
 	watch: {
+		token: {
+			deep: true,
+			handler (newVal) {
+				this.onInit();
+			},	
+		},
 		isAuthenticated: {
 			immediate: true,
 			handler (newVal) {
