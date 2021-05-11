@@ -376,7 +376,7 @@ export default {
 			themes: {
 				light: {
 					primary: '#1976d2',
-					secondary: '#424242',
+					secondary: '#66a4e0',
 					accent: '#7c4dff',
 					error: '#ff5252',
 					info: '#2196f3',
@@ -398,7 +398,7 @@ export default {
 				},
 				dark: {
 					primary: '#1976d2',
-					secondary: '#424242',
+					secondary: '#66a4e0',
 					accent: '#7c4dff',
 					error: '#ff5252',
 					info: '#2196f3',

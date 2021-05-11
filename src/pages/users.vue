@@ -77,7 +77,6 @@ import {
 	UPDATE_PERMISSIONS,
 	USER_LIST,
 } from '@/store/user/constants';
-
 import {
 	mdiAccountCogOutline,
 } from '@mdi/js';

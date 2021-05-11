@@ -1,0 +1,158 @@
+<template>
+	<v-dialog
+		class="user-type-modal"
+		:value="value"
+		max-width="600px"
+		@input="$emit('input', $event)"
+	>
+		<v-card class="ma-0 pa-4">
+			<v-card-title class="ma-0 mb-2 pa-0">
+				<v-icon
+					:class="{
+						'gray--text text--darken-1': !$vuetify.theme.dark,
+						'gray--text text--lighten-1': $vuetify.theme.dark,
+					}"
+				>
+					{{ mdiAccountCheckOutline }}
+				</v-icon>
+				<span
+					v-if="add"
+					class="ml-2"
+				>
+					{{ $t('users.table.permissions.add.title', { user }) }}
+				</span>
+				<span
+					v-else
+					class="ml-2"
+				>
+					{{ $t('users.table.permissions.edit.title', { user }) }}
+				</span>
+			</v-card-title>
+			<v-card-text
+				class="ma-0 mb-2 pa-0"
+				style="overflow-x: hidden !important;"
+			>
+				<UiActionDatabaseSelect
+					all
+					:disabled="edit"
+					@update="onUpdateDatabase"
+				/>
+				<UsersActionPermissionSelect
+					@update="onUpdatePermission"
+				/>
+			</v-card-text>
+			<v-card-actions class="ma-0 pa-0 d-flex justify-end">
+				<v-btn
+					text
+					@click="$emit('input', false)"
+				>
+					{{ $t('common.cancel') }}
+				</v-btn>
+				<v-btn
+					class="ml-2 success-gradient"
+					color="success"
+					@click="onSubmit"
+				>
+					<span v-if="add">
+						{{ $t('users.table.permissions.add.button') }}
+					</span>
+					<span v-else>
+						{{ $t('common.confirm') }}
+					</span>
+				</v-btn>
+			</v-card-actions>
+		</v-card>
+	</v-dialog>
+</template>
+
+<script>
+import {
+	mdiAccountCheckOutline,
+} from '@mdi/js';
+
+export default {
+	name: 'UsersModalUpdatePermission',
+	props: {
+		add: { type: Boolean, default: false },
+		edit: { type: Boolean, default: false },
+		user: { type: String, default: '' },
+		database: { type: String, default: '' },
+		permission: { type: [String, Number], default: '' },
+		parsed: { type: String, default: '' },
+		value: { type: Boolean, default: false },
+		action: { type: String, default: 'GRANT' },
+	},
+	data () {
+		return {
+			mdiAccountCheckOutline,
+			form: {
+				permission: '1',
+				database: '',
+			},
+		};
+	},
+	watch: {
+		value (newVal) {
+			this.form = {
+				permission: '1',
+				database: '',
+			};
+			this.$nextTick(() => {
+				const { observer } = this.$refs;
+				observer && observer.reset();
+			});
+		},
+		database (newVal) {
+			this.form.database = newVal;
+		},
+		permission (newVal) {
+			this.form.permission = newVal;
+		},
+	},
+	methods: {
+		onUpdatePermission (data) {
+			this.form.permission = data;
+		},
+		onUpdateDatabase (data) {
+			this.form.database = data;
+		},
+		async onSubmit() {
+			await this.$emit('submit', {
+				action: 'GRANT',
+				username: this.user,
+				permission: this.form.permission,
+				database: this.form.database,
+			});
+			this.$emit('input', false);
+		},
+	},
+};
+</script>
+
+<style lang="scss">
+.user-type-modal {
+	.body {
+		display: flex;
+		align-items: center;
+		flex: 1;
+		padding-top: $spacer * 1.5 !important;
+		padding-bottom: $spacer * 1.5 !important;
+
+		.icon {
+			flex: 0;
+			font-size: 32px;
+			color: $error;
+		}
+
+		.content {
+			padding-top: 0 !important;
+			width: 100%;
+		}
+	}
+
+	.footer {
+		display: flex;
+		justify-content: flex-end;
+	}
+}
+</style>

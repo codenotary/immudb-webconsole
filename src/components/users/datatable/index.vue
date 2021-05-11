@@ -68,7 +68,6 @@
 
 <script>
 import {
-	mdiMagnify,
 	mdiChevronUp,
 	mdiChevronDown,
 } from '@mdi/js';
@@ -85,7 +84,6 @@ export default {
 	},
 	data () {
 		return {
-			mdiMagnify,
 			mdiChevronUp,
 			mdiChevronDown,
 			headers: [

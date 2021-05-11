@@ -7,6 +7,7 @@
 			<template #activator="{ on, attrs }">
 				<v-btn
 					:loading="isLoading"
+					color="secondary"
 					icon
 					v-bind="attrs"
 					v-on="on"
@@ -34,6 +35,7 @@
 			<template #activator="{ on, attrs }">
 				<v-btn
 					:loading="isLoading"
+					color="secondary"
 					icon
 					v-bind="attrs"
 					v-on="on"

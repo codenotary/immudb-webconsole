@@ -6,6 +6,7 @@
 		>
 			<template #activator="{ on, attrs }">
 				<v-btn
+					color="secondary"
 					icon
 					v-bind="attrs"
 					v-on="on"
@@ -15,6 +16,7 @@
 							'gray--text text--darken-1': !$vuetify.theme.dark,
 							'gray--text text--lighten-1': $vuetify.theme.dark,
 						}"
+						:size="20"
 					>
 						{{ mdiCog }}
 					</v-icon>
@@ -32,6 +34,7 @@
 						>
 							<v-list-item-title
 								class="d-flex justify-start align-center"
+								color="secondary"
 								:alt="$t('users.table.action.disable.alt', { user })"
 								v-bind="attrs"
 								v-on="on"
@@ -66,6 +69,7 @@
 						>
 							<v-list-item-title
 								class="d-flex justify-start align-center"
+								color="secondary"
 								:alt="$t('users.table.action.enable.alt', { user })"
 								v-bind="attrs"
 								v-on="on"
@@ -99,6 +103,7 @@
 						>
 							<v-list-item-title
 								class="d-flex justify-start align-center"
+								color="secondary"
 								:alt="$t('users.table.action.updatePassword.alt')"
 								v-bind="attrs"
 								v-on="on"

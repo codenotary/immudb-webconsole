@@ -63,7 +63,7 @@
 					</v-form>
 				</ValidationObserver>
 			</v-card-text>
-			<v-card-actions class="ma-0 pa-0 pt-4 d-flex justify-end">
+			<v-card-actions class="ma-0 pa-0 d-flex justify-end">
 				<v-btn
 					text
 					@click="onClose"

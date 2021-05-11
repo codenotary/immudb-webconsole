@@ -34,7 +34,7 @@ import {
 } from '@/store/auth/constants';
 import {
 	DATABASE_MODULE,
-	FETCH_DATABASES,
+	FETCH_DATABASE_LIST,
 	FETCH_TABLES,
 } from '@/store/database/constants';
 import {
@@ -96,7 +96,7 @@ export default {
 			immudbLogin: LOGIN,
 		}),
 		...mapActions(DATABASE_MODULE, {
-			fetchDatabases: FETCH_DATABASES,
+			fetchDatabaseList: FETCH_DATABASE_LIST,
 			fetchTables: FETCH_TABLES,
 		}),
 		...mapActions(IMMUDB_MODULE, {
@@ -124,7 +124,7 @@ export default {
 					await this.setState(this.state);
 					await this.runSqlExec(`USE SNAPSHOT SINCE TX ${ txId } BEFORE TX ${ txId }`);
 				}
-				await this.fetchDatabases();
+				await this.fetchDatabaseList();
 				await this.fetchTables();
 				this.setFetchPending(false);
 

@@ -10,6 +10,7 @@ export default {
 		all: 'All',
 		or: 'Or',
 		run: 'run',
+		active: 'Active',
 		clear: 'clear',
 		cancel: 'cancel',
 		confirm: 'confirm',
@@ -116,6 +117,49 @@ export default {
 				present: 'Present',
 				timeTravel: 'Travelled in time',
 			},
+		},
+	},
+	databases: {
+		title: 'Manage databases',
+		action: {
+			add: {
+				title: 'Add database',
+				button: 'Add database',
+				alt: 'Add database',
+				tooltip: 'Add database',
+				loading: 'Creating',
+				success: 'Database added',
+			},
+		},
+		modal: {
+			add: {
+				title: 'Add database',
+				databaseName: 'Database name',
+			},
+		},
+		table: {
+			databaseName: 'Database name',
+			active: 'Active',
+			action: {
+				use: {
+					label: 'Set this database as active one',
+					tooltip: 'Set database {database} as active one',
+					alt: 'Set database {database} as active one',
+					success: 'Database successfully set as active!',
+				},
+			},
+			modal: {
+				use: {
+					title: 'Set database {database} as active one',
+					sure: 'This database will be used for query operations.',
+					success: 'Database successfully set as active!',
+				},
+			},
+		},
+		search: {
+			label: 'Filter',
+			placeholder: 'Filter by database name',
+			tooltip: 'Filter database table by database name',
 		},
 	},
 	users: {

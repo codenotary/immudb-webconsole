@@ -5,15 +5,17 @@ import {
 	POP_LOADING,
 } from '@/store/view/constants';
 import {
-	FETCH_DATABASES,
+	FETCH_DATABASE_LIST,
 	FETCH_TABLES,
 	SET_DATABASE_LIST,
+	ADD_DATABASE,
+	USE_DATABASE,
 	SET_TABLE_LIST,
 } from './constants';
 
 export default {
-	async [FETCH_DATABASES]({ commit }) {
-		const LOADING_LABEL = 'fetchUserList';
+	async [FETCH_DATABASE_LIST]({ commit }) {
+		const LOADING_LABEL = 'fetchDatabaseList';
 		try {
 			commit(`${ VIEW_MODULE }/${ PUSH_LOADING }`, { label: LOADING_LABEL, silently: true }, { root: true });
 
@@ -24,6 +26,38 @@ export default {
 				commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
 			}
 
+			return false;
+		}
+		catch (err) {
+			console.error(err);
+			commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
+			throw err;
+		}
+	},
+	async [ADD_DATABASE]({ commit }, payload) {
+		const LOADING_LABEL = 'addDatabase';
+		try {
+			commit(`${ VIEW_MODULE }/${ PUSH_LOADING }`, { label: LOADING_LABEL, silently: true }, { root: true });
+
+			await ImmudbService.addDatabase(payload);
+
+			commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL, silently: true }, { root: true });
+			return false;
+		}
+		catch (err) {
+			console.error(err);
+			commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
+			throw err;
+		}
+	},
+	async [USE_DATABASE]({ commit }, payload) {
+		const LOADING_LABEL = 'useDatabase';
+		try {
+			commit(`${ VIEW_MODULE }/${ PUSH_LOADING }`, { label: LOADING_LABEL, silently: true }, { root: true });
+
+			await ImmudbService.useDatabase(payload);
+
+			commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL, silently: true }, { root: true });
 			return false;
 		}
 		catch (err) {

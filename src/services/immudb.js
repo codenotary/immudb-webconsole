@@ -38,11 +38,17 @@ export const ImmudbService = {
 	databaseList (config) {
 		return ApiService.post('/db/list', config);
 	},
+	addDatabase (data, config) {
+		return ApiService.post('/db/create', data, config);
+	},
 	tableList (config) {
 		return ApiService.get('/db/table/list', config);
 	},
 	tableDescribe (data, config) {
 		return ApiService.post('/db/tables', data, config);
+	},
+	useDatabase (databaseName, config) {
+		return ApiService.get(`/db/use/${ databaseName }`);
 	},
 
 	// SQL

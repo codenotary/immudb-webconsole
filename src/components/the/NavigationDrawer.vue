@@ -159,7 +159,7 @@
 									'gray--text text--lighten-1': $vuetify.theme.dark,
 								}"
 							>
-								{{ mdiLocationExit }}
+								{{ mdiExitToApp }}
 							</v-icon>
 							<div
 								class="ma-0 pa-0 d-flex flex-column justify-center align-start"
@@ -207,7 +207,7 @@ import {
 	mdiAccountCogOutline,
 	mdiCogOutline,
 	mdiBookOpenOutline,
-	mdiLocationExit,
+	mdiExitToApp,
 } from '@mdi/js';
 
 export default {
@@ -221,7 +221,7 @@ export default {
 			mdiAccountCogOutline,
 			mdiCogOutline,
 			mdiBookOpenOutline,
-			mdiLocationExit,
+			mdiExitToApp,
 			items: [],
 		};
 	},
@@ -363,12 +363,27 @@ export default {
 			}
 		}
 
-		&:hover {
-			background: map-get($blue, light) !important;
-			color: #f1f1f1 !important;
+		&.theme-- {
+			&light {
+				&:hover {
+					background: map-get($blue, light) !important;
+					color: #595959 !important;
 
-			svg {
-				color: #f1f1f1 !important;
+					svg {
+						color: #595959 !important;
+					}
+				}
+			}
+
+			&dark {
+				&:hover {
+					background: map-get($blue, dark) !important;
+					color: #f1f1f1 !important;
+
+					svg {
+						color: #f1f1f1 !important;
+					}
+				}
 			}
 		}
 	}
