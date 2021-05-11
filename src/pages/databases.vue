@@ -150,7 +150,6 @@ export default {
 			}
 		},
 		async onUseDatabase (data) {
-			console.log('use', data);
 			try {
 				await this.useDatabase(data);
 				await this.fetchDatabaseList();

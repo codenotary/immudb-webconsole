@@ -82,7 +82,7 @@ export default {
 				tooltip: 'Add \'{value}\' to sql query',
 			},
 			empty: {
-				label: 'The current database is empty.',
+				label: 'The active database is empty.',
 				button: 'add demo data',
 			},
 		},

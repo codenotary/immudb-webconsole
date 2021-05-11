@@ -12,9 +12,15 @@ export default {
 		if (payload) {
 			const { db, txId, txHash } = payload;
 			db && (state.state.db = db);
-			txId && (state.state.txId = txId);
-			txId && (state.state.txPresent = txId);
 			txHash && (state.state.txHash = txHash);
+			if (txId) {
+				txId && (state.state.txId = txId);
+				txId && (state.state.txPresent = txId);
+			}
+			else {
+				state.state.txId = undefined;
+				state.state.txPresent = undefined;
+			}
 		}
 	},
 	[SET_TX](state, payload) {

@@ -83,8 +83,8 @@ export default {
 							return {
 								id: idx,
 								active: _.databaseName === this.activeDatabase
-										? this.$t('common.active')
-										: undefined,
+									? this.$t('common.active')
+									: undefined,
 								..._,
 							};
 						});
