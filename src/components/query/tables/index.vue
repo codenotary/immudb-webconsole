@@ -460,7 +460,11 @@ export default {
 
 		.v-treeview-node__children {
 			position: relative;
-			padding-left: $spacer-6;
+			padding-left: $spacer-5;
+
+			.v-treeview-node--leaf {
+				padding-left: $spacer-1;
+			}
 
 			&::before {
 				content: '';
