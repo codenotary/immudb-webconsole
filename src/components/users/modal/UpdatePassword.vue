@@ -18,6 +18,22 @@
 				<span class="ml-2">
 					{{ $t('users.table.modal.updatePassword.title', { user }) }}
 				</span>
+				<v-spacer />
+				<v-btn
+					icon
+					small
+					@click="onClose"
+				>
+					<v-icon
+						:class="{
+							'gray--text text--darken-1': !$vuetify.theme.dark,
+							'gray--text text--lighten-1': $vuetify.theme.dark,
+						}"
+						:size="20"
+					>
+						{{ mdiClose }}
+					</v-icon>
+				</v-btn>
 			</v-card-title>
 			<v-card-text
 				class="ma-0 mb-2 pa-0"
@@ -126,6 +142,7 @@ import {
 } from 'vee-validate';
 import {
 	mdiFormTextboxPassword,
+	mdiClose,
 	mdiEye,
 	mdiEyeOff,
 } from '@mdi/js';
@@ -160,6 +177,7 @@ export default {
 	data () {
 		return {
 			mdiFormTextboxPassword,
+			mdiClose,
 			mdiEye,
 			mdiEyeOff,
 			show: {
@@ -188,6 +206,9 @@ export default {
 		},
 	},
 	methods: {
+		onClose () {
+			this.$emit('input', false);
+		},
 		async onSubmit() {
 			const valid = await this.$refs.observer.validate();
 			if (valid) {

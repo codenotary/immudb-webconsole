@@ -6,7 +6,6 @@
 	>
 		<v-card-title class="ma-0 py-0 py-sm-2 px-0 d-flex justify-start align-center">
 			<v-icon
-				class="ml-2 title"
 				:class="{
 					'gray--text text--darken-1': !$vuetify.theme.dark,
 					'gray--text text--lighten-1': $vuetify.theme.dark,
@@ -14,32 +13,29 @@
 			>
 				{{ mdiDatabaseOutline }}
 			</v-icon>
-			<h4
-				class="ma-0 ml-2 pa-0 pt-1 subtitle-1 font-weight-bold"
-				:class="{
-					'gray--text text--darken-1': !$vuetify.theme.dark,
-					'gray--text text--lighten-1': $vuetify.theme.dark,
-				}"
+			<UiActionDatabaseSelect
+				v-if="currentDB"
+				class="ma-0 py-0 px-2"
+				dense
+				:initial-value="currentDB"
+				@update="onUpdateDatabase"
 			>
-				{{ $t('query.tables.title') }}
-			</h4>
+				<template #append-outer>
+					<span
+						class="append-outer ma-0 pa-0 subtitle-1 font-weight-bold"
+						:class="{
+							'gray--text text--darken-1': !$vuetify.theme.dark,
+							'gray--text text--lighten-1': $vuetify.theme.dark,
+						}"
+					>
+						{{ $t('query.tables.title') }}
+					</span>
+				</template>
+			</UiActionDatabaseSelect>
 		</v-card-title>
 		<v-card-text
 			class="ma-0 pa-0 bg-secondary custom-scrollbar"
-			:class="{
-				'pt-2': currentDB,
-			}"
 		>
-			<span
-				v-if="currentDB"
-				class="my-4 mx-0 pa-4 subtitle-2 font-weight-bold"
-			>
-				{{ $t('query.tables.activeDB') }} {{ currentDB }}
-			</span>
-			<v-divider
-				v-if="currentDB"
-				class="ma-0 mt-2 py-0 px-4"
-			/>
 			<v-treeview
 				v-if="itemsLoaded && !pending"
 				class="pt-3"
@@ -236,7 +232,7 @@ export default {
 			handler (newVal) {
 				if (newVal) {
 					const children = this.parseTables(newVal);
-					if (children && children.length) {
+					if (children) {
 						this.items = children;
 					}
 				}
@@ -253,6 +249,7 @@ export default {
 				if (_data && _data.length) {
 					return _data
 							.slice()
+							.sort((a, b) => a.label < b.label ? -1 : 1)
 							.sort((a, b) => a.primary && !b.primary ? -1 : 1)
 							.sort((a, b) => a.foreignKey && !b.foreignKey ? -1 : 1)
 							.map((_) => {
@@ -343,6 +340,9 @@ export default {
 			catch (err) {
 				console.error(err);
 			}
+		},
+		onUpdateDatabase (data) {
+			this.$emit('update:use', data);
 		},
 	},
 };

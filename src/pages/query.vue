@@ -34,6 +34,7 @@
 						:pending="isFetchPending"
 						@update:start="updateTables(false)"
 						@update:end="updateTables(true)"
+						@update:use="onUseDatabase"
 					/>
 				</pane>
 				<pane
@@ -70,7 +71,11 @@ import {
 } from '@/store/view/constants';
 import {
 	DATABASE_MODULE,
+	FETCH_DATABASE_LIST,
 	FETCH_TABLES,
+	SET_ACTIVE_DATABASE,
+	ADD_DATABASE,
+	USE_DATABASE,
 } from '@/store/database/constants';
 import { Splitpanes, Pane } from 'splitpanes';
 import 'splitpanes/dist/splitpanes.css';
@@ -136,7 +141,11 @@ export default {
 			setFetchPending: SET_FETCH_PENDING,
 		}),
 		...mapActions(DATABASE_MODULE, {
+			fetchDatabaseList: FETCH_DATABASE_LIST,
 			fetchTables: FETCH_TABLES,
+			setActiveDatabase: SET_ACTIVE_DATABASE,
+			addDatabase: ADD_DATABASE,
+			useDatabase: USE_DATABASE,
 		}),
 		onResize(data) {
 			if (data) {
@@ -154,6 +163,20 @@ export default {
 				await this.fetchTables();
 			}
 			this.setFetchPending(finished);
+		},
+		async onUseDatabase (data) {
+			try {
+				await this.setActiveDatabase({ active: data });
+				await this.useDatabase(data);
+				await this.fetchDatabaseList();
+				this.$toasted.success(this.$t('databases.table.action.use.success'), {
+					duration: 3000,
+					icon: 'check-circle',
+				});
+			}
+			catch (err) {
+				this.showToastError(err);
+			}
 		},
 	},
 	head() {

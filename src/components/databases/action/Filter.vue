@@ -2,7 +2,7 @@
 	<v-text-field
 		ref="expandingSearch"
 		:value="filter"
-		class="expanding-search"
+		class="expanding-search ma-0 pa-0"
 		:class="{ 'closed': isClosed }"
 		:label="$t('databases.search.label')"
 		:placeholder="$t('databases.search.placeholder')"

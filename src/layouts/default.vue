@@ -31,20 +31,21 @@ import {
 	AUTH_MODULE,
 	LOGIN,
 	TOKEN,
-	AUTHENTICATED,
 } from '@/store/auth/constants';
 import {
 	DATABASE_MODULE,
 	FETCH_DATABASE_LIST,
 	FETCH_TABLES,
+	SET_ACTIVE_DATABASE,
 	SET_TABLE_LIST,
+	USE_DATABASE,
+	ACTIVE_DATABASE,
 } from '@/store/database/constants';
 import {
 	IMMUDB_MODULE,
 	FETCH_HEALTH,
 	FETCH_STATE,
 	RUN_SQL_EXEC,
-	SET_STATE,
 	STATE,
 } from '@/store/immudb/constants';
 import LayoutMixin from '@/mixins/LayoutMixin';
@@ -68,7 +69,9 @@ export default {
 		}),
 		...mapGetters(AUTH_MODULE, {
 			token: TOKEN,
-			isAuthenticated: AUTHENTICATED,
+		}),
+		...mapGetters(DATABASE_MODULE, {
+			activeDatabase: ACTIVE_DATABASE,
 		}),
 		...mapGetters(IMMUDB_MODULE, {
 			state: STATE,
@@ -77,18 +80,13 @@ export default {
 	watch: {
 		token: {
 			deep: true,
-			handler (newVal) {
-				this.onInit();
-			},
-		},
-		isAuthenticated: {
 			immediate: true,
 			handler (newVal) {
 				if (newVal) {
-					this.onInit();
+					this.onInit(true);
 				}
 				else {
-					this.authModalOpen = !newVal;
+					this.authModalOpen = true;
 				}
 			},
 		},
@@ -107,12 +105,13 @@ export default {
 		...mapActions(DATABASE_MODULE, {
 			fetchDatabaseList: FETCH_DATABASE_LIST,
 			fetchTables: FETCH_TABLES,
+			setActiveDatabase: SET_ACTIVE_DATABASE,
 			setTableList: SET_TABLE_LIST,
+			useDatabase: USE_DATABASE,
 		}),
 		...mapActions(IMMUDB_MODULE, {
 			fetchHealth: FETCH_HEALTH,
 			fetchState: FETCH_STATE,
-			setState: SET_STATE,
 			runSqlExec: RUN_SQL_EXEC,
 		}),
 		_setTheme (data) {
@@ -124,15 +123,14 @@ export default {
 				}, 0);
 			}
 		},
-		async onInit () {
+		async onInit (useDatabase = true) {
 			try {
 				this.setFetchPending(true);
+				useDatabase && await this.useDatabase(this.activeDatabase);
 				await this.fetchHealth();
 				await this.fetchState();
 				const { txId } = this.state;
-				console.log(this.state);
 				if (txId) {
-					await this.setState(this.state);
 					await this.runSqlExec(`USE SNAPSHOT SINCE TX ${ txId } BEFORE TX ${ txId }`);
 					await this.fetchDatabaseList();
 					await this.fetchTables();
@@ -154,7 +152,6 @@ export default {
 		async onLogin (data) {
 			try {
 				data && await this.immudbLogin(data);
-				await this.onInit();
 			}
 			catch (err) {
 				this.showToastError(err);

@@ -1,17 +1,40 @@
 <template>
-	<v-autocomplete
-		ref="databaseSelector"
-		v-model="value"
-		class="ma-0 mt-3 mb-0 pa-0"
-		:class="{
-			'gray--text text--darken-1': !$vuetify.theme.dark,
-			'gray--text text--lighten-1': $vuetify.theme.dark,
-		}"
-		:disabled="disabled"
-		color="grey darken-2"
-		:items="parsedItems"
-		:label="$t('users.modal.add.database')"
-	/>
+	<span class="ma-0 pa-0 fill-width">
+		<v-autocomplete
+			v-if="parsedItems && parsedItems.length > 0"
+			ref="databaseSelector"
+			v-model="value"
+			class="database-selector ma-0 pa-0 d-flex justify-start align-center"
+			:class="{
+				'gray--text text--darken-1': !$vuetify.theme.dark,
+				'gray--text text--lighten-1': $vuetify.theme.dark,
+				'mt-3': !dense,
+				'dense': dense,
+				'no-line': dense,
+			}"
+			:style="`width: ${getWidth} !important;`"
+			:disabled="disabled"
+			color="grey darken-2"
+			:dense="dense"
+			:hide-details="dense"
+			:items="parsedItems"
+			:label="!dense
+				? $t('users.modal.add.database')
+				: ''
+			"
+		>
+			<template #append-outer>
+				<slot name="append-outer" />
+			</template>
+		</v-autocomplete>
+		<v-skeleton-loader
+			v-else
+			class="ma-0 ml-2 pa-0"
+			style="width: calc(100% - 32px);"
+			:height="24"
+			type="image"
+		/>
+	</span>
 </template>
 
 <script>
@@ -22,11 +45,13 @@ import {
 } from '@/store/database/constants';
 
 export default {
-	name: 'UsersActionDatabaseSelect',
+	name: 'UiActionDatabaseSelect',
 	props: {
 		filter: { type: String, default: '' },
 		all: { type: Boolean, default: false },
 		disabled: { type: Boolean, default: false },
+		dense: { type: Boolean, default: false },
+		initialValue: { type: String, default: 'defaultdb' },
 	},
 	data () {
 		return {
@@ -42,7 +67,7 @@ export default {
 			if (this.all) {
 				parsed = [
 					...parsed,
-					{ type: Boolean, default: false },
+					{ text: 'All', value: '*' },
 				];
 			}
 			if (this.databaseList && this.databaseList.length) {
@@ -58,8 +83,29 @@ export default {
 			}
 			return parsed;
 		},
+		getWidth () {
+			if (this.dense && this.value) {
+				const canvas = document.createElement('canvas');
+				const ctx = canvas.getContext('2d');
+				ctx.font = '16px Roboto';
+				const { width } = ctx.measureText(this.value);
+				return `${ width + 32 }px`;
+			}
+			else if (this.dense) {
+				return '144px';
+			}
+			else {
+				return '100%';
+			}
+		},
 	},
 	watch: {
+		initialValue: {
+			immediate: true,
+			handler (newVal) {
+				newVal && (this.value = newVal);
+			},
+		},
 		value: {
 			immediate: true,
 			handler (newVal) {
@@ -69,3 +115,15 @@ export default {
 	},
 };
 </script>
+
+<style lang="scss">
+.database-selector {
+	&.dense {
+		max-width: calc(100% - #{ $spacer-8 });
+	}
+
+	span.append-outer {
+		width: $spacer-16;
+	}
+}
+</style>

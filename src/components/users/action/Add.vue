@@ -19,6 +19,7 @@
 			>
 				<v-icon
 					class="title"
+					:size="20"
 				>
 					{{ mdiAccountPlusOutline }}
 				</v-icon>

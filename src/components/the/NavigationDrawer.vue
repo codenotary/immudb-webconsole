@@ -200,6 +200,14 @@ import {
 	AUTHENTICATED,
 } from '@/store/auth/constants';
 import {
+	DATABASE_MODULE,
+	SET_TABLE_LIST,
+} from '@/store/database/constants';
+import {
+	IMMUDB_MODULE,
+	SET_STATE,
+} from '@/store/immudb/constants';
+import {
 	mdiMenu,
 	mdiDatabaseSearchOutline,
 	mdiChartBoxOutline,
@@ -310,6 +318,12 @@ export default {
 		...mapActions(AUTH_MODULE, {
 			setToken: SET_TOKEN,
 		}),
+		...mapActions(DATABASE_MODULE, {
+			setTableList: SET_TABLE_LIST,
+		}),
+		...mapActions(IMMUDB_MODULE, {
+			setState: SET_STATE,
+		}),
 		onMini () {
 			this.setSidebar({ mini: !this.mini });
 		},
@@ -320,6 +334,8 @@ export default {
 		},
 		onLogout () {
 			this.setToken(null);
+			this.setState({ tables: [] });
+			this.setTableList({ tables: [] });
 		},
 	},
 };
@@ -367,10 +383,10 @@ export default {
 			&light {
 				&:hover {
 					background: map-get($blue, dark) !important;
-					color: #f1f1f1 !important;
+					color: #e6e6e6 !important;
 
 					svg {
-						color: #f1f1f1 !important;
+						color: #e6e6e6 !important;
 					}
 				}
 			}
@@ -378,10 +394,10 @@ export default {
 			&dark {
 				&:hover {
 					background: map-get($blue, light) !important;
-					color: #595959 !important;
+					color: #e6e6e6 !important;
 
 					svg {
-						color: #595959 !important;
+						color: #e6e6e6 !important;
 					}
 				}
 			}

@@ -16,15 +16,6 @@ html {
 			height: auto !important;
 		}
 
-		.v-card__title {
-			min-height: $spacer-11 !important;
-			height: $spacer-11 !important;
-
-			@media (max-width: 480px) {
-				height: 32px !important;
-			}
-		}
-
 		&.theme-- {
 			&light.shadow .v-card__title,
 			&dark.shadow .v-card__title {
@@ -45,6 +36,15 @@ html {
 		}
 
 		&.pane {
+			> .v-card__title {
+				min-height: $spacer-11 !important;
+				height: $spacer-11 !important;
+
+				@media (max-width: 480px) {
+					height: 32px !important;
+				}
+			}
+
 			> .v-card__text {
 				height: calc(100% - 48px) !important;
 				margin-top: 4px !important;

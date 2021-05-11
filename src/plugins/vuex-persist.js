@@ -15,6 +15,9 @@ export default ({ store }) => {
 			auth: {
 				token: state.auth.token,
 			},
+			database: {
+				active: state.database.active,
+			},
 		}),
 	}).plugin(store);
 	// });

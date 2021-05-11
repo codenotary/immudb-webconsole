@@ -22,6 +22,9 @@ export default {
 				state.state.txPresent = undefined;
 			}
 		}
+		else {
+			state.state = undefined;
+		}
 	},
 	[SET_TX](state, payload) {
 		state.state.txId = payload;

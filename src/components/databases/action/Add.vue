@@ -19,6 +19,7 @@
 			>
 				<v-icon
 					class="title"
+					:size="20"
 				>
 					{{ mdiDatabaseCogOutline }}
 				</v-icon>
@@ -35,7 +36,7 @@
 						:size="16"
 					/>
 					<span class="ma-0 ml-2 pa-0 caption font-weight-bold">
-						{{ $t('userdatabasess.action.add.loading') }}
+						{{ $t('databases.action.add.loading') }}
 					</span>
 				</template>
 			</v-btn>
@@ -70,6 +71,9 @@ export default {
 		}),
 	},
 	methods: {
+		onClose () {
+			this.$emit('input', false);
+		},
 		onSubmit () {
 			this.$emit('submit');
 		},

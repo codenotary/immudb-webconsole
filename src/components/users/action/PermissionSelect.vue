@@ -17,6 +17,7 @@ export default {
 	name: 'UsersActionPermissionSelect',
 	props: {
 		filter: { type: String, default: '' },
+		initialValue: { type: [String, Number], default: '1' },
 	},
 	data () {
 		return {
@@ -29,6 +30,12 @@ export default {
 		};
 	},
 	watch: {
+		initialValue: {
+			immediate: true,
+			handler (newVal) {
+				newVal && (this.value = `${ newVal }`);
+			},
+		},
 		value: {
 			immediate: true,
 			handler (newVal) {

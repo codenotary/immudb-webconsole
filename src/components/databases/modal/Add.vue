@@ -19,6 +19,22 @@
 				<span class="ml-2">
 					{{ $t('databases.action.add.title', { user }) }}
 				</span>
+				<v-spacer />
+				<v-btn
+					icon
+					small
+					@click="onClose"
+				>
+					<v-icon
+						:class="{
+							'gray--text text--darken-1': !$vuetify.theme.dark,
+							'gray--text text--lighten-1': $vuetify.theme.dark,
+						}"
+						:size="20"
+					>
+						{{ mdiClose }}
+					</v-icon>
+				</v-btn>
 			</v-card-title>
 			<v-card-text
 				class="ma-0 mb-2 pa-0"
@@ -85,6 +101,7 @@ import {
 } from 'vee-validate';
 import {
 	mdiDatabasePlusOutline,
+	mdiClose,
 } from '@mdi/js';
 
 extend('required', {
@@ -112,6 +129,7 @@ export default {
 	data () {
 		return {
 			mdiDatabasePlusOutline,
+			mdiClose,
 			show: false,
 			form: {
 				databaseName: '',

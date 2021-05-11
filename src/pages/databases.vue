@@ -67,6 +67,7 @@ import {
 import {
 	DATABASE_MODULE,
 	FETCH_DATABASE_LIST,
+	SET_ACTIVE_DATABASE,
 	SET_DATABASE_LIST,
 	ADD_DATABASE,
 	USE_DATABASE,
@@ -85,7 +86,6 @@ export default {
 	name: 'Databases',
 	async fetch () {
 		await this.fetchDatabaseList();
-		await this.fetchState();
 	},
 	data () {
 		return {
@@ -131,6 +131,7 @@ export default {
 		}),
 		...mapActions(DATABASE_MODULE, {
 			fetchDatabaseList: FETCH_DATABASE_LIST,
+			setActiveDatabase: SET_ACTIVE_DATABASE,
 			setDatabaseList: SET_DATABASE_LIST,
 			addDatabase: ADD_DATABASE,
 			useDatabase: USE_DATABASE,
@@ -139,7 +140,6 @@ export default {
 			try {
 				await this.addDatabase(data);
 				await this.fetchDatabaseList();
-				await this.fetchState();
 				this.$toasted.success(this.$t('databases.action.add.success'), {
 					duration: 3000,
 					icon: 'check-circle',
@@ -151,9 +151,9 @@ export default {
 		},
 		async onUseDatabase (data) {
 			try {
+				await this.setActiveDatabase({ active: data });
 				await this.useDatabase(data);
 				await this.fetchDatabaseList();
-				await this.fetchState();
 				this.$toasted.success(this.$t('databases.table.action.use.success'), {
 					duration: 3000,
 					icon: 'check-circle',

@@ -23,10 +23,26 @@
 				</span>
 				<span
 					v-else
-					class="ml-2"
+					class="pl-2"
 				>
 					{{ $t('users.table.permissions.edit.title', { user }) }}
 				</span>
+				<v-spacer />
+				<v-btn
+					icon
+					small
+					@click="onClose"
+				>
+					<v-icon
+						:class="{
+							'gray--text text--darken-1': !$vuetify.theme.dark,
+							'gray--text text--lighten-1': $vuetify.theme.dark,
+						}"
+						:size="20"
+					>
+						{{ mdiClose }}
+					</v-icon>
+				</v-btn>
 			</v-card-title>
 			<v-card-text
 				class="ma-0 mb-2 pa-0"
@@ -35,9 +51,11 @@
 				<UiActionDatabaseSelect
 					all
 					:disabled="edit"
+					:initial-value="database"
 					@update="onUpdateDatabase"
 				/>
 				<UsersActionPermissionSelect
+					:initial-value="permission"
 					@update="onUpdatePermission"
 				/>
 			</v-card-text>
@@ -68,6 +86,7 @@
 <script>
 import {
 	mdiAccountCheckOutline,
+	mdiClose,
 } from '@mdi/js';
 
 export default {
@@ -85,6 +104,7 @@ export default {
 	data () {
 		return {
 			mdiAccountCheckOutline,
+			mdiClose,
 			form: {
 				permission: '1',
 				database: '',
@@ -110,6 +130,9 @@ export default {
 		},
 	},
 	methods: {
+		onClose () {
+			this.$emit('input', false);
+		},
 		onUpdatePermission (data) {
 			this.form.permission = data;
 		},

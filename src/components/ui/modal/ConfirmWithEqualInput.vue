@@ -27,6 +27,22 @@
 				>
 					{{ title }}
 				</span>
+				<v-spacer />
+				<v-btn
+					icon
+					small
+					@click="onClose"
+				>
+					<v-icon
+						:class="{
+							'gray--text text--darken-1': !$vuetify.theme.dark,
+							'gray--text text--lighten-1': $vuetify.theme.dark,
+						}"
+						:size="20"
+					>
+						{{ mdiClose }}
+					</v-icon>
+				</v-btn>
 			</v-card-title>
 			<v-card-text class="ma-0 mb-2 pa-0">
 				<slot>{{ text }}</slot>
@@ -97,6 +113,7 @@ import {
 } from 'vee-validate';
 import {
 	mdiAlertCircleOutline,
+	mdiClose,
 	mdiEye,
 	mdiEyeOff,
 } from '@mdi/js';
@@ -134,6 +151,7 @@ export default {
 	data() {
 		return {
 			mdiAlertCircleOutline,
+			mdiClose,
 			mdiEye,
 			mdiEyeOff,
 			show: false,
@@ -150,6 +168,9 @@ export default {
 		},
 	},
 	methods: {
+		onClose () {
+			this.$emit('input', false);
+		},
 		async onConfirm() {
 			const valid = await this.$refs.observer.validate();
 
@@ -157,9 +178,6 @@ export default {
 				this.$emit('confirm', this.form.confirm);
 				this.$emit('input', false);
 			}
-		},
-		onClose () {
-			this.$emit('input', false);
 		},
 	},
 };

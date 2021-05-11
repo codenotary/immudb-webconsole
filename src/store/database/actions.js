@@ -12,6 +12,7 @@ import {
 import {
 	FETCH_DATABASE_LIST,
 	FETCH_TABLES,
+	SET_ACTIVE_DATABASE,
 	SET_DATABASE_LIST,
 	ADD_DATABASE,
 	USE_DATABASE,
@@ -143,6 +144,9 @@ export default {
 			commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
 			throw err;
 		}
+	},
+	[SET_ACTIVE_DATABASE]({ commit }, payload) {
+		commit(SET_ACTIVE_DATABASE, payload);
 	},
 	[SET_DATABASE_LIST]({ commit }, payload) {
 		commit(SET_DATABASE_LIST, payload);
