@@ -1,4 +1,5 @@
 import {
+	SPLASH,
 	THEME,
 	MOBILE,
 	BANNER,
@@ -14,6 +15,9 @@ import {
 } from './constants';
 
 export default {
+	[SPLASH](state) {
+		return state.splash;
+	},
 	[THEME](state) {
 		return state.theme;
 	},

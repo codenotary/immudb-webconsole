@@ -1,4 +1,5 @@
 import {
+	SET_SPLASH,
 	SET_THEME,
 	TOGGLE_THEME,
 	SET_MOBILE,
@@ -16,6 +17,9 @@ import {
 } from './constants';
 
 export default {
+	[SET_SPLASH]({ commit }, payload) {
+		commit(SET_SPLASH, payload);
+	},
 	[SET_THEME]({ commit }, payload) {
 		commit(SET_THEME, payload);
 	},

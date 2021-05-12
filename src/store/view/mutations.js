@@ -1,4 +1,5 @@
 import {
+	SET_SPLASH,
 	SET_THEME,
 	TOGGLE_THEME,
 	SET_MOBILE,
@@ -16,6 +17,9 @@ import {
 } from './constants';
 
 export default {
+	[SET_SPLASH](state, payload) {
+		state.splash = payload;
+	},
 	[SET_THEME](state, payload) {
 		if (payload === 'dark' || payload === 'light') {
 			state.theme = payload;

@@ -1,5 +1,6 @@
 export const VIEW_MODULE = 'view';
 
+export const SET_SPLASH = 'setSplash';
 export const SET_THEME = 'setTheme';
 export const TOGGLE_THEME = 'toggleTheme';
 export const SET_MOBILE = 'setMobile';
@@ -15,6 +16,7 @@ export const PUSH_LOADING = 'pushLoading';
 export const POP_LOADING = 'popLoading';
 export const SET_PANE_SIZES = 'setPaneSizes';
 
+export const SPLASH = 'splash';
 export const THEME = 'theme';
 export const MOBILE = 'mobile';
 export const BANNER = 'banner';

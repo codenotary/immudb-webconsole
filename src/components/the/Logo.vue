@@ -60,7 +60,7 @@ export default {
 			return this.svg ? 'svg' : 'png';
 		},
 		getAsset () {
-			return require(`@/static/images/logo/logo_${ (this.text ? 'text_' : '') }${ this.getTheme }_${ (this.mini ? 'icon' : '') }.${ this.getMime }`);
+			return require(`@/static/images/logo/logo_${ (this.text ? 'text_' : '') }${ this.getTheme }${ (this.mini ? '_icon' : '') }.${ this.getMime }`);
 		},
 		getTextColor () {
 			return 'text--blue';

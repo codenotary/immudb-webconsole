@@ -1,19 +1,28 @@
 <template>
-	<v-app id="default-layout">
-		<TheNavigationDrawer />
-		<TheAppBar
-			v-if="mobile"
+	<v-app
+		id="default-layout"
+		class="bg"
+	>
+		<LazyTheNavigationDrawer
+			v-if="splashFinished"
+		/>
+		<LazyTheAppBar
+			v-if="mobile && splashFinished"
 			class="ma-0 pa-0"
 		/>
 		<v-main class="ma-0 pa-0 pt-12 pt-sm-0 pl-sm-16 bg">
-			<nuxt />
+			<nuxt
+				v-show="splashFinished"
+			/>
 		</v-main>
-		<TheFooter />
+		<LazyTheFooter
+			v-if="splashFinished"
+		/>
 
 		<!-- MODALS -->
-		<UiModalAuth
-			v-model="authModalOpen"
-			@close="onLogin"
+		<UiModalSplash
+			:value="!splashFinished"
+			:duration="SPLASH_DURATION"
 			@submit="onLogin"
 		/>
 	</v-app>
@@ -23,8 +32,10 @@
 import { mapActions, mapGetters } from 'vuex';
 import {
 	VIEW_MODULE,
+	SET_SPLASH,
 	SET_THEME,
 	SET_FETCH_PENDING,
+	SPLASH,
 	MOBILE,
 } from '@/store/view/constants';
 import {
@@ -50,6 +61,7 @@ import {
 } from '@/store/immudb/constants';
 import LayoutMixin from '@/mixins/LayoutMixin';
 
+const SPLASH_DURATION = 1200;
 let IMMUDB_POLLING_ID = null;
 const IMMUDB_POLLING_INTERVAL = 10000;
 
@@ -60,11 +72,12 @@ export default {
 	],
 	data () {
 		return {
-			authModalOpen: false,
+			SPLASH_DURATION,
 		};
 	},
 	computed: {
 		...mapGetters(VIEW_MODULE, {
+			splash: SPLASH,
 			mobile: MOBILE,
 		}),
 		...mapGetters(AUTH_MODULE, {
@@ -76,6 +89,9 @@ export default {
 		...mapGetters(IMMUDB_MODULE, {
 			state: STATE,
 		}),
+		splashFinished () {
+			return !this.splash;
+		},
 	},
 	watch: {
 		token: {
@@ -86,7 +102,7 @@ export default {
 					this.onInit(true);
 				}
 				else {
-					this.authModalOpen = true;
+					this.setSplash(true);
 				}
 			},
 		},
@@ -96,6 +112,7 @@ export default {
 	},
 	methods: {
 		...mapActions(VIEW_MODULE, {
+			setSplash: SET_SPLASH,
 			setTheme: SET_THEME,
 			setFetchPending: SET_FETCH_PENDING,
 		}),
@@ -155,9 +172,6 @@ export default {
 			}
 			catch (err) {
 				this.showToastError(err);
-				setTimeout(() => {
-					this.authModalOpen = true;
-				}, 30);
 			}
 		},
 		async updateTables (finished = false) {

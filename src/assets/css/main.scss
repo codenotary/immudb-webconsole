@@ -2,6 +2,14 @@ html {
 	overflow: auto !important;
 }
 
+body.theme--dark {
+	background-color: #21222c;
+}
+
+body.theme--light {
+	background-color: #fff;
+}
+
 .v-application {
 	&.theme--dark {
 		background: #21222c !important;

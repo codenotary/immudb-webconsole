@@ -5,6 +5,8 @@ export default {
 	},
 	common: {
 		codenotary: 'CodeNotary',
+		poweredBy: 'Powered by',
+		gopher: 'CodeNotary Gopher',
 		immudb: 'immudb',
 		andTopic: 'And',
 		all: 'All',

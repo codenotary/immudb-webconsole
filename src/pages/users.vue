@@ -24,19 +24,19 @@
 				{{ $t('users.title') }}
 			</h4>
 			<v-spacer />
-			<UsersActionHideDisabled />
+			<LazyUsersActionHideDisabled />
 			<v-divider
 				class="my-0 ml-2 mr-3 pa-0"
 				vertical
 			/>
-			<UsersActionFilter
+			<LazyUsersActionFilter
 				:filter.sync="filter"
 			/>
 			<v-divider
 				class="my-0 ml-2 mr-3 pa-0"
 				vertical
 			/>
-			<UsersActionAdd
+			<LazyUsersActionAdd
 				@submit="showAddUser = true"
 			/>
 		</v-card-title>
@@ -44,7 +44,7 @@
 			class="ma-0 pa-4 bg-secondary fill-height custom-scrollbar"
 		>
 			<div class="ma-0 pa-0">
-				<UsersDatatable
+				<LazyUsersDatatable
 					class="ma-0 pa-0"
 					:filter="filter"
 					:items="userList"
@@ -58,7 +58,7 @@
 		</v-card-text>
 
 		<!-- MODALS -->
-		<UsersModalAdd
+		<LazyUsersModalAdd
 			v-model="showAddUser"
 			color="success"
 			@submit="onAddUser"
@@ -68,6 +68,10 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import {
+	VIEW_MODULE,
+	SPLASH,
+} from '@/store/view/constants';
 import {
 	AUTH_MODULE,
 	AUTHENTICATED,
@@ -99,6 +103,9 @@ export default {
 		};
 	},
 	computed: {
+		...mapGetters(VIEW_MODULE, {
+			splash: SPLASH,
+		}),
 		...mapGetters(AUTH_MODULE, {
 			authenticated: AUTHENTICATED,
 		}),
@@ -132,10 +139,12 @@ export default {
 			try {
 				await this.addUser(data);
 				await this.fetchUserList();
-				this.$toasted.success(this.$t('users.action.add.success'), {
-					duration: 3000,
-					icon: 'check-circle',
-				});
+				if (!this.splash) {
+					this.$toasted.success(this.$t('users.action.add.success'), {
+						duration: 3000,
+						icon: 'check-circle',
+					});
+				}
 			}
 			catch (err) {
 				this.showToastError(err);
@@ -145,10 +154,12 @@ export default {
 			try {
 				await this.setActiveUser(data);
 				await this.fetchUserList();
-				this.$toasted.success(this.$t('users.table.action.disable.success'), {
-					duration: 3000,
-					icon: 'check-circle',
-				});
+				if (!this.splash) {
+					this.$toasted.success(this.$t('users.table.action.disable.success'), {
+						duration: 3000,
+						icon: 'check-circle',
+					});
+				}
 			}
 			catch (err) {
 				this.showToastError(err);
@@ -158,10 +169,12 @@ export default {
 			try {
 				await this.setActiveUser(data);
 				await this.fetchUserList();
-				this.$toasted.success(this.$t('users.table.action.enable.success'), {
-					duration: 3000,
-					icon: 'check-circle',
-				});
+				if (!this.splash) {
+					this.$toasted.success(this.$t('users.table.action.enable.success'), {
+						duration: 3000,
+						icon: 'check-circle',
+					});
+				}
 			}
 			catch (err) {
 				this.showToastError(err);
@@ -171,10 +184,12 @@ export default {
 			try {
 				await this.updatePassword(data);
 				await this.fetchUserList();
-				this.$toasted.success(this.$t('users.table.action.updatePassword.success'), {
-					duration: 3000,
-					icon: 'check-circle',
-				});
+				if (!this.splash) {
+					this.$toasted.success(this.$t('users.table.action.updatePassword.success'), {
+						duration: 3000,
+						icon: 'check-circle',
+					});
+				}
 			}
 			catch (err) {
 				this.showToastError(err);
@@ -184,10 +199,12 @@ export default {
 			try {
 				await this.updatePermissions(data);
 				await this.fetchUserList();
-				this.$toasted.success(this.$t('users.table.permissions.success'), {
-					duration: 3000,
-					icon: 'check-circle',
-				});
+				if (!this.splash) {
+					this.$toasted.success(this.$t('users.table.permissions.success'), {
+						duration: 3000,
+						icon: 'check-circle',
+					});
+				}
 			}
 			catch (err) {
 				this.showToastError(err);
@@ -197,10 +214,12 @@ export default {
 			try {
 				await this.updatePermissions(data);
 				await this.fetchUserList();
-				this.$toasted.success(this.$t('users.table.action.updatePermissions.success'), {
-					duration: 3000,
-					icon: 'check-circle',
-				});
+				if (!this.splash) {
+					this.$toasted.success(this.$t('users.table.action.updatePermissions.success'), {
+						duration: 3000,
+						icon: 'check-circle',
+					});
+				}
 			}
 			catch (err) {
 				this.showToastError(err);

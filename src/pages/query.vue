@@ -65,6 +65,7 @@ import {
 	VIEW_MODULE,
 	SET_PANE_SIZES,
 	SET_FETCH_PENDING,
+	SPLASH,
 	MOBILE,
 	PANE_SIZES,
 	IS_FETCH_PENDING,
@@ -139,6 +140,7 @@ export default {
 		...mapActions(VIEW_MODULE, {
 			setPaneSizes: SET_PANE_SIZES,
 			setFetchPending: SET_FETCH_PENDING,
+			splash: SPLASH,
 		}),
 		...mapActions(DATABASE_MODULE, {
 			fetchDatabaseList: FETCH_DATABASE_LIST,
@@ -169,10 +171,12 @@ export default {
 				await this.setActiveDatabase({ active: data });
 				await this.useDatabase(data);
 				await this.fetchDatabaseList();
-				this.$toasted.success(this.$t('databases.table.action.use.success'), {
-					duration: 3000,
-					icon: 'check-circle',
-				});
+				if (!this.splash) {
+					this.$toasted.success(this.$t('databases.table.action.use.success'), {
+						duration: 3000,
+						icon: 'check-circle',
+					});
+				}
 			}
 			catch (err) {
 				this.showToastError(err);

@@ -1,5 +1,6 @@
 export default () => ({
 	debug: process.env.NODE_ENV !== 'production',
+	splash: true,
 	theme: 'dark',
 	mobile: false,
 	loading: [],

@@ -25,7 +25,7 @@ export default {
 			deep: true,
 			immediate: true,
 			handler (newVal) {
-				this.toggleBodyClass(`theme--${ newVal === 'dark' ? 'light' : 'dark' }`, false);
+				this.toggleBodyClass(`theme--${ newVal }`, false);
 				this.toggleBodyClass(`theme--${ newVal }`);
 				this.$vuetify.theme.dark = newVal === 'dark';
 				setTimeout(() => {

@@ -51,6 +51,7 @@
 							:class-name="`d-flex justify-${ mini ? 'center' : 'start' } align-center fill-width`"
 							:size="mini ? 'normal' : 'small'"
 							:icon="mini"
+							svg
 						/>
 					</v-btn>
 				</v-col>
