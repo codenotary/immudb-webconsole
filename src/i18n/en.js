@@ -173,6 +173,12 @@ export default {
 				loading: 'Creating',
 				success: 'User added',
 			},
+			hideDisabled: {
+				tooltip: {
+					hide: 'Hide disabled users',
+					show: 'Show disabled users',
+				},
+			},
 		},
 		modal: {
 			add: {

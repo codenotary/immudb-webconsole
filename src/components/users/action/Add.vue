@@ -53,7 +53,6 @@ import {
 	VIEW_MODULE,
 	IS_LOADING,
 } from '@/store/view/constants';
-
 import {
 	mdiAccountPlusOutline,
 } from '@mdi/js';

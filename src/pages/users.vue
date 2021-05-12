@@ -24,6 +24,11 @@
 				{{ $t('users.title') }}
 			</h4>
 			<v-spacer />
+			<UsersActionHideDisabled />
+			<v-divider
+				class="my-0 ml-2 mr-3 pa-0"
+				vertical
+			/>
 			<UsersActionFilter
 				:filter.sync="filter"
 			/>

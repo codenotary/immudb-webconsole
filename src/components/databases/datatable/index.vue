@@ -43,7 +43,6 @@ export default {
 		itemsPerPage: { type: Number, default: 0 },
 		totalItems: { type: Number, default: 0 },
 		filter: { type: String, default: '' },
-		activeDatabase: { type: String, default: '' },
 	},
 	data () {
 		return {
@@ -77,7 +76,8 @@ export default {
 			if (this.items && this.items.length) {
 				return this.items
 						.filter((_) => {
-							return _.databaseName && _.databaseName.includes(this.filter);
+							return _.databaseName && _.databaseName
+									.includes(this.filter);
 						})
 						.map((_, idx) => {
 							return {

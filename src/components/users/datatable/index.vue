@@ -67,6 +67,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import {
+	VIEW_MODULE,
+	HIDE_DISABLED,
+} from '@/store/view/constants';
 import {
 	mdiChevronUp,
 	mdiChevronDown,
@@ -131,12 +136,18 @@ export default {
 		};
 	},
 	computed: {
+		...mapGetters(VIEW_MODULE, {
+			hideDisabled: HIDE_DISABLED,
+		}),
 		parsedItems () {
 			if (this.items && this.items.length) {
 				return this.items
 						.filter((_) => {
 							const _user = _.user && atob(_.user);
 							return _user && _user.includes(this.filter);
+						})
+						.filter((_) => {
+							return !this.hideDisabled || _.active;
 						})
 						.map((_, idx) => {
 							return {

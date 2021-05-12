@@ -11,6 +11,7 @@ export default ({ store }) => {
 		reducer: state => ({
 			view: {
 				theme: state.view.theme,
+				hideDisabled: state.view.hideDisabled,
 			},
 			auth: {
 				token: state.auth.token,

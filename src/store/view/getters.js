@@ -8,6 +8,7 @@ import {
 	IS_LOADING,
 	PANE_SIZES,
 	TIMEZONE,
+	HIDE_DISABLED,
 	IS_NUXT_HYDRATED,
 	IS_FETCH_PENDING,
 } from './constants';
@@ -39,6 +40,9 @@ export default {
 	},
 	[TIMEZONE](state) {
 		return state.timezone;
+	},
+	[HIDE_DISABLED](state) {
+		return state.hideDisabled;
 	},
 	[IS_NUXT_HYDRATED](state) {
 		return state.nuxtHydrated;
