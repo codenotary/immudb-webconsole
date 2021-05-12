@@ -3,7 +3,7 @@
 		class="db-selector-wrapper ma-0 pa-0"
 		:class="{
 			'dense': dense,
-		}"	
+		}"
 	>
 		<v-autocomplete
 			v-if="parsedItems && parsedItems.length > 0"
@@ -96,7 +96,7 @@ export default {
 				const ctx = canvas.getContext('2d');
 				ctx.font = '16px Roboto';
 				const { width } = ctx.measureText(this.value);
-				return `${ width + 73 + 28 }px`;
+				return `${ width + 112 }px`;
 			}
 			else if (this.dense) {
 				return '144px';
@@ -138,6 +138,12 @@ export default {
 	.db-selector {
 		max-width: 100%;
 		width: auto;
+
+		input {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
 
 		.prepend,
 		.append {

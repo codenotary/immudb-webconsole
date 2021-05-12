@@ -162,7 +162,7 @@ export default {
 			if (finished) {
 				await this.fetchTables();
 			}
-			this.setFetchPending(finished);
+			this.setFetchPending(!finished);
 		},
 		async onUseDatabase (data) {
 			try {
