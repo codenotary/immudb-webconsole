@@ -15,14 +15,14 @@
 			</v-icon>
 			<UiActionDatabaseSelect
 				v-if="currentDB"
-				class="ma-0 py-0 px-2"
+				class="ma-0 py-0 pt-1 px-2"
 				dense
 				:initial-value="currentDB"
 				@update="onUpdateDatabase"
 			>
-				<template #append-outer>
+				<template #prepend>
 					<span
-						class="append-outer ma-0 pa-0 subtitle-1 font-weight-bold"
+						class="prepend ma-0 pa-0 subtitle-2 font-weight-bold"
 						:class="{
 							'gray--text text--darken-1': !$vuetify.theme.dark,
 							'gray--text text--lighten-1': $vuetify.theme.dark,

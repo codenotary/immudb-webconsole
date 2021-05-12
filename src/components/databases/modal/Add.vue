@@ -148,6 +148,9 @@ export default {
 		},
 	},
 	methods: {
+		onClose () {
+			this.$emit('input', false);
+		},
 		async onSubmit() {
 			const valid = await this.$refs.observer.validate();
 

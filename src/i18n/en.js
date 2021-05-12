@@ -67,7 +67,7 @@ export default {
 	},
 	query: {
 		tables: {
-			title: 'Tables',
+			title: 'Tables of:',
 			table: 'Table',
 			tab: 'Table',
 			row: 'Row',

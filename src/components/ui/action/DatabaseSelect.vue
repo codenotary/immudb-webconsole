@@ -1,15 +1,19 @@
 <template>
-	<span class="ma-0 pa-0 fill-width">
+	<span
+		class="db-selector-wrapper ma-0 pa-0"
+		:class="{
+			'dense': dense,
+		}"	
+	>
 		<v-autocomplete
 			v-if="parsedItems && parsedItems.length > 0"
 			ref="databaseSelector"
 			v-model="value"
-			class="database-selector ma-0 pa-0 d-flex justify-start align-center"
+			class="db-selector ma-0 pa-0 d-flex justify-start align-center"
 			:class="{
 				'gray--text text--darken-1': !$vuetify.theme.dark,
 				'gray--text text--lighten-1': $vuetify.theme.dark,
 				'mt-3': !dense,
-				'dense': dense,
 				'no-line': dense,
 			}"
 			:style="`width: ${getWidth} !important;`"
@@ -23,7 +27,10 @@
 				: ''
 			"
 		>
-			<template #append-outer>
+			<template #prepend>
+				<slot name="prepend" />
+			</template>
+			<template #append>
 				<slot name="append-outer" />
 			</template>
 		</v-autocomplete>
@@ -89,7 +96,7 @@ export default {
 				const ctx = canvas.getContext('2d');
 				ctx.font = '16px Roboto';
 				const { width } = ctx.measureText(this.value);
-				return `${ width + 32 }px`;
+				return `${ width + 73 + 28 }px`;
 			}
 			else if (this.dense) {
 				return '144px';
@@ -117,13 +124,26 @@ export default {
 </script>
 
 <style lang="scss">
-.database-selector {
+.db-selector-wrapper {
 	&.dense {
-		max-width: calc(100% - #{ $spacer-8 });
+		width: calc(100% - #{ $spacer-12 });
+
+		.db-selector {
+			input {
+				padding-top: 2px !important;
+			}
+		}
 	}
 
-	span.append-outer {
-		width: $spacer-16;
+	.db-selector {
+		max-width: 100%;
+		width: auto;
+
+		.prepend,
+		.append {
+			min-width: $spacer-16;
+		}
 	}
 }
+
 </style>
