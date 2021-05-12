@@ -169,6 +169,7 @@ export default {
 		async onLogin (data) {
 			try {
 				data && await this.immudbLogin(data);
+				this.setSplash(false);
 			}
 			catch (err) {
 				this.showToastError(err);

@@ -128,7 +128,6 @@ export default {
 		},
 		onSubmit (data) {
 			this.$emit('submit', data);
-			this.setSplash(false);
 		},
 	},
 };
