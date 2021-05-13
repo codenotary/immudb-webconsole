@@ -39,7 +39,7 @@ import {
 	DATABASE_MODULE,
 	ACTIVE_DATABASE,
 } from '@/store/database/constants';
- 
+
 const debounce = require('lodash.debounce');
 
 export default {
