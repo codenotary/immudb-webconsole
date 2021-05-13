@@ -37,9 +37,8 @@
 					/>
 				</template>
 				<template #[`item.active`]="{ item }">
-					<UiColumnsBadge
+					<UiColumnsActive
 						:value="!!item.active"
-						:color="!!item.active ? 'success' : 'error'"
 					/>
 				</template>
 				<template #[`item.actions`]="{ item }">

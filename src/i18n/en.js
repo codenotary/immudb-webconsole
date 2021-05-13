@@ -166,6 +166,8 @@ export default {
 	},
 	users: {
 		title: 'Manage users',
+		active: 'Active',
+		notActive: 'Not active',
 		action: {
 			add: {
 				title: 'Add user',
