@@ -4,17 +4,24 @@
 		elevation="0"
 	>
 		<v-card-title class="ma-0 mb-4 pa-0">
-			<v-icon
-				:class="{
-					'gray--text text--darken-1': !$vuetify.theme.dark,
-					'gray--text text--lighten-1': $vuetify.theme.dark,
-				}"
-			>
-				{{ mdiLocationEnter }}
-			</v-icon>
-			<span class="ml-2">
-				{{ $t('login.title') }}
-			</span>
+			<v-row class="ma-0 pa-0 d-flex flex-column justify-start align-center">
+				<v-col
+					class="ma-0 mb-2 pa-0"
+					cols="12"
+				>
+					<v-icon
+						:class="{
+							'gray--text text--darken-1': !$vuetify.theme.dark,
+							'gray--text text--lighten-1': $vuetify.theme.dark,
+						}"
+					>
+						{{ mdiLocationEnter }}
+					</v-icon>
+					<span class="ml-2 title">
+						{{ $t('login.subtitle') }}
+					</span>
+				</v-col>
+			</v-row>
 		</v-card-title>
 		<v-card-text
 			class="ma-0 pa-0"
@@ -173,6 +180,7 @@ export default {
 						color: #555;
 					}
 
+					.v-icon,
 					input {
 						color: #0e0e0e;
 					}
@@ -188,6 +196,7 @@ export default {
 						color: #aaa;
 					}
 
+					.v-icon,
 					input {
 						color: #f1f1f1;
 					}

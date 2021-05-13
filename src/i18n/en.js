@@ -40,7 +40,8 @@ export default {
 		},
 	},
 	login: {
-		title: 'Please login first',
+		title: 'Welcome to CodeNotary webconsole',
+		subtitle: 'Please login first',
 		label: {
 			username: 'Username',
 			password: 'Password',

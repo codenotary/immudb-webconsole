@@ -10,9 +10,6 @@
 		<div class="ma-0 pa-0 d-flex flex-column justify-center align-center fill-height">
 			<v-img
 				class="mascotte mt-16 mx-0 pa-0"
-				:class="{
-					'mb-16': token,
-				}"
 				lazy-src="/images/mascotte/mascotte_lazy.png"
 				src="/images/mascotte/mascotte.png"
 				:alt="$t('common.gopher')"
@@ -21,21 +18,47 @@
 				max-height="320px"
 				contain
 			/>
+			<v-row class="ma-0 pa-0 d-flex justify-center align-end fill-width">
+				<v-col
+					class="ma-0 py-0 px-4 d-flex justify-center align-center"
+					cols="12"
+					sm="8"
+					md="6"
+					lg="4"
+				>
+					<span
+						class="ma-0 pa-0 display-1"
+						:class="{
+							'text-center': !showAuthForm,
+						}"
+					>
+						{{ $t('login.title') }}
+					</span>
+				</v-col>
+			</v-row>
 			<v-row class="ma-0 pa-0 d-flex justify-center align-start fill-width">
 				<v-col
-					class="ma-0 pa-0 d-flex justify-center align-center fill-height"
+					v-if="showAuthForm"
+					class="ma-0 pa-0 d-flex justify-center align-start fill-height"
 					cols="12"
 					sm="8"
 					md="6"
 					lg="4"
 				>
 					<UiFormAuth
-						v-if="showAuthForm"
 						@submit="onSubmit"
 					/>
+				</v-col>
+				<v-col
+					v-else
+					class="ma-0 pa-0 d-flex justify-center align-center fill-height"
+					cols="12"
+					sm="8"
+					md="6"
+					lg="4"
+				>
 					<v-progress-circular
-						v-else
-						class="ma-0 pa-0 d-flex justify-center align-center fill-height"
+						class="ma-0 mt-4 pa-0 d-flex justify-center align-center fill-height"
 						:size="96"
 						color="accent"
 						indeterminate
