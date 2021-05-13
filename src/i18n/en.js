@@ -179,9 +179,10 @@ export default {
 				success: 'User added',
 			},
 			hideDisabled: {
+				label: 'Show non-active users',
 				tooltip: {
-					hide: 'Hide disabled users',
-					show: 'Show disabled users',
+					hide: 'Hide non-active users',
+					show: 'Show non-active users',
 				},
 			},
 		},
@@ -200,17 +201,17 @@ export default {
 			createdAt: 'Created at',
 			active: 'Active',
 			action: {
-				disable: {
-					label: 'Disable user',
-					tooltip: 'Disable user {user}',
-					alt: 'Disable user {user}',
-					success: 'User successfully disabled!',
+				deactivate: {
+					label: 'Deactivate user',
+					tooltip: 'Deactivate user {user}',
+					alt: 'Deactivate user {user}',
+					success: 'User successfully deactivated!',
 				},
-				enable: {
-					label: 'Enable user',
-					tooltip: 'Enable user {user}',
-					alt: 'Enable user {user}',
-					success: 'User successfully enabled!',
+				activate: {
+					label: 'Activate user',
+					tooltip: 'Activate user {user}',
+					alt: 'Activate user {user}',
+					success: 'User successfully activated!',
 				},
 				updatePassword: {
 					label: 'Change password',
@@ -256,15 +257,15 @@ export default {
 				},
 			},
 			modal: {
-				disable: {
-					title: 'Disable user {user}',
-					sure: 'Are you sure you want to <span class="font-weight-bold">disable</span> this user?',
-					success: 'User successfully disabled!',
+				deactivate: {
+					title: 'Deactivate user {user}',
+					sure: 'Are you sure you want to <span class="font-weight-bold">deactivate</span> this user?',
+					success: 'User successfully deactivated!',
 				},
-				enable: {
-					title: 'Enable user {user}',
-					sure: 'Are you sure you want to <span class="font-weight-bold">enable</span> this user?',
-					success: 'User successfully enabled!',
+				activate: {
+					title: 'Activate user {user}',
+					sure: 'Are you sure you want to <span class="font-weight-bold">activate</span> this user?',
+					success: 'User successfully activated!',
 				},
 				updatePassword: {
 					title: 'Change password of user {user}',

@@ -48,8 +48,8 @@
 					class="ma-0 pa-0"
 					:filter="filter"
 					:items="userList"
-					@disable="onDisableUser"
-					@enable="onEnableUser"
+					@deactivate="onDeactivateUser"
+					@activate="onActivateUser"
 					@update:password="onUpdatePassword"
 					@add:permission="onUpdatePermissions"
 					@update:permissions="onUpdatePermissions"
@@ -150,12 +150,12 @@ export default {
 				this.showToastError(err);
 			}
 		},
-		async onDisableUser(data) {
+		async onDeactivateUser(data) {
 			try {
 				await this.setActiveUser(data);
 				await this.fetchUserList();
 				if (!this.splash) {
-					this.$toasted.success(this.$t('users.table.action.disable.success'), {
+					this.$toasted.success(this.$t('users.table.action.deactivate.success'), {
 						duration: 3000,
 						icon: 'check-circle',
 					});
@@ -165,12 +165,12 @@ export default {
 				this.showToastError(err);
 			}
 		},
-		async onEnableUser(data) {
+		async onActivateUser(data) {
 			try {
 				await this.setActiveUser(data);
 				await this.fetchUserList();
 				if (!this.splash) {
-					this.$toasted.success(this.$t('users.table.action.enable.success'), {
+					this.$toasted.success(this.$t('users.table.action.activate.success'), {
 						duration: 3000,
 						icon: 'check-circle',
 					});

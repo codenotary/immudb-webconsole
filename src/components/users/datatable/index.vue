@@ -44,8 +44,8 @@
 				<template #[`item.actions`]="{ item }">
 					<UsersDatatableActions
 						:item="item"
-						@disable="onDisableUser"
-						@enable="onEnableUser"
+						@deactivate="onDeactivateUser"
+						@activate="onActivateUser"
 						@update:password="onUpdatePassword"
 						@update:permissions="onUpdatePermissions"
 					/>
@@ -182,11 +182,11 @@ export default {
 				filter: this.keyword,
 			});
 		},
-		onDisableUser (data) {
-			this.$emit('disable', data);
+		onDeactivateUser (data) {
+			this.$emit('deactivate', data);
 		},
-		onEnableUser (data) {
-			this.$emit('enable', data);
+		onActivateUser (data) {
+			this.$emit('activate', data);
 		},
 		onUpdatePassword (data) {
 			this.$emit('update:password', data);

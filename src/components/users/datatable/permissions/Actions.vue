@@ -76,7 +76,7 @@
 			:cancel-text="$t('common.cancel')"
 			@confirm="onDeletePermissions"
 		>
-			<p v-html="$t('users.table.modal.disable.sure')" />
+			<p v-html="$t('users.table.modal.deactivate.sure')" />
 		</UiModalConfirm>
 	</span>
 </template>

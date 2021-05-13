@@ -30,12 +30,12 @@
 				>
 					<template #activator="{ on, attrs }">
 						<v-list-item
-							@click="showDisableUserModal = true"
+							@click="showDeactiveUserModal = true"
 						>
 							<v-list-item-title
 								class="d-flex justify-start align-center"
 								color="secondary"
-								:alt="$t('users.table.action.disable.alt', { user })"
+								:alt="$t('users.table.action.deactivate.alt', { user })"
 								v-bind="attrs"
 								v-on="on"
 							>
@@ -49,13 +49,13 @@
 									{{ mdiAccountCancelOutline }}
 								</v-icon>
 								<span class="ma-0 ml-2 pa-0 body-2">
-									{{ $t('users.table.action.disable.label', { user }) }}
+									{{ $t('users.table.action.deactivate.label', { user }) }}
 								</span>
 							</v-list-item-title>
 						</v-list-item>
 					</template>
 					<span class="body-2">
-						{{ $t('users.table.action.disable.tooltip', { user }) }}
+						{{ $t('users.table.action.deactivate.tooltip', { user }) }}
 					</span>
 				</v-tooltip>
 				<v-tooltip
@@ -65,12 +65,12 @@
 				>
 					<template #activator="{ on, attrs }">
 						<v-list-item
-							@click="showEnableUserModal = true"
+							@click="showActivateUserModal = true"
 						>
 							<v-list-item-title
 								class="d-flex justify-start align-center"
 								color="secondary"
-								:alt="$t('users.table.action.enable.alt', { user })"
+								:alt="$t('users.table.action.activate.alt', { user })"
 								v-bind="attrs"
 								v-on="on"
 							>
@@ -84,13 +84,13 @@
 									{{ mdiAccountCheckOutline }}
 								</v-icon>
 								<span class="ma-0 ml-2 pa-0 body-2">
-									{{ $t('users.table.action.enable.label', { user }) }}
+									{{ $t('users.table.action.activate.label', { user }) }}
 								</span>
 							</v-list-item-title>
 						</v-list-item>
 					</template>
 					<span class="body-2">
-						{{ $t('users.table.action.enable.tooltip', { user }) }}
+						{{ $t('users.table.action.activate.tooltip', { user }) }}
 					</span>
 				</v-tooltip>
 				<v-tooltip
@@ -132,12 +132,12 @@
 
 		<!-- MODALS -->
 		<UiModalConfirm
-			v-model="showDisableUserModal"
+			v-model="showDeactiveUserModal"
 			color="error"
-			:title="$t('users.table.modal.disable.title', { user })"
+			:title="$t('users.table.modal.deactivate.title', { user })"
 			:confirm-text="$t('common.confirm')"
 			:cancel-text="$t('common.cancel')"
-			@confirm="onDisableUser"
+			@confirm="onDeactivateUser"
 		>
 			<template #icon>
 				<v-icon
@@ -149,15 +149,15 @@
 					{{ mdiAccountCancelOutline }}
 				</v-icon>
 			</template>
-			<p v-html="$t('users.table.modal.disable.sure')" />
+			<p v-html="$t('users.table.modal.deactivate.sure')" />
 		</UiModalConfirm>
 		<UiModalConfirm
-			v-model="showEnableUserModal"
+			v-model="showActivateUserModal"
 			color="success"
-			:title="$t('users.table.modal.enable.title', { user })"
+			:title="$t('users.table.modal.activate.title', { user })"
 			:confirm-text="$t('common.confirm')"
 			:cancel-text="$t('common.cancel')"
-			@confirm="onEnableUser"
+			@confirm="onActivateUser"
 		>
 			<template #icon>
 				<v-icon
@@ -169,7 +169,7 @@
 					{{ mdiAccountCheckOutline }}
 				</v-icon>
 			</template>
-			<p v-html="$t('users.table.modal.enable.sure')" />
+			<p v-html="$t('users.table.modal.activate.sure')" />
 		</UiModalConfirm>
 		<UsersModalUpdatePassword
 			v-model="showUpdatePasswordModal"
@@ -209,8 +209,8 @@ export default {
 			mdiAccountCheckOutline,
 			mdiFormTextboxPassword,
 			mdiCardAccountDetailsOutline,
-			showDisableUserModal: false,
-			showEnableUserModal: false,
+			showDeactiveUserModal: false,
+			showActivateUserModal: false,
 			showUpdatePasswordModal: false,
 			showUpdatePermissionsModal: false,
 		};
@@ -232,14 +232,14 @@ export default {
 		},
 	},
 	methods: {
-		onDisableUser () {
-			this.$emit('disable', {
+		onDeactivateUser () {
+			this.$emit('deactivate', {
 				username: this.user,
 				active: false,
 			});
 		},
-		onEnableUser () {
-			this.$emit('enable', {
+		onActivateUser () {
+			this.$emit('activate', {
 				username: this.user,
 				active: true,
 			});
