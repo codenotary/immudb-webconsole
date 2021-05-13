@@ -34,6 +34,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import {
+	DATABASE_MODULE,
+	ACTIVE_DATABASE,
+} from '@/store/database/constants';
+ 
 const debounce = require('lodash.debounce');
 
 export default {
@@ -72,6 +78,9 @@ export default {
 		};
 	},
 	computed: {
+		...mapGetters(DATABASE_MODULE, {
+			activeDatabase: ACTIVE_DATABASE,
+		}),
 		parsedItems () {
 			if (this.items && this.items.length) {
 				return this.items
