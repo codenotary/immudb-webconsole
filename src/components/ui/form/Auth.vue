@@ -166,12 +166,15 @@ export default {
 		&.theme-- {
 			&dark {
 				.v-input__slot {
-					background-color: #fff !important;
-					color: #111;
+					background-color: #f1f1f1 !important;
 
 					label,
+					::placeholder {
+						color: #555;
+					}
+
 					input {
-						color: #111;
+						color: #0e0e0e;
 					}
 				}
 			}
@@ -179,11 +182,14 @@ export default {
 			&light {
 				.v-input__slot {
 					background-color: #21222c !important;
-					color: #fff;
 
 					label,
+					::placeholder {
+						color: #aaa;
+					}
+
 					input {
-						color: #fff;
+						color: #f1f1f1;
 					}
 				}
 			}
