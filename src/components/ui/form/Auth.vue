@@ -41,8 +41,8 @@
 							v-model="form.user"
 							:error-messages="errors"
 							class="mb-2 text-field--fill"
-							:light="$vuetify.theme.dark"
-							:dark="!$vuetify.theme.dark"
+							:light="!$vuetify.theme.dark"
+							:dark="$vuetify.theme.dark"
 							:label="$t('login.label.username')"
 							:placeholder="$t('login.placeholder.username')"
 							autofocus
@@ -63,8 +63,8 @@
 							v-model="form.password"
 							:error-messages="errors"
 							class="mb-2 text-field--fill"
-							:light="$vuetify.theme.dark"
-							:dark="!$vuetify.theme.dark"
+							:light="!$vuetify.theme.dark"
+							:dark="$vuetify.theme.dark"
 							:label="$t('login.label.password')"
 							:placeholder="$t('login.placeholder.password')"
 							required
@@ -159,3 +159,35 @@ export default {
 	},
 };
 </script>
+
+<style lang="scss">
+#LoginForm {
+	.v-input {
+		&.theme-- {
+			&dark {
+				.v-input__slot {
+					background-color: #fff !important;
+					color: #111;
+
+					label,
+					input {
+						color: #111;
+					}
+				}
+			}
+
+			&light {
+				.v-input__slot {
+					background-color: #21222c !important;
+					color: #fff;
+
+					label,
+					input {
+						color: #fff;
+					}
+				}
+			}
+		}
+	}
+}
+</style>
