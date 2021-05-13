@@ -201,7 +201,9 @@ import {
 } from '@/store/auth/constants';
 import {
 	DATABASE_MODULE,
+	SET_ACTIVE_DATABASE,
 	SET_TABLE_LIST,
+	DEFAULT_DATABASE,
 } from '@/store/database/constants';
 import {
 	IMMUDB_MODULE,
@@ -268,7 +270,6 @@ export default {
 					icon: mdiDatabaseSearchOutline,
 					to: this.localePath({ path: '/query' }),
 					alt: 'Dashboard',
-					hidden: false,
 				},
 				{
 					title: 'sidebar.databases',
@@ -319,6 +320,7 @@ export default {
 			setToken: SET_TOKEN,
 		}),
 		...mapActions(DATABASE_MODULE, {
+			setActiveDatabase: SET_ACTIVE_DATABASE,
 			setTableList: SET_TABLE_LIST,
 		}),
 		...mapActions(IMMUDB_MODULE, {
@@ -335,6 +337,7 @@ export default {
 		onLogout () {
 			this.setToken(null);
 			this.setState({ tables: [] });
+			this.setActiveDatabase({ active: DEFAULT_DATABASE });
 			this.setTableList({ tables: [] });
 		},
 	},

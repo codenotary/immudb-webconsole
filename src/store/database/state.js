@@ -1,5 +1,9 @@
+import {
+	DEFAULT_DATABASE,
+} from './constants';
+
 export default () => ({
 	databaseList: [],
 	tableList: [],
-	active: 'defaultdb',
+	active: DEFAULT_DATABASE,
 });

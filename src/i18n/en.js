@@ -53,7 +53,7 @@ export default {
 		submit: 'Login',
 	},
 	sidebar: {
-		dashboard: 'Dashboard - coming soon',
+		dashboard: 'Metrics',
 		query: 'Query',
 		databases: 'Databases',
 		users: 'Users',

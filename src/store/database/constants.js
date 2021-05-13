@@ -11,3 +11,5 @@ export const SET_TABLE_LIST = 'setTableList';
 export const ACTIVE_DATABASE = 'activeDatabase';
 export const DATABASE_LIST = 'getDatabaseList';
 export const TABLE_LIST = 'getTableList';
+
+export const DEFAULT_DATABASE = 'defaultdb';
