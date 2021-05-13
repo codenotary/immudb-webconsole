@@ -36,7 +36,7 @@
 						:size="16"
 					/>
 					<span class="ma-0 ml-2 pa-0 caption font-weight-bold">
-						{{ $t('users.action.add.loading') }}
+						{{ $t('common.loading') }}
 					</span>
 				</template>
 			</v-btn>
