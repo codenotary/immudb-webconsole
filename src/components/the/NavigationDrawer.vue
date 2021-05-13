@@ -262,7 +262,6 @@ export default {
 					icon: mdiChartBoxOutline,
 					to: this.localePath({ path: '/' }),
 					alt: 'Analytics',
-					disabled: true,
 				},
 				{
 					title: 'sidebar.query',

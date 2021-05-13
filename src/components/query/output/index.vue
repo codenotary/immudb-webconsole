@@ -85,6 +85,10 @@ export default {
 			}
 		}
 
+		.v-card__title {
+			height: 44px;
+		}
+
 		.v-card__text {
 			height: calc(100% - 44px) !important;
 			margin-top: 0 !important;

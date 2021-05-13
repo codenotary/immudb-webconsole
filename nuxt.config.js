@@ -101,6 +101,7 @@ export default {
 		filenames: {
 			app: IS_PROD ? '[chunkhash].js' : '[name].[hash].js',
 			chunk: IS_PROD ? '[chunkhash].js' : '[name].[hash].js',
+			css: IS_PROD ? '[name].[contenthash].css' : '[name].js',
 		},
 		extractCSS: IS_PROD,
 		// Extend webpack config
@@ -163,6 +164,10 @@ export default {
 	render: {
 		static: {
 			maxAge: 1000 * 60 * 60 * 24 * 7,
+		},
+		bundleRenderer: {
+			shouldPrefetch: (file, type) => ['script', 'style', 'font'].includes(type) &&
+				!file.includes('admin')
 		},
 	},
 

@@ -65,8 +65,8 @@ export default {
 			tooltip: 'Logout',
 		},
 	},
-	analytics: {
-		title: 'Analytics',
+	metrics: {
+		title: 'Metrics',
 	},
 	query: {
 		tables: {

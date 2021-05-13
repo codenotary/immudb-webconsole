@@ -25,18 +25,18 @@ body.theme--light {
 		}
 
 		&.theme-- {
-			&light.shadow .v-card__title,
-			&dark.shadow .v-card__title {
+			&light.shadow > .v-card__title,
+			&dark.shadow > .v-card__title {
 				padding-top: $spacer-1 * 1.5 !important;
 			}
 
-			&light.shadow .v-card__title {
+			&light.shadow > .v-card__title {
 				&::after {
 					background-color: #b9bbbc;
 				}
 			}
 
-			&dark.shadow .v-card__title {
+			&dark.shadow > .v-card__title {
 				&::after {
 					background-color: #1e2028;
 				}
@@ -60,7 +60,7 @@ body.theme--light {
 		}
 
 		&.shadow {
-			.v-card__title {
+			> .v-card__title {
 				position: relative;
 
 				&::after {
