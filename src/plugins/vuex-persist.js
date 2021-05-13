@@ -13,7 +13,7 @@ export default ({ store }) => {
 				theme: state.view.theme,
 				sidebar: state.view.sidebar,
 				paneSizes: state.view.paneSizes,
-				hideDisabled: state.view.hideDisabled,
+				hideNotActive: state.view.hideNotActive,
 				timezone: state.view.timezone,
 			},
 			auth: {

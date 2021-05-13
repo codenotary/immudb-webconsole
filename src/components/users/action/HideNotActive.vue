@@ -18,7 +18,7 @@
 			</div>
 		</template>
 		<span>
-			{{ $t(`users.action.hideDisabled.tooltip.${ value ? 'show' : 'hide' }`) }}
+			{{ $t(`users.action.hideNotActive.tooltip.${ value ? 'show' : 'hide' }`) }}
 		</span>
 	</v-tooltip>
 </template>
@@ -27,13 +27,13 @@
 import { mapActions, mapGetters } from 'vuex';
 import {
 	VIEW_MODULE,
-	SET_HIDE_DISABLED,
+	SET_HIDE_NOT_ACTIVE,
 	IS_LOADING,
-	HIDE_DISABLED,
+	HIDE_NOT_ACTIVE,
 } from '@/store/view/constants';
 
 export default {
-	name: 'UsersActionHideDisabled',
+	name: 'UsersActionHideNotActive',
 	data () {
 		return {
 			value: false,
@@ -42,11 +42,11 @@ export default {
 	computed: {
 		...mapGetters(VIEW_MODULE, {
 			isLoading: IS_LOADING,
-			hideDisabled: HIDE_DISABLED,
+			hideNotActive: HIDE_NOT_ACTIVE,
 		}),
 	},
 	watch: {
-		hideDisabled: {
+		hideNotActive: {
 			deep: true,
 			immediate: true,
 			handler (newVal) {
@@ -58,10 +58,10 @@ export default {
 	},
 	methods: {
 		...mapActions(VIEW_MODULE, {
-			setHideDisabled: SET_HIDE_DISABLED,
+			setHideNotActive: SET_HIDE_NOT_ACTIVE,
 		}),
 		onUpdate (data) {
-			this.setHideDisabled(!!data);
+			this.setHideNotActive(!!data);
 		},
 	},
 };

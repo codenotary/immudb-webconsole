@@ -178,11 +178,11 @@ export default {
 				loading: 'Creating',
 				success: 'User added',
 			},
-			hideDisabled: {
-				label: 'Show non-active users',
+			hideNotActive: {
+				label: 'Hide deactivated users',
 				tooltip: {
-					hide: 'Hide non-active users',
-					show: 'Show non-active users',
+					hide: 'Hide deactivated users',
+					show: 'Show deactivated users',
 				},
 			},
 		},

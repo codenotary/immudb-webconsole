@@ -69,7 +69,7 @@
 import { mapGetters } from 'vuex';
 import {
 	VIEW_MODULE,
-	HIDE_DISABLED,
+	HIDE_NOT_ACTIVE,
 } from '@/store/view/constants';
 import {
 	mdiChevronUp,
@@ -136,7 +136,7 @@ export default {
 	},
 	computed: {
 		...mapGetters(VIEW_MODULE, {
-			hideDisabled: HIDE_DISABLED,
+			hideNotActive: HIDE_NOT_ACTIVE,
 		}),
 		parsedItems () {
 			if (this.items && this.items.length) {
@@ -146,7 +146,7 @@ export default {
 							return _user && _user.includes(this.filter || '');
 						})
 						.filter((_) => {
-							return !this.hideDisabled || _.active;
+							return !this.hideNotActive || _.active;
 						})
 						.map((_, idx) => {
 							return {

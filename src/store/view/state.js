@@ -20,7 +20,7 @@ export default () => ({
 		query: 75,
 		output: 40,
 	},
-	hideDisabled: false,
+	hideNotActive: false,
 	timezone: 'local',
 	nuxtHydrated: false,
 	nuxtFetchPending: false,

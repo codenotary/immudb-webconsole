@@ -11,7 +11,7 @@ import {
 	POP_LOADING,
 	SET_PANE_SIZES,
 	SET_TIMEZONE,
-	SET_HIDE_DISABLED,
+	SET_HIDE_NOT_ACTIVE,
 	SET_NUXT_HYDRATED,
 	SET_FETCH_PENDING,
 } from './constants';
@@ -66,8 +66,8 @@ export default {
 	[SET_TIMEZONE](state, payload) {
 		state.timezone = payload;
 	},
-	[SET_HIDE_DISABLED](state, payload) {
-		state.hideDisabled = payload;
+	[SET_HIDE_NOT_ACTIVE](state, payload) {
+		state.hideNotActive = payload;
 	},
 	[SET_NUXT_HYDRATED](state, payload) {
 		state.nuxtHydrated = payload;

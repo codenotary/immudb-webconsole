@@ -24,7 +24,16 @@
 				{{ $t('users.title') }}
 			</h4>
 			<v-spacer />
-			<LazyUsersActionHideDisabled />
+			<span
+				class="ma-0 mr-2 pa-0 caption"
+				:class="{
+					'gray--text text--darken-1': !$vuetify.theme.dark,
+					'gray--text text--lighten-1': $vuetify.theme.dark,
+				}"
+			>
+				{{ $t('users.action.hideNotActive.label') }}
+			</span>
+			<LazyUsersActionHideNotActive />
 			<v-divider
 				class="my-0 ml-2 mr-3 pa-0"
 				vertical
