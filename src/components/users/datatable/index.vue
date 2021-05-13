@@ -143,7 +143,7 @@ export default {
 				return this.items
 						.filter((_) => {
 							const _user = _.user && atob(_.user);
-							return _user && _user.includes(this.filter);
+							return _user && _user.includes(this.filter || '');
 						})
 						.filter((_) => {
 							return !this.hideDisabled || _.active;

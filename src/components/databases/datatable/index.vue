@@ -77,7 +77,7 @@ export default {
 				return this.items
 						.filter((_) => {
 							return _.databaseName && _.databaseName
-									.includes(this.filter);
+									.includes(this.filter || '');
 						})
 						.map((_, idx) => {
 							return {
