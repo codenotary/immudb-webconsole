@@ -4,6 +4,7 @@ import {
 	VIEW_MODULE,
 	PUSH_LOADING,
 	POP_LOADING,
+	SET_BANNER,
 } from '@/store/view/constants';
 import {
 	LOGIN,
@@ -26,7 +27,7 @@ export default {
 				});
 
 				if (response && response.data) {
-					const { token } = response.data;
+					const { token, warning } = response.data;
 					if (token) {
 						ApiService.defaults.headers.common = {
 							Authorization: `Bearer ${ token }`,
@@ -34,6 +35,17 @@ export default {
 
 						commit(SET_TOKEN, token);
 						commit(SET_USER, user);
+
+						if (warning) {
+							commit(`${ VIEW_MODULE }/${ SET_BANNER }`, {
+								label: atob(warning),
+								color: 'warning',
+								persistent: true,
+							}, { root: true });
+						}
+						else {
+							commit(`${ VIEW_MODULE }/${ SET_BANNER }`, null, { root: true });
+						}
 					}
 				}
 

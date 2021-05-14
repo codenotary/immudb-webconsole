@@ -15,10 +15,10 @@ export default () => ({
 		subtitle: '',
 	},
 	paneSizes: {
-		examples: 60,
 		tables: 25,
-		query: 75,
-		output: 40,
+		examples: 75,
+		query: 33,
+		output: 67,
 	},
 	hideNotActive: false,
 	timezone: 'local',
