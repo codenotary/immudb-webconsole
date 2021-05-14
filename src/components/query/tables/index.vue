@@ -215,7 +215,8 @@ export default {
 		}),
 		showAdd () {
 			try {
-				const { permission } = this.userPermission(this.currentDB);
+				const { permission } = this.userPermission(this.currentDB) ||
+					{ permission: 0 };
 				return permission > 1;
 			}
 			catch (err) {
