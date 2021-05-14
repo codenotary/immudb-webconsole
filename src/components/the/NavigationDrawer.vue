@@ -136,7 +136,36 @@
 			</div>
 		</v-list>
 		<template #append>
-			<div class="ma-0 pa-0 pb-12">
+			<div
+				v-if="isAuthenticated"
+				class="ma-0 pa-0 pb-12 d-flex flex-column justify-center align-center"
+			>
+				<v-tooltip
+					right
+					:open-delay="300"
+				>
+					<template #activator="{ on, attrs }">
+						<v-list-item
+							class="ma-0 mb-4 pa-0"
+							v-bind="attrs"
+							v-on="on"
+						>
+							<v-avatar
+								color="primary"
+								:size="32"
+							>
+								<span
+									class="white--text ma-0 pa-0 title"
+								>
+									{{ userInitials }}
+								</span>
+							</v-avatar>
+						</v-list-item>
+					</template>
+					<span class="body-2">
+						{{ user }}
+					</span>
+				</v-tooltip>
 				<v-tooltip
 					v-if="isAuthenticated"
 					right
@@ -144,7 +173,7 @@
 				>
 					<template #activator="{ on, attrs }">
 						<v-list-item
-							class="py-1 d-flex justify-center"
+							class="d-flex justify-center"
 							:ripple="true"
 							:title="$t('sidebar.logout.alt')"
 							:alt="$t('sidebar.logout.alt')"
@@ -197,7 +226,9 @@ import {
 import {
 	AUTH_MODULE,
 	SET_TOKEN,
+	SET_USER,
 	AUTHENTICATED,
+	USER,
 } from '@/store/auth/constants';
 import {
 	DATABASE_MODULE,
@@ -243,7 +274,17 @@ export default {
 		}),
 		...mapGetters(AUTH_MODULE, {
 			isAuthenticated: AUTHENTICATED,
+			user: USER,
 		}),
+		userInitials () {
+			if (this.user) {
+				return this.user
+						.split(' ')
+						.map(_ => _ && _[0])
+						.join('.');
+			}
+			return '';
+		},
 	},
 	watch: {
 		mobile: {
@@ -317,6 +358,7 @@ export default {
 		}),
 		...mapActions(AUTH_MODULE, {
 			setToken: SET_TOKEN,
+			setUser: SET_USER,
 		}),
 		...mapActions(DATABASE_MODULE, {
 			setActiveDatabase: SET_ACTIVE_DATABASE,
@@ -335,6 +377,7 @@ export default {
 		},
 		onLogout () {
 			this.setToken(null);
+			this.setUser(null);
 			this.setState({ tables: [] });
 			this.setActiveDatabase({ active: DEFAULT_DATABASE });
 			this.setTableList({ tables: [] });

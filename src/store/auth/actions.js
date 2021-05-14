@@ -8,12 +8,10 @@ import {
 import {
 	LOGIN,
 	SET_TOKEN,
+	SET_USER,
 } from './constants';
 
 export default {
-	[SET_TOKEN]({ commit }, auth) {
-		commit(SET_TOKEN, auth);
-	},
 	async [LOGIN]({ commit }, data) {
 		const LOADING_LABEL = 'login';
 		try {
@@ -35,6 +33,7 @@ export default {
 						};
 
 						commit(SET_TOKEN, token);
+						commit(SET_USER, user);
 					}
 				}
 
@@ -46,7 +45,14 @@ export default {
 			console.error(err);
 			commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
 			commit(SET_TOKEN, null);
+			commit(SET_USER, null);
 			throw err;
 		}
+	},
+	[SET_TOKEN]({ commit }, auth) {
+		commit(SET_TOKEN, auth);
+	},
+	[SET_USER]({ commit }, auth) {
+		commit(SET_USER, auth);
 	},
 };

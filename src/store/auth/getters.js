@@ -1,6 +1,7 @@
 import {
 	TOKEN,
 	AUTHENTICATED,
+	USER,
 } from './constants';
 
 export default {
@@ -9,5 +10,8 @@ export default {
 	},
 	[AUTHENTICATED](state) {
 		return !!state.token;
+	},
+	[USER](state) {
+		return state.user;
 	},
 };
