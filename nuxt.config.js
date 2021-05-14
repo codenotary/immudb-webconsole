@@ -166,8 +166,10 @@ export default {
 			maxAge: 1000 * 60 * 60 * 24 * 7,
 		},
 		bundleRenderer: {
-			shouldPrefetch: (file, type) => ['script', 'style', 'font'].includes(type) &&
-				!file.includes('admin')
+			shouldPrefetch: (_, type) => ['script', 'style', 'font'].includes(type) &&
+				!_.includes('admin'),
+			shouldPreload: (_, type) => ['script', 'style', 'font'].includes(type) &&
+				!_.includes('admin'),
 		},
 	},
 
