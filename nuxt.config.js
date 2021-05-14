@@ -23,7 +23,7 @@ export default {
 	*/
 	server: {
 		host: '0.0.0.0',
-		port: 8080,
+		port: 8081,
 	},
 
 	/*
@@ -320,6 +320,7 @@ export default {
 	*/
 	env: {
 		API_URL: IS_PROD? '/api' : '/api',
+		PROMETHEUS_URL: IS_PROD? '/' : '/',
 	},
 
 	/*
@@ -328,7 +329,7 @@ export default {
 	*/
 	proxy: {
 		'/api/': {
-			target: 'http://localhost:9997',
+			target: 'http://localhost:8080',
 			pathRewrite: { '^/api/': '/api/' },
 			xfwd: true,
 			logLevel: 'debug',
