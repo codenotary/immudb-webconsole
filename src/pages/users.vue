@@ -21,7 +21,7 @@
 					'gray--text text--lighten-1': $vuetify.theme.dark,
 				}"
 			>
-				{{ $t('users.title') }}
+				{{ $t('users.title') }} - {{ showAdd }}
 			</h4>
 			<v-spacer />
 			<span
@@ -42,10 +42,12 @@
 				:filter.sync="filter"
 			/>
 			<v-divider
+				v-if="showAdd"
 				class="my-0 ml-2 mr-3 pa-0"
 				vertical
 			/>
 			<LazyUsersActionAdd
+				v-if="showAdd"
 				@submit="showAddUser = true"
 			/>
 		</v-card-title>
@@ -86,7 +88,11 @@ import {
 	SET_TOKEN,
 	AUTHENTICATED,
 	USER,
+	USER_PERMISSION,
 } from '@/store/auth/constants';
+import {
+	DEFAULT_DB,
+} from '@/store/database/constants';
 import {
 	USER_MODULE,
 	FETCH_USER_LIST,
@@ -120,10 +126,21 @@ export default {
 		...mapGetters(AUTH_MODULE, {
 			authenticated: AUTHENTICATED,
 			user: USER,
+			userPermission: USER_PERMISSION,
 		}),
 		...mapGetters(USER_MODULE, {
 			userList: USER_LIST,
 		}),
+		showAdd () {
+			try {
+				const { permission } = this.userPermission(DEFAULT_DB);
+				return permission > 1;
+			}
+			catch (err) {
+				console.error(err);
+				return false;
+			}
+		},
 	},
 	watch: {
 		authenticated: {

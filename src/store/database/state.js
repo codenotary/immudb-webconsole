@@ -1,9 +1,9 @@
 import {
-	DEFAULT_DATABASE,
+	DEFAULT_DB,
 } from './constants';
 
 export default () => ({
 	databaseList: [],
 	tableList: [],
-	active: DEFAULT_DATABASE,
+	active: DEFAULT_DB,
 });

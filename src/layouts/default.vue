@@ -68,6 +68,10 @@ import {
 	ACTIVE_DATABASE,
 } from '@/store/database/constants';
 import {
+	USER_MODULE,
+	FETCH_USER_LIST,
+} from '@/store/user/constants';
+import {
 	IMMUDB_MODULE,
 	FETCH_HEALTH,
 	FETCH_STATE,
@@ -167,6 +171,9 @@ export default {
 			setTableList: SET_TABLE_LIST,
 			useDatabase: USE_DATABASE,
 		}),
+		...mapActions(USER_MODULE, {
+			fetchUserList: FETCH_USER_LIST,
+		}),
 		...mapActions(IMMUDB_MODULE, {
 			fetchHealth: FETCH_HEALTH,
 			fetchState: FETCH_STATE,
@@ -187,6 +194,7 @@ export default {
 				useDatabase && await this.useDatabase(this.activeDatabase);
 				await this.fetchHealth();
 				await this.fetchState();
+				await this.fetchUserList();
 				const { txId } = this.state;
 				if (txId) {
 					await this.fetchDatabaseList();

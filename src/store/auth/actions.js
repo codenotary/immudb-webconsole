@@ -10,16 +10,17 @@ import {
 	LOGIN,
 	SET_TOKEN,
 	SET_USER,
+	SET_USER_PERMISSION,
 } from './constants';
 
 export default {
-	async [LOGIN]({ commit }, data) {
+	async [LOGIN]({ commit }, payload) {
 		const LOADING_LABEL = 'login';
 		try {
-			if (data) {
+			if (payload) {
 				commit(`${ VIEW_MODULE }/${ PUSH_LOADING }`, { label: LOADING_LABEL, silently: true }, { root: true });
 
-				const { user, password } = data;
+				const { user, password } = payload;
 
 				const response = await ImmudbService.login({
 					user: btoa(user),
@@ -62,10 +63,13 @@ export default {
 			throw err;
 		}
 	},
-	[SET_TOKEN]({ commit }, auth) {
-		commit(SET_TOKEN, auth);
+	[SET_TOKEN]({ commit }, payload) {
+		commit(SET_TOKEN, payload);
 	},
-	[SET_USER]({ commit }, auth) {
-		commit(SET_USER, auth);
+	[SET_USER]({ commit }, payload) {
+		commit(SET_USER, payload);
+	},
+	[SET_USER_PERMISSION]({ commit }, payload) {
+		commit(SET_USER_PERMISSION, payload);
 	},
 };

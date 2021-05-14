@@ -86,6 +86,7 @@ export default {
 				button: 'add',
 				alt: 'Add \'{value}\' to sql query',
 				tooltip: 'Add \'{value}\' to sql query',
+				notAllowed: 'As you do not have permissions to write on this database it is suggested to ask the <span class="font-weight-bold">sysadmin</span> to add some data.',
 			},
 			empty: {
 				label: 'The active database is empty.',

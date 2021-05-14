@@ -219,7 +219,7 @@ export default {
 		user () {
 			if (this.item) {
 				const { user } = this.item;
-				return atob(user);
+				return user;
 			}
 			return '';
 		},

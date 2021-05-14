@@ -19,6 +19,7 @@ export default ({ store }) => {
 			auth: {
 				token: state.auth.token,
 				user: state.auth.user,
+				permission: state.auth.permission,
 			},
 			database: {
 				active: state.database.active,

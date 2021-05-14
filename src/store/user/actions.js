@@ -5,6 +5,10 @@ import {
 	POP_LOADING,
 } from '@/store/view/constants';
 import {
+	AUTH_MODULE,
+	SET_USER_PERMISSION,
+} from '@/store/auth/constants';
+import {
 	FETCH_USER_LIST,
 	SET_USER_LIST,
 	ADD_USER,
@@ -24,6 +28,7 @@ export default {
 
 			if (response && response.data) {
 				commit(SET_USER_LIST, response.data);
+				commit(`${ AUTH_MODULE }/${ SET_USER_PERMISSION }`, response.data, { root: true });
 				commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
 			}
 
@@ -114,6 +119,9 @@ export default {
 			commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
 			throw err;
 		}
+	},
+	[SET_USER_PERMISSION]({ commit }, payload) {
+		commit(SET_USER_LIST, payload);
 	},
 	[SET_USER_LIST]({ commit }, payload) {
 		commit(SET_USER_LIST, payload);

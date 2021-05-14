@@ -153,6 +153,7 @@
 			</v-treeview>
 			<QueryTablesEmpty
 				v-else-if="!pending"
+				:allowed="showAdd"
 				@submit="onAddDemoData"
 			/>
 			<QueryTablesSkeleton
@@ -165,6 +166,10 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import {
+	AUTH_MODULE,
+	USER_PERMISSION,
+} from '@/store/auth/constants';
 import {
 	DATABASE_MODULE,
 	TABLE_LIST,
@@ -199,12 +204,25 @@ export default {
 		};
 	},
 	computed: {
+		...mapGetters(AUTH_MODULE, {
+			userPermission: USER_PERMISSION,
+		}),
 		...mapGetters(DATABASE_MODULE, {
 			tables: TABLE_LIST,
 		}),
 		...mapGetters(IMMUDB_MODULE, {
 			state: STATE,
 		}),
+		showAdd () {
+			try {
+				const { permission } = this.userPermission(this.currentDB);
+				return permission > 1;
+			}
+			catch (err) {
+				console.error(err);
+				return false;
+			}
+		},
 		currentDB () {
 			if (this.state) {
 				const { db } = this.state;

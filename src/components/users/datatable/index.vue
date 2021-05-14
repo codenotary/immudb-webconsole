@@ -29,16 +29,15 @@
 				<template #[`item.user`]="{ item }">
 					<span class="ma-0 pa-0 d-flex justify-start align-center">
 						<v-icon
-							v-if="getUser(item) === user"
+							v-if="item.user === user"
 							class="ma-0 pa-0"
 							:size="18"
 						>
 							{{ mdiAccountOutline }}
 						</v-icon>
-						<UiColumnsBase64
-							class="ml-2"
-							:value="item.user"
-						/>
+						<span class="ma-0 pa-0">
+							{{ item.user }}
+						</span>
 					</span>
 				</template>
 				<template #[`item.createdat`]="{ item }">
@@ -64,7 +63,7 @@
 					<td :colspan="expandedHeaders.length">
 						<UsersDatatablePermissions
 							:items="item.permissions"
-							:user="getUser(item)"
+							:user="item.user"
 							@add:permission="onAddPermission"
 							@update:permissions="onUpdatePermissions"
 						/>
@@ -161,7 +160,7 @@ export default {
 			if (this.items && this.items.length) {
 				return this.items
 						.filter((_) => {
-							const _user = _.user && atob(_.user);
+							const _user = _.user;
 							return _user && _user.includes(this.filter || '');
 						})
 						.filter((_) => {
@@ -178,13 +177,6 @@ export default {
 		},
 	},
 	methods: {
-		getUser (data) {
-			if (data) {
-				const { user } = data;
-				return atob(user);
-			}
-			return '';
-		},
 		onKeywordUpdate: debounce(function() {
 			const { page, itemsPerPage } = this.$refs.datatable;
 			this.$emit('update', {

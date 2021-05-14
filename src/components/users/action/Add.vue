@@ -5,7 +5,7 @@
 	>
 		<template v-slot:activator="{ on, attrs }">
 			<v-btn
-				class="px-4 primary-gradient white--text"
+				class="px-4 success-gradient white--text"
 				color="blue"
 				depressed
 				small

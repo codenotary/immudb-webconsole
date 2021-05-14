@@ -4,6 +4,7 @@
 			{{ $t('query.tables.empty.label') }}
 		</p>
 		<v-btn
+			v-if="allowed"
 			class="ma-0 py-0 px-2 d-flex justify-center align-center"
 			text
 			dense
@@ -19,6 +20,11 @@
 				{{ $t('query.tables.empty.button') }}
 			</span>
 		</v-btn>
+		<span
+			v-else
+			class="ma-0 py-0 px-4 caption"
+			v-html="$t('query.tables.add.notAllowed')"
+		/>
 	</div>
 </template>
 
@@ -29,6 +35,9 @@ import {
 
 export default {
 	name: 'QueryTablesEmpty',
+	props: {
+		allowed: { type: Boolean, default: false },
+	},
 	data () {
 		return {
 			mdiPlusCircleOutline,

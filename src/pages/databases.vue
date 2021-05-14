@@ -28,10 +28,12 @@
 				:filter.sync="filter"
 			/>
 			<v-divider
+				v-if="showAdd"
 				class="my-0 ml-2 mr-3 pa-0"
 				vertical
 			/>
 			<LazyDatabasesActionAdd
+				v-if="showAdd"
 				@submit="showAddDatabase = true"
 			/>
 		</v-card-title>
@@ -67,6 +69,7 @@ import {
 import {
 	AUTH_MODULE,
 	AUTHENTICATED,
+	USER_PERMISSION,
 } from '@/store/auth/constants';
 import {
 	DATABASE_MODULE,
@@ -76,6 +79,7 @@ import {
 	ADD_DATABASE,
 	USE_DATABASE,
 	DATABASE_LIST,
+	DEFAULT_DB,
 } from '@/store/database/constants';
 import {
 	IMMUDB_MODULE,
@@ -104,6 +108,7 @@ export default {
 		}),
 		...mapGetters(AUTH_MODULE, {
 			authenticated: AUTHENTICATED,
+			userPermission: USER_PERMISSION,
 		}),
 		...mapGetters(IMMUDB_MODULE, {
 			state: STATE,
@@ -111,6 +116,16 @@ export default {
 		...mapGetters(DATABASE_MODULE, {
 			databaseList: DATABASE_LIST,
 		}),
+		showAdd () {
+			try {
+				const { permission } = this.userPermission(DEFAULT_DB);
+				return permission > 1;
+			}
+			catch (err) {
+				console.error(err);
+				return false;
+			}
+		},
 		activeDatabase () {
 			if (this.state) {
 				const { db } = this.state;

@@ -49,7 +49,7 @@ import { mapGetters } from 'vuex';
 import {
 	DATABASE_MODULE,
 	DATABASE_LIST,
-	DEFAULT_DATABASE,
+	DEFAULT_DB,
 } from '@/store/database/constants';
 
 export default {
@@ -59,11 +59,11 @@ export default {
 		all: { type: Boolean, default: false },
 		disabled: { type: Boolean, default: false },
 		dense: { type: Boolean, default: false },
-		initialValue: { type: String, default: DEFAULT_DATABASE },
+		initialValue: { type: String, default: DEFAULT_DB },
 	},
 	data () {
 		return {
-			value: DEFAULT_DATABASE,
+			value: DEFAULT_DB,
 		};
 	},
 	computed: {

@@ -233,6 +233,7 @@ import {
 	AUTH_MODULE,
 	SET_TOKEN,
 	SET_USER,
+	SET_USER_PERMISSION,
 	AUTHENTICATED,
 	USER,
 } from '@/store/auth/constants';
@@ -240,7 +241,7 @@ import {
 	DATABASE_MODULE,
 	SET_ACTIVE_DATABASE,
 	SET_TABLE_LIST,
-	DEFAULT_DATABASE,
+	DEFAULT_DB,
 } from '@/store/database/constants';
 import {
 	IMMUDB_MODULE,
@@ -368,6 +369,7 @@ export default {
 		...mapActions(AUTH_MODULE, {
 			setToken: SET_TOKEN,
 			setUser: SET_USER,
+			setUserPermission: SET_USER_PERMISSION,
 		}),
 		...mapActions(DATABASE_MODULE, {
 			setActiveDatabase: SET_ACTIVE_DATABASE,
@@ -387,8 +389,9 @@ export default {
 		onLogout () {
 			this.setToken(null);
 			this.setUser(null);
+			this.setUserPermission(null);
 			this.setState({ tables: [] });
-			this.setActiveDatabase({ active: DEFAULT_DATABASE });
+			this.setActiveDatabase({ active: DEFAULT_DB });
 			this.setTableList({ tables: [] });
 		},
 	},

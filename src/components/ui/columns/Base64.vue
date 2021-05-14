@@ -16,7 +16,7 @@ export default {
 	computed: {
 		parsedValue () {
 			if (this.value) {
-				return atob(this.value);
+				return atob(JSON.parse(JSON.stringify(this.value)));
 			}
 			return '';
 		},
