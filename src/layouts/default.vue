@@ -1,8 +1,20 @@
 <template>
 	<v-app
-		id="default-layout"
+		id="DefaulLayout"
 		class="bg"
+		:class="{
+			'active': active && bannerOpen,
+		}"
 	>
+		<LazyTheBanner
+			id="TheBanner"
+			:persistent="banner.persistent"
+			:color="banner.color"
+			@mouseenter.native="bannerHover = true"
+			@mouseleave.native="bannerHover = false"
+			@submit="onSubmitBanner"
+			@close="onCloseBanner"
+		/>
 		<LazyTheNavigationDrawer
 			v-if="splashFinished"
 		/>
@@ -37,6 +49,7 @@ import {
 	SET_FETCH_PENDING,
 	SPLASH,
 	MOBILE,
+	BANNER,
 } from '@/store/view/constants';
 import {
 	AUTH_MODULE,
@@ -65,6 +78,9 @@ const SPLASH_DURATION = 1200;
 let IMMUDB_POLLING_ID = null;
 const IMMUDB_POLLING_INTERVAL = 10000;
 
+const ACTIVATION_DELAY = 3000;
+const BANNER_COOKIE = 'bannerCookie';
+
 export default {
 	name: 'DefaultLayout',
 	mixins: [
@@ -73,12 +89,16 @@ export default {
 	data () {
 		return {
 			SPLASH_DURATION,
+			active: false,
+			bannerOpen: true,
+			bannerHover: true,
 		};
 	},
 	computed: {
 		...mapGetters(VIEW_MODULE, {
 			splash: SPLASH,
 			mobile: MOBILE,
+			banner: BANNER,
 		}),
 		...mapGetters(AUTH_MODULE, {
 			token: TOKEN,
@@ -106,6 +126,13 @@ export default {
 				}
 			},
 		},
+	},
+	mounted () {
+		setTimeout(() => {
+			if (!this.$cookies.get(BANNER_COOKIE)) {
+				this.active = true;
+			}
+		}, ACTIVATION_DELAY);
 	},
 	beforeDestroy () {
 		this.stopPolling();
@@ -148,9 +175,9 @@ export default {
 				await this.fetchState();
 				const { txId } = this.state;
 				if (txId) {
-					await this.runSqlExec(`USE SNAPSHOT SINCE TX ${ txId } BEFORE TX ${ txId }`);
 					await this.fetchDatabaseList();
 					await this.fetchTables();
+					await this.runSqlExec(`USE SNAPSHOT SINCE TX ${ txId } BEFORE TX ${ txId }`);
 				}
 				else {
 					this.setTableList({ tables: [] });
@@ -214,13 +241,33 @@ export default {
 				console.error(err);
 			}
 		},
+		onSubmitBanner () {
+			this.bannerOpen = false;
+			this.$cookies.set(BANNER_COOKIE, '7D');
+		},
+		onCloseBanner () {
+			this.bannerOpen = false;
+			this.$cookies.set(BANNER_COOKIE, '1D');
+		},
 	},
 };
 </script>
 
 <style lang="scss">
+#DefaulLayout {
+	.v-system-bar {
+		max-height: 0;
+		transition: max-height 0.15s ease-out;
+		overflow: hidden !important;
+	}
+
+	.v-navigation-drawer {
+		margin-top: 0;
+	}
+
 	.v-main {
 		max-height: calc(100vh - #{$spacer-11});
+		margin-top: $spacer-12;
 
 		@media (max-width: 480px) {
 			height: auto !important;
@@ -228,7 +275,23 @@ export default {
 		}
 	}
 
+	&.active {
+		.v-system-bar {
+			max-height: $spacer-6;
+			transition: max-height 0.25s ease-in;
+		}
+
+		.v-navigation-drawer {
+			margin-top: $spacer-6 !important;
+		}
+
+		.v-main {
+			padding-top: $spacer-6 !important;
+		}
+	}
+
 	.v-content {
 		transition: none !important;
 	}
+}
 </style>

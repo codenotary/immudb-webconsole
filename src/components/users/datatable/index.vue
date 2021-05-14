@@ -27,9 +27,19 @@
 					</v-icon>
 				</template>
 				<template #[`item.user`]="{ item }">
-					<UiColumnsBase64
-						:value="item.user"
-					/>
+					<span class="ma-0 pa-0 d-flex justify-start align-center">
+						<v-icon
+							v-if="getUser(item) === user"
+							class="ma-0 pa-0"
+							:size="18"
+						>
+							{{ mdiAccountOutline }}
+						</v-icon>
+						<UiColumnsBase64
+							class="ml-2"
+							:value="item.user"
+						/>
+					</span>
 				</template>
 				<template #[`item.createdat`]="{ item }">
 					<UiColumnsDate
@@ -72,8 +82,13 @@ import {
 	HIDE_NOT_ACTIVE,
 } from '@/store/view/constants';
 import {
+	AUTH_MODULE,
+	USER,
+} from '@/store/auth/constants';
+import {
 	mdiChevronUp,
 	mdiChevronDown,
+	mdiAccountOutline,
 } from '@mdi/js';
 
 const debounce = require('lodash.debounce');
@@ -90,6 +105,7 @@ export default {
 		return {
 			mdiChevronUp,
 			mdiChevronDown,
+			mdiAccountOutline,
 			headers: [
 				{
 					text: '',
@@ -135,6 +151,9 @@ export default {
 		};
 	},
 	computed: {
+		...mapGetters(AUTH_MODULE, {
+			user: USER,
+		}),
 		...mapGetters(VIEW_MODULE, {
 			hideNotActive: HIDE_NOT_ACTIVE,
 		}),

@@ -136,80 +136,86 @@
 			</div>
 		</v-list>
 		<template #append>
-			<div
+			<v-menu
 				v-if="isAuthenticated"
-				class="ma-0 pa-0 pb-12 d-flex flex-column justify-center align-center"
+				class="ma-0 pa-0 bg d-flex flex-column justify-center align-center"
+				style="padding-bottom: 52px !important;"
+				top
+				offset-x
+				:nudge-left="2"
+				:nudge-bottom="2"
+				open-on-hover
 			>
-				<v-tooltip
-					right
-					:open-delay="300"
-				>
-					<template #activator="{ on, attrs }">
-						<v-list-item
-							class="ma-0 mb-4 pa-0"
-							v-bind="attrs"
-							v-on="on"
+				<template #activator="{ on: onMenu, attrs: attrsMenu }">
+					<v-list-item
+						class="ma-0 mb-4 pa-0"
+						v-bind="{ ...attrsMenu, ...onAttrs }"
+						v-on="{ ...onMenu, ...onTooltip }"
+					>
+						<v-avatar
+							color="accent"
+							:size="32"
 						>
-							<v-avatar
-								color="primary"
-								:size="32"
+							<span
+								class="ma-0 pa-0 white--text subtitle-1 font-weight-bold text-uppercase"
+								style="padding-top: 1px !important;"
 							>
-								<span
-									class="white--text ma-0 pa-0 title"
-								>
-									{{ userInitials }}
+								{{ userInitials }}
+							</span>
+						</v-avatar>
+					</v-list-item>
+				</template>
+				<v-list class="user-menu bg">
+					<v-list-item
+						class="d-flex justify-start"
+						ripple
+						:title="$t('common.username')"
+						:alt="$t('common.username')"
+					>
+						<v-list-item-content>
+							<v-list-item-title class="ma-0 mb-4 pa-0">
+								<span class="ma-0 pa-0 body-2">
+									{{ $t('common.username') }}
 								</span>
-							</v-avatar>
-						</v-list-item>
-					</template>
-					<span class="body-2">
-						{{ user }}
-					</span>
-				</v-tooltip>
-				<v-tooltip
-					v-if="isAuthenticated"
-					right
-					:open-delay="300"
-				>
-					<template #activator="{ on, attrs }">
-						<v-list-item
-							class="d-flex justify-center"
-							:ripple="true"
-							:title="$t('sidebar.logout.alt')"
-							:alt="$t('sidebar.logout.alt')"
-							v-bind="attrs"
-							v-on="on"
-							@click="onLogout"
+								<span class="ma-0 pa-0 body-2 font-weight-bold">
+									{{ user }}
+								</span>
+							</v-list-item-title>
+							<v-divider />
+						</v-list-item-content>
+					</v-list-item>
+					<v-list-item
+						class="d-flex justify-start"
+						ripple
+						:title="$t('sidebar.logout.alt')"
+						:alt="$t('sidebar.logout.alt')"
+						@click="onLogout"
+					>
+						<v-icon
+							class="ma-0 body-2 text-center"
+							:class="{
+								'gray--text text--darken-1': !$vuetify.theme.dark,
+								'gray--text text--lighten-1': $vuetify.theme.dark,
+							}"
 						>
-							<v-icon
-								class="ma-0 body-2 text-center"
+							{{ mdiExitToApp }}
+						</v-icon>
+						<div
+							class="ma-0 ml-2 pa-0 d-flex flex-column justify-center align-start"
+						>
+							<span
+								class="body-2"
 								:class="{
 									'gray--text text--darken-1': !$vuetify.theme.dark,
 									'gray--text text--lighten-1': $vuetify.theme.dark,
 								}"
 							>
-								{{ mdiExitToApp }}
-							</v-icon>
-							<div
-								class="ma-0 pa-0 d-flex flex-column justify-center align-start"
-							>
-								<span
-									class="body-2"
-									:class="{
-										'gray--text text--darken-1': !$vuetify.theme.dark,
-										'gray--text text--lighten-1': $vuetify.theme.dark,
-									}"
-								>
-									{{ $t('sidebar.logout.alt') }}
-								</span>
-							</div>
-						</v-list-item>
-					</template>
-					<span class="body-2">
-						{{ $t('sidebar.logout.tooltip') }}
-					</span>
-				</v-tooltip>
-			</div>
+								{{ $t('sidebar.logout.label') }}
+							</span>
+						</div>
+					</v-list-item>
+				</v-list>
+			</v-menu>
 		</template>
 	</v-navigation-drawer>
 </template>
@@ -278,10 +284,13 @@ export default {
 		}),
 		userInitials () {
 			if (this.user) {
-				return this.user
-						.split(' ')
-						.map(_ => _ && _[0])
-						.join('.');
+				const splitted = this.user.split(' ');
+				if (splitted && splitted.length > 1) {
+					return splitted
+							.map(_ => _ && _[0])
+							.join('.');
+				}
+				return this.user.substring(0, 2);
 			}
 			return '';
 		},

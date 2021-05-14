@@ -24,6 +24,7 @@ export default {
 		filter: 'filter',
 		moreInfo: 'more info',
 		comingSoon: 'Coming soon',
+		username: 'Username',
 	},
 	permissions: {
 		255: 'System admin',
@@ -43,7 +44,7 @@ export default {
 		title: 'immudb',
 	},
 	login: {
-		subtitle: 'Please login first',
+		subtitle: 'Please login to continue',
 		label: {
 			username: 'Username',
 			password: 'Password',

@@ -18,24 +18,20 @@
 				max-height="320px"
 				contain
 			/>
-			<v-row class="ma-0 pa-0 d-flex justify-center align-start fill-width">
+			<v-row class="ma-0 pa-0 d-flex flex-grow-0 justify-center align-start fill-width">
 				<v-col
-					class="ma-0 pa-0 pt-8 px-4 d-flex justify-center align-center"
+					class="ma-0 py-8 d-flex justify-center align-center"
 					cols="12"
 					sm="8"
 					md="6"
 					lg="4"
 				>
-					<span
-						class="ma-0 pa-0 display-1"
-						:class="{
-							'text-center': !showAuthForm,
-						}"
-					>
-						{{ $t('splash.title') }}
-					</span>
+					<UiLogoImmudb
+						:height="48"
+					/>
 				</v-col>
 			</v-row>
+			<v-spacer />
 			<v-row class="ma-0 pa-0 d-flex justify-center align-start fill-width">
 				<v-col
 					v-if="showAuthForm"
@@ -77,7 +73,7 @@
 			</v-row>
 			<v-spacer />
 			<div class="ma-0 mb-4 pa-0 d-flex flex-column justify-center align-start fill-width">
-				<UiCodeNotaryLogo
+				<UiLogoCodeNotary
 					:height="64"
 				/>
 			</div>

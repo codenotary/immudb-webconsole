@@ -3,34 +3,40 @@
 		v-if="open"
 		id="TheBanner"
 		class="primary darken-1 d-flex justify-center align-center"
+		:color="color"
 		fixed
 		app
 	>
 		<v-spacer />
-		<a
-			class="d-flex justify-center align-center"
-			:href="'https://github.com/codenotary/immudb'"
-			target="_blank"
-			rel="noopener"
-			:alt="$t('banner.title')"
-			@click="onSubmit"
-		>
-			<v-icon
-				class="ma-0 pa-0"
-				color="warning"
-				:size="18"
+		<slot>
+			<a
+				class="d-flex justify-center align-center"
+				:href="'https://github.com/codenotary/immudb'"
+				target="_blank"
+				rel="noopener"
+				:alt="$t('banner.title')"
+				@click="onSubmit"
 			>
-				{{ mdiStar }}
-			</v-icon>
-			<span
-				class="ma-0 ml-2 pa-0 caption white--text font-weight-bold"
-				style="margin-top: 1px !important;"
-			>
-				{{ $t('banner.title') }}
-			</span>
-		</a>
-		<v-spacer />
+				<v-icon
+					class="ma-0 pa-0"
+					color="warning"
+					:size="18"
+				>
+					{{ mdiStar }}
+				</v-icon>
+				<span
+					class="ma-0 ml-2 pa-0 caption white--text font-weight-bold"
+					style="margin-top: 1px !important;"
+				>
+					{{ $t('banner.title') }}
+				</span>
+			</a>
+		</slot>
+		<v-spacer
+			v-if="!persistent"
+		/>
 		<v-btn
+			v-if="!persistent"
 			class="ma-0 pa-0 text-center"
 			text
 			icon
@@ -56,6 +62,10 @@ import {
 
 export default {
 	name: 'TheBanner',
+	props: {
+		color: { type: String, default: 'primary' },
+		persistent: { type: Boolean, default: false },
+	},
 	data () {
 		return {
 			mdiStar,

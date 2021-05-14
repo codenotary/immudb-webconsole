@@ -3,13 +3,26 @@
 		id="QueryMultipanes"
 		class="py-0 pr-4"
 		:class="`theme--${ $vuetify.theme.dark ? 'dark' : 'light' }`"
-		horizontal
+		:horizontal="mobile"
 		:push-other-panes="true"
 		@resize="onResize({
-			examples: $event[0],
-			output: $event[1],
+			tables: $event[0],
+			examples: $event[1],
 		})"
 	>
+		<pane
+			v-if="!mobile"
+			:size.sync="sizes.tables"
+			:min-size="getConstraints.tables.minSize"
+			:max-size="getConstraints.tables.maxSize"
+		>
+			<LazyQueryTables
+				:pending="isFetchPending"
+				@update:start="updateTables(false)"
+				@update:end="updateTables(true)"
+				@update:use="onUseDatabase"
+			/>
+		</pane>
 		<pane
 			:size.sync="sizes.examples"
 			:min-size="getConstraints.examples.minSize"
@@ -17,26 +30,13 @@
 		>
 			<splitpanes
 				:class="`theme--${ $vuetify.theme.dark ? 'dark' : 'light' }`"
+				horizontal
 				:push-other-panes="true"
-				:horizontal="mobile"
 				@resize="onResize({
-					tables: $event[0],
-					query: $event[1],
+					query: $event[0],
+					output: $event[1],
 				})"
 			>
-				<pane
-					v-if="!mobile"
-					:size.sync="sizes.tables"
-					:min-size="getConstraints.tables.minSize"
-					:max-size="getConstraints.tables.maxSize"
-				>
-					<LazyQueryTables
-						:pending="isFetchPending"
-						@update:start="updateTables(false)"
-						@update:end="updateTables(true)"
-						@update:use="onUseDatabase"
-					/>
-				</pane>
 				<pane
 					:size.sync="sizes.query"
 					:min-size="getConstraints.query.minSize"
@@ -44,16 +44,16 @@
 				>
 					<LazyQueryInput />
 				</pane>
+				<pane
+					:size="sizes.output"
+					:min-size="getConstraints.output.minSize"
+					:max-size="getConstraints.output.maxSize"
+				>
+					<LazyQueryOutput
+						:sizes="sizes.output"
+					/>
+				</pane>
 			</splitpanes>
-		</pane>
-		<pane
-			:size="sizes.output"
-			:min-size="getConstraints.output.minSize"
-			:max-size="getConstraints.output.maxSize"
-		>
-			<LazyQueryOutput
-				:sizes="sizes.output"
-			/>
 		</pane>
 	</splitpanes>
 </template>
@@ -100,18 +100,18 @@ export default {
 		getConstraints () {
 			if (this.mobile) {
 				return {
-					examples: { minSize: 100, maxSize: 100 },
 					tables: { minSize: 100, maxSize: 100 },
+					examples: { minSize: 100, maxSize: 100 },
 					query: { minSize: 100, maxSize: 100 },
 					output: { minSize: 100, maxSize: 100 },
 				};
 			}
 			else {
 				return {
-					examples: { minSize: 0, maxSize: 100 },
 					tables: { minSize: 20, maxSize: 100 },
-					query: { minSize: 40, maxSize: 100 },
-					output: { minSize: 0, maxSize: 100 },
+					examples: { minSize: 60, maxSize: 100 },
+					query: { minSize: 20, maxSize: 100 },
+					output: { minSize: 20, maxSize: 100 },
 				};
 			}
 		},
@@ -277,10 +277,10 @@ export default {
 			}
 		}
 
-		.splitpanes--vertical {
+		&.splitpanes--vertical {
 			> .splitpanes__splitter {
 				&::before {
-					top: calc(50% + 33px - 8px) !important;
+					top: calc(50% - 8px) !important;
 					left: 0 !important;
 					transform: translateY(-50%) translateX(0%) rotate(0deg) !important;
 				}
