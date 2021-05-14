@@ -157,7 +157,7 @@
 							:size="32"
 						>
 							<span
-								class="ma-0 pa-0 white--text subtitle-1 font-weight-bold text-uppercase"
+								class="ma-0 pa-0 white--text subtitle-2 text-uppercase"
 								style="padding-top: 1px !important;"
 							>
 								{{ userInitials }}
