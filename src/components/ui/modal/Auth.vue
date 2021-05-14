@@ -1,6 +1,6 @@
 <template>
 	<v-dialog
-		class="ma-0 pa-0 d-flex justify-start align-center"
+		class="ma-0 pa-0 bg d-flex justify-start align-center"
 		max-width="600px"
 		:color="'warning'"
 		:value="value"

@@ -18,9 +18,9 @@
 				max-height="320px"
 				contain
 			/>
-			<v-row class="ma-0 pa-0 d-flex justify-center align-end fill-width">
+			<v-row class="ma-0 pa-0 d-flex justify-center align-start fill-width">
 				<v-col
-					class="ma-0 py-0 px-4 d-flex justify-center align-center"
+					class="ma-0 pa-0 pt-8 px-4 d-flex justify-center align-center"
 					cols="12"
 					sm="8"
 					md="6"
@@ -32,7 +32,7 @@
 							'text-center': !showAuthForm,
 						}"
 					>
-						{{ $t('login.title') }}
+						{{ $t('splash.title') }}
 					</span>
 				</v-col>
 			</v-row>
@@ -77,21 +77,8 @@
 			</v-row>
 			<v-spacer />
 			<div class="ma-0 mb-4 pa-0 d-flex flex-column justify-center align-start fill-width">
-				<span
-					class="ma-0 mb-n5 pl-4 pa-0 caption d-flex justify-center  fill-width"
-					:class="{
-						'gray--text text--darken-1': !$vuetify.theme.dark,
-						'gray--text text--lighten-1': $vuetify.theme.dark,
-					}"
-				>
-					{{ $t('common.poweredBy') }}
-				</span>
-				<v-img
-					class="immudb"
-					:src="getAsset"
-					:alt="$t('common.immudb')"
-					height="48px"
-					contain
+				<UiCodeNotaryLogo
+					:height="64"
 				/>
 			</div>
 		</div>
@@ -113,23 +100,12 @@ export default {
 	name: 'UiModalSplash',
 	props: {
 		value: { type: Boolean, default: true },
-		text: { type: Boolean, default: true },
-		svg: { type: Boolean, default: true },
 		duration: { type: [String, Number], default: '3000' },
 	},
 	computed: {
 		...mapGetters(AUTH_MODULE, {
 			token: TOKEN,
 		}),
-		getTheme () {
-			return this.$vuetify.theme.dark ? 'dark' : 'light';
-		},
-		getMime () {
-			return this.svg ? 'svg' : 'png';
-		},
-		getAsset () {
-			return require(`@/static/images/immudb/logo_${ this.getTheme }_${ (this.text ? 'text' : '') }.${ this.getMime }`);
-		},
 		showAuthForm () {
 			return !this.token;
 		},

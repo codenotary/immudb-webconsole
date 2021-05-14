@@ -33,7 +33,6 @@
 					cols="12"
 					sm="12"
 					md="6"
-					lg="4"
 				>
 					<MetricsCard
 						title="Metrics 1"
@@ -45,7 +44,6 @@
 					cols="12"
 					sm="12"
 					md="6"
-					lg="4"
 				>
 					<MetricsCard
 						title="Metrics 2"
@@ -68,12 +66,20 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+import {
+	METRICS_MODULE,
+	FETCH_METRICS,
+} from '@/store/metrics/constants';
 import {
 	mdiChartBoxOutline,
 } from '@mdi/js';
 
 export default {
 	name: 'Metrics',
+	async fetch () {
+		await this.fetchMetrics();
+	},
 	data () {
 		return {
 			mdiChartBoxOutline,
@@ -106,6 +112,9 @@ export default {
 		};
 	},
 	methods: {
+		...mapActions(METRICS_MODULE, {
+			fetchMetrics: FETCH_METRICS,
+		}),
 		getRandomValues (data) {
 			return Array.from({ length: data }, () => Math.floor(Math.random() * data));
 		},

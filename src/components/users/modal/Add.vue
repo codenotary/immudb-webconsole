@@ -4,9 +4,10 @@
 		:value="value"
 		max-width="600px"
 		persistent
+		:overlay-opacity="0.95"
 		@input="$emit('input', $event)"
 	>
-		<v-card class="ma-0 pa-4">
+		<v-card class="ma-0 pa-4 bg">
 			<v-card-title class="ma-0 mb-2 pa-0">
 				<v-icon
 					:class="{

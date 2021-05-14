@@ -39,8 +39,10 @@ export default {
 			2: 'rw',
 		},
 	},
+	splash: {
+		title: 'immudb',
+	},
 	login: {
-		title: 'Welcome to CodeNotary webconsole',
 		subtitle: 'Please login first',
 		label: {
 			username: 'Username',

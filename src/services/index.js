@@ -21,3 +21,9 @@ export const ApiService = axios.create({
 	...API_CONFIG,
 	baseURL: process.env.API_URL,
 });
+
+// Prometheus api proxy instance
+export const PrometheusService = axios.create({
+	...API_CONFIG,
+	baseURL: window.location.protocol + '//' + window.location.hostname + ':9497',
+});
