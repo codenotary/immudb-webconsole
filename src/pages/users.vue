@@ -133,8 +133,9 @@ export default {
 		}),
 		showAdd () {
 			try {
-				const { permission } = this.userPermission(DEFAULT_DB);
-				return permission > 1;
+				const { permission } = this.userPermission(DEFAULT_DB) ||
+					{ permission: 0 };
+				return permission >= 254;
 			}
 			catch (err) {
 				console.error(err);
