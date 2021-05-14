@@ -1,19 +1,46 @@
 <template>
-	<v-autocomplete
-		v-if="items && items.length"
-		ref="snapshotSelector"
-		v-model="value"
-		:search-input.sync="search"
-		class="snapshot-selector no-line"
-		:style="`max-width: ${ getWidth }px;`"
-		:height="30"
-		:items="items"
-		:label="$t('query.input.snapshot.label')"
-		:placeholder="value"
-		hide-details
-		dense
-		@change="onUpdate"
-	/>
+	<v-tooltip
+		bottom
+		:open-delay="300"
+	>
+		<template v-slot:activator="{ on, attrs }">
+			<div
+				class="ma-0 pa-0 d-flex flex-wrap justify-start align-center"
+				v-bind="attrs"
+				v-on="on"
+			>
+				<v-icon
+					:class="{
+						'gray--text text--darken-1': !$vuetify.theme.dark,
+						'gray--text text--lighten-1': $vuetify.theme.dark,
+					}"
+					dense
+					:size="24"
+				>
+					{{ mdiHistory }}
+				</v-icon>
+				<v-autocomplete
+					v-if="items && items.length"
+					ref="snapshotSelector"
+					v-model="value"
+					:search-input.sync="search"
+					class="snapshot-selector no-line ml-3"
+					:style="`max-width: ${ getWidth }px;`"
+					:height="30"
+					:items="items"
+					:label="$t('query.input.snapshot.label')"
+					:placeholder="value"
+					hide-details
+					dense
+					:disabled="true"
+					@change="onUpdate"
+				/>
+			</div>
+		</template>
+		<span class="ma-0 pa-0">
+			{{ $t('common.comingSoon') }}
+		</span>
+	</v-tooltip>
 </template>
 
 <script>
@@ -22,11 +49,15 @@ import {
 	IMMUDB_MODULE,
 	STATE,
 } from '@/store/immudb/constants';
+import {
+	mdiHistory,
+} from '@mdi/js';
 
 export default {
 	name: 'QueryInputActionsSelectTransaction',
 	data () {
 		return {
+			mdiHistory,
 			items: [],
 			value: '',
 			search: '',
@@ -43,7 +74,7 @@ export default {
 				const ctx = canvas.getContext('2d');
 				ctx.font = '16px Roboto';
 				const { width } = ctx.measureText(this.value);
-				return Math.max(144, width + 32);
+				return Math.max(144, width + 32 + 32);
 			}
 			return 144;
 		},
