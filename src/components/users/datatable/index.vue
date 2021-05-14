@@ -35,7 +35,7 @@
 						>
 							{{ mdiAccountOutline }}
 						</v-icon>
-						<span class="ma-0 pa-0">
+						<span class="ma-0 ml-1 pa-0">
 							{{ item.user }}
 						</span>
 					</span>
