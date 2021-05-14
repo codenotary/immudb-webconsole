@@ -3,7 +3,7 @@
 		id="OutputGridTable"
 		class="my-2 mx-0 pa-0 fill-height"
 	>
-		<v-simple-table class="sql-table ma-0 pa-0 bg-secondary">
+		<v-simple-table class="sql-table ma-0 pa-0 bg-secondary custom-scrollbar">
 			<template #default>
 				<thead>
 					<tr>

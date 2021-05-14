@@ -72,7 +72,7 @@ export default {
 			if (this.value) {
 				const canvas = document.createElement('canvas');
 				const ctx = canvas.getContext('2d');
-				ctx.font = '16px Roboto';
+				ctx.font = '18px Roboto';
 				const { width } = ctx.measureText(this.value);
 				return Math.max(144, width + 32 + 32);
 			}

@@ -95,9 +95,9 @@ export default {
 			if (this.dense && this.value) {
 				const canvas = document.createElement('canvas');
 				const ctx = canvas.getContext('2d');
-				ctx.font = '16px Roboto';
+				ctx.font = '18px Roboto';
 				const { width } = ctx.measureText(this.value);
-				return `${ width + 112 }px`;
+				return `${ width + 128 }px`;
 			}
 			else if (this.dense) {
 				return '144px';
@@ -148,7 +148,7 @@ export default {
 
 		.prepend,
 		.append {
-			min-width: $spacer-16;
+			min-width: $spacer-18;
 		}
 	}
 }

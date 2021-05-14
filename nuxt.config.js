@@ -367,7 +367,7 @@ export default {
 			'./src/assets/css/variables.scss',
 			'./src/assets/css/spacer.scss',
 		],
-		treeShake: IS_PROD,
+		treeShake: true,
 		icons: {
 			iconfont: 'mdiSvg',
 		},
