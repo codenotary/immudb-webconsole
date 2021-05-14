@@ -8,6 +8,8 @@
 	>
 		<LazyTheBanner
 			id="TheBanner"
+			:value="bannerOpen"
+			:title="banner.title"
 			:persistent="banner.persistent"
 			:color="banner.color"
 			@mouseenter.native="bannerHover = true"
@@ -90,8 +92,8 @@ export default {
 		return {
 			SPLASH_DURATION,
 			active: false,
-			bannerOpen: true,
-			bannerHover: true,
+			bannerOpen: false,
+			bannerHover: false,
 		};
 	},
 	computed: {
@@ -123,6 +125,18 @@ export default {
 				}
 				else {
 					this.setSplash(true);
+				}
+			},
+		},
+		banner: {
+			deep: true,
+			handler (newVal) {
+				if (newVal) {
+					const { show } = newVal;
+					this.bannerOpen = show;
+				}
+				else {
+					this.bannerOpen = false;
 				}
 			},
 		},
@@ -177,7 +191,12 @@ export default {
 				if (txId) {
 					await this.fetchDatabaseList();
 					await this.fetchTables();
-					await this.runSqlExec(`USE SNAPSHOT SINCE TX ${ txId } BEFORE TX ${ txId }`);
+					try {
+						await this.runSqlExec(`USE SNAPSHOT SINCE TX ${ txId } BEFORE TX ${ txId }`);
+					}
+					catch (err) {
+						console.error(err);
+					}
 				}
 				else {
 					this.setTableList({ tables: [] });

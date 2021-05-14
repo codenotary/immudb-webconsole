@@ -38,7 +38,8 @@ export default {
 
 						if (warning) {
 							commit(`${ VIEW_MODULE }/${ SET_BANNER }`, {
-								label: atob(warning),
+								show: true,
+								title: atob(warning),
 								color: 'warning',
 								persistent: true,
 							}, { root: true });

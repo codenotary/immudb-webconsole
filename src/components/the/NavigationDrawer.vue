@@ -146,11 +146,11 @@
 				:nudge-bottom="2"
 				open-on-hover
 			>
-				<template #activator="{ on: onMenu, attrs: attrsMenu }">
+				<template #activator="{ on, attrs }">
 					<v-list-item
 						class="ma-0 mb-4 pa-0"
-						v-bind="{ ...attrsMenu, ...onAttrs }"
-						v-on="{ ...onMenu, ...onTooltip }"
+						v-bind="attrs"
+						v-on="on"
 					>
 						<v-avatar
 							color="accent"

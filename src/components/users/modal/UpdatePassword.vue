@@ -64,6 +64,7 @@
 								:label="$t('users.table.modal.updatePassword.oldPassword')"
 								:placeholder="$t('users.table.modal.updatePassword.oldPassword')"
 								required
+								autofocus
 								:type="show.oldPassword ? 'text' : 'password'"
 								:append-icon="show.oldPassword ? mdiEye : mdiEyeOff"
 								@click:append="show.oldPassword = !show.oldPassword"
@@ -183,8 +184,8 @@ export default {
 			mdiEyeOff,
 			show: {
 				oldPassword: false,
-				newPassword: true,
-				confirmPassword: true,
+				newPassword: false,
+				confirmPassword: false,
 			},
 			form: {
 				oldPassword: '',

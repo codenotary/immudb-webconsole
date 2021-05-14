@@ -83,7 +83,9 @@ import {
 } from '@/store/view/constants';
 import {
 	AUTH_MODULE,
+	SET_TOKEN,
 	AUTHENTICATED,
+	USER,
 } from '@/store/auth/constants';
 import {
 	USER_MODULE,
@@ -117,6 +119,7 @@ export default {
 		}),
 		...mapGetters(AUTH_MODULE, {
 			authenticated: AUTHENTICATED,
+			user: USER,
 		}),
 		...mapGetters(USER_MODULE, {
 			userList: USER_LIST,
@@ -136,6 +139,9 @@ export default {
 		},
 	},
 	methods: {
+		...mapActions(AUTH_MODULE, {
+			setToken: SET_TOKEN,
+		}),
 		...mapActions(USER_MODULE, {
 			fetchUserList: FETCH_USER_LIST,
 			setUserList: SET_USER_LIST,
@@ -191,13 +197,19 @@ export default {
 		},
 		async onUpdatePassword(data) {
 			try {
-				await this.updatePassword(data);
-				await this.fetchUserList();
-				if (!this.splash) {
-					this.$toasted.success(this.$t('users.table.action.updatePassword.success'), {
-						duration: 3000,
-						icon: 'check-circle',
-					});
+				if (data) {
+					const { user } = data;
+					await this.updatePassword(data);
+					await this.fetchUserList();
+					if (!this.splash) {
+						this.$toasted.success(this.$t('users.table.action.updatePassword.success'), {
+							duration: 3000,
+							icon: 'check-circle',
+						});
+					}
+					if (user === this.user) {
+						this.setToken(null);
+					}
 				}
 			}
 			catch (err) {

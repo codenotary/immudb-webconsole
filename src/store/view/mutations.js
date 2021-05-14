@@ -32,7 +32,18 @@ export default {
 		state.mobile = payload;
 	},
 	[SET_BANNER](state, payload) {
-		state.banner = payload;
+		if (payload) {
+			state.banner = payload;
+		}
+		else {
+			state.banner = {
+				show: false,
+				title: '',
+				color: '',
+				persistent: false,
+				subtitle: '',
+			};
+		}
 	},
 	[SET_SIDEBAR](state, payload) {
 		if (payload) {

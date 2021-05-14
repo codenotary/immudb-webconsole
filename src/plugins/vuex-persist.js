@@ -2,7 +2,6 @@ import VuexPersistence from 'vuex-persist';
 import localforage from 'localforage';
 
 export default ({ store }) => {
-	// window.onNuxtReady(() => {
 	new VuexPersistence({
 		key: 'webconsole',
 		storage: localforage,
@@ -11,6 +10,7 @@ export default ({ store }) => {
 		reducer: state => ({
 			view: {
 				theme: state.view.theme,
+				banner: state.view.banner,
 				sidebar: state.view.sidebar,
 				paneSizes: state.view.paneSizes,
 				hideNotActive: state.view.hideNotActive,
@@ -25,5 +25,4 @@ export default ({ store }) => {
 			},
 		}),
 	}).plugin(store);
-	// });
 };
