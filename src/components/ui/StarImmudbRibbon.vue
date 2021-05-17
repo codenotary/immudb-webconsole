@@ -17,7 +17,7 @@
 				tag="span"
 				path="ribbon.text"
 			>
-				<template v-slot:what>
+				<template #what>
 					<strong>immudb</strong>
 				</template>
 			</i18n>

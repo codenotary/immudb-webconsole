@@ -20,8 +20,10 @@ export default {
 
 			if (response && response.data) {
 				const parsed = parsePrometheusTextFormat(response.data);
-				console.log(parsed);
-				commit(SET_METRICS, parsed);
+				const dbSize = parsed.find(_ => _ && _.name === 'immudb_db_size_bytes');
+				commit(SET_METRICS, {
+					dbSize,
+				});
 				commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
 			}
 

@@ -3,7 +3,7 @@
 		top
 		:open-delay="300"
 	>
-		<template v-slot:activator="{ on, attrs }">
+		<template #activator="{ on, attrs }">
 			<v-btn
 				class="add-to-query ma-0 py-0 px-1 d-flex justify-start align-center"
 				color="accent"

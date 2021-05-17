@@ -78,11 +78,18 @@ import {
 	RUN_SQL_EXEC,
 	STATE,
 } from '@/store/immudb/constants';
+import {
+	METRICS_MODULE,
+	FETCH_METRICS,
+} from '@/store/metrics/constants';
 import LayoutMixin from '@/mixins/LayoutMixin';
 
 const SPLASH_DURATION = 1200;
 let IMMUDB_POLLING_ID = null;
 const IMMUDB_POLLING_INTERVAL = 10000;
+
+let METRICS_POLLING_ID = null;
+const METRICS_POLLING_INTERVAL = 30000;
 
 const ACTIVATION_DELAY = 3000;
 const BANNER_COOKIE = 'bannerCookie';
@@ -92,6 +99,9 @@ export default {
 	mixins: [
 		LayoutMixin,
 	],
+	async fetch () {
+		await this.fetchMetrics();
+	},
 	data () {
 		return {
 			SPLASH_DURATION,
@@ -146,6 +156,16 @@ export default {
 		},
 	},
 	mounted () {
+		// fetch a second time after 3 seconds
+		// to avoid having a one-point chart
+		setTimeout(async () => {
+			await this.fetchMetrics();
+		}, 3000);
+
+		// start polling for metrics
+		this.startMetricsPolling();
+
+		// check banenr cookie
 		setTimeout(() => {
 			if (!this.$cookies.get(BANNER_COOKIE)) {
 				this.active = true;
@@ -153,7 +173,8 @@ export default {
 		}, ACTIVATION_DELAY);
 	},
 	beforeDestroy () {
-		this.stopPolling();
+		this.stopImmudbPolling();
+		this.stopMetricsPolling();
 	},
 	methods: {
 		...mapActions(VIEW_MODULE, {
@@ -178,6 +199,9 @@ export default {
 			fetchHealth: FETCH_HEALTH,
 			fetchState: FETCH_STATE,
 			runSqlExec: RUN_SQL_EXEC,
+		}),
+		...mapActions(METRICS_MODULE, {
+			fetchMetrics: FETCH_METRICS,
 		}),
 		_setTheme (data) {
 			if (data) {
@@ -213,7 +237,7 @@ export default {
 				this.setFetchPending(false);
 
 				// Fetch immudb state every 10 seconds
-				this.startPolling();
+				this.startImmudbPolling();
 			}
 			catch (err) {
 				console.error(err);
@@ -244,26 +268,51 @@ export default {
 				console.error(err);
 			}
 		},
-		startPolling () {
+		startImmudbPolling () {
 			try {
 				if (IMMUDB_POLLING_INTERVAL) {
-					this.stopPolling();
+					this.stopImmudbPolling();
 					IMMUDB_POLLING_ID = setInterval(async () => {
 						await this.fetchState();
 					}, IMMUDB_POLLING_INTERVAL);
 				}
 				else {
-					this.stopPolling();
+					this.stopImmudbPolling();
 				}
 			}
 			catch (err) {
 				console.error(err);
-				this.stopPolling();
+				this.stopImmudbPolling();
 			}
 		},
-		stopPolling () {
+		stopImmudbPolling () {
 			try {
 				clearInterval(IMMUDB_POLLING_ID);
+			}
+			catch (err) {
+				console.error(err);
+			}
+		},
+		startMetricsPolling () {
+			try {
+				if (METRICS_POLLING_INTERVAL) {
+					this.stopMetricsPolling();
+					METRICS_POLLING_ID = setInterval(async () => {
+						await this.fetchMetrics();
+					}, METRICS_POLLING_INTERVAL);
+				}
+				else {
+					this.stopMetricsPolling();
+				}
+			}
+			catch (err) {
+				console.error(err);
+				this.stopMetricsPolling();
+			}
+		},
+		stopMetricsPolling () {
+			try {
+				clearInterval(METRICS_POLLING_ID);
 			}
 			catch (err) {
 				console.error(err);
@@ -316,10 +365,6 @@ export default {
 		.v-main {
 			padding-top: $spacer-6 !important;
 		}
-	}
-
-	.v-content {
-		transition: none !important;
 	}
 }
 </style>

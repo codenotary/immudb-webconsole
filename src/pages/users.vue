@@ -21,7 +21,7 @@
 					'gray--text text--lighten-1': $vuetify.theme.dark,
 				}"
 			>
-				{{ $t('users.title') }} - {{ showAdd }}
+				{{ $t('users.title') }}
 			</h4>
 			<v-spacer />
 			<span

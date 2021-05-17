@@ -4,7 +4,7 @@
 		class="ma-0 pa-0 pr-4 bg fill-height pane shadow"
 		elevation="0"
 	>
-		<v-card-title class="ma-0 py-0 py-sm-2 pl-1 pr-0 d-flex justify-start align-center">
+		<v-card-title class="ma-0 py-0 py-sm-2 pl-1 pr-5 d-flex justify-start align-center">
 			<v-icon
 				class="ml-2"
 				:class="{
@@ -14,30 +14,82 @@
 			>
 				{{ mdiChartBoxOutline }}
 			</v-icon>
-			<h4
-				class="ma-0 ml-2 pa-0 pt-1 subtitle-1 font-weight-bold"
-				:class="{
-					'gray--text text--darken-1': !$vuetify.theme.dark,
-					'gray--text text--lighten-1': $vuetify.theme.dark,
-				}"
+			<v-tooltip
+				bottom
+				:nudge-top="4"
+				:nudge-left="68"
+				:open-delay="300"
 			>
-				{{ $t('metrics.title') }}
-			</h4>
+				<template #activator="{ on, attrs }">
+					<div
+						class="db-select-wrapper ma-0 pa-0 d-flex"
+						v-bind="attrs"
+						v-on="on"
+					>
+						<UiActionDatabaseSelect
+							v-if="database"
+							class="ma-0 py-0 pt-1 px-2"
+							dense
+							:disabled="true"
+							:initial-value="database"
+							v-bind="attrs"
+							v-on="on"
+							@update="onUpdateDatabase"
+						>
+							<template #prepend>
+								<span
+									class="prepend ma-0 pa-0 subtitle-2 font-weight-bold"
+									:class="{
+										'gray--text text--darken-1': !$vuetify.theme.dark,
+										'gray--text text--lighten-1': $vuetify.theme.dark,
+									}"
+								>
+									{{ $t('metrics.title') }}
+								</span>
+							</template>
+						</UiActionDatabaseSelect>
+					</div>
+				</template>
+				<span>
+					{{ $t('metrics.multidatabaseComingSoon') }}
+				</span>
+			</v-tooltip>
+			<v-spacer />
+			<v-tooltip
+				bottom
+				:open-delay="300"
+			>
+				<template #activator="{ on, attrs }">
+					<v-icon
+						class="ma-0 mt-n1 ml-1 pa-0"
+						:class="{
+							[`accent--text text--darken-0`]: !$vuetify.theme.dark,
+							[`accent--text text--lighten-2`]: $vuetify.theme.dark,
+						}"
+						color="info"
+						small
+						v-bind="attrs"
+						v-on="on"
+					>
+						{{ mdiInformationOutline }}
+					</v-icon>
+				</template>
+				<span v-html="$t('metrics.info')" />
+			</v-tooltip>
 		</v-card-title>
 		<v-card-text
 			class="ma-0 pa-4 bg-secondary fill-height custom-scrollbar"
 		>
 			<v-row class="ma-0 pa-0 d-flex flex-wrap justify-start align-start">
 				<v-col
-					v-for="(item, idx) in metrics"
-					:key="idx"
 					class="ma-0 mb-4 pa-0 pr-md-2"
 					cols="12"
-					sm="12"
-					md="6"
 				>
-					<MetricsChart
-						:item="item"
+					<MetricsDbSize
+						v-if="dbSize"
+						:data="dbSize"
+						:database="database"
+						:period="3000"
 					/>
 				</v-col>
 			</v-row>
@@ -46,70 +98,68 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
+import {
+	AUTH_MODULE,
+	TOKEN,
+} from '@/store/auth/constants';
 import {
 	METRICS_MODULE,
-	FETCH_METRICS,
-	METRICS,
+	DB_SIZE,
+	MEMORY_USAGE,
+	READ_AND_WRITE,
 } from '@/store/metrics/constants';
 import {
+	IMMUDB_MODULE,
+	STATE,
+} from '@/store/immudb/constants';
+import {
+	DEFAULT_DB,
+} from '@/store/database/constants';
+import {
 	mdiChartBoxOutline,
+	mdiInformationOutline,
 } from '@mdi/js';
 
 export default {
 	name: 'Metrics',
-	async fetch () {
-		await this.fetchMetrics();
-	},
 	data () {
 		return {
 			mdiChartBoxOutline,
-			items1: [
-				{
-					label: 'value 1',
-					color: '#ccc',
-					value: this.getRandomValues(16),
-				},
-				{
-					label: 'value 2',
-					color: 'red',
-					value: this.getRandomValues(16),
-				},
-			],
-			items2: [
-				{
-					label: 'value 1',
-					color: '#ccc',
-					value: this.getRandomValues(12),
-				},
-			],
-			items3: [
-				{
-					label: 'value 1',
-					color: 'blue',
-					value: this.getRandomValues(32),
-				},
-			],
+			mdiInformationOutline,
+			database: DEFAULT_DB,
 		};
 	},
 	computed: {
-		...mapGetters(METRICS_MODULE, {
-			metrics: METRICS,
+		...mapGetters(AUTH_MODULE, {
+			token: TOKEN,
 		}),
+		...mapGetters(METRICS_MODULE, {
+			dbSize: DB_SIZE,
+			memoryUsage: MEMORY_USAGE,
+			readAndWrite: READ_AND_WRITE,
+		}),
+		...mapGetters(IMMUDB_MODULE, {
+			state: STATE,
+		}),
+		currentDB () {
+			if (this.state) {
+				const { db } = this.state;
+				return db;
+			}
+			return '';
+		},
 	},
 	methods: {
-		...mapActions(METRICS_MODULE, {
-			fetchMetrics: FETCH_METRICS,
-		}),
-		getRandomValues (data) {
-			return Array.from({ length: data }, () => Math.floor(Math.random() * data));
+		onUpdateDatabase (data) {
+			this.database = data;
 		},
 	},
 };
 </script>
 
 <style lang="scss">
-#Users {
+#Metrics {
 	&.pane {
 		&::after {
 			content: '';
@@ -126,6 +176,18 @@ export default {
 				&::after {
 					outline: 1px solid rgba(0, 0, 0, 0.05);
 				}
+			}
+		}
+	}
+
+	.db-select-wrapper {
+		min-width: 320px;
+
+		.db-selector {
+			.prepend,
+			.append {
+				min-width: 80px;
+				width: auto;
 			}
 		}
 	}

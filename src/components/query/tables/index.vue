@@ -57,7 +57,7 @@
 							top
 							:open-delay="300"
 						>
-							<template v-slot:activator="{ on, attrs }">
+							<template #activator="{ on, attrs }">
 								<v-icon
 									v-if="props.item.type !== 'node'"
 									class="ma-0 mr-2 pa-0"
@@ -87,7 +87,7 @@
 						</span>
 						<v-spacer />
 						<div class="table-actions">
-							<div class="tags d-flex justify-start align-center">
+							<div class="tags h-24 d-flex justify-start align-center">
 								<span
 									class="pl-1 accent--text overline"
 									style="font-size: 0.675em !important; text-overflow: ellipsis;"
@@ -100,7 +100,7 @@
 									top
 									:open-delay="300"
 								>
-									<template v-slot:activator="{ on: { onPrimary } , attrs: { attrsPrimary } }">
+									<template #activator="{ on: { onPrimary } , attrs: { attrsPrimary } }">
 										<v-icon
 											class="ma-0 mt-n1 ml-1 pa-0"
 											:class="{
@@ -124,7 +124,7 @@
 									top
 									:open-delay="300"
 								>
-									<template v-slot:activator="{ on: { onForeign } , attrs: { attrsForeign } }">
+									<template #activator="{ on: { onForeign } , attrs: { attrsForeign } }">
 										<v-icon
 											class="ma-0 mt-n1 ml-1 pa-0"
 											:class="{

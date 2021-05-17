@@ -1,3 +1,14 @@
 export default () => ({
-	metrics: [],
+	dbSize: {
+		label: '',
+		items: [],
+	},
+	memoryUsage: {
+		label: '',
+		items: [],
+	},
+	readAndWrite: {
+		label: '',
+		items: [],
+	},
 });

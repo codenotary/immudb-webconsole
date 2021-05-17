@@ -3,7 +3,7 @@
 		bottom
 		:open-delay="300"
 	>
-		<template v-slot:activator="{ on, attrs }">
+		<template #activator="{ on, attrs }">
 			<v-icon
 				class="ma-0 pa-0"
 				:color="value ? 'success' : 'error'"

@@ -3,7 +3,7 @@
 		bottom
 		:open-delay="300"
 	>
-		<template v-slot:activator="{ on, attrs }">
+		<template #activator="{ on, attrs }">
 			<div
 				v-bind="attrs"
 				v-on="on"

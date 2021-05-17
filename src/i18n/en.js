@@ -69,7 +69,9 @@ export default {
 		},
 	},
 	metrics: {
-		title: 'Metrics of defaultdb',
+		title: 'Metrics of:',
+		multidatabaseComingSoon: 'Multidatabase metrics coming soon',
+		info: 'Those metrics are fetched refreshed each 3 seconds\n and are cleared after each page refresh/close',
 	},
 	query: {
 		tables: {
@@ -113,6 +115,7 @@ export default {
 				tooltip: 'Clear query',
 				success: 'Query cleared',
 			},
+			timetravelComingSoon: 'Time travel feature coming soon',
 		},
 		output: {
 			filter: {

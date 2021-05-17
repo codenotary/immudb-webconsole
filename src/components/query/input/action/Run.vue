@@ -3,7 +3,7 @@
 		bottom
 		:open-delay="300"
 	>
-		<template v-slot:activator="{ on, attrs }">
+		<template #activator="{ on, attrs }">
 			<v-btn
 				class="px-4 success-gradient white--text"
 				color="blue"
@@ -24,6 +24,7 @@
 				</v-icon>
 				<span
 					class="my-0 mx-2 body-2 text-capitalize"
+					style="margin-top: 2px !important;"
 				>
 					{{ $t('query.input.run.button') }}
 				</span>

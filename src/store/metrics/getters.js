@@ -1,9 +1,17 @@
 import {
-	METRICS,
+	DB_SIZE,
+	MEMORY_USAGE,
+	READ_AND_WRITE,
 } from './constants';
 
 export default {
-	[METRICS](state) {
-		return state.metrics || [];
+	[DB_SIZE](state) {
+		return state.dbSize || [];
+	},
+	[MEMORY_USAGE](state) {
+		return state.memoryUsage || [];
+	},
+	[READ_AND_WRITE](state) {
+		return state.readAndWrite || [];
 	},
 };

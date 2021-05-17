@@ -3,7 +3,7 @@
 		bottom
 		:open-delay="300"
 	>
-		<template v-slot:activator="{ on, attrs }">
+		<template #activator="{ on, attrs }">
 			<div
 				class="ma-0 pa-0 d-flex flex-wrap justify-start align-center"
 				v-bind="attrs"
@@ -38,7 +38,7 @@
 			</div>
 		</template>
 		<span class="ma-0 pa-0">
-			{{ $t('common.comingSoon') }}
+			{{ $t('query.input.timetravelComingSoon') }}
 		</span>
 	</v-tooltip>
 </template>
