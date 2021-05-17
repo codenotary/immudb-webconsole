@@ -40,9 +40,7 @@
 		<v-btn
 			v-else
 			class="ma-0 pa-0 d-flex justify-start align-center no-hover no-active"
-			href="https://www.codenotary.com"
-			target="_blank"
-			rel="noopener"
+			to="/"
 			:ripple="false"
 			:min-height="44"
 			:width="mini ? 64 : 214"
@@ -139,7 +137,7 @@
 			<v-menu
 				v-if="isAuthenticated"
 				class="ma-0 pa-0 bg d-flex flex-column justify-center align-center"
-				style="padding-bottom: 52px !important;"
+				style="padding-bottom: 28px !important;"
 				top
 				offset-x
 				:nudge-left="2"
