@@ -108,7 +108,7 @@ export default {
 			}
 			else {
 				return {
-					tables: { minSize: 20, maxSize: 100 },
+					tables: { minSize: 25, maxSize: 100 },
 					examples: { minSize: 60, maxSize: 100 },
 					query: { minSize: 20, maxSize: 100 },
 					output: { minSize: 20, maxSize: 100 },

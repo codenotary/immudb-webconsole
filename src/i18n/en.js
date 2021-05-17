@@ -69,7 +69,7 @@ export default {
 		},
 	},
 	metrics: {
-		title: 'Metrics',
+		title: 'Metrics of defaultdb',
 	},
 	query: {
 		tables: {
