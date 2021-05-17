@@ -131,6 +131,7 @@ export default {
 </script>
 
 <style lang="scss">
+$font-size: 18;
 
 .query-block {
 	display: flex;
@@ -144,13 +145,23 @@ export default {
 
 		.query-placeholder {
 			position: absolute;
-			top: 15px;
-			left: $spacer-12;
+			top: #{$font-size - 1}px;
+			left: calc(#{$spacer-14} + 1px);
+			font-size: #{$font-size}px !important;
+			line-height: #{$font-size}px !important;
 		}
-	}
 
-	pre {
-		overflow: hidden;
+		.prism-editor__line-numbers,
+		.query {
+			font-size: #{$font-size}px !important;
+			line-height: 1.5 !important;
+
+			code.language-sql,
+			span {
+				font-size: #{$font-size}px !important;
+				line-height: #{$font-size}px !important;
+			}
+		}
 	}
 
 	.v-card__title {
