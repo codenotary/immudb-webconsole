@@ -29,10 +29,10 @@
 						tag="span"
 						path="footer.text"
 					>
-						<template v-slot:date>
+						<template #date>
 							{{ new Date().getFullYear() }}
 						</template>
-						<template v-slot:url>
+						<template #url>
 							<a
 								class="font-weight-bold"
 								href="https://www.codenotary.com/"
@@ -88,7 +88,7 @@
 						top
 						:open-delay="300"
 					>
-						<template v-slot:activator="{ on, attrs }">
+						<template #activator="{ on, attrs }">
 							<v-btn
 								:class="{
 									'gray--text text--darken-1': !$vuetify.theme.dark,
@@ -123,7 +123,7 @@
 						top
 						:open-delay="300"
 					>
-						<template v-slot:activator="{ on, attrs }">
+						<template #activator="{ on, attrs }">
 							<v-btn
 								:class="{
 									'gray--text text--darken-1': !$vuetify.theme.dark,
