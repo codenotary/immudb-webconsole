@@ -3,9 +3,9 @@
 		bottom
 		:open-delay="300"
 	>
-		<template v-slot:activator="{ on, attrs }">
+		<template #activator="{ on, attrs }">
 			<v-btn
-				class="px-4 success-gradient white--text"
+				class="px-4 success-gradient white--text d-flex align-center"
 				color="blue"
 				depressed
 				small
@@ -24,7 +24,8 @@
 					{{ mdiDatabaseCogOutline }}
 				</v-icon>
 				<span
-					class="my-0 mx-2 body-2 text-capitalize"
+					class="my-0 mx-2 body-2 text-capitalize d-flex align-center"
+					style="margin-top: 2px !important;"
 				>
 					{{ $t('databases.action.add.button') }}
 				</span>
