@@ -145,7 +145,7 @@ $font-size: 18;
 
 		.query-placeholder {
 			position: absolute;
-			top: #{$font-size - 1}px;
+			top: #{$font-size + 4}px;
 			left: calc(#{$spacer-14} + 1px);
 			font-size: #{$font-size}px !important;
 			line-height: #{$font-size}px !important;
