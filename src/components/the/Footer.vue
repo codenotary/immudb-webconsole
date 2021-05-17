@@ -13,7 +13,7 @@
 			fluid
 		>
 			<v-row
-				class="pa-0 ma-0 d-flex justify-center"
+				class="pa-0 ma-0 d-flex justify-center align-center"
 			>
 				<v-col
 					class="pa-0 d-flex justify-start align-center font-weight-normal"
@@ -46,16 +46,32 @@
 				</v-col>
 				<v-spacer />
 				<v-col
+					class="ma-0 ml-4 pa-0 d-flex justify-space-between align-center text-left font-weight-normal"
+					cols="auto"
+				>
+					<span
+						class="ma-0 pa-0 h-24 caption d-flex justify-start align-center"
+						:class="{
+							'gray--text text--darken-1': !$vuetify.theme.dark,
+							'gray--text text--lighten-1': $vuetify.theme.dark,
+						}"
+					>
+						v
+						<span class="caption d-flex justify-start align-center">
+							{{ version }}
+						</span>
+					</span>
+				</v-col>
+				<v-col
 					class="ma-0 ml-4 pa-0 d-flex justify-space-between text-left font-weight-normal"
 					cols="auto"
 				>
 					<span
 						v-if="isDevMode"
-						class="ma-0 pa-0 d-flex justify-center align-start"
+						class="ma-0 pa-0 d-flex justify-center align-center"
 					>
 						<v-chip
-							class="ma-0 ml-4 py-0 px-2 caption text-uppercase"
-							style="margin-top: 2px !important;"
+							class="ma-0 py-0 px-2 caption text-uppercase"
 							color="accent"
 							small
 							dense
@@ -167,6 +183,7 @@ export default {
 		return {
 			mdiBrightness6,
 			mdiGithub,
+			version: '1.0.0',
 		};
 	},
 	computed: {
