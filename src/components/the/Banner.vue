@@ -16,7 +16,6 @@
 			</v-icon>
 			<span
 				class="ma-0 ml-2 pa-0 caption white--text text-center font-weight-bold"
-				style="margin-top: 1px !important;"
 			>
 				{{ title }}
 			</span>
