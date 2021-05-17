@@ -345,7 +345,7 @@ export default {
 				},
 				{
 					title: 'sidebar.guide',
-					tooltip: 'common.comingSoon',
+					tooltip: 'sidebar.guide',
 					icon: mdiBookOpenOutline,
 					to: this.localePath({ path: '/guide' }),
 					alt: 'Guide',
