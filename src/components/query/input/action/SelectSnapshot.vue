@@ -24,7 +24,7 @@
 					ref="snapshotSelector"
 					v-model="value"
 					:search-input.sync="search"
-					class="snapshot-selector no-line ml-3"
+					class="snapshot-selector body-2 font-weight-bold no-line ml-3"
 					:style="`max-width: ${ getWidth }px;`"
 					:height="30"
 					:items="items"
