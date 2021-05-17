@@ -199,12 +199,13 @@ export default {
 				if (txId) {
 					await this.fetchDatabaseList();
 					await this.fetchTables();
-					try {
-						await this.runSqlExec(`USE SNAPSHOT SINCE TX ${ txId } BEFORE TX ${ txId }`);
-					}
-					catch (err) {
-						console.error(err);
-					}
+					// TODO restore those api calls after the time travel feature is released
+					// try {
+					// 	await this.runSqlExec(`USE SNAPSHOT SINCE TX ${ txId } BEFORE TX ${ txId }`);
+					// }
+					// catch (err) {
+					// 	console.error(err);
+					// }
 				}
 				else {
 					this.setTableList({ tables: [] });

@@ -137,8 +137,9 @@ export default {
 			this.showToastInfo(this.$t('query.cleared'));
 		},
 		onSnapshotUpdate (data) {
-			this.setTx(data);
-			this.runSqlExec(`USE SNAPSHOT SINCE TX ${ data } BEFORE TX ${ data }`);
+			// TODO restore those api calls after the time travel feature is released
+			// this.setTx(data);
+			// this.runSqlExec(`USE SNAPSHOT SINCE TX ${ data } BEFORE TX ${ data }`);
 		},
 		async onSubmit () {
 			try {

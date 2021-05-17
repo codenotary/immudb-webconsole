@@ -29,35 +29,15 @@
 		>
 			<v-row class="ma-0 pa-0 d-flex flex-wrap justify-start align-start">
 				<v-col
+					v-for="(item, idx) in metrics"
+					:key="idx"
 					class="ma-0 mb-4 pa-0 pr-md-2"
 					cols="12"
 					sm="12"
 					md="6"
 				>
-					<MetricsCard
-						title="Metrics 1"
-						:items="items1"
-					/>
-				</v-col>
-				<v-col
-					class="ma-0 mb-4 pa-0 pl-md-2"
-					cols="12"
-					sm="12"
-					md="6"
-				>
-					<MetricsCard
-						title="Metrics 2"
-						:items="items2"
-					/>
-				</v-col>
-				<v-col
-					class="ma-0 mb-4 pa-0"
-					cols="12"
-					sm="12"
-				>
-					<MetricsCard
-						title="Metrics 3"
-						:items="items3"
+					<MetricsChart
+						:item="item"
 					/>
 				</v-col>
 			</v-row>
@@ -66,10 +46,11 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import {
 	METRICS_MODULE,
 	FETCH_METRICS,
+	METRICS,
 } from '@/store/metrics/constants';
 import {
 	mdiChartBoxOutline,
@@ -110,6 +91,11 @@ export default {
 				},
 			],
 		};
+	},
+	computed: {
+		...mapGetters(METRICS_MODULE, {
+			metrics: METRICS,
+		}),
 	},
 	methods: {
 		...mapActions(METRICS_MODULE, {
