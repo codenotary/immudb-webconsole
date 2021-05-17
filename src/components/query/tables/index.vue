@@ -4,7 +4,7 @@
 		class="ma-0 pa-0 bg fill-height pane shadow"
 		elevation="0"
 	>
-		<v-card-title class="ma-0 py-0 py-sm-2 px-0 d-flex justify-start align-center">
+		<v-card-title class="ma-0 py-0 py-sm-2 pl-3 pr-0 d-flex justify-start align-center">
 			<v-icon
 				:class="{
 					'gray--text text--darken-1': !$vuetify.theme.dark,
