@@ -1,4 +1,5 @@
 import { MetricsService } from '@/services/metrics';
+import parsePrometheusTextFormat from 'parse-prometheus-text-format';
 import {
 	VIEW_MODULE,
 	PUSH_LOADING,
@@ -18,8 +19,9 @@ export default {
 			const response = await MetricsService.metrics();
 
 			if (response && response.data) {
-				console.log(response.data);
-				commit(SET_METRICS, response.data);
+				const parsed = parsePrometheusTextFormat(response.data);
+				console.log(parsed);
+				commit(SET_METRICS, parsed);
 				commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
 			}
 
