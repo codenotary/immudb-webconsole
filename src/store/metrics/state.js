@@ -4,10 +4,7 @@ export default () => ({
 		label: '',
 		items: [],
 	},
-	memoryUsage: {
-		label: '',
-		items: [],
-	},
+	memoryUsage: {},
 	readAndWrite: {
 		label: '',
 		items: [],

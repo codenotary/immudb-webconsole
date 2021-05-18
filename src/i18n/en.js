@@ -73,10 +73,16 @@ export default {
 		multidatabaseComingSoon: 'Multidatabase metrics coming soon',
 		info: 'The following metrics are updated every {value}',
 		dbSize: {
-			title: 'Database size',
+			title: 'Database size: {size}',
 		},
 		memoryUsage: {
-			title: 'Memory usage',
+			title: 'Memory usage: {reserved} reserved, {inUse} in use',
+			reserved: {
+				label: 'Memory reserved',
+			},
+			inUse: {
+				label: 'In use',
+			},
 		},
 		readAndWrite: {
 			title: 'Memory usage',

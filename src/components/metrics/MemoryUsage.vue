@@ -11,7 +11,9 @@
 					'gray--text text--lighten-1': $vuetify.theme.dark,
 				}"
 			>
-				{{ $t('metrics.dbSize.title', { size: getDatabaseSize }) }}
+				{{ $t('metrics.memoryUsage.title', {
+					reserved: getMemoryReserved,
+					inUse: getMemoryInUse }) }}
 			</span>
 		</v-card-title>
 		<v-card-text
@@ -51,6 +53,10 @@ import {
 import {
 	DEFAULT_DB,
 } from '@/store/database/constants';
+import {
+	MEMORY_RESERVED,
+	MEMORY_IN_USE,
+} from '@/store/metrics/constants';
 import {
 	mdiInformationOutline,
 } from '@mdi/js';
@@ -103,12 +109,12 @@ const CHART_COLORS = {
 };
 
 export default {
-	name: 'DbSize',
+	name: 'MemoryUsage',
 	props: {
 		data: { type: Object, default: () => {} },
 		database: { type: String, default: DEFAULT_DB },
-		steps: { type: Number, default: 12 },
-		threshold: { type: Number, default: 12 },
+		steps: { type: Number, default: 6 },
+		threshold: { type: Number, default: 6 },
 		filled: { type: Boolean, default: false },
 	},
 	data () {
@@ -126,7 +132,8 @@ export default {
 			mobile: MOBILE,
 		}),
 		noData () {
-			return this.y && this.y.length <= 0;
+			return (this.reservedY && this.reservedY.length <= 0) &&
+				(this.inUseY && this.inUseY.length <= 0);
 		},
 		help () {
 			if (this.data) {
@@ -147,64 +154,92 @@ export default {
 			}
 			return '';
 		},
-		item () {
-			if (this.data) {
-				const { items } = this.data;
-				if (items) {
-					return items
-							.find(_ => _ && _.db === this.database);
-				}
-				return {};
-			}
-			return {};
-		},
-		y () {
-			if (this.item && this.item.values &&
-				this.item.values.length) {
-				return this.item.values
+		reservedY () {
+			if (this.data && this.data[MEMORY_RESERVED] &&
+				this.data[MEMORY_RESERVED].length) {
+				return this.data[MEMORY_RESERVED]
 						.slice(-this.threshold)
 						.map(_ => _ && _.y);
 			}
 			return [];
 		},
-		x () {
-			if (this.item && this.item.values &&
-				this.item.values.length) {
-				return this.item.values
+		inUseY () {
+			if (this.data && this.data[MEMORY_IN_USE] &&
+				this.data[MEMORY_IN_USE].length) {
+				return this.data[MEMORY_IN_USE]
+						.slice(-this.threshold)
+						.map(_ => _ && _.y);
+			}
+			return [];
+		},
+		reservedX () {
+			if (this.data && this.data[MEMORY_RESERVED] &&
+				this.data[MEMORY_RESERVED].length) {
+				return this.data[MEMORY_RESERVED]
 						.slice(-this.threshold)
 						.map(_ => _ && _.x);
 			}
 			return [];
 		},
-		getDatabaseSize () {
+		inUseX () {
+			if (this.data && this.data[MEMORY_IN_USE] &&
+				this.data[MEMORY_IN_USE].length) {
+				return this.data[MEMORY_IN_USE]
+						.slice(-this.threshold)
+						.map(_ => _ && _.x);
+			}
+			return [];
+		},
+		getMemoryReserved () {
 			if (this.chartdata.datasets[0]) {
 				return prettyBytes(parseInt(this.chartdata.datasets[0].data) || 0);
 			}
 			return '';
 		},
-		getMaxSteps () {
-			const max = Math.max.apply(Math, this.y) * 1.5;
+		getMemoryInUse () {
+			if (this.chartdata.datasets[1]) {
+				return prettyBytes(parseInt(this.chartdata.datasets[1].data) || 0);
+			}
+			return '';
+		},
+		getMaxReservedSteps () {
+			const max = Math.max.apply(Math, this.reservedY) * 1.5;
+			return this.roundToNearest(Math.round(max), Math.floor(max / this.steps));
+		},
+		getMaxInUseSteps () {
+			const max = Math.max.apply(Math, this.inUseY) * 1.5;
 			return this.roundToNearest(Math.round(max), Math.floor(max / this.steps));
 		},
 		chartdata () {
 			return {
-				labels: this.x,
+				labels: this.reservedX,
 				datasets: [
 					{
-						label: this.label,
-						data: this.y,
+						label: this.$t('metrics.memoryUsage.reserved.label'),
+						data: this.reservedY,
 						fill: this.filled,
 						lineTension: 0.2,
 						pointRadius: 4,
-						backgroundColor: CHART_COLORS.BACKGROUND[this.theme][0],
-						borderColor: CHART_COLORS.BORDER[this.theme][0],
+						backgroundColor: CHART_COLORS.BACKGROUND[this.theme][1],
+						borderColor: CHART_COLORS.BORDER[this.theme][1],
+						pointBackgroundColor: CHART_COLORS.POINT[this.theme],
+					},
+					{
+						label: this.$t('metrics.memoryUsage.inUse.label'),
+						data: this.inUseY,
+						fill: this.filled,
+						lineTension: 0.2,
+						pointRadius: 4,
+						backgroundColor: CHART_COLORS.BACKGROUND[this.theme][2],
+						borderColor: CHART_COLORS.BORDER[this.theme][2],
 						pointBackgroundColor: CHART_COLORS.POINT[this.theme],
 					},
 				],
 			};
 		},
 		options () {
-			const getMaxSteps = this.getMaxSteps;
+			const getMaxReservedSteps = this.getMaxReservedSteps;
+			const getMaxInUseSteps = this.getMaxInUseSteps;
 			return {
 				responsive: true,
 				maintainAspectRatio: false,
@@ -227,7 +262,7 @@ export default {
 							minTicksLimit: this.steps / 2,
 							padding: 16,
 							min: 0,
-							max: getMaxSteps,
+							max: Math.max(getMaxReservedSteps, getMaxInUseSteps),
 						},
 						gridLines: {
 							display: true,

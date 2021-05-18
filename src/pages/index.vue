@@ -93,6 +93,21 @@
 						filled
 					/>
 				</v-col>
+				<v-col
+					class="ma-0 mb-4 pa-0 pr-md-2"
+					cols="12"
+					sm="12"
+					md="12"
+					lg="12"
+				>
+					<MetricsMemoryUsage
+						v-if="memoryUsage"
+						:data="memoryUsage"
+						:database="database"
+						:period="3000"
+						filled
+					/>
+				</v-col>
 			</v-row>
 		</v-card-text>
 	</v-card>

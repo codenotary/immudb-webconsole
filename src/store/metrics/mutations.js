@@ -2,6 +2,8 @@ import Vue from 'vue';
 import moment from 'moment';
 import {
 	SET_METRICS,
+	MEMORY_RESERVED,
+	MEMORY_IN_USE,
 } from './constants';
 
 export default {
@@ -24,55 +26,66 @@ export default {
 						const { labels: { db }, value } = _;
 						const idx = state.dbSize && state.dbSize.items &&
 							state.dbSize.items.findIndex(_ => _ && _.db === db);
-						const item = { y: parseInt(value) || 0, x: now };
+						const item = {
+							y: parseInt(value) || 0,
+							x: now,
+						};
 						if (idx >= 0) {
-							const _values = [
+							Vue.set(state.dbSize.items[idx], 'values', [
 								...state.dbSize.items[idx].values,
 								item,
-							];
-							Vue.set(state.dbSize.items[idx], 'values', _values);
+							]);
 						}
 						else {
-							const _values = [
+							Vue.set(state.dbSize, 'items', [
 								...(state.dbSize.items || []),
 								{ db, values: [item] },
-							];
-							Vue.set(state.dbSize, 'items', _values);
+							]);
 						}
 					});
 		}
 
 		// Memory usage
 		if (memSysBytes && heapInUseBytes && stackInUseBytes) {
-			// console.log(memSysBytes, heapInUseBytes, stackInUseBytes);
-			// const { help, metrics } = dbSize;
-			// const now = moment.now();
-			// Vue.set(state.dbSize, 'help', help);
-			// metrics
-			// 		.map((_) => {
-			// 			const { labels: { db }, value } = _;
-			// 			const idx = state.dbSize && state.dbSize.items &&
-			// 				state.dbSize.items.findIndex(_ => _ && _.db === db);
-			// 			const item = { y: parseInt(value) || 0, x: now };
-			// 			if (idx >= 0) {
-			// 				const _values = [
-			// 					...state.dbSize.items[idx].values,
-			// 					item,
-			// 				];
-			// 				Vue.set(state.dbSize.items[idx], 'values', _values);
-			// 			}
-			// 			else {
-			// 				// state.dbSize.items = [
-			// 				// 	...(state.dbSize.items || []),
-			// 				// 	{ db, values: [item] },
-			// 				// ];
-			// 				const _values = [
-			// 					...(state.dbSize.items || []),
-			// 					{ db, values: [item] },
-			// 				];
-			// 				Vue.set(state.dbSize, 'items', _values);
-			// 			}
-			// 		});
+			const { metrics: { 0: { value: memSysBytesValue } } } = memSysBytes;
+			const { metrics: { 0: { value: heapInUseBytesValue } } } = heapInUseBytes;
+			const { metrics: { 0: { value: stackInUseBytesValue } } } = stackInUseBytes;
+			const now = moment.now();
+
+			// RESERVED
+			const _sysBytesValue = Number(memSysBytesValue).toPrecision();
+			const itemReserved = {
+				y: Number(_sysBytesValue),
+				x: now,
+			};
+			if (state.memoryUsage && state.memoryUsage &&
+				state.memoryUsage[MEMORY_RESERVED]) {
+				Vue.set(state.memoryUsage, MEMORY_RESERVED, [
+					...state.memoryUsage[MEMORY_RESERVED],
+					itemReserved,
+				]);
+			}
+			else {
+				Vue.set(state.memoryUsage, MEMORY_RESERVED, [itemReserved]);
+			}
+
+			// IN USE
+			const _heapInUseBytesValue = Number(heapInUseBytesValue).toPrecision();
+			const _stackInUseBytesValue = Number(stackInUseBytesValue).toPrecision();
+			const itemInUse = {
+				y: Number(_heapInUseBytesValue) + Number(_stackInUseBytesValue),
+				x: now,
+			};
+			if (state.memoryUsage && state.memoryUsage &&
+				state.memoryUsage[MEMORY_IN_USE]) {
+				Vue.set(state.memoryUsage, MEMORY_IN_USE, [
+					...state.memoryUsage[MEMORY_IN_USE],
+					itemInUse,
+				]);
+			}
+			else {
+				Vue.set(state.memoryUsage, MEMORY_IN_USE, [itemInUse]);
+			}
 		}
 	},
 };
