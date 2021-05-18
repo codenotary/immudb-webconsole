@@ -11,7 +11,7 @@
 					'gray--text text--lighten-1': $vuetify.theme.dark,
 				}"
 			>
-				{{ title }}: {{ getDatabaseSize }}
+				{{ $t('metrics.dbSize.title') }}: {{ getDatabaseSize }}
 			</span>
 		</v-card-title>
 		<v-card-text
@@ -60,30 +60,46 @@ import prettyBytes from 'pretty-bytes';
 const ANIMATION_DURATION = 1000;
 
 const CHART_COLORS = {
-	light: [
-		'rgba(76,	175,	80,		0.75)',	// success
-		'rgba(124,	77,		255,	0.75)',	// accent
-		'rgba(255,	82,		82,		0.75)',	// error
-		'rgba(251,	140,	0,		0.75)',	// warning
-		'rgba(32,	162,	219,	0.75)',	// primary
-	],
-	dark: [
-		'rgba(76,	175,	80,		0.55)',	// success
-		'rgba(124,	77,		255,	0.55)',	// accent
-		'rgba(255,	82,		82,		0.55)',	// error
-		'rgba(251,	140,	0,		0.55)',	// warning
-		'rgba(32,	162,	219,	0.55)',	// primary
-	],
-};
-
-const POINT_COLORS = {
-	light: 'rgba(0, 0, 0, 0.25)',
-	dark: 'rgba(255, 255, 255, 0.15)',
-};
-
-const GRID_COLORS = {
-	light: 'rgba(0, 0, 0, 0.25)',
-	dark: 'rgba(255, 255, 255, 0.15)',
+	BACKGROUND: {
+		light: [
+			'rgba(76,	175,	80,		0.25)',	// success
+			'rgba(124,	77,		255,	0.25)',	// accent
+			'rgba(255,	82,		82,		0.25)',	// error
+			'rgba(251,	140,	0,		0.25)',	// warning
+			'rgba(32,	162,	219,	0.25)',	// primary
+		],
+		dark: [
+			'rgba(76,	175,	80,		0.15)',	// success
+			'rgba(124,	77,		255,	0.15)',	// accent
+			'rgba(255,	82,		82,		0.15)',	// error
+			'rgba(251,	140,	0,		0.15)',	// warning
+			'rgba(32,	162,	219,	0.15)',	// primary
+		],
+	},
+	BORDER: {
+		light: [
+			'rgba(76,	175,	80,		0.95)',	// success
+			'rgba(124,	77,		255,	0.95)',	// accent
+			'rgba(255,	82,		82,		0.95)',	// error
+			'rgba(251,	140,	0,		0.95)',	// warning
+			'rgba(32,	162,	219,	0.95)',	// primary
+		],
+		dark: [
+			'rgba(76,	175,	80,		0.75)',	// success
+			'rgba(124,	77,		255,	0.75)',	// accent
+			'rgba(255,	82,		82,		0.75)',	// error
+			'rgba(251,	140,	0,		0.75)',	// warning
+			'rgba(32,	162,	219,	0.75)',	// primary
+		],
+	},
+	POINT: {
+		light: 'rgba(0, 0, 0, 0.25)',
+		dark: 'rgba(255, 255, 255, 0.15)',
+	},
+	GRID: {
+		light: 'rgba(0, 0, 0, 0.25)',
+		dark: 'rgba(255, 255, 255, 0.15)',
+	},
 };
 
 export default {
@@ -94,6 +110,7 @@ export default {
 		period: { type: [String, Number], default: 3000 },
 		steps: { type: Number, default: 12 },
 		threshold: { type: Number, default: 12 },
+		filled: { type: Boolean, default: false },
 	},
 	data () {
 		return {
@@ -112,10 +129,10 @@ export default {
 		noData () {
 			return this.y && this.y.length <= 0;
 		},
-		title () {
+		help () {
 			if (this.data) {
-				const { title } = this.data;
-				return title && title.replace(/.$/g, '');
+				const { help } = this.data;
+				return help && help.replace(/.$/g, '');
 			}
 			return '';
 		},
@@ -173,11 +190,12 @@ export default {
 					{
 						label: this.label,
 						data: this.y,
-						fill: true,
+						fill: this.filled,
 						lineTension: 0.2,
 						pointRadius: 4,
-						backgroundColor: CHART_COLORS[this.theme],
-						pointBackgroundColor: POINT_COLORS[this.theme],
+						backgroundColor: CHART_COLORS.BACKGROUND[this.theme][0],
+						borderColor: CHART_COLORS.BORDER[this.theme][0],
+						pointBackgroundColor: CHART_COLORS.POINT[this.theme],
 					},
 				],
 			};
@@ -210,7 +228,7 @@ export default {
 						},
 						gridLines: {
 							display: true,
-							color: GRID_COLORS[this.theme],
+							color: CHART_COLORS.GRID[this.theme],
 						},
 					}],
 					xAxes: [{
@@ -223,7 +241,7 @@ export default {
 						},
 						gridLines: {
 							display: true,
-							color: GRID_COLORS[this.theme],
+							color: CHART_COLORS.GRID[this.theme],
 						},
 					}],
 				},

@@ -1,5 +1,5 @@
 export default () => ({
-	period: 30000,
+	period: 60000,
 	dbSize: {
 		label: '',
 		items: [],

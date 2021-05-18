@@ -90,7 +90,7 @@
 								v-slot="{ hover }"
 							>
 								<v-btn
-									href="https://github.com/codenotary/immudb/issues/new/choose"
+									href="https://github.com/codenotary/immudb-webconsole/issues/new/choose"
 									text
 									class="feedback-btn ma-0 px-2 text-none d-flex align-center"
 									target="_blank"
