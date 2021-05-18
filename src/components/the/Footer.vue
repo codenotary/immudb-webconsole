@@ -84,6 +84,51 @@
 					class="ma-0 ml-4 pa-0 d-flex justify-space-between text-left font-weight-normal"
 					cols="auto"
 				>
+					<v-tooltip top>
+						<template #activator="{ on, attrs }">
+							<v-hover
+								v-slot="{ hover }"
+							>
+								<v-btn
+									href="https://github.com/codenotary/immudb/issues/new/choose"
+									text
+									class="feedback-btn ma-0 px-2 text-none d-flex align-center"
+									target="_blank"
+									rel="noopener"
+									small
+									v-bind="attrs"
+									v-on="on"
+								>
+									<v-icon
+										class="caption"
+										:class="{
+											'grey--text text--darken-1': !hover,
+											'warning--text text--lighten-1': hover,
+										}"
+										style="padding-top: 3px;"
+										:size="22"
+									>
+										{{ mdiMessageAlertOutline }}
+									</v-icon>
+									<span
+										class="ml-2 caption d-flex justify-start align-center"
+										:class="{
+											'grey--text text--darken-1': !hover,
+											'warning--text text--lighten-1': hover,
+										}"
+									>
+										{{ $t('footer.feedback.text') }}
+									</span>
+								</v-btn>
+							</v-hover>
+						</template>
+						{{ $t('footer.feedback.tooltip') }}
+					</v-tooltip>
+				</v-col>
+				<v-col
+					class="ma-0 ml-4 pa-0 d-flex justify-space-between text-left font-weight-normal"
+					cols="auto"
+				>
 					<v-tooltip
 						top
 						:open-delay="300"
@@ -111,7 +156,7 @@
 							</v-btn>
 						</template>
 						<span>
-							{{ $t(`footer.toggle.${ theme }`) }}
+							{{ $t(`footer.theme.toggle.${ theme }`) }}
 						</span>
 					</v-tooltip>
 				</v-col>
@@ -132,7 +177,7 @@
 								depressed
 								small
 								icon
-								href="https://github.com/codenotary/immudb/tree/rest_server_sql"
+								href="https://github.com/codenotary/immudb"
 								target="_blank"
 								:title="$t('footer.github')"
 								:alt="$t('footer.github')"
@@ -169,6 +214,7 @@ import {
 import timeUtils from '@/mixins/timeUtils';
 import LayoutMixin from '@/mixins/LayoutMixin';
 import {
+	mdiMessageAlertOutline,
 	mdiBrightness6,
 	mdiGithub,
 } from '@mdi/js';
@@ -181,6 +227,7 @@ export default {
 	],
 	data () {
 		return {
+			mdiMessageAlertOutline,
 			mdiBrightness6,
 			mdiGithub,
 			version: '1.0.0',
@@ -210,6 +257,18 @@ export default {
 	align-items: center;
 	height: $spacer-11;
 	background: transparent !important;
+
+	.feedback-btn {
+		&::hover {
+			.v-btn__content {
+				color: red !important;
+
+				span {
+					color: red !important;
+				}
+			}
+		}
+	}
 
 	@media (max-width: 480px) {
 		height: $spacer-20;

@@ -72,6 +72,15 @@ export default {
 		title: 'Metrics of:',
 		multidatabaseComingSoon: 'Multidatabase metrics coming soon',
 		info: 'The following metrics are updated every {value} seconds',
+		dbSize: {
+			title: 'Database size',
+		},
+		memoryUsage: {
+			title: 'Memory usage',
+		},
+		readAndWrite: {
+			title: 'Memory usage',
+		},
 	},
 	query: {
 		tables: {
@@ -303,10 +312,16 @@ export default {
 		text: 'Copyright © {date} {url} All rights reserved.',
 		devMode: 'Dev mode',
 		github: 'See OS code on github repository',
-		toggle: {
-			dark: 'Toggle light theme',
-			light: 'Toggle dark theme',
-		},
 		buildTime: 'Last build at {date}',
+		theme: {
+			toggle: {
+				dark: 'Toggle light theme',
+				light: 'Toggle dark theme',
+			},
+		},
+		feedback: {
+			text: 'Feedback',
+			tooltip: 'Something went wrong or have an idea in mind? Let us know on GitHub!',
+		},
 	},
 };
