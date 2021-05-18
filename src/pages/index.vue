@@ -74,7 +74,7 @@
 						{{ mdiInformationOutline }}
 					</v-icon>
 				</template>
-				<span v-html="$t('metrics.info', { value: period / 1000 })" />
+				<span v-html="$t('metrics.info', { value: getPeriod })" />
 			</v-tooltip>
 		</v-card-title>
 		<v-card-text
@@ -90,6 +90,7 @@
 						:data="dbSize"
 						:database="database"
 						:period="3000"
+						filled
 					/>
 				</v-col>
 			</v-row>
@@ -121,6 +122,7 @@ import {
 	mdiChartBoxOutline,
 	mdiInformationOutline,
 } from '@mdi/js';
+import moment from 'moment';
 
 export default {
 	name: 'Metrics',
@@ -150,6 +152,12 @@ export default {
 				return db;
 			}
 			return '';
+		},
+		getPeriod () {
+			return moment
+					.duration(this.period, 'milliseconds')
+					.humanize(false)
+					.replace(/a /g, '');
 		},
 	},
 	methods: {

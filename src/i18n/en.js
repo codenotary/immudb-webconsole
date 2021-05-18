@@ -71,7 +71,7 @@ export default {
 	metrics: {
 		title: 'Metrics of:',
 		multidatabaseComingSoon: 'Multidatabase metrics coming soon',
-		info: 'The following metrics are updated every {value} seconds',
+		info: 'The following metrics are updated every {value}',
 		dbSize: {
 			title: 'Database size',
 		},
