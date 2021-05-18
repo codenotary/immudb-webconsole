@@ -81,6 +81,7 @@ import {
 import {
 	METRICS_MODULE,
 	FETCH_METRICS,
+	PERIOD,
 } from '@/store/metrics/constants';
 import LayoutMixin from '@/mixins/LayoutMixin';
 
@@ -89,7 +90,6 @@ let IMMUDB_POLLING_ID = null;
 const IMMUDB_POLLING_INTERVAL = 10000;
 
 let METRICS_POLLING_ID = null;
-const METRICS_POLLING_INTERVAL = 30000;
 
 const ACTIVATION_DELAY = 3000;
 const BANNER_COOKIE = 'bannerCookie';
@@ -124,6 +124,9 @@ export default {
 		}),
 		...mapGetters(IMMUDB_MODULE, {
 			state: STATE,
+		}),
+		...mapGetters(METRICS_MODULE, {
+			METRICS_POLLING_INTERVAL: PERIOD,
 		}),
 		splashFinished () {
 			return !this.splash;
@@ -295,11 +298,11 @@ export default {
 		},
 		startMetricsPolling () {
 			try {
-				if (METRICS_POLLING_INTERVAL) {
+				if (this.METRICS_POLLING_INTERVAL) {
 					this.stopMetricsPolling();
 					METRICS_POLLING_ID = setInterval(async () => {
 						await this.fetchMetrics();
-					}, METRICS_POLLING_INTERVAL);
+					}, this.METRICS_POLLING_INTERVAL);
 				}
 				else {
 					this.stopMetricsPolling();

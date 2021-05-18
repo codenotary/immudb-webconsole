@@ -74,7 +74,7 @@
 						{{ mdiInformationOutline }}
 					</v-icon>
 				</template>
-				<span v-html="$t('metrics.info')" />
+				<span v-html="$t('metrics.info', { value: period / 1000 })" />
 			</v-tooltip>
 		</v-card-title>
 		<v-card-text
@@ -108,6 +108,7 @@ import {
 	DB_SIZE,
 	MEMORY_USAGE,
 	READ_AND_WRITE,
+	PERIOD,
 } from '@/store/metrics/constants';
 import {
 	IMMUDB_MODULE,
@@ -138,6 +139,7 @@ export default {
 			dbSize: DB_SIZE,
 			memoryUsage: MEMORY_USAGE,
 			readAndWrite: READ_AND_WRITE,
+			period: PERIOD,
 		}),
 		...mapGetters(IMMUDB_MODULE, {
 			state: STATE,

@@ -1,8 +1,9 @@
 <template>
 	<v-card
+		v-if="data"
 		class="metrics-card ma-0 pa-4 pt-2 bg fill-width"
 	>
-		<v-card-title class="ma-0 pa-0">
+		<v-card-title class="ma-0 mb-2 pa-0">
 			<span
 				class="ma-0 mb-2 pa-0 subtitle-1 font-weight-bold"
 				:class="{
@@ -10,7 +11,7 @@
 					'gray--text text--lighten-1': $vuetify.theme.dark,
 				}"
 			>
-				{{ title }}: {{ getMaxValue }}
+				{{ title }}: {{ getDatabaseSize }}
 			</span>
 		</v-card-title>
 		<v-card-text
@@ -22,6 +23,20 @@
 				:options="options"
 				:style="styles"
 			/>
+			<div
+				v-if="noData"
+				class="chart-no-data d-flex justify-center align-center"
+			>
+				<span
+					class="subtitle-2"
+					:class="{
+						'gray--text text--lighten-1': !$vuetify.theme.dark,
+						'gray--text text--darken-1': $vuetify.theme.dark,
+					}"
+				>
+					No data
+				</span>
+			</div>
 		</v-card-text>
 	</v-card>
 </template>
@@ -30,6 +45,7 @@
 import { mapGetters } from 'vuex';
 import {
 	VIEW_MODULE,
+	THEME,
 	MOBILE,
 } from '@/store/view/constants';
 import {
@@ -42,13 +58,33 @@ import moment from 'moment';
 import prettyBytes from 'pretty-bytes';
 
 const ANIMATION_DURATION = 1000;
-const CHART_COLORS = [
-	'rgba(76,	175,	80,		0.55)',	// success
-	'rgba(124,	77,		255,	0.55)',	// accent
-	'rgba(255,	82,		82,		0.55)',	// error
-	'rgba(251,	140,	0,		0.55)',	// warning
-	'rgba(32,	162,	219,	0.55)',	// primary
-];
+
+const CHART_COLORS = {
+	light: [
+		'rgba(76,	175,	80,		0.75)',	// success
+		'rgba(124,	77,		255,	0.75)',	// accent
+		'rgba(255,	82,		82,		0.75)',	// error
+		'rgba(251,	140,	0,		0.75)',	// warning
+		'rgba(32,	162,	219,	0.75)',	// primary
+	],
+	dark: [
+		'rgba(76,	175,	80,		0.55)',	// success
+		'rgba(124,	77,		255,	0.55)',	// accent
+		'rgba(255,	82,		82,		0.55)',	// error
+		'rgba(251,	140,	0,		0.55)',	// warning
+		'rgba(32,	162,	219,	0.55)',	// primary
+	],
+};
+
+const POINT_COLORS = {
+	light: 'rgba(0, 0, 0, 0.25)',
+	dark: 'rgba(255, 255, 255, 0.15)',
+};
+
+const GRID_COLORS = {
+	light: 'rgba(0, 0, 0, 0.25)',
+	dark: 'rgba(255, 255, 255, 0.15)',
+};
 
 export default {
 	name: 'DbSize',
@@ -63,15 +99,19 @@ export default {
 		return {
 			mdiInformationOutline,
 			styles: {
-				height: '350px',
+				height: `${ 360 }px`,
 				position: 'relative',
 			},
 		};
 	},
 	computed: {
 		...mapGetters(VIEW_MODULE, {
+			theme: THEME,
 			mobile: MOBILE,
 		}),
+		noData () {
+			return this.y && this.y.length <= 0;
+		},
 		title () {
 			if (this.data) {
 				const { title } = this.data;
@@ -120,8 +160,11 @@ export default {
 			}
 			return [];
 		},
-		getMaxValue () {
-			return prettyBytes(parseInt(this.y) || 0);
+		getDatabaseSize () {
+			if (this.chartdata.datasets[0]) {
+				return prettyBytes(parseInt(this.chartdata.datasets[0].data) || 0);
+			}
+			return '';
 		},
 		chartdata () {
 			return {
@@ -131,9 +174,10 @@ export default {
 						label: this.label,
 						data: this.y,
 						fill: true,
+						lineTension: 0.2,
 						pointRadius: 4,
-						backgroundColor: CHART_COLORS,
-						pointBackgroundColor: 'rgba(255, 255, 255, 0.3)',
+						backgroundColor: CHART_COLORS[this.theme],
+						pointBackgroundColor: POINT_COLORS[this.theme],
 					},
 				],
 			};
@@ -146,10 +190,10 @@ export default {
 				legend: {
 					display: true,
 					position: 'bottom',
+					height: 64,
 					labels: {
-						color: 'rgb(255, 99, 132)',
+						padding: 16,
 					},
-					padding: 32,
 				},
 				scales: {
 					yAxes: [{
@@ -160,9 +204,13 @@ export default {
 							},
 							maxTicksLimit: this.steps,
 							minTicksLimit: this.steps / 2,
-							padding: 32,
+							padding: 16,
 							min: 0,
 							max: getMaxSteps(true),
+						},
+						gridLines: {
+							display: true,
+							color: GRID_COLORS[this.theme],
 						},
 					}],
 					xAxes: [{
@@ -171,7 +219,11 @@ export default {
 							callback (value) {
 								return moment(value).format('hh:mm:ss A');
 							},
-							padding: 0,
+							padding: 16,
+						},
+						gridLines: {
+							display: true,
+							color: GRID_COLORS[this.theme],
 						},
 					}],
 				},
@@ -202,19 +254,12 @@ export default {
 				responsiveAnimationDuration: this.mobile
 					? 0
 					: ANIMATION_DURATION,
-				plugins: {
-					lengend: {
-						title: {
-							padding: 160,
-						},
-					},
-				},
 			};
 		},
 	},
 	methods: {
 		getMaxSteps (offset = true) {
-			const max = Math.max(this.y) * 1.5;
+			const max = Math.max.apply(Math, this.y) * 1.5;
 			return this.roundToNearest(Math.round(max), Math.floor(max / this.steps));
 		},
 		roundToNearest (numToRound, numToRoundTo) {
@@ -236,6 +281,18 @@ export default {
 		position: absolute;
 		top: 0;
 		left: 0;
+	}
+
+	> div {
+		height: inherit;
+	}
+
+	.chart-no-data {
+		position: absolute;
+		height: 32px;
+		width: 160px;
+		top: calc(170px - 8px);
+		left: calc(50% - 80px);
 	}
 }
 </style>

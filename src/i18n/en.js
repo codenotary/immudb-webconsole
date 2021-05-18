@@ -71,7 +71,7 @@ export default {
 	metrics: {
 		title: 'Metrics of:',
 		multidatabaseComingSoon: 'Multidatabase metrics coming soon',
-		info: 'Those metrics are fetched refreshed each 3 seconds\n and are cleared after each page refresh/close',
+		info: 'The following metrics are updated every {value} seconds',
 	},
 	query: {
 		tables: {
