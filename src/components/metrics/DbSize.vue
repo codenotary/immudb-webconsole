@@ -27,6 +27,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import {
+	VIEW_MODULE,
+	MOBILE,
+} from '@/store/view/constants';
 import {
 	DEFAULT_DB,
 } from '@/store/database/constants';
@@ -36,13 +41,7 @@ import {
 import moment from 'moment';
 import prettyBytes from 'pretty-bytes';
 
-const CHART_TYPE = {
-	SUMMARY: 'SUMMARY',
-	COUNTER: 'COUNTER',
-	HISTOGRAM: 'HISTOGRAM',
-	GAUGE: 'GAUGE',
-};
-
+const ANIMATION_DURATION = 1000;
 const CHART_COLORS = [
 	'rgba(76,	175,	80,		0.55)',	// success
 	'rgba(124,	77,		255,	0.55)',	// accent
@@ -62,7 +61,6 @@ export default {
 	},
 	data () {
 		return {
-			CHART_TYPE,
 			mdiInformationOutline,
 			styles: {
 				height: '350px',
@@ -71,6 +69,9 @@ export default {
 		};
 	},
 	computed: {
+		...mapGetters(VIEW_MODULE, {
+			mobile: MOBILE,
+		}),
 		title () {
 			if (this.data) {
 				const { title } = this.data;
@@ -143,7 +144,12 @@ export default {
 				responsive: true,
 				maintainAspectRatio: false,
 				legend: {
+					display: true,
 					position: 'bottom',
+					labels: {
+						color: 'rgb(255, 99, 132)',
+					},
+					padding: 32,
 				},
 				scales: {
 					yAxes: [{
@@ -171,12 +177,35 @@ export default {
 				},
 				tooltips: {
 					callbacks: {
-						label(tooltipItem) {
+						title (tooltipItem, data) {
+							return data.datasets[0].label;
+						},
+						label (tooltipItem) {
 							const { xLabel, yLabel } = tooltipItem;
-							console.log(tooltipItem);
-							const y = moment(xLabel).format('YYYY/MM/DD hh:mm A');
+							const y = moment(xLabel)
+									.format('hh:mm:ss A');
 							const x = prettyBytes(parseInt(yLabel) || 0);
 							return `${ y }: ${ x }`;
+						},
+					},
+				},
+				animation: {
+					duration: this.mobile
+						? 0
+						: ANIMATION_DURATION,
+				},
+				hover: {
+					animationDuration: this.mobile
+						? 0
+						: ANIMATION_DURATION,
+				},
+				responsiveAnimationDuration: this.mobile
+					? 0
+					: ANIMATION_DURATION,
+				plugins: {
+					lengend: {
+						title: {
+							padding: 160,
 						},
 					},
 				},

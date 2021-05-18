@@ -1,6 +1,7 @@
 <script>
 /* eslint-disable vue/require-prop-types */
 
+// import Chart from 'chart.js';
 import { Line, mixins } from 'vue-chartjs';
 
 export default {
