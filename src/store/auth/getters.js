@@ -21,7 +21,8 @@ export default {
 	[USER_PERMISSION]: state => (database) => {
 		if (state.permissions) {
 			return state.permissions.find((_) => {
-				return _.database === (database || DEFAULT_DB);
+				return _.database === (database || DEFAULT_DB) ||
+					_.database === '*';
 			});
 		}
 		return { permission: 0 };

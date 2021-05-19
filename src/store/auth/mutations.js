@@ -1,8 +1,5 @@
 import Vue from 'vue';
 import {
-	DEFAULT_DB,
-} from '@/store/database/constants';
-import {
 	SET_TOKEN,
 	SET_USER,
 	SET_USER_PERMISSION,
@@ -26,9 +23,7 @@ export default {
 							.map((_) => {
 								const { database, permission } = _;
 								permissions = [...permissions, {
-									database: database === '*'
-										? DEFAULT_DB
-										: database,
+									database,
 									permission,
 								}];
 							});
