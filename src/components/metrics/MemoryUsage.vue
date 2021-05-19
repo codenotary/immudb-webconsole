@@ -191,14 +191,18 @@ export default {
 			return [];
 		},
 		getMemoryReserved () {
-			if (this.chartdata.datasets[0]) {
-				return prettyBytes(parseInt(this.chartdata.datasets[0].data) || 0);
+			if (this.chartdata.datasets[0] && this.chartdata.datasets[0].data) {
+				const length = this.chartdata.datasets[0].data.length;
+				const lastValue = this.chartdata.datasets[0].data[length - 1];
+				return prettyBytes(parseInt(lastValue) || 0);
 			}
 			return '';
 		},
 		getMemoryInUse () {
-			if (this.chartdata.datasets[1]) {
-				return prettyBytes(parseInt(this.chartdata.datasets[1].data) || 0);
+			if (this.chartdata.datasets[1] && this.chartdata.datasets[1].data) {
+				const length = this.chartdata.datasets[1].data.length;
+				const lastValue = this.chartdata.datasets[1].data[length - 1];
+				return prettyBytes(parseInt(lastValue) || 0);
 			}
 			return '';
 		},

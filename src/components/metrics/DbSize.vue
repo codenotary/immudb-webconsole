@@ -177,9 +177,10 @@ export default {
 			return [];
 		},
 		getDatabaseSize () {
-			if (this.chartdata.datasets[0]) {
-				const maxSize = Math.max.apply(Math, this.chartdata.datasets[0].data);
-				return prettyBytes(parseInt(maxSize) || 0);
+			if (this.chartdata.datasets[0] && this.chartdata.datasets[0].data) {
+				const length = this.chartdata.datasets[0].data.length;
+				const lastValue = this.chartdata.datasets[0].data[length - 1];
+				return prettyBytes(parseInt(lastValue) || 0);
 			}
 			return '';
 		},
