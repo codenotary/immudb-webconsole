@@ -20,7 +20,6 @@ import {
 	TX,
 	TX_PRESENT,
 } from './constants';
-const escape = require('sql-escape');
 
 export default {
 	async [FETCH_HEALTH]({ commit }, auth) {
@@ -40,10 +39,9 @@ export default {
 
 			let sql = payload;
 			sql = sql.endsWith(';') ? sql : `${ sql };`;
-			// sql = escape(sql);
 
 			await ImmudbService.sqlExec({
-				sql,
+				sql: sql.replace(/"/g, '\''),
 			})
 					.then((response) => {
 						// console.log(response && response.data);
@@ -70,10 +68,8 @@ export default {
 
 			let sql = payload;
 			sql = sql.endsWith(';') ? sql : `${ sql };`;
-			sql = escape(sql);
-
 			await ImmudbService.sqlQuery({
-				sql,
+				sql: sql.replace(/"/g, '\''),
 			})
 					.then((response) => {
 						if (response) {
