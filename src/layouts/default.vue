@@ -275,8 +275,8 @@ export default {
 			try {
 				if (IMMUDB_POLLING_INTERVAL) {
 					this.stopImmudbPolling();
-					IMMUDB_POLLING_ID = setInterval(async () => {
-						await this.fetchState();
+					IMMUDB_POLLING_ID = setInterval(() => {
+						this.fetchState();
 					}, IMMUDB_POLLING_INTERVAL);
 				}
 				else {
@@ -300,8 +300,8 @@ export default {
 			try {
 				if (this.METRICS_POLLING_INTERVAL) {
 					this.stopMetricsPolling();
-					METRICS_POLLING_ID = setInterval(async () => {
-						await this.fetchMetrics();
+					METRICS_POLLING_ID = setInterval(() => {
+						this.fetchMetrics();
 					}, this.METRICS_POLLING_INTERVAL);
 				}
 				else {
