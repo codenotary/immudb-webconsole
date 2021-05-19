@@ -221,13 +221,15 @@ export default {
 					if (user === this.user) {
 						this.setToken(null);
 					}
-					await this.fetchUserList();
-					if (!this.splash) {
-						this.$toasted.success(this.$t('users.table.action.updatePassword.success'), {
-							duration: 3000,
-							icon: 'check-circle',
-						});
-					}
+					this.$nextTick(() => {
+						this.fetchUserList();
+						if (!this.splash) {
+							this.$toasted.success(this.$t('users.table.action.updatePassword.success'), {
+								duration: 3000,
+								icon: 'check-circle',
+							});
+						}
+					});
 				}
 			}
 			catch (err) {

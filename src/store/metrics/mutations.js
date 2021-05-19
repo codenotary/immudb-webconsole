@@ -13,7 +13,7 @@ export default {
 			memSysBytes,
 			heapInUseBytes,
 			stackInUseBytes,
-			// handlingSeconds,
+			// grpcServerHandlingSeconds,
 		} = payload;
 
 		// Database size
@@ -24,10 +24,11 @@ export default {
 			metrics
 					.map((_) => {
 						const { labels: { db }, value } = _;
+						const _dbSize = Number(value).toPrecision();
 						const idx = state.dbSize && state.dbSize.items &&
 							state.dbSize.items.findIndex(_ => _ && _.db === db);
 						const item = {
-							y: parseInt(value) || 0,
+							y: parseInt(_dbSize) || 0,
 							x: now,
 						};
 						if (idx >= 0) {

@@ -26,7 +26,7 @@ export default {
 					memSysBytes: parsed.find(_ => _ && _.name === 'go_memstats_sys_bytes'),
 					heapInUseBytes: parsed.find(_ => _ && _.name === 'go_memstats_heap_inuse_bytes'),
 					stackInUseBytes: parsed.find(_ => _ && _.name === 'go_memstats_stack_inuse_bytes'),
-					handlingSeconds: parsed.find(_ => _ && _.name === 'grpc_server_handling_seconds'),
+					grpcServerHandlingSeconds: parsed.filter(_ => _ && _.name === 'grpc_server_handling_seconds'),
 				});
 				commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
 			}
