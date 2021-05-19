@@ -178,7 +178,8 @@ export default {
 		},
 		getDatabaseSize () {
 			if (this.chartdata.datasets[0]) {
-				return prettyBytes(parseInt(this.chartdata.datasets[0].data) || 0);
+				const maxSize = Math.max.apply(Math, this.chartdata.datasets[0].data);
+				return prettyBytes(parseInt(maxSize) || 0);
 			}
 			return '';
 		},
@@ -251,7 +252,8 @@ export default {
 				tooltips: {
 					callbacks: {
 						title (tooltipItem, data) {
-							return data.datasets[0].label;
+							const { datasetIndex: idx } = tooltipItem[0] || {};
+							return data.datasets[idx || 0].label;
 						},
 						label (tooltipItem) {
 							const { xLabel, yLabel } = tooltipItem;

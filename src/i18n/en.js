@@ -81,11 +81,11 @@ export default {
 				label: 'Memory reserved',
 			},
 			inUse: {
-				label: 'In use',
+				label: 'Memory in use',
 			},
 		},
 		readAndWrite: {
-			title: 'Memory usage',
+			title: 'Reads and writes: {reads}/{writes} ',
 		},
 	},
 	query: {

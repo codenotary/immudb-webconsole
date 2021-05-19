@@ -286,7 +286,8 @@ export default {
 				tooltips: {
 					callbacks: {
 						title (tooltipItem, data) {
-							return data.datasets[0].label;
+							const { datasetIndex: idx } = tooltipItem[0] || {};
+							return data.datasets[idx || 0].label;
 						},
 						label (tooltipItem) {
 							const { xLabel, yLabel } = tooltipItem;
