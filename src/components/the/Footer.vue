@@ -52,8 +52,8 @@
 					<span
 						class="ma-0 pa-0 h-24 caption d-flex justify-start align-center"
 						:class="{
-							'gray--text text--darken-1': !$vuetify.theme.dark,
-							'gray--text text--lighten-1': $vuetify.theme.dark,
+							'gray--text text--lighten-1': !$vuetify.theme.dark,
+							'gray--text text--darken-1': $vuetify.theme.dark,
 						}"
 					>
 						v
