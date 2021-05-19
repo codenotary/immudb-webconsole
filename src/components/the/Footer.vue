@@ -142,7 +142,7 @@
 								depressed
 								small
 								icon
-								:alt="$t(`footer.toggle.${ theme }`)"
+								:alt="$t(`footer.theme.toggle.${ theme }`)"
 								v-bind="attrs"
 								v-on="on"
 								@click="toggleTheme"
