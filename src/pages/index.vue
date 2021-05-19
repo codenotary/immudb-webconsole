@@ -84,6 +84,30 @@
 				<v-col
 					class="ma-0 mb-4 pa-0 pr-md-2"
 					cols="12"
+					sm="6"
+					md="6"
+				>
+					<MetricsCounter
+						v-if="dbUptimeHours"
+						:data="dbUptimeHours"
+					/>
+				</v-col>
+				<v-col
+					class="ma-0 mb-4 pa-0 pl-md-2"
+					cols="12"
+					sm="6"
+					md="6"
+				>
+					<MetricsCounter
+						v-if="dbEntries"
+						:data="dbEntries"
+					/>
+				</v-col>
+			</v-row>
+			<v-row class="ma-0 pa-0 d-flex flex-wrap justify-start align-start">
+				<v-col
+					class="ma-0 mb-4 pa-0"
+					cols="12"
 				>
 					<MetricsDbSize
 						v-if="dbSize"
@@ -94,7 +118,7 @@
 					/>
 				</v-col>
 				<v-col
-					class="ma-0 mb-4 pa-0 pr-md-2"
+					class="ma-0 mb-4 pa-0"
 					cols="12"
 					sm="12"
 					md="12"
@@ -121,6 +145,8 @@ import {
 } from '@/store/auth/constants';
 import {
 	METRICS_MODULE,
+	DB_UPTIME_HOURS,
+	DB_ENTRIES,
 	DB_SIZE,
 	MEMORY_USAGE,
 	READ_AND_WRITE,
@@ -153,6 +179,8 @@ export default {
 			token: TOKEN,
 		}),
 		...mapGetters(METRICS_MODULE, {
+			dbEntries: DB_ENTRIES,
+			dbUptimeHours: DB_UPTIME_HOURS,
 			dbSize: DB_SIZE,
 			memoryUsage: MEMORY_USAGE,
 			readAndWrite: READ_AND_WRITE,
@@ -171,7 +199,7 @@ export default {
 		getPeriod () {
 			return moment
 					.duration(this.period, 'milliseconds')
-					.humanize(false)
+					.humanize()
 					.replace(/a /g, '');
 		},
 	},

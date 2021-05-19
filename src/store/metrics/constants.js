@@ -4,6 +4,8 @@ export const FETCH_METRICS = 'fetchMetrics';
 export const SET_METRICS = 'setMetrics';
 
 export const PERIOD = 'getPeriod';
+export const DB_UPTIME_HOURS = 'getDbUpdatimeHours';
+export const DB_ENTRIES = 'getDbEntries';
 export const DB_SIZE = 'getDbSize';
 export const MEMORY_USAGE = 'getMemoryUsage';
 export const READ_AND_WRITE = 'getReadAndWrite';

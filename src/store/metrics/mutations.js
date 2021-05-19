@@ -6,15 +6,57 @@ import {
 	MEMORY_IN_USE,
 } from './constants';
 
+const humanizeDuration = require('humanize-duration');
+const shortEnglishHumanizer = humanizeDuration.humanizer({
+	language: 'shortEn',
+	languages: {
+		shortEn: {
+			y: () => 'y',
+			mo: () => 'mo',
+			w: () => 'w',
+			d: () => 'd',
+			h: () => 'h',
+			m: () => 'm',
+			s: () => 's',
+			ms: () => 'ms',
+		},
+	},
+	round: true,
+	units: ['y', 'mo', 'w', 'd', 'h', 'm', 's'],
+	largest: 4,
+});
+
 export default {
 	[SET_METRICS](state, payload) {
 		const {
+			dbUptimeHours,
+			dbEntries,
 			dbSize,
 			memSysBytes,
 			heapInUseBytes,
 			stackInUseBytes,
 			// grpcServerHandlingSeconds,
 		} = payload;
+
+		// Uptime hours
+		if (dbUptimeHours) {
+			const { metrics: { 0: { value } } } = dbUptimeHours[0];
+			const _value = shortEnglishHumanizer(value * 3.6e+6);
+			state.dbUptimeHours = {
+				title: this.$i18n.t('metrics.dbUptimeHours.title'),
+				value: _value.replace(/, /g, ' '),
+			};
+		}
+
+		// Number of entris
+		if (dbEntries) {
+			const { metrics: { 0: { value } } } = dbEntries[0];
+			const _value = Number(value).toPrecision();
+			state.dbEntries = {
+				title: this.$i18n.t('metrics.dbEntries.title'),
+				value: _value,
+			};
+		}
 
 		// Database size
 		if (dbSize) {

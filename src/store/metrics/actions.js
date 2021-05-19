@@ -22,6 +22,8 @@ export default {
 				const parsed = parsePrometheusTextFormat(response.data);
 
 				commit(SET_METRICS, {
+					dbUptimeHours: parsed.filter(_ => _ && _.name === 'immudb_uptime_hours'),
+					dbEntries: parsed.filter(_ => _ && _.name === 'immudb_number_of_stored_entries'),
 					dbSize: parsed.find(_ => _ && _.name === 'immudb_db_size_bytes'),
 					memSysBytes: parsed.find(_ => _ && _.name === 'go_memstats_sys_bytes'),
 					heapInUseBytes: parsed.find(_ => _ && _.name === 'go_memstats_heap_inuse_bytes'),
