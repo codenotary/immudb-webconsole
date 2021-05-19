@@ -27,15 +27,15 @@ export default {
 		}),
 		parsedDate () {
 			if (this.value) {
-				const value = this.value.replace('CEST', '');
+				const value = this.value.split('.')[0];
 				if (this.tz === 'utc') {
 					return moment
-							.utc(new Date(value))
+							.utc(value)
 							.format(this.format);
 				}
 				else {
 					return moment
-							.utc(new Date(value))
+							.utc(value)
 							.local()
 							.format(this.format);
 				}
