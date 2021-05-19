@@ -45,7 +45,8 @@ ITERATIONS="${ITERATIONS:=100}"
 
 if [[ $ITERATIONS == '-1' ]]
 then
-	echo "::Starting Set ops (indefinitely each ${DELAY} seconds)"
+	echo "::Starting Set ops (indefinitely each ${DELAY} seconds)"]
+	echo "::Exit: Ctrl-C"
 else 
 	echo "::Starting Set ops (${ITERATIONS} times)"
 fi
