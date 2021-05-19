@@ -58,7 +58,8 @@ while [ "$i" -lt "$ITERATIONS" -o "$ITERATIONS" -eq "-1" ]; do
 	KEY=$(echo -n key$i | base64)
 	VAL=$(echo -n val$i | base64)
 
-	KEY=$(curl -sS -X POST -H "authorization: Bearer $TOKEN" -d "{\"KVs\": [{\"key\": \"$KEY\", \"value\": \"$VAL\"}]}" "${IMMUDB_URL}/api/db/set")
+	RESPONSE=$(curl -sS -X POST -H "authorization: Bearer $TOKEN" -d "{\"KVs\": [{\"key\": \"$KEY\", \"value\": \"$VAL\"}]}" "${IMMUDB_URL}/api/db/set")
+	echo $RESPONSE
 
 	if [ "$ITERATIONS" -eq "-1" ]; then
 		sleep $DELAY
