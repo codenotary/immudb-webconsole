@@ -7,7 +7,7 @@
 			<v-divider
 				class="my-2 mx-0"
 				style="opacity: 0.55;"
-			/>subtitle
+			/>
 		</div>
 		<div
 			v-else
