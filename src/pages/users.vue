@@ -218,15 +218,15 @@ export default {
 				if (data) {
 					const { user } = data;
 					await this.updatePassword(data);
+					if (user === this.user) {
+						this.setToken(null);
+					}
 					await this.fetchUserList();
 					if (!this.splash) {
 						this.$toasted.success(this.$t('users.table.action.updatePassword.success'), {
 							duration: 3000,
 							icon: 'check-circle',
 						});
-					}
-					if (user === this.user) {
-						this.setToken(null);
 					}
 				}
 			}

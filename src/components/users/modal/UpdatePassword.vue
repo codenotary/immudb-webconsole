@@ -215,7 +215,7 @@ export default {
 			const valid = await this.$refs.observer.validate();
 			if (valid) {
 				this.$emit('submit', {
-					user: this.user,
+					user: btoa(this.user),
 					oldPassword: btoa(this.form.oldPassword),
 					newPassword: btoa(this.form.newPassword),
 				});
