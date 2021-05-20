@@ -23,10 +23,10 @@
 						class="bg-secondary"
 					>
 						<td
-							v-for="(value, idx2) in row.values"
+							v-for="(value, idx2) in row"
 							:key="`value-${ uid } }-${ idx2 }`"
 						>
-							{{ extractValue(value) }}
+							{{ value }}
 						</td>
 					</tr>
 				</tbody>
@@ -48,20 +48,25 @@ export default {
 		columns () {
 			if (this.item) {
 				const { columns } = this.item;
-				return columns && columns.map((_) => {
-					return _ && _.name
-							.slice(1, -1)
-							.replace(/\.([^.]+)$/, ':$1')
-							.split(':')
-							.pop();
-				});
+				return columns && columns
+						.slice()
+						.map((_) => {
+							return _ && _.name
+									.slice(1, -1)
+									.replace(/\.([^.]+)$/, ':$1')
+									.split(':')
+									.pop();
+						});
 			}
 			return [];
 		},
 		rows () {
 			if (this.item) {
 				const { rows } = this.item;
-				return rows;
+				return rows
+						.slice()
+						.map(_ => _ && _ && _.values
+								.map(value => this.extractValue(value)));
 			}
 			return [];
 		},

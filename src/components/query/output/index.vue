@@ -54,7 +54,6 @@ export default {
 				if (this.tab !== 0 && !isEqual(newVal, oldVal)) {
 					Vue.set(this.tabHasUpdates, 0, this.tabHasUpdates[0] + 1);
 				}
-
 				this.onScrollToBottom();
 			},
 		},

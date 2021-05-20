@@ -199,6 +199,7 @@ export default {
 			}
 		},
 		async onRunQuery (data) {
+			const BATCH_LABEL = 'onRunQuery';
 			try {
 				this.pushLoading({
 					label: 'onRunQuery',
@@ -214,7 +215,7 @@ export default {
 							await this.runSqlExec(sql);
 						}
 						if (idx === data.length - 1) {
-							this.popLoading({ label: 'onRunQuery' });
+							this.popLoading({ label: BATCH_LABEL });
 						}
 					}, 300 * idx);
 				});
@@ -222,6 +223,7 @@ export default {
 			}
 			catch (err) {
 				console.error(err);
+				this.popLoading({ label: BATCH_LABEL });
 			}
 		},
 	},

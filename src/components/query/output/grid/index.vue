@@ -55,10 +55,11 @@ export default {
 		}),
 		filterOutput () {
 			if (this.output && this.output.length) {
-				return this.output.filter((_) => {
-					return (this.filter === 'all') ||
-						(_ && _.flux === this.filter);
-				});
+				return this.output
+						.filter((_) => {
+							return (this.filter === 'all') ||
+								(_ && _.flux === this.filter);
+						});
 			}
 			return [];
 		},
