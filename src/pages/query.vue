@@ -208,13 +208,19 @@ export default {
 				await data.map((_, idx) => {
 					const { sql, type } = _;
 					setTimeout(async () => {
-						if (type === RUN_SQL_TYPE.QUERY) {
-							await this.runSqlQuery(sql);
+						try {
+							if (type === RUN_SQL_TYPE.QUERY) {
+								await this.runSqlQuery(sql);
+							}
+							else {
+								await this.runSqlExec(sql);
+							}
+							if (idx === data.length - 1) {
+								this.popLoading({ label: BATCH_LABEL });
+							}
 						}
-						else {
-							await this.runSqlExec(sql);
-						}
-						if (idx === data.length - 1) {
+						catch (err) {
+							console.error(err);
 							this.popLoading({ label: BATCH_LABEL });
 						}
 					}, 300 * idx);
