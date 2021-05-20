@@ -242,6 +242,10 @@ import {
 	DEFAULT_DB,
 } from '@/store/database/constants';
 import {
+	OUTPUT_MODULE,
+	RESET_OUTPUT,
+} from '@/store/output/constants';
+import {
 	IMMUDB_MODULE,
 	SET_STATE,
 } from '@/store/immudb/constants';
@@ -376,6 +380,9 @@ export default {
 		...mapActions(IMMUDB_MODULE, {
 			setState: SET_STATE,
 		}),
+		...mapActions(OUTPUT_MODULE, {
+			resetOutput: RESET_OUTPUT,
+		}),
 		onMini () {
 			this.setSidebar({ mini: !this.mini });
 		},
@@ -391,6 +398,7 @@ export default {
 			this.setState({ tables: [] });
 			this.setActiveDatabase({ active: DEFAULT_DB });
 			this.setTableList({ tables: [] });
+			this.resetOutput();
 		},
 	},
 };
