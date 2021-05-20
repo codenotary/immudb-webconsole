@@ -130,6 +130,7 @@ export default {
 				tooltip: 'Run SQL query',
 				tooltipAll: 'Run All SQL queries',
 				loading: 'Running',
+				command: 'SQL Command executed successfully!',
 			},
 			clear: {
 				button: 'Clear',

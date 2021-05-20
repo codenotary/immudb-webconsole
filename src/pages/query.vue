@@ -214,6 +214,7 @@ export default {
 							}
 							else {
 								await this.runSqlExec(sql);
+								this.showToastSuccess('query.input.run.command');
 							}
 							if (idx === data.length - 1) {
 								this.popLoading({ label: BATCH_LABEL });
@@ -221,6 +222,7 @@ export default {
 						}
 						catch (err) {
 							console.error(err);
+							this.showToastError(err);
 							this.popLoading({ label: BATCH_LABEL });
 						}
 					}, 300 * idx);
