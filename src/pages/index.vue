@@ -118,7 +118,7 @@
 					/>
 				</v-col>
 				<v-col
-					class="ma-0 mb-4 pa-0"
+					class="ma-0 pa-0"
 					cols="12"
 					sm="12"
 					md="12"
