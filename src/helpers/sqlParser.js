@@ -11,9 +11,13 @@ const WRITE_COMMANDS = [
 	'DELETE',
 ];
 
+const containsWord = (str, word) => {
+	return str.match(new RegExp(`\\b${ word }\\b`)) != null;
+};
+
 const sqlParser = (data) => {
 	if (data && typeof data === 'string') {
-		return WRITE_COMMANDS.some(_ => data.toUpperCase().includes(_))
+		return WRITE_COMMANDS.some(_ => containsWord(data.toUpperCase(), _))
 			? RUN_SQL_TYPE.EXEC
 			: RUN_SQL_TYPE.QUERY;
 	}
