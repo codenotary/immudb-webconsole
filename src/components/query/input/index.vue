@@ -32,6 +32,7 @@
 			/>
 			<QueryInputActionRun
 				:query="query"
+				:number-of-queries="numberOfQueries"
 				@submit="onSubmit"
 			/>
 		</v-card-title>
@@ -65,6 +66,7 @@ import {
 	OUTPUT_MODULE,
 	RESET_OUTPUT,
 } from '@/store/output/constants';
+import sqlParser from '@/helpers/sqlParser';
 import {
 	mdiDatabaseSearchOutline,
 } from '@mdi/js';
@@ -84,6 +86,25 @@ export default {
 		...mapGetters(VIEW_MODULE, {
 			loading: IS_LOADING,
 		}),
+		splittedQueries () {
+			return this.query
+					.split(';')
+					.filter((_) => {
+						return _ && _
+								.replace(/ /g, '')
+								.replace(/\r?\n|\r/g, '');
+					})
+					.map((_) => {
+						return {
+							sql: _,
+							type: sqlParser(_),
+						};
+					});
+		},
+		numberOfQueries () {
+			return this.splittedQueries &&
+				this.splittedQueries.length;
+		},
 	},
 	watch: {
 		activeQuery: {
@@ -141,13 +162,8 @@ export default {
 			// this.setTx(data);
 			// this.runSqlExec(`USE SNAPSHOT SINCE TX ${ data } BEFORE TX ${ data }`);
 		},
-		async onSubmit () {
-			try {
-				await this.runSqlQuery(this.query);
-			}
-			catch (err) {
-				console.error(err);
-			}
+		onSubmit () {
+			this.$emit('submit', this.splittedQueries);
 		},
 	},
 };

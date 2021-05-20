@@ -42,7 +42,9 @@
 					:min-size="getConstraints.query.minSize"
 					:max-size="getConstraints.query.maxSize"
 				>
-					<LazyQueryInput />
+					<LazyQueryInput
+						@submit="onRunQuery"
+					/>
 				</pane>
 				<pane
 					:size="sizes.output"
@@ -66,6 +68,8 @@ import {
 	SET_PANE_SIZES,
 	SET_FETCH_PENDING,
 	SPLASH,
+	PUSH_LOADING,
+	POP_LOADING,
 	MOBILE,
 	PANE_SIZES,
 	IS_FETCH_PENDING,
@@ -78,6 +82,12 @@ import {
 	ADD_DATABASE,
 	USE_DATABASE,
 } from '@/store/database/constants';
+import {
+	IMMUDB_MODULE,
+	RUN_SQL_QUERY,
+	RUN_SQL_EXEC,
+	RUN_SQL_TYPE,
+} from '@/store/immudb/constants';
 import { Splitpanes, Pane } from 'splitpanes';
 import 'splitpanes/dist/splitpanes.css';
 
@@ -141,6 +151,8 @@ export default {
 			setPaneSizes: SET_PANE_SIZES,
 			setFetchPending: SET_FETCH_PENDING,
 			splash: SPLASH,
+			pushLoading: PUSH_LOADING,
+			popLoading: POP_LOADING,
 		}),
 		...mapActions(DATABASE_MODULE, {
 			fetchDatabaseList: FETCH_DATABASE_LIST,
@@ -148,6 +160,10 @@ export default {
 			setActiveDatabase: SET_ACTIVE_DATABASE,
 			addDatabase: ADD_DATABASE,
 			useDatabase: USE_DATABASE,
+		}),
+		...mapActions(IMMUDB_MODULE, {
+			runSqlQuery: RUN_SQL_QUERY,
+			runSqlExec: RUN_SQL_EXEC,
 		}),
 		onResize(data) {
 			if (data) {
@@ -180,6 +196,32 @@ export default {
 			}
 			catch (err) {
 				this.showToastError(err);
+			}
+		},
+		async onRunQuery (data) {
+			try {
+				this.pushLoading({
+					label: 'onRunQuery',
+					silently: true,
+				});
+				await data.map((_, idx) => {
+					const { sql, type } = _;
+					setTimeout(async () => {
+						if (type === RUN_SQL_TYPE.QUERY) {
+							await this.runSqlQuery(sql);
+						}
+						else {
+							await this.runSqlExec(sql);
+						}
+						if (idx === data.length - 1) {
+							this.popLoading({ label: 'onRunQuery' });
+						}
+					}, 300 * idx);
+				});
+				await this.fetchTables(true);
+			}
+			catch (err) {
+				console.error(err);
 			}
 		},
 	},

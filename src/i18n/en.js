@@ -128,6 +128,7 @@ export default {
 				button: 'Run',
 				alt: 'Run SQL query',
 				tooltip: 'Run SQL query',
+				tooltipAll: 'Run All SQL queries',
 				loading: 'Running',
 			},
 			clear: {

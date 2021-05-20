@@ -28,6 +28,18 @@
 				>
 					{{ $t('query.input.run.button') }}
 				</span>
+				<span
+					v-if="numberOfQueries > 1"
+					class="my-0 body-2"
+					style="margin-top: 2px !important;"
+				>
+					<span class="ma-0 pa-0 overline text-center text-lowercase">
+						x
+					</span>
+					<span class="ma-0 ml-n2 pa-0 body-2 text-lowercase">
+						{{ numberOfQueries }}
+					</span>
+				</span>
 				<template #loader>
 					<v-progress-circular
 						indeterminate
@@ -42,7 +54,7 @@
 			</v-btn>
 		</template>
 		<span>
-			{{ $t('query.input.run.tooltip') }}
+			{{ $t(`query.input.run.tooltip${ numberOfQueries > 1 ? 'All' : ''}`) }}
 		</span>
 	</v-tooltip>
 </template>
@@ -62,6 +74,7 @@ export default {
 	name: 'QueryInputActionRun',
 	props: {
 		query: { type: String, default: '' },
+		numberOfQueries: { type: [String, Number], default: 1 },
 	},
 	data () {
 		return {

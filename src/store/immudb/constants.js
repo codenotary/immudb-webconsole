@@ -12,3 +12,8 @@ export const HEALTH = 'health';
 export const STATE = 'state';
 export const TX = 'getTx';
 export const TX_PRESENT = 'getTxPresent';
+
+export const RUN_SQL_TYPE = {
+	EXEC: 'exec',
+	QUERY: 'query',
+};

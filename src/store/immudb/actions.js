@@ -72,11 +72,10 @@ export default {
 				sql: sql.replace(/"/g, '\''),
 			})
 					.then((response) => {
-						if (response) {
-							const { data } = response;
+						if (response && response.data) {
 							commit(`${ OUTPUT_MODULE }/${ APPEND_CODE_OUTPUT }`, {
 								output: {
-									...data || {},
+									...response.data || {},
 									flux: 'stdtable',
 									tx,
 									timeTravel: tx !== txPresent,
