@@ -218,6 +218,7 @@ export default {
 							}
 							if (idx === data.length - 1) {
 								this.popLoading({ label: BATCH_LABEL });
+								await this.fetchTables(true);
 							}
 						}
 						catch (err) {
@@ -227,7 +228,6 @@ export default {
 						}
 					}, 300 * idx);
 				});
-				await this.fetchTables(true);
 			}
 			catch (err) {
 				console.error(err);

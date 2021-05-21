@@ -342,7 +342,7 @@ export default {
 	}
 
 	.v-navigation-drawer {
-		margin-top: 0;
+		top: 0;
 	}
 
 	.v-main {
@@ -362,7 +362,7 @@ export default {
 		}
 
 		.v-navigation-drawer {
-			margin-top: $spacer-6 !important;
+			top: $spacer-6 !important;
 		}
 
 		.v-main {
