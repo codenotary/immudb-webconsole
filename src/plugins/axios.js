@@ -19,17 +19,11 @@ const PLEASE_LOGIN_FIRST = 'please login first';
 
 const VERBOSE = !process.env.IS_PROD;
 
-// const INSTANCE_COOKIE = 'instance';
-
 export default ({ store }) => {
 	ApiService.interceptors.request.use(
 		(config) => {
 			try {
 				VERBOSE && console.log(`Making immudb request to ${ config.url }`, config.headers);
-				// const instance = Vue.prototype.$cookies.get(INSTANCE_COOKIE);
-				// ApiService.defaults.headers = {
-				// 	Cookie: `instance=${ instance }`,
-				// };
 				return config;
 			}
 			catch (err) {
