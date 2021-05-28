@@ -321,9 +321,9 @@ export default {
 	** https://nuxtjs.org/api/configuration-env/
 	*/
 	env: {
-		API_URL: IS_PROD ? '/api' : '/api',
-		PROMETHEUS_URL: '/',
 		PROD: IS_PROD,
+		API_URL: '/api',
+		METRICS_API_URL: IS_PROD ? '/' : '/metrics-api',
 		PUBLIC_DEMO: true,
 	},
 
@@ -335,6 +335,12 @@ export default {
 		'/api/': {
 			target: 'http://localhost:8080',
 			pathRewrite: { '^/api/': '/api/' },
+			xfwd: true,
+			logLevel: 'debug',
+		},
+		'/metrics-api/': {
+			target: 'http://localhost:8080',
+			pathRewrite: { '^/metrics-api/': '/' },
 			xfwd: true,
 			logLevel: 'debug',
 		},

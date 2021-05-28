@@ -1,9 +1,8 @@
-// import Vue from 'vue';
 import {
 	AUTH_MODULE,
 	SET_TOKEN,
 } from '@/store/auth/constants';
-import { ApiService, PrometheusApiService } from '@/services/index';
+import { ApiService } from '@/services/index';
 
 /***
  * Defines the url requests that should not require the logout
@@ -24,19 +23,7 @@ export default ({ store }) => {
 		(config) => {
 			try {
 				VERBOSE && console.log(`Making immudb request to ${ config.url }`, config.headers);
-				return config;
-			}
-			catch (err) {
-				console.error(err);
-				throw err;
-			}
-		},
-	);
 
-	PrometheusApiService.interceptors.request.use(
-		(config) => {
-			try {
-				VERBOSE && console.log(`Making prometheus request to ${ config.url }`, config.headers);
 				return config;
 			}
 			catch (err) {
