@@ -223,7 +223,7 @@ export default {
 				await this.fetchState();
 				await this.fetchUserList();
 				const { txId } = this.state;
-				if (txId) {
+				if (txId !== undefined) {
 					await this.fetchDatabaseList();
 					await this.fetchTables();
 					// TODO restore those api calls after the time travel feature is released

@@ -18,8 +18,8 @@ export default {
 				txId && (state.state.txPresent = txId);
 			}
 			else {
-				state.state.txId = undefined;
-				state.state.txPresent = undefined;
+				state.state.txId = 0;
+				state.state.txPresent = 0;
 			}
 		}
 		else {
