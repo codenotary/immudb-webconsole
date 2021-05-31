@@ -155,6 +155,19 @@ export default {
 				['@babel/plugin-proposal-private-methods', { loose: true }]
 			],
 		},
+		postcss: {
+			plugins: {
+				'postcss-url': false,
+				'postcss-nested': {},
+				'postcss-responsive-type': {},
+				'postcss-hexrgba': {}
+			},
+			preset: {
+			  autoprefixer: {
+				grid: true
+			  }
+			}
+		  }
 	},
 
 	/*
