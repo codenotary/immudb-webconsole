@@ -251,7 +251,6 @@ export default {
 		async onLogin (data) {
 			try {
 				data && await this.immudbLogin(data);
-				console.log('login timeout');
 				this.setSplash(false);
 			}
 			catch (err) {

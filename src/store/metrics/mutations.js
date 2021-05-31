@@ -40,7 +40,7 @@ export default {
 
 		// Uptime hours
 		if (dbUptimeHours) {
-			const { metrics: { 0: { value } } } = dbUptimeHours[0];
+			const { metrics: { 0: { value } } } = dbUptimeHours[0] || {};
 			const _value = shortEnglishHumanizer(value * 3.6e+6);
 			state.dbUptimeHours = {
 				title: this.$i18n.t('metrics.dbUptimeHours.title'),
