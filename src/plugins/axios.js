@@ -22,8 +22,7 @@ export default ({ store }) => {
 	ApiService.interceptors.request.use(
 		(config) => {
 			try {
-				VERBOSE && console.log(`Making immudb request to ${ config.url }`, config.headers);
-
+				VERBOSE && console.log(`Making immudb request to ${ config.url }`);
 				return config;
 			}
 			catch (err) {
@@ -34,7 +33,9 @@ export default ({ store }) => {
 	);
 
 	ApiService.interceptors.response.use(
-		undefined,
+		(response) => {
+			console.log(response);
+		},
 		(err) => {
 			try {
 				// Error 401 Handler
