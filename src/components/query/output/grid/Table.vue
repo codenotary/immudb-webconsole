@@ -74,7 +74,7 @@ export default {
 	methods: {
 		extractValue (data) {
 			try {
-				return data.n || data.s || data.f || data.b || data.d;
+				return data.n || data.s || data.f || data.b || data.d || data.bs;
 			}
 			catch (err) {
 				console.error(err);
