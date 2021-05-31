@@ -82,7 +82,7 @@
 		>
 			<v-row class="ma-0 pa-0 d-flex flex-wrap justify-start align-start">
 				<v-col
-					class="ma-0 mb-4 pa-0 pr-md-2"
+					class="ma-0 mb-4 pa-0 pr-sm-2"
 					cols="12"
 					sm="6"
 					md="6"
@@ -93,7 +93,7 @@
 					/>
 				</v-col>
 				<v-col
-					class="ma-0 mb-4 pa-0 pl-md-2"
+					class="ma-0 mb-4 pa-0 pl-sm-2"
 					cols="12"
 					sm="6"
 					md="6"
