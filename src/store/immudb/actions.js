@@ -38,7 +38,9 @@ export default {
 			commit(`${ VIEW_MODULE }/${ PUSH_LOADING }`, { label: LOADING_LABEL, silently: true }, { root: true });
 
 			let sql = payload;
-			sql = sql.endsWith(';') ? sql : `${ sql };`;
+			sql = sql && sql.endsWith(';')
+				? sql
+				: `${ sql };`;
 
 			await ImmudbService.sqlExec({
 				sql: sql.replace(/"/g, '\''),

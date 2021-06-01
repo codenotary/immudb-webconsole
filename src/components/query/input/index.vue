@@ -72,6 +72,7 @@ import {
 } from '@mdi/js';
 
 const uniqueId = require('lodash.uniqueid');
+const TRANSACTION_LABEL = 'begin transaction';
 
 export default {
 	name: 'QueryInput',
@@ -87,6 +88,20 @@ export default {
 			loading: IS_LOADING,
 		}),
 		splittedQueries () {
+			if (!this.query) {
+				return [''];
+			}
+			if (this.query
+					.toLowerCase()
+					.includes(TRANSACTION_LABEL)
+			) {
+				return [
+					{
+						sql: this.query.replace(/\r?\n|\r/g, ' '),
+						type: sqlParser(this.query),
+					},
+				];
+			}
 			return this.query
 					.split(';')
 					.filter((_) => {
@@ -96,7 +111,7 @@ export default {
 					})
 					.map((_) => {
 						return {
-							sql: _,
+							sql: _.replace(/\r?\n|\r/g, ' '),
 							type: sqlParser(_),
 						};
 					});
