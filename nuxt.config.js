@@ -321,8 +321,8 @@ export default {
 	** https://nuxtjs.org/api/configuration-env/
 	*/
 	env: {
-		API_URL: IS_PROD? '/api' : '/api',
-		PROMETHEUS_URL: IS_PROD? '/' : '/',
+		API_URL: IS_PROD ? '/api' : '/api',
+		PROMETHEUS_URL: IS_PROD ? '/' : '/',
 	},
 
 	/*
