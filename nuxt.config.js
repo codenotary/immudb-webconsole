@@ -2,6 +2,7 @@ const SITE_NAME = 'immudb webconsole';
 import * as qs from 'qs';
 import Sass from 'sass';
 const IS_PROD = process.env.NODE_ENV === 'production';
+const IS_PUBLIC_DEMO = process.env.PUBLIC_DEMO || !IS_PROD;
 const EXPERIMENTAL = false && !IS_PROD;
 
 export default {
@@ -336,8 +337,12 @@ export default {
 	env: {
 		PROD: IS_PROD,
 		API_URL: '/api',
-		METRICS_API_URL: IS_PROD ? '/' : '/metrics-api',
-		PUBLIC_DEMO: true,
+		METRICS_API_URL: IS_PUBLIC_DEMO
+			? IS_PROD
+				? '/'
+				: '/metrics-api'
+			: '/',
+		IS_PUBLIC_DEMO,
 	},
 
 	/*

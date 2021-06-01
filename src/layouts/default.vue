@@ -170,7 +170,7 @@ export default {
 
 		// check banenr cookie
 		setTimeout(() => {
-			if (!process.env.PUBLIC_DEMO && !this.$cookies.get(BANNER_COOKIE)) {
+			if (!process.env.IS_PUBLIC_DEMO && !this.$cookies.get(BANNER_COOKIE)) {
 				this.active = true;
 			}
 		}, ACTIVATION_DELAY);
