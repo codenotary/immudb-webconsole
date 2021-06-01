@@ -33,9 +33,6 @@ export default ({ store }) => {
 	);
 
 	ApiService.interceptors.response.use(
-		(response) => {
-			console.log(response);
-		},
 		(err) => {
 			try {
 				// Error 401 Handler
