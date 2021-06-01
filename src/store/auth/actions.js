@@ -49,9 +49,16 @@ export default {
 							commit(`${ VIEW_MODULE }/${ SET_BANNER }`, null, { root: true });
 						}
 					}
-				}
 
-				commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
+					commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
+				}
+				else {
+					const err = 'login received no response';
+					commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
+					commit(SET_TOKEN, null);
+					commit(SET_USER, null);
+					throw err;
+				}
 			}
 			return false;
 		}

@@ -322,7 +322,9 @@ export default {
 	*/
 	env: {
 		API_URL: IS_PROD ? '/api' : '/api',
-		PROMETHEUS_URL: IS_PROD ? '/' : '/',
+		PROMETHEUS_URL: '/',
+		PROD: IS_PROD,
+		PUBLIC_DEMO: true,
 	},
 
 	/*
@@ -384,7 +386,7 @@ export default {
 			themes: {
 				light: {
 					primary: '#1976d2',
-					secondary: '#66a4e0',
+					secondary: '#febf2d',
 					accent: '#7c4dff',
 					error: '#ff5252',
 					info: '#2196f3',
@@ -406,7 +408,7 @@ export default {
 				},
 				dark: {
 					primary: '#1976d2',
-					secondary: '#66a4e0',
+					secondary: '#febf2d',
 					accent: '#7c4dff',
 					error: '#ff5252',
 					info: '#2196f3',

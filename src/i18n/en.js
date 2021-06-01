@@ -62,6 +62,14 @@ export default {
 		users: 'Users',
 		settings: 'Settings - coming soon',
 		guide: 'Guide - coming soon',
+	},
+	profile: {
+		preferences: {
+			title: 'Preferences',
+			label: 'Preferences',
+			alt: 'Profile preferences',
+			tooltip: 'Profile preferences',
+		},
 		logout: {
 			label: 'logout',
 			alt: 'Logout from immudb',

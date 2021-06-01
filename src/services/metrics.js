@@ -1,8 +1,8 @@
-import { PrometheusService } from '@/services/index';
+import { PrometheusApiService } from '@/services/index';
 
 export const MetricsService = {
 	// PROMETHEUS
 	metrics (config) {
-		return PrometheusService.get('/metrics', config);
+		return PrometheusApiService.get('/metrics', config);
 	},
 };

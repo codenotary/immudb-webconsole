@@ -1,8 +1,9 @@
+// import Vue from 'vue';
 import {
 	AUTH_MODULE,
 	SET_TOKEN,
 } from '@/store/auth/constants';
-import { ApiService } from '@/services/index';
+import { ApiService, PrometheusApiService } from '@/services/index';
 
 /***
  * Defines the url requests that should not require the logout
@@ -16,13 +17,38 @@ const PAYLOAD_MESSAGES_WHITELISTED = [];
 
 const PLEASE_LOGIN_FIRST = 'please login first';
 
-const VERBOSE = false;
+const VERBOSE = !process.env.IS_PROD;
+
+// const INSTANCE_COOKIE = 'instance';
 
 export default ({ store }) => {
 	ApiService.interceptors.request.use(
 		(config) => {
-			VERBOSE && console.log('Making immudb request to ' + config.url);
-			return config;
+			try {
+				VERBOSE && console.log(`Making immudb request to ${ config.url }`, config.headers);
+				// const instance = Vue.prototype.$cookies.get(INSTANCE_COOKIE);
+				// ApiService.defaults.headers = {
+				// 	Cookie: `instance=${ instance }`,
+				// };
+				return config;
+			}
+			catch (err) {
+				console.error(err);
+				throw err;
+			}
+		},
+	);
+
+	PrometheusApiService.interceptors.request.use(
+		(config) => {
+			try {
+				VERBOSE && console.log(`Making prometheus request to ${ config.url }`, config.headers);
+				return config;
+			}
+			catch (err) {
+				console.error(err);
+				throw err;
+			}
 		},
 	);
 

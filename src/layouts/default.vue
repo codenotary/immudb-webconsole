@@ -159,6 +159,13 @@ export default {
 		},
 	},
 	mounted () {
+		if (process.env.PUBLIC_DEMO) {
+			this.immudbLogin({
+				user: 'immudb',
+				password: 'immudb',
+			});
+		}
+
 		// fetch a second time after 3 seconds
 		// to avoid having a one-point chart
 		setTimeout(async () => {
@@ -170,7 +177,7 @@ export default {
 
 		// check banenr cookie
 		setTimeout(() => {
-			if (!this.$cookies.get(BANNER_COOKIE)) {
+			if (!process.env.PUBLIC_DEMO && !this.$cookies.get(BANNER_COOKIE)) {
 				this.active = true;
 			}
 		}, ACTIVATION_DELAY);

@@ -23,7 +23,7 @@ export const ApiService = axios.create({
 });
 
 // Prometheus api proxy instance
-export const PrometheusService = axios.create({
+export const PrometheusApiService = axios.create({
 	timeout: 5000,
 	baseURL: window.location.protocol + '//' + window.location.hostname + ':9497',
 });
