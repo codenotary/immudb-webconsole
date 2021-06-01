@@ -81,6 +81,7 @@
 		"material-design-icons-iconfont": "^5.0.1",
 		"node-sass": "^4.14.1",
 		"nuxt-cookie-control": "^1.9.6",
+		"sass": "~1.32.12",
 		"sass-loader": "^10.1.1",
 		"stylelint": "^9.3.0",
 		"stylelint-config-standard": "^18.3.0",
