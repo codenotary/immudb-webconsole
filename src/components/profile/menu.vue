@@ -186,6 +186,7 @@ export default {
 			this.$emit('profile');
 		},
 		onLogout () {
+			this.$cookies.set('instance', undefined);
 			this.setToken(null);
 			this.setUser(null);
 			this.setUserPermission(null);
