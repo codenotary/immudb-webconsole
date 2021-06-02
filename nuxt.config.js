@@ -335,7 +335,7 @@ export default {
 	** https://nuxtjs.org/api/configuration-env/
 	*/
 	env: {
-		PROD: IS_PROD,
+		IS_PROD: IS_PROD,
 		API_URL: '/api',
 		METRICS_API_URL: IS_PUBLIC_DEMO
 			? IS_PROD
