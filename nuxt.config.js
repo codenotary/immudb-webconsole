@@ -351,13 +351,13 @@ export default {
 	*/
 	proxy: {
 		'/api/': {
-			target: 'http://localhost:8080',
+			target: 'http://demo.immudb.io',
 			pathRewrite: { '^/api/': '/api/' },
 			xfwd: true,
 			logLevel: 'debug',
 		},
 		'/metrics-api/': {
-			target: 'http://localhost:8080',
+			target: 'http://demo.immudb.io',
 			pathRewrite: { '^/metrics-api/': '/' },
 			xfwd: true,
 			logLevel: 'debug',
