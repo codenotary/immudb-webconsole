@@ -66,9 +66,8 @@ export default {
 			if (response && response.data) {
 				const { token } = response.data;
 				if (token) {
-					ApiService.defaults.headers.common = {
-						Authorization: `Bearer ${ token }`,
-					};
+					ApiService.defaults.headers.common
+							.Authorization = `Bearer ${ token }`;
 
 					commit(`${ AUTH_MODULE }/${ SET_TOKEN }`, token, { root: true });
 				}

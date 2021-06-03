@@ -335,7 +335,8 @@ export default {
 	** https://nuxtjs.org/api/configuration-env/
 	*/
 	env: {
-		IS_PROD: IS_PROD,
+		IS_PROD,
+		DOCKER_API_URL: IS_PROD ? '/' : 'docker-api',
 		API_URL: '/api',
 		METRICS_API_URL: IS_PUBLIC_DEMO
 			? IS_PROD
@@ -350,14 +351,20 @@ export default {
 	** Doc: https://github.com/nuxt-community/proxy-module
 	*/
 	proxy: {
+		'/docker-api/': {
+			target: 'http://localhost:8080',
+			pathRewrite: { '^/docker-api/': '/' },
+			xfwd: true,
+			logLevel: 'debug',
+		},
 		'/api/': {
-			target: 'http://demo.immudb.io',
+			target: 'http://localhost:8080',
 			pathRewrite: { '^/api/': '/api/' },
 			xfwd: true,
 			logLevel: 'debug',
 		},
 		'/metrics-api/': {
-			target: 'http://demo.immudb.io',
+			target: 'http://localhost:8080',
 			pathRewrite: { '^/metrics-api/': '/' },
 			xfwd: true,
 			logLevel: 'debug',

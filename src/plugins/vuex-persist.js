@@ -8,6 +8,9 @@ export default ({ store }) => {
 		asyncStorage: true,
 		supportCircular: true,
 		reducer: state => ({
+			// docker: {
+			// 	dockerToken: state.docker.dockerToken,
+			// },
 			view: {
 				theme: state.view.theme,
 				banner: state.view.banner,

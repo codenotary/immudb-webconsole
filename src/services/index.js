@@ -17,6 +17,12 @@ export const API_CONFIG = {
 };
 
 // Backend api proxy instance
+export const RootService = axios.create({
+	...API_CONFIG,
+	baseURL: process.env.DOCKER_API_URL,
+});
+
+// Backend api proxy instance
 export const ApiService = axios.create({
 	...API_CONFIG,
 	baseURL: process.env.API_URL,

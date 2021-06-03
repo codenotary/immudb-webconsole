@@ -30,9 +30,8 @@ export default {
 				if (response && response.data) {
 					const { token, warning } = response.data;
 					if (token) {
-						ApiService.defaults.headers.common = {
-							Authorization: `Bearer ${ token }`,
-						};
+						ApiService.defaults.headers.common
+								.Authorization = `Bearer ${ token }`;
 
 						commit(SET_TOKEN, token);
 						commit(SET_USER, user);
