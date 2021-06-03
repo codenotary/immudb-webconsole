@@ -1,4 +1,5 @@
 import axios from 'axios';
+// import axiosRetry from 'axios-retry';
 import * as qs from 'qs';
 
 export const API_CONFIG = {
@@ -38,3 +39,7 @@ export const PrometheusApiService = axios.create({
 	},
 	baseURL: process.env.METRICS_API_URL,
 });
+
+// axiosRetry(RootService, { retryDelay: axiosRetry.exponentialDelay});
+// axiosRetry(ApiService, { retryDelay: axiosRetry.exponentialDelay});
+// axiosRetry(PrometheusApiService, { retryDelay: axiosRetry.exponentialDelay});

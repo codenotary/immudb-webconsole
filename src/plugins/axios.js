@@ -86,13 +86,13 @@ export default ({ store }) => {
 						PAYLOAD_MESSAGES_WHITELISTED.some(x => error && error.includes(x));
 
 					if (IS_BAD_DOCKER_TOKEN_ERROR && !RETRY_REQUEST && !WHITELISTED) {
-						store.commit(`${ AUTH_MODULE }/${ SET_TOKEN }`, null);
+						store.commit(`${ DOCKER_MODULE }/${ SET_DOCKER_TOKEN }`, null);
 						ApiService.defaults.headers
 								.common[X_TOKEN_HEADER] = undefined;
 						config.headers[X_TOKEN_HEADER] = undefined;
-						setTimeout(() => {
-							return ApiService.request(config);
-						}, 600);
+						// setTimeout(() => {
+						// 	return ApiService.request(config);
+						// }, 3000);
 					}
 					else if (IS_UNHAUTORIZED_ERROR && !RETRY_REQUEST && !WHITELISTED) {
 						store.commit(`${ DOCKER_MODULE }/${ SET_DOCKER_TOKEN }`, null);
@@ -120,13 +120,13 @@ export default ({ store }) => {
 					const IS_BAD_DOCKER_TOKEN_ERROR = code === 406 || code === 410;
 
 					if (IS_BAD_DOCKER_TOKEN_ERROR) {
-						store.commit(`${ AUTH_MODULE }/${ SET_TOKEN }`, null);
+						store.commit(`${ DOCKER_MODULE }/${ SET_DOCKER_TOKEN }`, null);
 						PrometheusApiService.defaults.headers
 								.common[X_TOKEN_HEADER] = undefined;
 						config.headers[X_TOKEN_HEADER] = undefined;
-						setTimeout(() => {
-							return PrometheusApiService.request(config);
-						}, 600);
+						// setTimeout(() => {
+						// 	return PrometheusApiService.request(config);
+						// }, 3000);
 					}
 
 					return Promise.reject(err);
