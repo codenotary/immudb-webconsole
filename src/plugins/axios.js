@@ -18,6 +18,8 @@ import {
  */
 const URL_WHITELISTED = [];
 
+const X_TOKEN_HEADER = 'X-Token';
+
 /***
  * Defines the error substrings that should not require the logout
  */
@@ -36,11 +38,11 @@ export default ({ store }) => {
 				if (!dockerToken) {
 					await store.dispatch(`${ DOCKER_MODULE }/${ FETCH_DOCKER_TOKEN }`, null);
 				}
-				if (!ApiService.defaults.headers.common['X-Token']) {
+				if (!ApiService.defaults.headers.common[X_TOKEN_HEADER]) {
 					const dockerToken = store.getters[`${ DOCKER_MODULE }/${ DOCKER_TOKEN }`];
 					ApiService.defaults.headers
-							.common['X-Token'] = dockerToken;
-					config.headers['X-Token'] = dockerToken;
+							.common[X_TOKEN_HEADER] = dockerToken;
+					config.headers[X_TOKEN_HEADER] = dockerToken;
 				}
 			}
 			return config;
@@ -55,10 +57,10 @@ export default ({ store }) => {
 				if (!dockerToken) {
 					await store.dispatch(`${ DOCKER_MODULE }/${ FETCH_DOCKER_TOKEN }`, null);
 				}
-				if (!PrometheusApiService.defaults.headers.common['X-Token']) {
+				if (!PrometheusApiService.defaults.headers.common[X_TOKEN_HEADER]) {
 					const dockerToken = store.getters[`${ DOCKER_MODULE }/${ DOCKER_TOKEN }`];
-					PrometheusApiService.defaults.headers.common['X-Token'] = dockerToken;
-					config.headers['X-Token'] = dockerToken;
+					PrometheusApiService.defaults.headers.common[X_TOKEN_HEADER] = dockerToken;
+					config.headers[X_TOKEN_HEADER] = dockerToken;
 				}
 			}
 			return config;
@@ -86,7 +88,8 @@ export default ({ store }) => {
 					if (IS_BAD_DOCKER_TOKEN_ERROR && !RETRY_REQUEST && !WHITELISTED) {
 						store.commit(`${ AUTH_MODULE }/${ SET_TOKEN }`, null);
 						ApiService.defaults.headers
-								.common['X-Token'] = undefined;
+								.common[X_TOKEN_HEADER] = undefined;
+						config.headers[X_TOKEN_HEADER] = undefined;
 						// setTimeout(() => {
 						// 	return ApiService.request(config);
 						// }, 600);
@@ -113,14 +116,14 @@ export default ({ store }) => {
 			try {
 				// Error Handler
 				if (err && err.response) {
-					// const { status: code, config } = err.response;
-					const { status: code } = err.response;
+					const { status: code, config } = err.response;
 					const IS_BAD_DOCKER_TOKEN_ERROR = code === 406 || code === 410;
 
 					if (IS_BAD_DOCKER_TOKEN_ERROR) {
 						store.commit(`${ AUTH_MODULE }/${ SET_TOKEN }`, null);
 						PrometheusApiService.defaults.headers
-								.common['X-Token'] = undefined;
+								.common[X_TOKEN_HEADER] = undefined;
+						config.headers[X_TOKEN_HEADER] = undefined;
 						// setTimeout(() => {
 						// 	return PrometheusApiService.request(config);
 						// }, 600);
