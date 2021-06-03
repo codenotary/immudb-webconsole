@@ -48,6 +48,7 @@
 				</v-list-item-content>
 			</v-list-item>
 			<v-list-item
+				v-if="false"
 				class="d-flex justify-start"
 				ripple
 				:title="$t('profile.preferences.alt')"
