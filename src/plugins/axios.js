@@ -27,7 +27,7 @@ const PAYLOAD_MESSAGES_WHITELISTED = [];
 
 const PLEASE_LOGIN_FIRST = 'please login first';
 
-const VERBOSE = !process.env.IS_PROD;
+const VERBOSE = !process.env.IS_PROD && false;
 
 export default ({ store }) => {
 	ApiService.interceptors.request.use(

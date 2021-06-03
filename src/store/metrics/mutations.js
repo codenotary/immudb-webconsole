@@ -39,8 +39,8 @@ export default {
 		} = payload;
 
 		// Uptime hours
-		if (dbUptimeHours && dbUptimeHours[0] && dbUptimeHours[0].value) {
-			const { metrics: { 0: { value } } } = dbUptimeHours[0];
+		if (dbUptimeHours && dbUptimeHours[0]) {
+			const { metrics: { 0: { value } } } = dbUptimeHours[0] || { metrics: [{ value: undefined }] };
 			const _value = shortEnglishHumanizer(value * 3.6e+6);
 			state.dbUptimeHours = {
 				title: this.$i18n.t('metrics.dbUptimeHours.title'),
@@ -49,8 +49,8 @@ export default {
 		}
 
 		// Number of entris
-		if (dbEntries && dbEntries[0] && dbEntries[0].value) {
-			const { metrics: { 0: { value } } } = dbEntries[0];
+		if (dbEntries && dbEntries[0]) {
+			const { metrics: { 0: { value } } } = dbEntries[0] || { metrics: [{ value: undefined }] };
 			const _value = Number(value).toPrecision();
 			state.dbEntries = {
 				title: this.$i18n.t('metrics.dbEntries.title'),

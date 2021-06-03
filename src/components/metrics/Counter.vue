@@ -46,7 +46,7 @@ import {
 } from '@mdi/js';
 
 export default {
-	name: 'DbSize',
+	name: 'Counter',
 	props: {
 		data: { type: Object, default: () => {} },
 	},
