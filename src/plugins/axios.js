@@ -90,9 +90,9 @@ export default ({ store }) => {
 						ApiService.defaults.headers
 								.common[X_TOKEN_HEADER] = undefined;
 						config.headers[X_TOKEN_HEADER] = undefined;
-						// setTimeout(() => {
-						// 	return ApiService.request(config);
-						// }, 600);
+						setTimeout(() => {
+							return ApiService.request(config);
+						}, 600);
 					}
 					else if (IS_UNHAUTORIZED_ERROR && !RETRY_REQUEST && !WHITELISTED) {
 						store.commit(`${ DOCKER_MODULE }/${ SET_DOCKER_TOKEN }`, null);
@@ -124,9 +124,9 @@ export default ({ store }) => {
 						PrometheusApiService.defaults.headers
 								.common[X_TOKEN_HEADER] = undefined;
 						config.headers[X_TOKEN_HEADER] = undefined;
-						// setTimeout(() => {
-						// 	return PrometheusApiService.request(config);
-						// }, 600);
+						setTimeout(() => {
+							return PrometheusApiService.request(config);
+						}, 600);
 					}
 
 					return Promise.reject(err);

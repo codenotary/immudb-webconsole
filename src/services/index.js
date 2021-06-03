@@ -31,5 +31,10 @@ export const ApiService = axios.create({
 // Prometheus api proxy instance
 export const PrometheusApiService = axios.create({
 	timeout: 5000,
+	headers: {
+		common: {
+			Pragma: 'no-cache',
+		},
+	},
 	baseURL: process.env.METRICS_API_URL,
 });
