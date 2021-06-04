@@ -2,7 +2,7 @@ const SITE_NAME = 'immudb webconsole';
 import * as qs from 'qs';
 import Sass from 'sass';
 const IS_PROD = process.env.NODE_ENV === 'production';
-const IS_PUBLIC_DEMO = process.env.PUBLIC_DEMO || !IS_PROD;
+const IS_PUBLIC_DEMO = process.env.PUBLIC_DEMO;
 const EXPERIMENTAL = false && !IS_PROD;
 
 export default {
@@ -336,14 +336,16 @@ export default {
 	*/
 	env: {
 		IS_PROD,
-		DOCKER_API_URL: IS_PROD ? '/' : 'docker-api',
-		API_URL: '/api',
+		IS_PUBLIC_DEMO,
+		DOCKER_API_URL: IS_PROD
+			? '/'
+			: process.env.DOCKER_API_URL || '/docker-api/',
+		API_URL: process.env.API_URL || '/api',
 		METRICS_API_URL: IS_PUBLIC_DEMO
 			? IS_PROD
 				? '/'
-				: '/metrics-api'
+				: process.env.METRICS_API_URL || '/metrics-api/'
 			: '/',
-		IS_PUBLIC_DEMO,
 	},
 
 	/*
@@ -351,6 +353,7 @@ export default {
 	** Doc: https://github.com/nuxt-community/proxy-module
 	*/
 	proxy: {
+		// LOCAL ----------
 		'/docker-api/': {
 			target: 'http://localhost:8080',
 			pathRewrite: { '^/docker-api/': '/' },
@@ -366,6 +369,25 @@ export default {
 		'/metrics-api/': {
 			target: 'http://localhost:8080',
 			pathRewrite: { '^/metrics-api/': '/' },
+			xfwd: true,
+			logLevel: 'debug',
+		},
+		// DEMO ----------
+		'/demo/docker-api/': {
+			target: process.env.DEMO_URL,
+			pathRewrite: { '^/demo/docker-api/': '/' },
+			xfwd: true,
+			logLevel: 'debug',
+		},
+		'/demo/api/': {
+			target: process.env.DEMO_URL,
+			pathRewrite: { '^/demo/api/': '/api/' },
+			xfwd: true,
+			logLevel: 'debug',
+		},
+		'/demo/metrics-api/': {
+			target: process.env.DEMO_URL,
+			pathRewrite: { '^/demo/metrics-api/': '/' },
 			xfwd: true,
 			logLevel: 'debug',
 		},
