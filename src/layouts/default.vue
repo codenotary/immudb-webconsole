@@ -54,6 +54,11 @@ import {
 	BANNER,
 } from '@/store/view/constants';
 import {
+	DOCKER_MODULE,
+	FETCH_DOCKER_TOKEN,
+	DOCKER_TOKEN,
+} from '@/store/docker/constants';
+import {
 	AUTH_MODULE,
 	LOGIN,
 	TOKEN,
@@ -100,6 +105,9 @@ export default {
 		LayoutMixin,
 	],
 	async fetch () {
+		if (process.env.IS_PUBLIC_DEMO && !this.dockerToken) {
+			await this.fetchDockerToken();
+		}
 		await this.fetchMetrics();
 	},
 	data () {
@@ -115,6 +123,9 @@ export default {
 			splash: SPLASH,
 			mobile: MOBILE,
 			banner: BANNER,
+		}),
+		...mapGetters(DOCKER_MODULE, {
+			dockerToken: DOCKER_TOKEN,
 		}),
 		...mapGetters(AUTH_MODULE, {
 			token: TOKEN,
@@ -184,6 +195,9 @@ export default {
 			setSplash: SET_SPLASH,
 			setTheme: SET_THEME,
 			setFetchPending: SET_FETCH_PENDING,
+		}),
+		...mapActions(DOCKER_MODULE, {
+			fetchDockerToken: FETCH_DOCKER_TOKEN,
 		}),
 		...mapActions(AUTH_MODULE, {
 			immudbLogin: LOGIN,

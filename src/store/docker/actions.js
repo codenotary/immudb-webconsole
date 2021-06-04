@@ -5,9 +5,15 @@ import {
 	POP_LOADING,
 } from '@/store/view/constants';
 import {
+	ApiService,
+	PrometheusApiService,
+} from '@/services/index';
+import {
 	FETCH_DOCKER_TOKEN,
 	SET_DOCKER_TOKEN,
 } from './constants';
+
+const X_TOKEN_HEADER = 'X-Token';
 
 export default {
 	async [FETCH_DOCKER_TOKEN]({ commit }) {
@@ -19,11 +25,13 @@ export default {
 
 			if (response && response.data) {
 				const { token } = response.data;
-
 				commit(SET_DOCKER_TOKEN, token);
+				ApiService.defaults.headers
+						.common[X_TOKEN_HEADER] = token;
+				PrometheusApiService.defaults.headers
+						.common[X_TOKEN_HEADER] = token;
 				commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
 			}
-
 			return false;
 		}
 		catch (err) {

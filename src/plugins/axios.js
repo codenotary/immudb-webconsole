@@ -1,8 +1,6 @@
 import {
 	DOCKER_MODULE,
-	FETCH_DOCKER_TOKEN,
 	SET_DOCKER_TOKEN,
-	DOCKER_TOKEN,
 } from '@/store/docker/constants';
 import {
 	AUTH_MODULE,
@@ -18,7 +16,7 @@ import {
  */
 const URL_WHITELISTED = [];
 
-const X_TOKEN_HEADER = 'X-Token';
+// const X_TOKEN_HEADER = 'X-Token';
 
 /***
  * Defines the error substrings that should not require the logout
@@ -31,38 +29,15 @@ const VERBOSE = !process.env.IS_PROD && false;
 
 export default ({ store }) => {
 	ApiService.interceptors.request.use(
-		async (config) => {
+		(config) => {
 			VERBOSE && console.log('Making api request to ' + config.url);
-			if (process.env.IS_PUBLIC_DEMO) {
-				const dockerToken = store.getters[`${ DOCKER_MODULE }/${ DOCKER_TOKEN }`];
-				if (!dockerToken) {
-					await store.dispatch(`${ DOCKER_MODULE }/${ FETCH_DOCKER_TOKEN }`, null);
-				}
-				if (!ApiService.defaults.headers.common[X_TOKEN_HEADER]) {
-					const dockerToken = store.getters[`${ DOCKER_MODULE }/${ DOCKER_TOKEN }`];
-					ApiService.defaults.headers
-							.common[X_TOKEN_HEADER] = dockerToken;
-					config.headers[X_TOKEN_HEADER] = dockerToken;
-				}
-			}
 			return config;
 		},
 	);
 
 	PrometheusApiService.interceptors.request.use(
-		async (config) => {
+		(config) => {
 			VERBOSE && console.log('Making metrics request to ' + config.url);
-			if (process.env.IS_PUBLIC_DEMO) {
-				const dockerToken = store.getters[`${ DOCKER_MODULE }/${ DOCKER_TOKEN }`];
-				if (!dockerToken) {
-					await store.dispatch(`${ DOCKER_MODULE }/${ FETCH_DOCKER_TOKEN }`, null);
-				}
-				if (!PrometheusApiService.defaults.headers.common[X_TOKEN_HEADER]) {
-					const dockerToken = store.getters[`${ DOCKER_MODULE }/${ DOCKER_TOKEN }`];
-					PrometheusApiService.defaults.headers.common[X_TOKEN_HEADER] = dockerToken;
-					config.headers[X_TOKEN_HEADER] = dockerToken;
-				}
-			}
 			return config;
 		},
 	);
@@ -85,11 +60,12 @@ export default ({ store }) => {
 					const WHITELISTED = URL_WHITELISTED.some(x => url.includes(x)) ||
 						PAYLOAD_MESSAGES_WHITELISTED.some(x => error && error.includes(x));
 
-					if (IS_BAD_DOCKER_TOKEN_ERROR && !RETRY_REQUEST && !WHITELISTED) {
-						store.commit(`${ DOCKER_MODULE }/${ SET_DOCKER_TOKEN }`, null);
-						ApiService.defaults.headers
-								.common[X_TOKEN_HEADER] = undefined;
-						config.headers[X_TOKEN_HEADER] = undefined;
+					if (IS_BAD_DOCKER_TOKEN_ERROR) {
+						console.error('DOCKER TOKEN ERROR');
+						// store.commit(`${ DOCKER_MODULE }/${ SET_DOCKER_TOKEN }`, null);
+						// ApiService.defaults.headers
+						// 		.common[X_TOKEN_HEADER] = undefined;
+						// config.headers[X_TOKEN_HEADER] = undefined;
 						// setTimeout(() => {
 						// 	return ApiService.request(config);
 						// }, 3000);
@@ -116,17 +92,15 @@ export default ({ store }) => {
 			try {
 				// Error Handler
 				if (err && err.response) {
-					const { status: code, config } = err.response;
+					const { status: code } = err.response;
 					const IS_BAD_DOCKER_TOKEN_ERROR = code === 406 || code === 410;
 
 					if (IS_BAD_DOCKER_TOKEN_ERROR) {
-						store.commit(`${ DOCKER_MODULE }/${ SET_DOCKER_TOKEN }`, null);
-						PrometheusApiService.defaults.headers
-								.common[X_TOKEN_HEADER] = undefined;
-						config.headers[X_TOKEN_HEADER] = undefined;
-						// setTimeout(() => {
-						// 	return PrometheusApiService.request(config);
-						// }, 3000);
+						console.error('DOCKER TOKEN ERROR');
+						// store.commit(`${ DOCKER_MODULE }/${ SET_DOCKER_TOKEN }`, null);
+						// PrometheusApiService.defaults.headers
+						// 		.common[X_TOKEN_HEADER] = undefined;
+						// config.headers[X_TOKEN_HEADER] = undefined;
 					}
 
 					return Promise.reject(err);
