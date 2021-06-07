@@ -230,7 +230,7 @@ export default {
 			mdiMessageAlertOutline,
 			mdiBrightness6,
 			mdiGithub,
-			version: '1.0.0',
+			version: '1.0.1',
 		};
 	},
 	computed: {
