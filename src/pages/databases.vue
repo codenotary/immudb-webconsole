@@ -8,8 +8,8 @@
 			<v-icon
 				class="ml-2"
 				:class="{
-					'gray--text text--darken-1': !$vuetify.theme.dark,
-					'gray--text text--lighten-1': $vuetify.theme.dark,
+					'black--text ': !$vuetify.theme.dark,
+					'white--text': $vuetify.theme.dark,
 				}"
 			>
 				{{ mdiDatabaseCogOutline }}
@@ -17,8 +17,8 @@
 			<h4
 				class="ma-0 ml-2 pa-0 pt-1 subtitle-1 font-weight-bold"
 				:class="{
-					'gray--text text--darken-1': !$vuetify.theme.dark,
-					'gray--text text--lighten-1': $vuetify.theme.dark,
+					'black--text ': !$vuetify.theme.dark,
+					'white--text': $vuetify.theme.dark,
 				}"
 			>
 				{{ $t('databases.title') }}

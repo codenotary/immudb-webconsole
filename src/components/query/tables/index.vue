@@ -1,14 +1,14 @@
 <template>
 	<v-card
 		id="QueryTables"
-		class="ma-0 pa-0 bg fill-height pane shadow"
-		elevation="0"
+		class="ma-0 pa-0 bg fill-height pane"
+		elevation="4"
 	>
 		<v-card-title class="ma-0 py-0 py-sm-2 pl-3 pr-0 d-flex justify-start align-center">
 			<v-icon
 				:class="{
-					'gray--text text--darken-1': !$vuetify.theme.dark,
-					'gray--text text--lighten-1': $vuetify.theme.dark,
+					'black--text ': !$vuetify.theme.dark,
+					'white--text': $vuetify.theme.dark,
 				}"
 			>
 				{{ mdiDatabaseOutline }}
@@ -24,8 +24,8 @@
 					<span
 						class="prepend ma-0 pa-0 subtitle-2 font-weight-bold"
 						:class="{
-							'gray--text text--darken-1': !$vuetify.theme.dark,
-							'gray--text text--lighten-1': $vuetify.theme.dark,
+							'black--text ': !$vuetify.theme.dark,
+							'white--text': $vuetify.theme.dark,
 						}"
 					>
 						{{ $t('query.tables.title') }}

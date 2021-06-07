@@ -361,7 +361,7 @@ export default {
 	}
 
 	.v-main {
-		max-height: calc(100vh - #{$spacer-11});
+		max-height: calc(100vh - #{$spacer-20});
 		margin-top: $spacer-12;
 
 		@media (max-width: 480px) {

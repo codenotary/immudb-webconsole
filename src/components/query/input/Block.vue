@@ -15,8 +15,8 @@
 					v-if="queryIsEmpty"
 					class="query-placeholder body-2"
 					:class="{
-						'gray--text text--lighten-1': !$vuetify.theme.dark,
-						'gray--text text--darken-1': $vuetify.theme.dark,
+						'black--text ': !$vuetify.theme.dark,
+						'white--text': $vuetify.theme.dark,
 					}"
 					@click="onFocus"
 				>

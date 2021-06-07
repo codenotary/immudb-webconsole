@@ -1,15 +1,15 @@
 <template>
 	<v-card
 		id="Metrics"
-		class="ma-0 pa-0 pr-4 bg fill-height pane shadow"
+		class="ma-0 pa-0 pr-4 bg fill-height pane"
 		elevation="0"
 	>
 		<v-card-title class="ma-0 py-0 py-sm-2 pl-1 pr-5 d-flex justify-start align-center">
 			<v-icon
 				class="ml-2"
 				:class="{
-					'gray--text text--darken-1': !$vuetify.theme.dark,
-					'gray--text text--lighten-1': $vuetify.theme.dark,
+					'black--text': !$vuetify.theme.dark,
+					'white--text': $vuetify.theme.dark,
 				}"
 			>
 				{{ mdiChartBoxOutline }}
@@ -38,10 +38,10 @@
 						>
 							<template #prepend>
 								<span
-									class="prepend ma-0 pa-0 subtitle-2 font-weight-bold"
+									class="prepend ma-0 pa-0 subtitle-1 font-weight-bold"
 									:class="{
-										'gray--text text--darken-1': !$vuetify.theme.dark,
-										'gray--text text--lighten-1': $vuetify.theme.dark,
+										'black--text ': !$vuetify.theme.dark,
+										'white--text': $vuetify.theme.dark,
 									}"
 								>
 									{{ $t('metrics.title') }}
@@ -67,7 +67,7 @@
 							[`accent--text text--lighten-2`]: $vuetify.theme.dark,
 						}"
 						color="info"
-						small
+						:size="20"
 						v-bind="attrs"
 						v-on="on"
 					>

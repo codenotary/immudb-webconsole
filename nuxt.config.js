@@ -5,6 +5,10 @@ const IS_PROD = process.env.NODE_ENV === 'production';
 const IS_PUBLIC_DEMO = process.env.PUBLIC_DEMO;
 const EXPERIMENTAL = false && !IS_PROD;
 
+console.log('=======================================');
+console.log(IS_PUBLIC_DEMO);
+console.log('=======================================');
+
 export default {
 	/*
 	** Ssr propery
@@ -438,17 +442,17 @@ export default {
 			dark: true,
 			themes: {
 				light: {
-					primary: '#1976d2',
+					primary: '#24c4a1',
 					secondary: '#febf2d',
 					accent: '#7c4dff',
-					error: '#ff5252',
+					error: '#c06b6f',
 					info: '#2196f3',
-					success: '#4caf50',
-					warning: '#fb8c00',
+					success: '#7ec699',
+					warning: '#f08d49',
 					gray: '#616161',
 					grey: '#616161',
-					bg: '#fff',
-					'bg-secondary': '#f7f9fa',
+					bg: '#faf9f8',
+					'bg-secondary': '#ebece9',
 					'bg-tertiary': '#dfe6ed',
 					'bg-terminal': '#161616',
 					'bg-code': '#222',
@@ -460,17 +464,17 @@ export default {
 					'font-100': '#fff',
 				},
 				dark: {
-					primary: '#1976d2',
+					primary: '#24c4a1',
 					secondary: '#febf2d',
 					accent: '#7c4dff',
-					error: '#ff5252',
+					error: '#c06b6f',
 					info: '#2196f3',
-					success: '#4caf50',
-					warning: '#fb8c00',
-					gray: '#9e9e9e',
-					grey: '#9e9e9e',
-					bg: '#21222c',
-					'bg-secondary': '#282a35',
+					success: '#7ec699',
+					warning: '#f08d49',
+					gray: '#616161',
+					grey: '#616161',
+					bg: '#153954',
+					'bg-secondary': '#0d3049',
 					'bg-tertiary': '#45475b',
 					'bg-terminal': '#161616',
 					'bg-code': '#222',

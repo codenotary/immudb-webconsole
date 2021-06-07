@@ -75,21 +75,12 @@ export default {
 <style lang="scss">
 #QueryOutput {
 	&.v-card {
-		&.theme-- {
-			&light.shadow,
-			&dark.shadow {
-				.v-card__title {
-					padding-top: 0 !important;
-				}
-			}
-		}
-
 		.v-card__title {
-			height: 44px;
+			height: 80px;
 		}
 
 		.v-card__text {
-			height: calc(100% - 44px) !important;
+			height: calc(100% - 80px) !important;
 			margin-top: 0 !important;
 			overflow-y: auto;
 			overflow-x: hidden;

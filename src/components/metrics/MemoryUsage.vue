@@ -7,8 +7,8 @@
 			<span
 				class="ma-0 mb-2 pa-0 subtitle-1 font-weight-bold"
 				:class="{
-					'gray--text text--darken-1': !$vuetify.theme.dark,
-					'gray--text text--lighten-1': $vuetify.theme.dark,
+					'black--text ': !$vuetify.theme.dark,
+					'white--text': $vuetify.theme.dark,
 				}"
 			>
 				{{ $t('metrics.memoryUsage.title', {
@@ -32,8 +32,8 @@
 				<span
 					class="subtitle-2"
 					:class="{
-						'gray--text text--lighten-1': !$vuetify.theme.dark,
-						'gray--text text--darken-1': $vuetify.theme.dark,
+						'black--text ': !$vuetify.theme.dark,
+						'white--text': $vuetify.theme.dark,
 					}"
 				>
 					No data

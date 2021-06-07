@@ -3,12 +3,12 @@
 		v-if="data"
 		class="metrics-card metrics-counter-card ma-0 pa-4 bg fill-width"
 	>
-		<v-card-title class="ma-0 mb-2 pa-0 d-flex justify-center align-center">
+		<v-card-title class="ma-0 pa-0 d-flex justify-center align-center">
 			<span
-				class="ma-0 pa-0 subtitle-1 text-center font-weight-bold"
+				class="ma-0 pa-0 subtitle-2 text-center font-weight-bold"
 				:class="{
-					'gray--text text--darken-1': !$vuetify.theme.dark,
-					'gray--text text--lighten-1': $vuetify.theme.dark,
+					'gray--text text--darken-3': !$vuetify.theme.dark,
+					'gray--text text--lighten-3': $vuetify.theme.dark,
 				}"
 			>
 				{{ title }}
@@ -24,8 +24,8 @@
 			<span
 				class="ma-0 pa-0 title font-weight-bold"
 				:class="{
-					'gray--text text--darken-1': !$vuetify.theme.dark,
-					'gray--text text--lighten-1': $vuetify.theme.dark,
+					'black--text ': !$vuetify.theme.dark,
+					'white--text': $vuetify.theme.dark,
 				}"
 			>
 				{{ value }}

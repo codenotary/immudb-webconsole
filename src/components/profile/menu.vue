@@ -58,8 +58,8 @@
 				<v-icon
 					class="ma-0 body-2 text-center"
 					:class="{
-						'gray--text text--darken-1': !$vuetify.theme.dark,
-						'gray--text text--lighten-1': $vuetify.theme.dark,
+						'black--text ': !$vuetify.theme.dark,
+						'white--text': $vuetify.theme.dark,
 					}"
 				>
 					{{ mdiAccountSettingsOutline }}
@@ -70,8 +70,8 @@
 					<span
 						class="body-2"
 						:class="{
-							'gray--text text--darken-1': !$vuetify.theme.dark,
-							'gray--text text--lighten-1': $vuetify.theme.dark,
+							'black--text ': !$vuetify.theme.dark,
+							'white--text': $vuetify.theme.dark,
 						}"
 					>
 						{{ $t('profile.preferences.label') }}
@@ -88,8 +88,8 @@
 				<v-icon
 					class="ma-0 body-2 text-center"
 					:class="{
-						'gray--text text--darken-1': !$vuetify.theme.dark,
-						'gray--text text--lighten-1': $vuetify.theme.dark,
+						'black--text ': !$vuetify.theme.dark,
+						'white--text': $vuetify.theme.dark,
 					}"
 				>
 					{{ mdiExitToApp }}
@@ -100,8 +100,8 @@
 					<span
 						class="body-2"
 						:class="{
-							'gray--text text--darken-1': !$vuetify.theme.dark,
-							'gray--text text--lighten-1': $vuetify.theme.dark,
+							'black--text ': !$vuetify.theme.dark,
+							'white--text': $vuetify.theme.dark,
 						}"
 					>
 						{{ $t('profile.logout.label') }}

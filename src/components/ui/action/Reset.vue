@@ -17,8 +17,8 @@
 				<v-icon
 					class="title"
 					:class="{
-						'gray--text text--darken-2': !$vuetify.theme.dark,
-						'gray--text text--lighten-2': $vuetify.theme.dark,
+						'black--text ': !$vuetify.theme.dark,
+						'white--text': $vuetify.theme.dark,
 					}"
 				>
 					{{ mdiBroom }}

@@ -15,8 +15,8 @@
 				<slot name="icon">
 					<v-icon
 						:class="{
-							'gray--text text--darken-1': !$vuetify.theme.dark,
-							'gray--text text--lighten-1': $vuetify.theme.dark,
+							'black--text ': !$vuetify.theme.dark,
+							'white--text': $vuetify.theme.dark,
 						}"
 					>
 						{{ mdiAlertCircleOutline }}
@@ -35,8 +35,8 @@
 				>
 					<v-icon
 						:class="{
-							'gray--text text--darken-1': !$vuetify.theme.dark,
-							'gray--text text--lighten-1': $vuetify.theme.dark,
+							'black--text ': !$vuetify.theme.dark,
+							'white--text': $vuetify.theme.dark,
 						}"
 					>
 						{{ mdiClose }}

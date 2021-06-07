@@ -3,8 +3,8 @@
 		v-model="value"
 		class="ma-0 mt-3 mb-0 pa-0"
 		:class="{
-			'gray--text text--darken-1': !$vuetify.theme.dark,
-			'gray--text text--lighten-1': $vuetify.theme.dark,
+			'black--text ': !$vuetify.theme.dark,
+			'white--text': $vuetify.theme.dark,
 		}"
 		color="grey darken-2"
 		:items="items"

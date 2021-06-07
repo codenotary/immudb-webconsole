@@ -10,11 +10,10 @@
 		<div class="ma-0 pa-0 d-flex flex-column justify-center align-center fill-height">
 			<v-img
 				class="mascotte mt-16 mx-0 pa-0"
-				lazy-src="/images/mascotte/mascotte_lazy.png"
-				src="/images/mascotte/mascotte.png"
+				src="/images/mascotte/immudb_mascot_shadowed.svg"
 				:alt="$t('common.gopher')"
 				height="10%"
-				min-height="144px"
+				min-height="245px"
 				max-height="320px"
 				contain
 			/>
@@ -22,12 +21,12 @@
 				<v-col
 					class="ma-0 py-8 d-flex justify-center align-center"
 					cols="12"
-					sm="8"
-					md="6"
-					lg="4"
+					sm="6"
+					md="4"
+					lg="3"
 				>
 					<UiLogoImmudb
-						:height="48"
+						:height="32"
 					/>
 				</v-col>
 			</v-row>
@@ -37,9 +36,9 @@
 					v-if="showAuthForm"
 					class="ma-0 pa-0 d-flex justify-center align-start fill-height"
 					cols="12"
-					sm="8"
-					md="6"
-					lg="4"
+					sm="6"
+					md="4"
+					lg="3"
 				>
 					<UiFormAuth
 						@submit="onSubmit"
@@ -49,9 +48,9 @@
 					v-else
 					class="ma-0 pa-0 d-flex justify-center align-center fill-height"
 					cols="12"
-					sm="8"
-					md="6"
-					lg="4"
+					sm="6"
+					md="4"
+					lg="3"
 				>
 					<v-progress-circular
 						class="ma-0 mt-4 pa-0 d-flex justify-center align-center fill-height"
@@ -62,8 +61,8 @@
 						<span
 							class="ma-0 pa-0 body-2 text-capitalize"
 							:class="{
-								'gray--text text--darken-1': !$vuetify.theme.dark,
-								'gray--text text--lighten-1': $vuetify.theme.dark,
+								'black--text ': !$vuetify.theme.dark,
+								'white--text': $vuetify.theme.dark,
 							}"
 						>
 							{{ $t('common.loading') }}
@@ -132,18 +131,18 @@ export default {
 .splash-screen {
 	&.theme-- {
 		&dark {
-			background-color: #21222c;
+			background-color: #0d3049;
 
 			.immudb svg g {
-				color: #fff !important;
+				color: #c1c1c1 !important;
 			}
 		}
 
 		&light {
-			background-color: #fff;
+			background-color: #c1c1c1;
 
 			.immudb svg g {
-				color: #21222c !important;
+				color: #0d3049 !important;
 			}
 		}
 	}

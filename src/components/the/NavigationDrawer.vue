@@ -9,7 +9,7 @@
 		:width="224"
 		:mini-variant-width="64"
 		:disable-resize-watcher="true"
-		:elevation="0"
+		:elevation="4"
 		floating
 		app
 	>
@@ -29,8 +29,8 @@
 				<v-icon
 					class="headline"
 					:class="{
-						'gray--text text--darken-1': !$vuetify.theme.dark,
-						'gray--text text--lighten-1': $vuetify.theme.dark,
+						'black--text ': !$vuetify.theme.dark,
+						'white--text': $vuetify.theme.dark,
 					}"
 				>
 					{{ mdiMenu }}
@@ -39,12 +39,12 @@
 		</div>
 		<v-btn
 			v-else
-			class="ma-0 pa-0 d-flex justify-start align-center no-hover no-active"
+			class="navigation-drawer-logo ma-2 mt-4 mb-0 pa-0 d-flex justify-center align-center no-hover no-active"
 			to="/"
 			:ripple="false"
-			:min-height="44"
-			:width="mini ? 64 : 214"
-			:min-width="mini ? 64 : 214"
+			:min-height="64"
+			:width="mini ? 48 : 214"
+			:min-width="mini ? 48 : 214"
 			depressed
 			text
 			nuxt
@@ -53,13 +53,15 @@
 				class="no-transation"
 				:class-name="`d-flex justify-${ mini ? 'center' : 'start' } align-center fill-width`"
 				align="center"
-				:size="mini ? 'small' : 'small'"
 				:mini="mini"
+			/>
+			<UiLogoImmudb
+				:height="14"
 			/>
 		</v-btn>
 
 		<v-list
-			class="px-0 pt-16 pt-sm-4 ma-0 custom-scrollbar"
+			class="px-0 pt-16 pt-sm-0 ma-0 custom-scrollbar"
 		>
 			<div
 				v-for="(item, idx) in items"
@@ -89,10 +91,10 @@
 								:class="{
 									'mr-sm-0': mini,
 									'mr-sm-4': !mini,
-									'gray--text text--darken-1': !item.disabled && !$vuetify.theme.dark,
-									'gray--text text--lighten-1': !item.disabled && $vuetify.theme.dark,
-									'gray--text text--lighten-3': item.disabled && !$vuetify.theme.dark,
-									'gray--text text--darken-3': item.disabled && $vuetify.theme.dark,
+									'black--text text--darken-1': !item.disabled && !$vuetify.theme.dark,
+									'white--text text--lighten-1': !item.disabled && $vuetify.theme.dark,
+									'black--text text--lighten-3': item.disabled && !$vuetify.theme.dark,
+									'white--text text--darken-3': item.disabled && $vuetify.theme.dark,
 								}"
 							>
 								{{ item.icon }}
@@ -108,8 +110,8 @@
 									v-if="item.title"
 									class="body-2"
 									:class="{
-										'gray--text text--darken-1': !$vuetify.theme.dark,
-										'gray--text text--lighten-1': $vuetify.theme.dark,
+										'black--text ': !$vuetify.theme.dark,
+										'white--text': $vuetify.theme.dark,
 									}"
 								>
 									{{ $t(item.title) }}
@@ -118,8 +120,8 @@
 									v-if="item.subtitle"
 									class="caption"
 									:class="{
-										'gray--text text--darken-3': !$vuetify.theme.dark,
-										'gray--text text--lighten-3': $vuetify.theme.dark,
+										'black--text ': !$vuetify.theme.dark,
+										'white--text': $vuetify.theme.dark,
 									}"
 								>
 									{{ $t(item.subtitle) }}
@@ -279,6 +281,14 @@ export default {
 		width: 100%;
 	}
 
+	.navigation-drawer-logo {
+		.v-btn__content {
+			flex-direction: column;
+			max-width: 100%;
+			max-height: 64px !important;
+		}
+	}
+
 	.v-list-item {
 		position: relative;
 		display: flex;
@@ -303,6 +313,7 @@ export default {
 			svg,
 			span {
 				font-weight: 900;
+				color: $primary;
 			}
 
 			&::before {
@@ -314,10 +325,11 @@ export default {
 			&light {
 				&:hover {
 					background: map-get($blue, dark) !important;
-					color: #e6e6e6 !important;
+					color: $primary !important;
 
-					svg {
-						color: #e6e6e6 !important;
+					svg,
+					span {
+						color: $primary !important;
 					}
 				}
 			}
@@ -325,10 +337,11 @@ export default {
 			&dark {
 				&:hover {
 					background: map-get($blue, light) !important;
-					color: #e6e6e6 !important;
+					color: $primary !important;
 
-					svg {
-						color: #e6e6e6 !important;
+					svg,
+					span {
+						color: $primary !important;
 					}
 				}
 			}

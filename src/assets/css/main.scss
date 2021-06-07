@@ -3,20 +3,20 @@ html {
 }
 
 body.theme--dark {
-	background-color: #21222c;
+	background-color: #0d3049;
 }
 
 body.theme--light {
-	background-color: #fff;
+	background-color: #c1c1c1;
 }
 
 .v-application {
 	&.theme--dark {
-		background: #21222c !important;
+		background: #153954 !important;
 	}
 
 	&.theme--light {
-		background: #fff !important;
+		background: #faf9f8 !important;
 	}
 
 	.v-card {
@@ -24,29 +24,10 @@ body.theme--light {
 			height: auto !important;
 		}
 
-		&.theme-- {
-			&light.shadow > .v-card__title,
-			&dark.shadow > .v-card__title {
-				padding-top: $spacer-1 * 1.5 !important;
-			}
-
-			&light.shadow > .v-card__title {
-				&::after {
-					background-color: #b9bbbc;
-				}
-			}
-
-			&dark.shadow > .v-card__title {
-				&::after {
-					background-color: #1e2028;
-				}
-			}
-		}
-
 		&.pane {
 			> .v-card__title {
-				min-height: $spacer-11 !important;
-				height: $spacer-11 !important;
+				min-height: $spacer-20 !important;
+				height: $spacer-20 !important;
 
 				@media (max-width: 480px) {
 					height: 32px !important;
@@ -55,22 +36,6 @@ body.theme--light {
 
 			> .v-card__text {
 				height: calc(100% - 48px) !important;
-				margin-top: 4px !important;
-			}
-		}
-
-		&.shadow {
-			> .v-card__title {
-				position: relative;
-
-				&::after {
-					content: '';
-					position: absolute;
-					top: $spacer-11;
-					left: 0;
-					right: 0;
-					height: 4px;
-				}
 			}
 		}
 

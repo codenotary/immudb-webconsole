@@ -26,11 +26,18 @@ $text-muted: (
 	"trans": transparentize(#333, 0.5)
 );
 
+$brand: (
+	"base": #24c4a1,
+	"light": lighten(#24c4a1, 15%),
+	"dark": darken(#24c4a1, 15%),
+	"trans": transparentize(#24c4a1, 0.5)
+);
+
 $green: (
-	"base": #4caf50,
-	"light": lighten(#4caf50, 15%),
-	"dark": darken(#4caf50, 15%),
-	"trans": transparentize(#4caf50, 0.5)
+	"base": #7ec699,
+	"light": lighten(#7ec699, 15%),
+	"dark": darken(#7ec699, 15%),
+	"trans": transparentize(#7ec699, 0.5)
 );
 
 $purple: (
@@ -41,17 +48,24 @@ $purple: (
 );
 
 $red: (
-	"base": #ff5252,
-	"light": lighten(#ff5252, 15%),
-	"dark": darken(#ff5252, 15%),
-	"trans": transparentize(#ff5252, 0.5)
+	"base": #c06b6f,
+	"light": lighten(#c06b6f, 15%),
+	"dark": darken(#c06b6f, 15%),
+	"trans": transparentize(#c06b6f, 0.5)
 );
 
 $orange: (
-	"base": #fb8c00,
-	"light": lighten(#fb8c00, 15%),
-	"dark": darken(#fb8c00, 15%),
-	"trans": transparentize(#fb8c00, 0.5)
+	"base": #f08d49,
+	"light": lighten(#f08d49, 15%),
+	"dark": darken(#f08d49, 15%),
+	"trans": transparentize(#f08d49, 0.5)
+);
+
+$yellow: (
+	"base": #febf2d,
+	"light": lighten(#febf2d, 15%),
+	"dark": darken(#febf2d, 15%),
+	"trans": transparentize(#febf2d, 0.5)
 );
 
 $blue: (
@@ -74,8 +88,8 @@ $grey: (
 	"darken-4": #212121,
 );
 
-$primary: map-get($blue, base);
-$secondary: map-get($blue, light);
+$primary: map-get($brand, base);
+$secondary: map-get($yellow, base);
 $accent: map-get($purple, light);
 $link: map-get($blue, light);
 $success: map-get($green, base);
@@ -148,5 +162,9 @@ $border-color-light: #f9fcff;
 	}
 }
 
-$font-size-root: 18px;
-$input-font-size: 18px;
+// BORDER RADIUS
+$border-radius-root: 8px;
+
+// TYPOGRAPHY
+// $font-size-root: 18px;
+// $input-font-size: 18px;

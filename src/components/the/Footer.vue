@@ -23,8 +23,8 @@
 					<i18n
 						class="caption"
 						:class="{
-							'gray--text text--darken-1': !$vuetify.theme.dark,
-							'gray--text text--lighten-1': $vuetify.theme.dark,
+							'black--text ': !$vuetify.theme.dark,
+							'white--text': $vuetify.theme.dark,
 						}"
 						tag="span"
 						path="footer.text"
@@ -52,8 +52,8 @@
 					<span
 						class="ma-0 pa-0 h-24 caption d-flex justify-start align-center"
 						:class="{
-							'gray--text text--lighten-1': !$vuetify.theme.dark,
-							'gray--text text--darken-1': $vuetify.theme.dark,
+							'black--text ': !$vuetify.theme.dark,
+							'white--text': $vuetify.theme.dark,
 						}"
 					>
 						v
@@ -136,8 +136,8 @@
 						<template #activator="{ on, attrs }">
 							<v-btn
 								:class="{
-									'gray--text text--darken-1': !$vuetify.theme.dark,
-									'gray--text text--lighten-1': $vuetify.theme.dark,
+									'black--text ': !$vuetify.theme.dark,
+									'white--text': $vuetify.theme.dark,
 								}"
 								depressed
 								small
@@ -171,8 +171,8 @@
 						<template #activator="{ on, attrs }">
 							<v-btn
 								:class="{
-									'gray--text text--darken-1': !$vuetify.theme.dark,
-									'gray--text text--lighten-1': $vuetify.theme.dark,
+									'black--text ': !$vuetify.theme.dark,
+									'white--text': $vuetify.theme.dark,
 								}"
 								depressed
 								small
@@ -255,20 +255,8 @@ export default {
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	height: $spacer-11;
+	height: $spacer-16;
 	background: transparent !important;
-
-	.feedback-btn {
-		&::hover {
-			.v-btn__content {
-				color: red !important;
-
-				span {
-					color: red !important;
-				}
-			}
-		}
-	}
 
 	@media (max-width: 480px) {
 		height: $spacer-20;

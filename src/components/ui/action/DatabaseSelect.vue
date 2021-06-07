@@ -11,14 +11,14 @@
 			v-model="value"
 			class="db-selector ma-0 pa-0 d-flex justify-start align-baseline"
 			:class="{
-				'gray--text text--darken-1': !$vuetify.theme.dark,
-				'gray--text text--lighten-1': $vuetify.theme.dark,
+				'black--text ': !$vuetify.theme.dark,
+				'white--text': $vuetify.theme.dark,
 				'mt-3': !dense,
 				'no-line': dense,
 			}"
 			:style="`width: ${getWidth} !important;`"
 			:disabled="disabled"
-			color="grey darken-2"
+			color="primary"
 			:dense="dense"
 			:hide-details="dense"
 			:items="parsedItems"
@@ -132,6 +132,12 @@ export default {
 		.db-selector {
 			input {
 				padding-top: 2px !important;
+				color: $primary;
+			}
+
+			.v-input__append-inner {
+				padding-left: 0;
+				margin-left: -$spacer-2;
 			}
 		}
 	}
@@ -144,6 +150,11 @@ export default {
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
+			color: $primary;
+		}
+
+		.v-input__append-inner span {
+			color: $primary !important;
 		}
 
 		.prepend,

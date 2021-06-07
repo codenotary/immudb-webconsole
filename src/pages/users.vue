@@ -1,15 +1,15 @@
 <template>
 	<v-card
 		id="Users"
-		class="ma-0 pa-0 pr-4 bg fill-height pane shadow"
-		elevation="0"
+		class="ma-0 pa-0 pr-4 bg fill-height pane"
+		elevation="4"
 	>
 		<v-card-title class="ma-0 py-0 py-sm-2 pl-1 pr-0 d-flex justify-start align-center">
 			<v-icon
 				class="ml-2"
 				:class="{
-					'gray--text text--darken-1': !$vuetify.theme.dark,
-					'gray--text text--lighten-1': $vuetify.theme.dark,
+					'black--text ': !$vuetify.theme.dark,
+					'white--text': $vuetify.theme.dark,
 				}"
 			>
 				{{ mdiAccountCogOutline }}
@@ -17,8 +17,8 @@
 			<h4
 				class="ma-0 ml-2 pa-0 pt-1 subtitle-1 font-weight-bold"
 				:class="{
-					'gray--text text--darken-1': !$vuetify.theme.dark,
-					'gray--text text--lighten-1': $vuetify.theme.dark,
+					'black--text ': !$vuetify.theme.dark,
+					'white--text': $vuetify.theme.dark,
 				}"
 			>
 				{{ $t('users.title') }}
@@ -27,8 +27,8 @@
 			<span
 				class="ma-0 mr-2 pa-0 caption"
 				:class="{
-					'gray--text text--darken-1': !$vuetify.theme.dark,
-					'gray--text text--lighten-1': $vuetify.theme.dark,
+					'black--text ': !$vuetify.theme.dark,
+					'white--text': $vuetify.theme.dark,
 				}"
 			>
 				{{ $t('users.action.hideNotActive.label') }}

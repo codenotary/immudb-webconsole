@@ -4,20 +4,12 @@
 		elevation="0"
 	>
 		<v-card-title class="ma-0 mb-4 pa-0">
-			<v-row class="ma-0 pa-0 d-flex flex-column justify-start align-center">
+			<v-row class="ma-0 pa-0 d-flex flex-column justify-center align-center">
 				<v-col
-					class="ma-0 mb-2 pa-0"
+					class="ma-0 mb-2 pa-0 d-flex justify-center align-center"
 					cols="12"
 				>
-					<v-icon
-						:class="{
-							'gray--text text--darken-1': !$vuetify.theme.dark,
-							'gray--text text--lighten-1': $vuetify.theme.dark,
-						}"
-					>
-						{{ mdiLocationEnter }}
-					</v-icon>
-					<span class="ml-2 title">
+					<span class="ml-2 subtitle-1">
 						{{ $t('login.subtitle') }}
 					</span>
 				</v-col>
@@ -48,6 +40,8 @@
 							v-model="form.user"
 							:error-messages="errors"
 							class="mb-2 text-field--fill"
+							height="48"
+							elevation="4"
 							:light="!$vuetify.theme.dark"
 							:dark="$vuetify.theme.dark"
 							:label="$t('login.label.username')"
@@ -70,6 +64,8 @@
 							v-model="form.password"
 							:error-messages="errors"
 							class="mb-2 text-field--fill"
+							height="48"
+							elevation="4"
 							:light="!$vuetify.theme.dark"
 							:dark="$vuetify.theme.dark"
 							:label="$t('login.label.password')"
@@ -84,14 +80,14 @@
 				</v-form>
 			</ValidationObserver>
 		</v-card-text>
-		<v-card-actions class="ma-0 pa-0 d-flex justify-end">
+		<v-card-actions class="ma-0 pa-0 d-flex justify-center">
 			<v-btn
-				class="primary-gradient"
+				class="px-16 elevation-4"
 				color="primary"
 				form="LoginForm"
 				type="submit"
-				block
 				large
+				height="48"
 			>
 				{{ $t('login.submit') }}
 			</v-btn>
@@ -171,9 +167,10 @@ export default {
 #LoginForm {
 	.v-input {
 		&.theme-- {
+			&light,
 			&dark {
 				.v-input__slot {
-					background-color: #f1f1f1 !important;
+					background-color: #fff !important;
 
 					label,
 					::placeholder {
@@ -183,22 +180,6 @@ export default {
 					.v-icon,
 					input {
 						color: #0e0e0e;
-					}
-				}
-			}
-
-			&light {
-				.v-input__slot {
-					background-color: #21222c !important;
-
-					label,
-					::placeholder {
-						color: #aaa;
-					}
-
-					.v-icon,
-					input {
-						color: #f1f1f1;
 					}
 				}
 			}

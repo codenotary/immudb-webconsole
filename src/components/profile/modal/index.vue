@@ -10,10 +10,10 @@
 		<v-card class="ma-0 pa-4">
 			<v-card-title class="ma-0 mb-2 pa-0">
 				<v-icon
-					:class="{
-						'gray--text text--darken-1': !$vuetify.theme.dark,
-						'gray--text text--lighten-1': $vuetify.theme.dark,
-					}"
+				:class="{
+					'black--text ': !$vuetify.theme.dark,
+					'white--text': $vuetify.theme.dark,
+				}"
 				>
 					{{ mdiAccountSettingsOutline }}
 				</v-icon>
