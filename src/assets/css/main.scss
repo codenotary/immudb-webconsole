@@ -16,7 +16,7 @@ body.theme--light {
 	}
 
 	&.theme--light {
-		background: #faf9f8 !important;
+		background: #fff !important;
 	}
 
 	.v-card {
@@ -26,8 +26,8 @@ body.theme--light {
 
 		&.pane {
 			> .v-card__title {
-				min-height: $spacer-20 !important;
-				height: $spacer-20 !important;
+				min-height: $header-height !important;
+				height: $header-height !important;
 
 				@media (max-width: 480px) {
 					height: 32px !important;
@@ -35,7 +35,51 @@ body.theme--light {
 			}
 
 			> .v-card__text {
-				height: calc(100% - 48px) !important;
+				height: calc(100% - #{$footer-height}) !important;
+			}
+		}
+
+		&.shadow {
+			> .v-card__text {
+				position: relative;
+
+				&::after {
+					content: '';
+					position: fixed;
+					top: $header-height;
+					right: $spacer-4;
+					bottom: $footer-height;
+					left: $sidebar-height;
+					box-shadow: $box-shadow;
+					z-index: 1;
+					pointer-events: none !important;
+				}
+			}
+		}
+
+		&.shadow-pane {
+			> .v-card__text {
+				position: relative;
+
+				&::after {
+					content: '';
+					position: absolute;
+					top: 0;
+					right: 0;
+					bottom: 0;
+					left: 0;
+					box-shadow: $box-shadow;
+					z-index: 1;
+					pointer-events: none !important;
+				}
+			}
+		}
+
+		&.pane.shadow-pane {
+			> .v-card__text {
+				&::after {
+					height: calc(100% - #{$spacer-3}) !important;
+				}
 			}
 		}
 
@@ -113,6 +157,10 @@ a {
 .fill-width {
 	width: 100% !important;
 	max-width: 100% !important;
+}
+
+.outlined {
+	border: 2px solid $primary;
 }
 
 .h- {

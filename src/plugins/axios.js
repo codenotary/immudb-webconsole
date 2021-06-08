@@ -16,7 +16,7 @@ import {
  */
 const URL_WHITELISTED = [];
 
-// const X_TOKEN_HEADER = 'X-Token';
+const X_TOKEN_HEADER = 'X-Token';
 
 /***
  * Defines the error substrings that should not require the logout
@@ -31,14 +31,20 @@ export default ({ store }) => {
 	ApiService.interceptors.request.use(
 		(config) => {
 			VERBOSE && console.log('Making api request to ' + config.url);
-			return config;
+			if (config.headers.common[X_TOKEN_HEADER]) {
+				return config;
+			}
+			return false;
 		},
 	);
 
 	PrometheusApiService.interceptors.request.use(
 		(config) => {
 			VERBOSE && console.log('Making metrics request to ' + config.url);
-			return config;
+			if (config.headers.common[X_TOKEN_HEADER]) {
+				return config;
+			}
+			return false;
 		},
 	);
 
@@ -61,17 +67,15 @@ export default ({ store }) => {
 						PAYLOAD_MESSAGES_WHITELISTED.some(x => error && error.includes(x));
 
 					if (IS_BAD_DOCKER_TOKEN_ERROR) {
-						console.error('DOCKER TOKEN ERROR');
-						// store.commit(`${ DOCKER_MODULE }/${ SET_DOCKER_TOKEN }`, null);
-						// ApiService.defaults.headers
-						// 		.common[X_TOKEN_HEADER] = undefined;
-						// config.headers[X_TOKEN_HEADER] = undefined;
-						// setTimeout(() => {
-						// 	return ApiService.request(config);
-						// }, 3000);
+						store.commit(`${ DOCKER_MODULE }/${ SET_DOCKER_TOKEN }`, null);
+						store.commit(`${ AUTH_MODULE }/${ SET_TOKEN }`, null);
+						ApiService.defaults.headers
+								.common[X_TOKEN_HEADER] = undefined;
+						ApiService.defaults.headers
+								.common.Authorization = undefined;
 					}
 					else if (IS_UNHAUTORIZED_ERROR && !RETRY_REQUEST && !WHITELISTED) {
-						store.commit(`${ DOCKER_MODULE }/${ SET_DOCKER_TOKEN }`, null);
+						store.commit(`${ AUTH_MODULE }/${ SET_TOKEN }`, null);
 					}
 					else if (IS_INTERNAL_SERVER_ERROR && message === PLEASE_LOGIN_FIRST) {
 						store.commit(`${ AUTH_MODULE }/${ SET_TOKEN }`, null);
@@ -96,11 +100,9 @@ export default ({ store }) => {
 					const IS_BAD_DOCKER_TOKEN_ERROR = code === 406 || code === 410;
 
 					if (IS_BAD_DOCKER_TOKEN_ERROR) {
-						console.error('DOCKER TOKEN ERROR');
-						// store.commit(`${ DOCKER_MODULE }/${ SET_DOCKER_TOKEN }`, null);
-						// PrometheusApiService.defaults.headers
-						// 		.common[X_TOKEN_HEADER] = undefined;
-						// config.headers[X_TOKEN_HEADER] = undefined;
+						store.commit(`${ DOCKER_MODULE }/${ SET_DOCKER_TOKEN }`, null);
+						PrometheusApiService.defaults.headers
+								.common[X_TOKEN_HEADER] = undefined;
 					}
 
 					return Promise.reject(err);

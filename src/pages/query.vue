@@ -252,18 +252,14 @@ export default {
 
 	&.theme-- {
 		&light {
-			background-color: #c1c1c1 !important;
-
-			.v-card__text {
-				box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.25);
-			}
+			background-color: #fff !important;
 
 			.splitpanes__splitter {
 				background-color: #fff;
 
 				&:hover,
 				&:active {
-					background-color: #dfe6ed;
+					background-color: #d5dfe6;
 				}
 
 				&::before {
@@ -273,16 +269,12 @@ export default {
 		}
 
 		&dark {
-			background-color: #0d3049 !important;
-
-			.v-card__text {
-				box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.25);
-			}
+			background-color: #153954 !important;
 
 			.splitpanes__splitter {
 				&:hover,
 				&:active {
-					background-color: #45475b;
+					background-color: #4d708a;
 				}
 
 				&::before {

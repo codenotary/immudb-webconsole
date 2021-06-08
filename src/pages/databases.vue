@@ -200,7 +200,7 @@ export default {
 		&::after {
 			content: '';
 			position: absolute;
-			top: calc(#{$spacer-12} + 1px);
+			top: calc(#{$header-height} + 1px);
 			right: calc(#{$spacer-4} + 1px);
 			bottom: 0;
 			left: 1px;

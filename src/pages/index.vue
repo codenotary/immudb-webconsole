@@ -1,7 +1,7 @@
 <template>
 	<v-card
 		id="Metrics"
-		class="ma-0 pa-0 pr-4 bg fill-height pane"
+		class="ma-0 pa-0 pr-4 bg fill-height pane shadow"
 		elevation="0"
 	>
 		<v-card-title class="ma-0 py-0 py-sm-2 pl-1 pr-5 d-flex justify-start align-center">
@@ -213,26 +213,6 @@ export default {
 
 <style lang="scss">
 #Metrics {
-	&.pane {
-		&::after {
-			content: '';
-			position: absolute;
-			top: calc(#{$spacer-12} + 1px);
-			right: calc(#{$spacer-4} + 1px);
-			bottom: 0;
-			left: 1px;
-			pointer-events: none !important;
-		}
-
-		&.theme-- {
-			&light {
-				&::after {
-					outline: 1px solid rgba(0, 0, 0, 0.05);
-				}
-			}
-		}
-	}
-
 	.db-select-wrapper {
 		min-width: 320px;
 

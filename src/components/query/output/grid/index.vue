@@ -1,7 +1,7 @@
 <template>
 	<div
 		id="OutputGrid"
-		class="ma-0 pa-0 px-1 fill-height"
+		class="ma-0 pa-0 px-1 fill-height shadow"
 	>
 		<div
 			v-if="output && output.length"

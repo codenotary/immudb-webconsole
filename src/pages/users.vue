@@ -1,7 +1,7 @@
 <template>
 	<v-card
 		id="Users"
-		class="ma-0 pa-0 pr-4 bg fill-height pane"
+		class="ma-0 pa-0 pr-4 bg fill-height pane shadow"
 		elevation="4"
 	>
 		<v-card-title class="ma-0 py-0 py-sm-2 pl-1 pr-0 d-flex justify-start align-center">
@@ -276,7 +276,7 @@ export default {
 		&::after {
 			content: '';
 			position: absolute;
-			top: calc(#{$spacer-12} + 1px);
+			top: calc(#{$header-height} + 1px);
 			right: calc(#{$spacer-4} + 1px);
 			bottom: 0;
 			left: 1px;

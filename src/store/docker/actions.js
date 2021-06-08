@@ -32,7 +32,7 @@ export default {
 						.common[X_TOKEN_HEADER] = token;
 				commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
 			}
-			return false;
+			return true;
 		}
 		catch (err) {
 			console.error(err);

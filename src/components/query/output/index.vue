@@ -1,7 +1,7 @@
 <template>
 	<v-card
 		id="QueryOutput"
-		class="ma-0 pa-0 bg shadow fill-height"
+		class="ma-0 pa-0 bg fill-height shadow-pane"
 		elevation="0"
 	>
 		<v-card-title class="ma-0 pa-0 d-flex justify-start align-center">

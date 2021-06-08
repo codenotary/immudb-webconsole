@@ -1,7 +1,7 @@
 <template>
 	<v-menu
 		v-if="isAuthenticated"
-		class="ma-0 pa-0 bg d-flex flex-column justify-center align-center"
+		class="ma-0 pa-0 bg d-flex flex-column justify-center align-center outlined"
 		style="padding-bottom: 28px !important;"
 		top
 		offset-x
@@ -11,16 +11,16 @@
 	>
 		<template #activator="{ on, attrs }">
 			<v-list-item
-				class="ma-0 mb-4 pa-0"
+				class="ma-0 mb-8 pa-0"
 				v-bind="attrs"
 				v-on="on"
 			>
 				<v-avatar
-					color="accent"
-					:size="32"
+					color="accent elevation-2"
+					:size="42"
 				>
 					<span
-						class="ma-0 pa-0 white--text subtitle-2 text-uppercase"
+						class="ma-0 pa-0 white--text title text-uppercase font-weight-bold"
 						style="padding-top: 1px !important;"
 					>
 						{{ userInitials }}
@@ -28,15 +28,17 @@
 				</v-avatar>
 			</v-list-item>
 		</template>
-		<v-list class="user-menu bg">
+		<v-list class="user-menu ma-0 pa-0 bg outlined">
 			<v-list-item
-				class="d-flex justify-start"
+				class="d-flex justify-start primary"
 				ripple
 				:title="$t('common.username')"
 				:alt="$t('common.username')"
 			>
 				<v-list-item-content>
-					<v-list-item-title class="ma-0 mb-4 pa-0">
+					<v-list-item-title
+						class="ma-0 pa-0 bg--text"
+					>
 						<span class="ma-0 pa-0 body-2">
 							{{ $t('common.username') }}
 						</span>
@@ -44,7 +46,6 @@
 							{{ user }}
 						</span>
 					</v-list-item-title>
-					<v-divider />
 				</v-list-item-content>
 			</v-list-item>
 			<v-list-item

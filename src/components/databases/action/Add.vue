@@ -5,8 +5,8 @@
 	>
 		<template #activator="{ on, attrs }">
 			<v-btn
-				class="px-4 success-gradient white--text d-flex align-center"
-				color="blue"
+				class="px-4 white--text d-flex align-center"
+				color="accent"
 				depressed
 				small
 				primary

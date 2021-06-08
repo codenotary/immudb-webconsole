@@ -346,4 +346,6 @@ export default {
 			tooltip: 'Something went wrong or have an idea in mind? Let us know on GitHub!',
 		},
 	},
+	somethingWentWrong: 'Something went wrong',
+	dockerTokenExpired: 'Session expired, starting a new one',
 };

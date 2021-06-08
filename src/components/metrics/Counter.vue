@@ -2,6 +2,7 @@
 	<v-card
 		v-if="data"
 		class="metrics-card metrics-counter-card ma-0 pa-4 bg fill-width"
+		elevation="4"
 	>
 		<v-card-title class="ma-0 pa-0 d-flex justify-center align-center">
 			<span

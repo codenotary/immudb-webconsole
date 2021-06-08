@@ -1,7 +1,7 @@
 <template>
 	<v-card
 		id="QueryInput"
-		class="ma-0 pa-0 bg fill-height pane shadow"
+		class="ma-0 pa-0 bg fill-height pane shadow-pane"
 		elevation="0"
 	>
 		<v-card-title class="ma-0 py-0 py-sm-2 px-0 d-flex justify-end align-center">

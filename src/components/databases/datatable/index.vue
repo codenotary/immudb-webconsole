@@ -1,5 +1,5 @@
 <template>
-	<v-card class="ma-0 pa-0">
+	<v-card class="ma-0 pa-0 elevation-4">
 		<v-card-text class="ma-0 pa-0 bg fill-height">
 			<v-data-table
 				ref="datatable"

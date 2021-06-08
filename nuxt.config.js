@@ -6,7 +6,9 @@ const IS_PUBLIC_DEMO = process.env.PUBLIC_DEMO;
 const EXPERIMENTAL = false && !IS_PROD;
 
 console.log('=======================================');
-console.log(IS_PUBLIC_DEMO);
+console.log(`Running ${ IS_PUBLIC_DEMO
+	? 'public demo'
+	: 'local embedded' } client`);
 console.log('=======================================');
 
 export default {
@@ -446,16 +448,16 @@ export default {
 					secondary: '#febf2d',
 					accent: '#7c4dff',
 					error: '#c06b6f',
-					info: '#2196f3',
+					info: '#9fefde',
 					success: '#7ec699',
 					warning: '#f08d49',
 					gray: '#616161',
 					grey: '#616161',
-					bg: '#faf9f8',
+					bg: '#fff',
 					'bg-secondary': '#ebece9',
 					'bg-tertiary': '#dfe6ed',
-					'bg-terminal': '#161616',
-					'bg-code': '#222',
+					'bg-terminal': '#768e98',
+					'bg-code': '#768e98',
 					'font-700': '#111',
 					'font-500': '#333',
 					'font-400': '#999',
@@ -468,7 +470,7 @@ export default {
 					secondary: '#febf2d',
 					accent: '#7c4dff',
 					error: '#c06b6f',
-					info: '#2196f3',
+					info: '#9fefde',
 					success: '#7ec699',
 					warning: '#f08d49',
 					gray: '#616161',
@@ -476,8 +478,8 @@ export default {
 					bg: '#153954',
 					'bg-secondary': '#0d3049',
 					'bg-tertiary': '#45475b',
-					'bg-terminal': '#161616',
-					'bg-code': '#222',
+					'bg-terminal': '#1c273a',
+					'bg-code': '#1c273a',
 					'font-700': '#fff',
 					'font-500': '#f1f1f1',
 					'font-400': '#666',

@@ -1,6 +1,7 @@
 <template>
 	<v-footer
 		id="TheFooter"
+		class="bg"
 		:elevation="0"
 		:fixed="!mobile"
 	>
@@ -255,11 +256,10 @@ export default {
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	height: $spacer-16;
-	background: transparent !important;
+	height: $footer-height;
 
 	@media (max-width: 480px) {
-		height: $spacer-20;
+		height: $spacer-12;
 	}
 }
 </style>

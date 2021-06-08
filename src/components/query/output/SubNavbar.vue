@@ -96,7 +96,7 @@ export default {
 		z-index: 2;
 
 		.v-slide-group__content {
-			height: $spacer-20 !important;
+			height: $spacer-12 !important;
 
 			.v-tabs-slider-wrapper {
 				bottom: -4px;

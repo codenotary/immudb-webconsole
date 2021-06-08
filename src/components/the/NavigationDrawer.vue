@@ -268,7 +268,7 @@ export default {
 			});
 		},
 		onProfile (data) {
-			console.log(data);
+			//
 		},
 	},
 };
@@ -326,11 +326,6 @@ export default {
 				&:hover {
 					background: map-get($blue, dark) !important;
 					color: $primary !important;
-
-					svg,
-					span {
-						color: $primary !important;
-					}
 				}
 			}
 
@@ -338,11 +333,6 @@ export default {
 				&:hover {
 					background: map-get($blue, light) !important;
 					color: $primary !important;
-
-					svg,
-					span {
-						color: $primary !important;
-					}
 				}
 			}
 		}

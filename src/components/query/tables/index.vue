@@ -1,8 +1,7 @@
 <template>
 	<v-card
 		id="QueryTables"
-		class="ma-0 pa-0 bg fill-height pane"
-		elevation="4"
+		class="ma-0 pa-0 bg fill-height pane shadow-pane"
 	>
 		<v-card-title class="ma-0 py-0 py-sm-2 pl-3 pr-0 d-flex justify-start align-center">
 			<v-icon
@@ -60,11 +59,7 @@
 							<template #activator="{ on, attrs }">
 								<v-icon
 									v-if="props.item.type !== 'node'"
-									class="ma-0 mr-2 pa-0"
-									:class="{
-										[`${ getColor(props.item.type) }--text text--darken-0`]: !$vuetify.theme.dark,
-										[`${ getColor(props.item.type) }--text text--lighten-2`]: $vuetify.theme.dark,
-									}"
+									:class="`ma-0 mr-2 pa-0 ${ getColor(props.item.type) }`"
 									small
 									v-bind="attrs"
 									v-on="on"
@@ -77,10 +72,10 @@
 							</span>
 						</v-tooltip>
 						<span
-							class="sql-column caption"
+							class="sql-column body-2"
 							:class="{
-								'grey--text text--darken-0': !$vuetify.theme.dark,
-								'grey--text text--lighten-2': $vuetify.theme.dark,
+								'grey--text text--darken-2': !$vuetify.theme.dark,
+								'grey--text text--lighten-4': $vuetify.theme.dark,
 							}"
 						>
 							{{ props.item.label }}
@@ -89,8 +84,8 @@
 						<div class="table-actions">
 							<div class="tags h-24 d-flex justify-start align-center">
 								<span
-									class="pl-1 accent--text overline"
-									style="font-size: 0.675em !important; text-overflow: ellipsis;"
+									class="pl-1 accent--text caption"
+									style="line-height: 1.25rem; text-overflow: ellipsis;"
 								>
 									{{ props.item.tags }}
 								</span>
@@ -105,7 +100,7 @@
 											class="ma-0 mt-n1 ml-1 pa-0"
 											:class="{
 												[`accent--text text--darken-0`]: !$vuetify.theme.dark,
-												[`accent--text text--lighten-2`]: $vuetify.theme.dark,
+												[`accent--text text--lighten-3`]: $vuetify.theme.dark,
 											}"
 											small
 											v-bind="attrsPrimary"
@@ -129,7 +124,7 @@
 											class="ma-0 mt-n1 ml-1 pa-0"
 											:class="{
 												[`accent--text text--darken-0`]: !$vuetify.theme.dark,
-												[`accent--text text--lighten-2`]: $vuetify.theme.dark,
+												[`accent--text text--lighten-3`]: $vuetify.theme.dark,
 											}"
 											small
 											v-bind="attrsForeign"
@@ -296,10 +291,10 @@ export default {
 		},
 		getColor (data) {
 			if (data === 'table' || data === 'tab') {
-				return 'primary';
+				return 'primary--text';
 			}
 			else if (data === 'column' || data === 'col') {
-				return 'secondary';
+				return `primary--text ${ this.$vuetify.theme.dark ? 'text--lighten-3' : 'text--lighten-1' }`;
 			}
 			else {
 				return 'grey';
