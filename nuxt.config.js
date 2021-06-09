@@ -341,11 +341,9 @@ export default {
 			? '/'
 			: process.env.DOCKER_API_URL || '/docker-api/',
 		API_URL: process.env.API_URL || '/api',
-		METRICS_API_URL: IS_PUBLIC_DEMO
-			? IS_PROD
-				? '/'
-				: process.env.METRICS_API_URL || '/metrics-api/'
-			: '/',
+		METRICS_API_URL: IS_PROD
+			? '/'
+			: process.env.METRICS_API_URL || '/metrics-api/'
 	},
 
 	/*

@@ -26,6 +26,9 @@ export default {
 					user: btoa(user),
 					password: btoa(password),
 				});
+
+				console.log(response);
+
 				if (response && response.data) {
 					const { token, warning } = response.data;
 					if (token) {

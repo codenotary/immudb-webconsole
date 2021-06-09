@@ -19,6 +19,14 @@ export const API_CONFIG = {
 	},
 };
 
+export const METRICS_API_CONFIG = {
+	headers: {
+		common: {
+			Pragma: 'no-cache',
+		},
+	},
+};
+
 // Backend api proxy instance
 export const RootService = axios.create({
 	...API_CONFIG,
@@ -34,10 +42,8 @@ export const ApiService = axios.create({
 // Prometheus api proxy instance
 export const PrometheusApiService = axios.create({
 	timeout: 5000,
-	headers: {
-		common: {
-			Pragma: 'no-cache',
-		},
-	},
-	baseURL: process.env.METRICS_API_URL,
+	...(process.env.IS_PUBLIC_DEMO ? METRICS_API_CONFIG : {}),
+	baseURL: process.env.IS_PUBLIC_DEMO
+		? process.env.METRICS_API_URL
+		: window.location.protocol + '//' + window.location.hostname + ':9497',
 });

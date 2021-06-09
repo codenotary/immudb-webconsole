@@ -27,10 +27,15 @@ export default {
 			if (response && response.data) {
 				const { token } = response.data;
 				commit(SET_DOCKER_TOKEN, token);
-				ApiService.defaults.headers
-						.common[X_TOKEN_HEADER] = token;
-				PrometheusApiService.defaults.headers
-						.common[X_TOKEN_HEADER] = token;
+
+				// Config X-Token
+				if (process.env.IS_PUBLIC_DEMO) {
+					ApiService.defaults.headers
+							.common[X_TOKEN_HEADER] = token;
+					PrometheusApiService.defaults.headers
+							.common[X_TOKEN_HEADER] = token;
+				}
+
 				commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
 			}
 			return true;
