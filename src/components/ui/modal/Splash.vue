@@ -87,10 +87,13 @@ import {
 	SET_SPLASH,
 } from '@/store/view/constants';
 import {
+	DOCKER_MODULE,
+	DOCKER_TOKEN,
+} from '@/store/docker/constants';
+import {
 	AUTH_MODULE,
 	TOKEN,
 } from '@/store/auth/constants';
-
 export default {
 	name: 'UiModalSplash',
 	props: {
@@ -98,6 +101,9 @@ export default {
 		duration: { type: [String, Number], default: '3000' },
 	},
 	computed: {
+		...mapGetters(DOCKER_MODULE, {
+			dockerToken: DOCKER_TOKEN,
+		}),
 		...mapGetters(AUTH_MODULE, {
 			token: TOKEN,
 		}),
@@ -105,13 +111,13 @@ export default {
 			return !this.token;
 		},
 	},
-	created () {
-		if ((!process.env.IS_PUBLIC_DEMO || this.dockerToken) && this.token) {
-			setTimeout(() => {
+	mounted () {
+		setTimeout(() => {
+			if ((!process.env.IS_PUBLIC_DEMO || this.dockerToken) && this.token) {
 				this.setSplash(false);
 				this.onClose();
-			}, this.duration);
-		}
+			}
+		}, this.duration);
 	},
 	methods: {
 		...mapActions(VIEW_MODULE, {

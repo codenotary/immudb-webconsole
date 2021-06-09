@@ -19,10 +19,12 @@ export default function ({ store, app }) {
 		const token = store.getters[`${ AUTH_MODULE }/${ TOKEN }`];
 
 		// Config X-Token
-		ApiService.defaults.headers
-				.common['X-Token'] = dockerToken;
-		PrometheusApiService.defaults.headers
-				.common['X-Token'] = dockerToken;
+		if (process.env.IS_PUBLIC_DEMO) {
+			ApiService.defaults.headers
+					.common['X-Token'] = dockerToken;
+			PrometheusApiService.defaults.headers
+					.common['X-Token'] = dockerToken;
+		}
 
 		// Config Authorization bearer
 		ApiService.defaults.headers

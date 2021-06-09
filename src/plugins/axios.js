@@ -31,7 +31,8 @@ export default ({ store }) => {
 	ApiService.interceptors.request.use(
 		(config) => {
 			VERBOSE && console.log('Making api request to ' + config.url);
-			if (config.headers.common[X_TOKEN_HEADER]) {
+			if (!process.env.IS_PUBLIC_DEMO ||
+					config.headers.common[X_TOKEN_HEADER]) {
 				return config;
 			}
 			return false;
@@ -41,7 +42,8 @@ export default ({ store }) => {
 	PrometheusApiService.interceptors.request.use(
 		(config) => {
 			VERBOSE && console.log('Making metrics request to ' + config.url);
-			if (config.headers.common[X_TOKEN_HEADER]) {
+			if (!process.env.IS_PUBLIC_DEMO ||
+				config.headers.common[X_TOKEN_HEADER]) {
 				return config;
 			}
 			return false;
@@ -69,8 +71,12 @@ export default ({ store }) => {
 					if (IS_BAD_DOCKER_TOKEN_ERROR) {
 						store.commit(`${ DOCKER_MODULE }/${ SET_DOCKER_TOKEN }`, null);
 						store.commit(`${ AUTH_MODULE }/${ SET_TOKEN }`, null);
-						ApiService.defaults.headers
-								.common[X_TOKEN_HEADER] = undefined;
+
+						// Config X-Token
+						if (process.env.IS_PUBLIC_DEMO) {
+							ApiService.defaults.headers
+									.common[X_TOKEN_HEADER] = undefined;
+						}
 						ApiService.defaults.headers
 								.common.Authorization = undefined;
 					}
@@ -101,8 +107,12 @@ export default ({ store }) => {
 
 					if (IS_BAD_DOCKER_TOKEN_ERROR) {
 						store.commit(`${ DOCKER_MODULE }/${ SET_DOCKER_TOKEN }`, null);
-						PrometheusApiService.defaults.headers
-								.common[X_TOKEN_HEADER] = undefined;
+
+						// Config X-Token
+						if (process.env.IS_PUBLIC_DEMO) {
+							PrometheusApiService.defaults.headers
+									.common[X_TOKEN_HEADER] = undefined;
+						}
 					}
 
 					return Promise.reject(err);
