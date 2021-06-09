@@ -91,7 +91,6 @@ import {
 	AUTH_MODULE,
 	TOKEN,
 } from '@/store/auth/constants';
-
 export default {
 	name: 'UiModalSplash',
 	props: {
@@ -107,7 +106,7 @@ export default {
 		},
 	},
 	created () {
-		if (this.token) {
+		if ((!process.env.IS_PUBLIC_DEMO || this.dockerToken) && this.token) {
 			setTimeout(() => {
 				this.setSplash(false);
 				this.onClose();

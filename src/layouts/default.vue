@@ -148,11 +148,28 @@ export default {
 			deep: true,
 			immediate: true,
 			handler (newVal) {
-				if (newVal) {
+				if ((!process.env.IS_PUBLIC_DEMO || this.dockerToken) && newVal) {
 					this.onInit(true);
 				}
 				else {
 					this.setSplash(true);
+				}
+			},
+		},
+		dockerToken: {
+			deep: true,
+			immediate: true,
+			async handler (newVal) {
+				if (process.env.IS_PUBLIC_DEMO) {
+					if (this.token && newVal) {
+						this.onInit(true);
+					}
+					else {
+						if (!newVal) {
+							await this.fetchDockerToken();
+						}
+						this.setSplash(true);
+					}
 				}
 			},
 		},
@@ -236,7 +253,7 @@ export default {
 				await this.fetchHealth();
 				await this.fetchState();
 				await this.fetchUserList();
-				const { txId } = this.state;
+				const { txId } = this.state || {};
 				if (txId !== undefined) {
 					await this.fetchDatabaseList();
 					await this.fetchTables();
@@ -265,7 +282,6 @@ export default {
 		async onLogin (data) {
 			try {
 				data && await this.immudbLogin(data);
-				console.log('login timeout');
 				this.setSplash(false);
 			}
 			catch (err) {
