@@ -80,8 +80,8 @@
 					{{ $t('common.cancel') }}
 				</v-btn>
 				<v-btn
-					class="ma-0 ml-2 py-0 px-2 success-gradient"
-					color="success"
+					class="ma-0 ml-2 py-0 px-2"
+					color="primary"
 					type="submit"
 					form="AddDatabaseForm"
 				>

@@ -47,157 +47,28 @@
 				</v-col>
 				<v-spacer />
 				<v-col
-					class="ma-0 ml-4 pa-0 d-flex justify-space-between align-center text-left font-weight-normal"
+					class="ma-0 ml-2 pa-0 d-flex justify-space-between align-center text-left font-weight-normal"
 					cols="auto"
 				>
-					<span
-						class="ma-0 pa-0 h-24 caption d-flex justify-start align-center"
-						:class="{
-							'black--text ': !$vuetify.theme.dark,
-							'white--text': $vuetify.theme.dark,
-						}"
-					>
-						v
-						<span class="caption d-flex justify-start align-center">
-							{{ version }}
-						</span>
-					</span>
+					<UiImmudbVersion :value="version" />
 				</v-col>
 				<v-col
-					class="ma-0 ml-4 pa-0 d-flex justify-space-between text-left font-weight-normal"
+					class="ma-0 ml-2 pa-0 d-flex justify-space-between text-left font-weight-normal"
 					cols="auto"
 				>
-					<span
-						v-if="isDevMode"
-						class="ma-0 pa-0 d-flex justify-center align-center"
-					>
-						<v-chip
-							class="ma-0 py-0 px-2 caption text-uppercase"
-							color="accent"
-							small
-							dense
-						>
-							{{ $t('footer.devMode') }}
-						</v-chip>
-					</span>
+					<UiDevBadge v-if="isDevMode" />
 				</v-col>
 				<v-col
-					class="ma-0 ml-4 pa-0 d-flex justify-space-between text-left font-weight-normal"
+					class="ma-0 ml-2 pa-0 d-flex justify-space-between text-left font-weight-normal"
 					cols="auto"
 				>
-					<v-tooltip top>
-						<template #activator="{ on, attrs }">
-							<v-hover
-								v-slot="{ hover }"
-							>
-								<v-btn
-									href="https://github.com/codenotary/immudb-webconsole/issues/new/choose"
-									text
-									class="feedback-btn ma-0 px-2 text-none d-flex align-center"
-									target="_blank"
-									rel="noopener"
-									small
-									v-bind="attrs"
-									v-on="on"
-								>
-									<v-icon
-										class="caption"
-										:class="{
-											'grey--text text--darken-1': !hover,
-											'warning--text text--lighten-1': hover,
-										}"
-										style="padding-top: 3px;"
-										:size="22"
-									>
-										{{ mdiMessageAlertOutline }}
-									</v-icon>
-									<span
-										class="ml-2 caption d-flex justify-start align-center"
-										:class="{
-											'grey--text text--darken-1': !hover,
-											'warning--text text--lighten-1': hover,
-										}"
-									>
-										{{ $t('footer.feedback.text') }}
-									</span>
-								</v-btn>
-							</v-hover>
-						</template>
-						{{ $t('footer.feedback.tooltip') }}
-					</v-tooltip>
+					<UiActionFeedbackBtn />
 				</v-col>
 				<v-col
-					class="ma-0 ml-4 pa-0 d-flex justify-space-between text-left font-weight-normal"
+					class="ma-0 ml-2 pa-0 d-flex justify-space-between text-left font-weight-normal"
 					cols="auto"
 				>
-					<v-tooltip
-						top
-						:open-delay="300"
-					>
-						<template #activator="{ on, attrs }">
-							<v-btn
-								:class="{
-									'black--text ': !$vuetify.theme.dark,
-									'white--text': $vuetify.theme.dark,
-								}"
-								depressed
-								small
-								icon
-								:alt="$t(`footer.theme.toggle.${ theme }`)"
-								v-bind="attrs"
-								v-on="on"
-								@click="toggleTheme"
-							>
-								<v-icon
-									class="headline grey--text text--darken-3"
-									color="white darken-1"
-								>
-									{{ mdiBrightness6 }}
-								</v-icon>
-							</v-btn>
-						</template>
-						<span>
-							{{ $t(`footer.theme.toggle.${ theme }`) }}
-						</span>
-					</v-tooltip>
-				</v-col>
-				<v-col
-					class="ma-0 ml-4 pa-0 d-flex justify-space-between text-left font-weight-normal"
-					cols="auto"
-				>
-					<v-tooltip
-						top
-						:open-delay="300"
-					>
-						<template #activator="{ on, attrs }">
-							<v-btn
-								:class="{
-									'black--text ': !$vuetify.theme.dark,
-									'white--text': $vuetify.theme.dark,
-								}"
-								depressed
-								small
-								icon
-								href="https://github.com/codenotary/immudb"
-								target="_blank"
-								:title="$t('footer.github')"
-								:alt="$t('footer.github')"
-								rel="noopener"
-								v-bind="attrs"
-								v-on="on"
-							>
-								<v-icon
-									class="headline grey--text text--darken-3"
-									color="white darken-1"
-								>
-									{{ mdiGithub }}
-								</v-icon>
-							</v-btn>
-						</template>
-						<span>
-							{{ $t('footer.github') }}
-						</span>
-					</v-tooltip>
+					<UiActionGithubBtn />
 				</v-col>
 			</v-row>
 		</v-container>
@@ -205,20 +76,13 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 import {
 	VIEW_MODULE,
 	MOBILE,
-	THEME,
-	TOGGLE_THEME,
 } from '@/store/view';
 import timeUtils from '@/mixins/timeUtils';
 import LayoutMixin from '@/mixins/LayoutMixin';
-import {
-	mdiMessageAlertOutline,
-	mdiBrightness6,
-	mdiGithub,
-} from '@mdi/js';
 
 export default {
 	name: 'TheFooter',
@@ -228,25 +92,16 @@ export default {
 	],
 	data () {
 		return {
-			mdiMessageAlertOutline,
-			mdiBrightness6,
-			mdiGithub,
 			version: '1.0.1',
 		};
 	},
 	computed: {
 		...mapGetters(VIEW_MODULE, {
 			mobile: MOBILE,
-			theme: THEME,
 		}),
 		isDevMode () {
 			return process.env.NODE_ENV !== 'production';
 		},
-	},
-	methods: {
-		...mapActions(VIEW_MODULE, {
-			toggleTheme: TOGGLE_THEME,
-		}),
 	},
 };
 </script>

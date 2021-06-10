@@ -53,6 +53,7 @@
 						class="ma-0 pa-0 d-flex justify-space-start align-center fill-width"
 					>
 						<v-tooltip
+							content-class="ma-0 py-2 px-4 bg primary-outlined"
 							top
 							:open-delay="300"
 						>
@@ -92,6 +93,7 @@
 								<v-tooltip
 									v-if="props.item.primary"
 									class="ma-0 ml-1 pa-0"
+									content-class="ma-0 py-2 px-4 bg primary-outlined"
 									top
 									:open-delay="300"
 								>
@@ -116,6 +118,7 @@
 								<v-tooltip
 									v-if="props.item.foreignKey"
 									class="ma-0 ml-1 pa-0"
+									content-class="ma-0 py-2 px-4 bg primary-outlined"
 									top
 									:open-delay="300"
 								>

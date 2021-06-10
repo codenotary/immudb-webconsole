@@ -1,12 +1,13 @@
 <template>
 	<v-tooltip
+		content-class="ma-0 py-2 px-4 bg primary-outlined"
 		top
 		:open-delay="300"
 	>
 		<template #activator="{ on, attrs }">
 			<v-btn
 				class="add-to-query ma-0 py-0 px-1 d-flex justify-start align-center"
-				color="accent"
+				color="primary"
 				dense
 				x-small
 				v-bind="attrs"

@@ -1,6 +1,9 @@
 import { ApiService } from '@/services';
 import { ImmudbService } from '@/services/immudb';
 import {
+	mdiShieldLock,
+} from '@mdi/js';
+import {
 	VIEW_MODULE,
 	PUSH_LOADING,
 	POP_LOADING,
@@ -40,8 +43,9 @@ export default {
 							commit(`${ VIEW_MODULE }/${ SET_BANNER }`, {
 								show: true,
 								title: atob(warning),
-								color: 'warning',
+								color: 'primary',
 								persistent: true,
+								icon: mdiShieldLock,
 							}, { root: true });
 						}
 						else {

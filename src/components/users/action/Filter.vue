@@ -17,6 +17,7 @@
 	>
 		<template #prepend>
 			<v-tooltip
+				content-class="ma-0 py-2 px-4 bg primary-outlined"
 				:disabled="active"
 				bottom
 				:open-delay="300"
@@ -27,6 +28,7 @@
 							'black--text ': !$vuetify.theme.dark,
 							'white--text': $vuetify.theme.dark,
 						}"
+						color="primary"
 						v-bind="attrs"
 						v-on="on"
 						@click="onOpen"

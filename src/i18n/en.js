@@ -70,10 +70,16 @@ export default {
 			alt: 'Profile preferences',
 			tooltip: 'Profile preferences',
 		},
+		themeToogle: {
+			title: 'Toggle theme',
+			label: 'Toggle {value} theme',
+			alt: 'Toggle theme',
+			tooltip: 'Toggle theme',
+		},
 		logout: {
-			label: 'logout',
-			alt: 'Logout from immudb',
-			tooltip: 'Logout',
+			label: 'Log out',
+			alt: 'Log out from immudb webconsole',
+			tooltip: 'Log out',
 		},
 	},
 	metrics: {
@@ -306,7 +312,7 @@ export default {
 					success: 'User successfully activated!',
 				},
 				updatePassword: {
-					title: 'Change password of user {user}',
+					title: 'Change password for user {user}',
 					oldPassword: 'Old password',
 					newPassword: 'New password',
 					confirmPassword: 'Confirm password',
@@ -332,18 +338,22 @@ export default {
 	},
 	footer: {
 		text: 'Copyright © {date} {url} All rights reserved.',
-		devMode: 'Dev mode',
-		github: 'See OS code on github repository',
 		buildTime: 'Last build at {date}',
-		theme: {
-			toggle: {
-				dark: 'Toggle light theme',
-				light: 'Toggle dark theme',
-			},
+		version: {
+			prepend: 'v',
+			tooltip: 'immudb version',
 		},
 		feedback: {
 			text: 'Feedback',
 			tooltip: 'Something went wrong or have an idea in mind? Let us know on GitHub!',
+		},
+		devMode: {
+			label: 'Dev mode',
+			tooltip: 'The webconsole is running in development mode',
+		},
+		github: {
+			label: '1800',
+			tooltip: 'See OS code on github repository',
 		},
 	},
 	somethingWentWrong: 'Something went wrong',

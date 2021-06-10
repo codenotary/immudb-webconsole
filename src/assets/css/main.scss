@@ -159,8 +159,21 @@ a {
 	max-width: 100% !important;
 }
 
-.outlined {
-	border: 2px solid $primary;
+.primary-outlined {
+	position: relative;
+	border-radius: 8px;
+
+	&::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		border: 2px solid $primary;
+		border-radius: 8px;
+		pointer-events: none !important;
+	}
 }
 
 .h- {

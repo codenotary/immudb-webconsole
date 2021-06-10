@@ -15,6 +15,7 @@
 				{{ mdiChartBoxOutline }}
 			</v-icon>
 			<v-tooltip
+				content-class="ma-0 py-2 px-4 bg primary-outlined"
 				bottom
 				:nudge-top="4"
 				:nudge-left="68"
@@ -56,17 +57,14 @@
 			</v-tooltip>
 			<v-spacer />
 			<v-tooltip
-				bottom
+				content-class="ma-0 py-2 px-4 bg primary-outlined"
+				left
 				:open-delay="300"
 			>
 				<template #activator="{ on, attrs }">
 					<v-icon
 						class="ma-0 mt-n1 ml-1 pa-0"
-						:class="{
-							[`accent--text text--darken-0`]: !$vuetify.theme.dark,
-							[`accent--text text--lighten-2`]: $vuetify.theme.dark,
-						}"
-						color="info"
+						color="primary"
 						:size="20"
 						v-bind="attrs"
 						v-on="on"

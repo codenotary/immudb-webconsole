@@ -1,12 +1,13 @@
 <template>
 	<v-tooltip
+		content-class="ma-0 py-2 px-4 bg primary-outlined"
 		bottom
 		:open-delay="300"
 	>
 		<template #activator="{ on, attrs }">
 			<v-btn
 				class="px-4 white--text d-flex align-center"
-				color="accent"
+				color="primary"
 				depressed
 				small
 				primary

@@ -1,15 +1,15 @@
 <template>
 	<v-tooltip
+		content-class="ma-0 py-2 px-4 bg primary-outlined"
 		bottom
 		:open-delay="300"
 	>
 		<template #activator="{ on, attrs }">
 			<v-btn
-				class="px-4 success-gradient white--text"
-				color="blue"
+				class="px-4 white--text"
+				color="primary"
 				depressed
 				small
-				primary
 				:alt="$t('query.input.run.alt')"
 				:loading="isLoading"
 				:disabled="isLoading || !query"

@@ -1,6 +1,7 @@
 <template>
 	<span>
 		<v-menu
+			class="ma-0 pa-0 bg d-flex flex-column justify-center align-center outlined"
 			left
 			:nudge-bottom="48"
 		>
@@ -25,6 +26,7 @@
 			<v-list class="user-datatable-actions">
 				<v-tooltip
 					v-if="!disabled"
+					content-class="ma-0 py-2 px-4 bg primary-outlined"
 					left
 					:open-delay="100"
 				>
@@ -60,6 +62,7 @@
 				</v-tooltip>
 				<v-tooltip
 					v-if="disabled"
+					content-class="ma-0 py-2 px-4 bg primary-outlined"
 					left
 					:open-delay="100"
 				>
@@ -94,6 +97,7 @@
 					</span>
 				</v-tooltip>
 				<v-tooltip
+					content-class="ma-0 py-2 px-4 bg primary-outlined"
 					left
 					:open-delay="100"
 				>

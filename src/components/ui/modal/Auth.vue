@@ -78,7 +78,6 @@
 			</v-card-text>
 			<v-card-actions class="ma-0 pa-0 d-flex justify-end">
 				<v-btn
-					class="primary-gradient"
 					color="primary"
 					form="LoginForm"
 					type="submit"

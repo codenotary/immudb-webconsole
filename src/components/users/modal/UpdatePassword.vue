@@ -119,8 +119,8 @@
 					{{ $t('common.cancel') }}
 				</v-btn>
 				<v-btn
-					class="ml-2 success-gradient"
-					color="success"
+					class="ml-2"
+					color="primary"
 					type="submit"
 					form="UpdatePasswordForm"
 				>

@@ -55,7 +55,7 @@
 					<v-progress-circular
 						class="ma-0 mt-4 pa-0 d-flex justify-center align-center fill-height"
 						:size="96"
-						color="accent"
+						color="primary"
 						indeterminate
 					>
 						<span

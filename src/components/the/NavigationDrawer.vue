@@ -70,6 +70,7 @@
 			>
 				<v-tooltip
 					v-if="item && !item.hidden"
+					content-class="ma-0 py-2 px-4 bg primary-outlined"
 					:disabled="!mini"
 					right
 					:open-delay="300"
@@ -136,14 +137,7 @@
 			</div>
 		</v-list>
 		<template #append>
-			<ProfileMenu
-				@profile="profileOpen = true"
-			/>
-
-			<ProfileModal
-				v-model="profileOpen"
-				@submit="onProfile"
-			/>
+			<ProfileMenu />
 		</template>
 	</v-navigation-drawer>
 </template>
@@ -179,7 +173,6 @@ export default {
 			mdiCogOutline,
 			mdiBookOpenOutline,
 			items: [],
-			profileOpen: false,
 		};
 	},
 	computed: {

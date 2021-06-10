@@ -13,6 +13,7 @@ export default () => ({
 		show: false,
 		title: '',
 		subtitle: '',
+		color: 'primary',
 	},
 	paneSizes: {
 		tables: 25,

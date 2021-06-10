@@ -1,15 +1,16 @@
 <template>
 	<section class="permissions-list-detail ma-0 pa-0 pl-4">
 		<div
-			class="permissions-detail ma-4 ml-4 pa-4 pb-0 bg fill-width"
+			class="permissions-detail ma-4 pa-4 pb-0 bg fill-width"
 			cols="12"
 			sm="3"
 		>
 			<p class="ma-0 pa-0 d-flex justify-space-between align-center">
-				<span class="caption">
+				<span class="caption praimry--text text-uppercase">
 					{{ $t('users.table.permissions.title') }}:
 				</span>
 				<v-tooltip
+					content-class="ma-0 py-2 px-4 bg primary-outlined"
 					top
 					:open-delay="100"
 				>
@@ -23,7 +24,17 @@
 							v-on="on"
 							@click="showAddPermissionModal = true"
 						>
-							{{ $t('users.table.permissions.add.label') }}
+							<v-icon
+								class="title"
+								:size="20"
+							>
+								{{ mdiShapeCirclePlus }}
+							</v-icon>
+							<span
+								class="my-0 ml-2 text-capitalize"
+							>
+								{{ $t('users.table.permissions.add.label') }}
+							</span>
 						</v-btn>
 					</template>
 					<span class="body-2">
@@ -31,6 +42,9 @@
 					</span>
 				</v-tooltip>
 			</p>
+			<v-divider
+				class="ma-0 mt-4 pa-0 primary"
+			/>
 			<v-data-table
 				ref="datatable"
 				class="no-hover fill-height d-flex flex-column justify-space-between align-stretch"
@@ -79,6 +93,10 @@ import {
 	VIEW_MODULE,
 	IS_LOADING,
 } from '@/store/view/constants';
+import {
+	mdiShapeCirclePlus,
+} from '@mdi/js';
+
 export default {
 	name: 'UsersDatatablePermissions',
 	props: {
@@ -89,6 +107,7 @@ export default {
 	},
 	data () {
 		return {
+			mdiShapeCirclePlus,
 			showAddPermissionModal: false,
 			headers: [
 				{
@@ -132,42 +151,12 @@ export default {
 </script>
 
 <style lang="scss">
-.v-application {
-	&.theme--dark {
-		.permissions-detail {
-			border: 1px solid rgba(255, 255, 255, 0.25) !important;
-
-			table {
-				tr {
-					&:not(:last-child) {
-						border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-					}
-				}
-			}
-		}
-	}
-
-	&.theme--light {
-		.permissions-detail {
-			border: 1px solid rgba(0, 0, 0, 0.25) !important;
-
-			table {
-				tr {
-					&:not(:last-child) {
-						border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-					}
-				}
-			}
-		}
-	}
-}
-
 section.permissions-list-detail {
 	width: 98% !important;
 
 	.permissions-detail {
-		border: 1px solid rgba(0, 0, 0, 0.33) !important;
-		border-radius: 4px;
+		border: 1px solid $primary !important;
+		border-radius: $border-radius-root;
 
 		table {
 			width: 100%;

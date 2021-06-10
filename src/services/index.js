@@ -47,3 +47,9 @@ export const PrometheusApiService = axios.create({
 		? process.env.METRICS_API_URL
 		: window.location.protocol + '//' + window.location.hostname + ':9497',
 });
+
+// Github proxy instance
+export const GithubApiService = axios.create({
+	...API_CONFIG,
+	baseURL: process.env.GITHUB_API_URL,
+});
