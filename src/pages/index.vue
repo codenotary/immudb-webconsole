@@ -8,9 +8,10 @@
 			<v-icon
 				class="ml-2"
 				:class="{
-					'black--text': !$vuetify.theme.dark,
-					'white--text': $vuetify.theme.dark,
+					'gray--text text--darken-3': !$vuetify.theme.dark,
+					'gray--text text--lighten-3': $vuetify.theme.dark,
 				}"
+				:size="24"
 			>
 				{{ mdiChartBoxOutline }}
 			</v-icon>
@@ -41,8 +42,8 @@
 								<span
 									class="prepend ma-0 pa-0 subtitle-1 font-weight-bold"
 									:class="{
-										'black--text ': !$vuetify.theme.dark,
-										'white--text': $vuetify.theme.dark,
+										'gray--text text--darken-2': !$vuetify.theme.dark,
+										'gray--text text--lighten-4': $vuetify.theme.dark,
 									}"
 								>
 									{{ $t('metrics.title') }}

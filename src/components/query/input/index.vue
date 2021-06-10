@@ -7,8 +7,8 @@
 		<v-card-title class="ma-0 py-0 py-sm-2 px-0 d-flex justify-end align-center">
 			<v-icon
 				:class="{
-					'black--text ': !$vuetify.theme.dark,
-					'white--text': $vuetify.theme.dark,
+					'gray--text text--darken-3': !$vuetify.theme.dark,
+					'gray--text text--lighten-4': $vuetify.theme.dark,
 				}"
 			>
 				{{ mdiDatabaseSearchOutline }}
@@ -16,8 +16,8 @@
 			<h4
 				class="ma-0 ml-2 pa-0 pt-1 subtitle-1 font-weight-bold"
 				:class="{
-					'black--text ': !$vuetify.theme.dark,
-					'white--text': $vuetify.theme.dark,
+					'gray--text text--darken-3': !$vuetify.theme.dark,
+					'gray--text text--lighten-4': $vuetify.theme.dark,
 				}"
 			>
 				{{ $t('query.input.title') }}

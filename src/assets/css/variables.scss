@@ -146,6 +146,12 @@ $border-color-light: #f9fcff;
 				color: #f1f1f1;
 			}
 		}
+
+		.v-tooltip__content {
+			span {
+				color: red !important;
+			}
+		}
 	}
 
 	&.theme--light {
@@ -157,6 +163,12 @@ $border-color-light: #f9fcff;
 			i,
 			span {
 				color: #333;
+			}
+		}
+
+		.v-tooltip__content {
+			span {
+				color: red !important;
 			}
 		}
 	}

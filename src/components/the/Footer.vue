@@ -24,8 +24,8 @@
 					<i18n
 						class="caption"
 						:class="{
-							'black--text ': !$vuetify.theme.dark,
-							'white--text': $vuetify.theme.dark,
+							'gray--text text--darken-3': !$vuetify.theme.dark,
+							'gray--text text--lighten-4': $vuetify.theme.dark,
 						}"
 						tag="span"
 						path="footer.text"

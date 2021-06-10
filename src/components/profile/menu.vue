@@ -8,6 +8,8 @@
 		:nudge-left="2"
 		:nudge-top="2"
 		open-on-hover
+		:close-on-click="false"
+		:close-on-content-click="false"
 		close-delay="300"
 	>
 		<template #activator="{ on, attrs }">
@@ -35,7 +37,7 @@
 			<v-list-item
 				class="ma-0 pa-0 primary d-flex justify-center align-center fill-width"
 				ripple
-				style="border-radius: 8px 8px 0 0;"
+				style="border-radius: 6px 6px 0 0;"
 				:title="$t('common.username')"
 				:alt="$t('common.username')"
 			>
@@ -53,6 +55,17 @@
 				</v-list-item-content>
 			</v-list-item>
 			<v-list-item
+				class="pb-2 d-flex justify-start"
+				ripple
+				:title="$t('profile.themeToogle.alt')"
+				:alt="$t('profile.themeToogle.alt')"
+			>
+				<ProfileTimezone />
+			</v-list-item>
+			<v-divider
+				class="my-0 mx-4 pa-0 bg-secondary"
+			/>
+			<v-list-item
 				class="d-flex justify-start"
 				ripple
 				:title="$t('profile.themeToogle.alt')"
@@ -62,9 +75,10 @@
 				<v-icon
 					class="ma-0 body-2 text-center"
 					:class="{
-						'black--text ': !$vuetify.theme.dark,
-						'white--text': $vuetify.theme.dark,
+						'gray--text text--darken-3': !$vuetify.theme.dark,
+						'gray--text text--lighten-4': $vuetify.theme.dark,
 					}"
+					:size="20"
 				>
 					{{ mdiBrightness6 }}
 				</v-icon>
@@ -74,8 +88,8 @@
 					<span
 						class="body-2"
 						:class="{
-							'black--text ': !$vuetify.theme.dark,
-							'white--text': $vuetify.theme.dark,
+							'gray--text text--darken-3': !$vuetify.theme.dark,
+							'gray--text text--lighten-4': $vuetify.theme.dark,
 						}"
 					>
 						{{ $t('profile.themeToogle.label', { value: theme === 'light'
@@ -85,6 +99,9 @@
 					</span>
 				</div>
 			</v-list-item>
+			<v-divider
+				class="my-0 mx-4 pa-0 bg-secondary"
+			/>
 			<v-list-item
 				class="d-flex justify-start"
 				ripple
@@ -95,9 +112,10 @@
 				<v-icon
 					class="ma-0 body-2 text-center"
 					:class="{
-						'black--text ': !$vuetify.theme.dark,
-						'white--text': $vuetify.theme.dark,
+						'gray--text text--darken-3': !$vuetify.theme.dark,
+						'gray--text text--lighten-4': $vuetify.theme.dark,
 					}"
+					:size="20"
 				>
 					{{ mdiExitToApp }}
 				</v-icon>
@@ -107,8 +125,8 @@
 					<span
 						class="body-2"
 						:class="{
-							'black--text ': !$vuetify.theme.dark,
-							'white--text': $vuetify.theme.dark,
+							'gray--text text--darken-3': !$vuetify.theme.dark,
+							'gray--text text--lighten-4': $vuetify.theme.dark,
 						}"
 					>
 						{{ $t('profile.logout.label') }}

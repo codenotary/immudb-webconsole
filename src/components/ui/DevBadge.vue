@@ -10,9 +10,9 @@
 				v-on="on"
 			>
 				<v-chip
-					class="ma-0 py-0 px-2 caption text-uppercase elevation-2"
+					class="ma-0 py-0 px-2 caption text-uppercase font-weight-bold elevation-2"
 					color="accent"
-					style="border-radius: 8px; height: 28px;"
+					style="border-radius: 6px; height: 28px;"
 				>
 					{{ $t('footer.devMode.label') }}
 				</v-chip>

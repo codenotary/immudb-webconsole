@@ -12,8 +12,8 @@
 			>
 				<v-icon
 					:class="{
-						'black--text ': !$vuetify.theme.dark,
-						'white--text': $vuetify.theme.dark,
+						'gray--text text--darken-3': !$vuetify.theme.dark,
+						'gray--text text--lighten-4': $vuetify.theme.dark,
 					}"
 					dense
 					:size="24"

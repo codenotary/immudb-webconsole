@@ -29,8 +29,8 @@
 				<v-icon
 					class="headline"
 					:class="{
-						'black--text ': !$vuetify.theme.dark,
-						'white--text': $vuetify.theme.dark,
+						'gray--text text--darken-3': !$vuetify.theme.dark,
+						'gray--text text--lighten-4': $vuetify.theme.dark,
 					}"
 				>
 					{{ mdiMenu }}
@@ -92,10 +92,10 @@
 								:class="{
 									'mr-sm-0': mini,
 									'mr-sm-4': !mini,
-									'black--text text--darken-1': !item.disabled && !$vuetify.theme.dark,
-									'white--text text--lighten-1': !item.disabled && $vuetify.theme.dark,
-									'black--text text--lighten-3': item.disabled && !$vuetify.theme.dark,
-									'white--text text--darken-3': item.disabled && $vuetify.theme.dark,
+									'gray--text': !item.disabled && !$vuetify.theme.dark,
+									'gray--text text--lighten-3': !item.disabled && $vuetify.theme.dark,
+									'gray--text text--lighten-3': item.disabled && !$vuetify.theme.dark,
+									'gray--text text--lighten-1': item.disabled && $vuetify.theme.dark,
 								}"
 							>
 								{{ item.icon }}
@@ -111,8 +111,8 @@
 									v-if="item.title"
 									class="body-2"
 									:class="{
-										'black--text ': !$vuetify.theme.dark,
-										'white--text': $vuetify.theme.dark,
+										'gray--text text--darken-3': !$vuetify.theme.dark,
+										'gray--text text--lighten-4': $vuetify.theme.dark,
 									}"
 								>
 									{{ $t(item.title) }}
@@ -121,8 +121,8 @@
 									v-if="item.subtitle"
 									class="caption"
 									:class="{
-										'black--text ': !$vuetify.theme.dark,
-										'white--text': $vuetify.theme.dark,
+										'gray--text text--darken-3': !$vuetify.theme.dark,
+										'gray--text text--lighten-4': $vuetify.theme.dark,
 									}"
 								>
 									{{ $t(item.subtitle) }}

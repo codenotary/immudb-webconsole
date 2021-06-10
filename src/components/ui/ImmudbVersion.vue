@@ -7,8 +7,8 @@
 			<span
 				class="ma-0 pa-0 h-24 caption d-flex justify-start align-center"
 				:class="{
-					'black--text ': !$vuetify.theme.dark,
-					'white--text': $vuetify.theme.dark,
+					'gray--text text--darken-3': !$vuetify.theme.dark,
+					'gray--text text--lighten-4': $vuetify.theme.dark,
 				}"
 				v-bind="attrs"
 				v-on="on"

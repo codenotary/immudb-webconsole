@@ -22,8 +22,8 @@
 					<v-icon
 						class="ml-2 subtitle-1"
 						:class="{
-							'black--text ': !$vuetify.theme.dark,
-							'white--text': $vuetify.theme.dark,
+							'gray--text text--darken-3': !$vuetify.theme.dark,
+							'gray--text text--lighten-4': $vuetify.theme.dark,
 						}"
 						dense
 					>
@@ -32,8 +32,8 @@
 					<span
 						class="ml-2 subtitle-1 font-weight-bold text-capitalize"
 						:class="{
-							'black--text ': !$vuetify.theme.dark,
-							'white--text': $vuetify.theme.dark,
+							'gray--text text--darken-3': !$vuetify.theme.dark,
+							'gray--text text--lighten-4': $vuetify.theme.dark,
 						}"
 					>
 						<v-badge
@@ -104,6 +104,7 @@ export default {
 
 				.v-tabs-slider {
 					position: relative;
+					border-radius: $border-radius-root $border-radius-root 0 0;
 				}
 			}
 		}

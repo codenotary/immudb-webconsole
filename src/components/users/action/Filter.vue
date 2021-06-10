@@ -25,10 +25,11 @@
 				<template #activator="{ on, attrs }">
 					<v-icon
 						:class="{
-							'black--text ': !$vuetify.theme.dark,
-							'white--text': $vuetify.theme.dark,
+							'gray--text text--darken-3': !$vuetify.theme.dark,
+							'gray--text text--lighten-4': $vuetify.theme.dark,
 						}"
 						color="primary"
+						:size="24"
 						v-bind="attrs"
 						v-on="on"
 						@click="onOpen"

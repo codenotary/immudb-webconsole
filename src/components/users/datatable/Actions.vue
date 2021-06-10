@@ -14,8 +14,8 @@
 				>
 					<v-icon
 						:class="{
-							'black--text ': !$vuetify.theme.dark,
-							'white--text': $vuetify.theme.dark,
+							'gray--text text--darken-3': !$vuetify.theme.dark,
+							'gray--text text--lighten-4': $vuetify.theme.dark,
 						}"
 						:size="20"
 					>
@@ -45,8 +45,8 @@
 							>
 								<v-icon
 									:class="{
-										'black--text ': !$vuetify.theme.dark,
-										'white--text': $vuetify.theme.dark,
+										'gray--text text--darken-3': !$vuetify.theme.dark,
+										'gray--text text--lighten-4': $vuetify.theme.dark,
 									}"
 									:size="20"
 								>
@@ -81,8 +81,8 @@
 							>
 								<v-icon
 									:class="{
-										'black--text ': !$vuetify.theme.dark,
-										'white--text': $vuetify.theme.dark,
+										'gray--text text--darken-3': !$vuetify.theme.dark,
+										'gray--text text--lighten-4': $vuetify.theme.dark,
 									}"
 									:size="20"
 								>
@@ -116,8 +116,8 @@
 							>
 								<v-icon
 									:class="{
-										'black--text ': !$vuetify.theme.dark,
-										'white--text': $vuetify.theme.dark,
+										'gray--text text--darken-3': !$vuetify.theme.dark,
+										'gray--text text--lighten-4': $vuetify.theme.dark,
 									}"
 									:size="20"
 								>
@@ -148,9 +148,10 @@
 			<template #icon>
 				<v-icon
 					:class="{
-						'black--text ': !$vuetify.theme.dark,
-						'white--text': $vuetify.theme.dark,
+						'gray--text text--darken-3': !$vuetify.theme.dark,
+						'gray--text text--lighten-4': $vuetify.theme.dark,
 					}"
+					:size="20"
 				>
 					{{ mdiAccountCancelOutline }}
 				</v-icon>
@@ -168,9 +169,10 @@
 			<template #icon>
 				<v-icon
 					:class="{
-						'black--text ': !$vuetify.theme.dark,
-						'white--text': $vuetify.theme.dark,
+						'gray--text text--darken-3': !$vuetify.theme.dark,
+						'gray--text text--lighten-4': $vuetify.theme.dark,
 					}"
+					:size="20"
 				>
 					{{ mdiAccountCheckOutline }}
 				</v-icon>

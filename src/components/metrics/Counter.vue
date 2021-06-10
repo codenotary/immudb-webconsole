@@ -9,7 +9,7 @@
 				class="ma-0 pa-0 subtitle-2 text-center font-weight-bold"
 				:class="{
 					'gray--text text--darken-3': !$vuetify.theme.dark,
-					'gray--text text--lighten-2': $vuetify.theme.dark,
+					'gray--text text--lighten-4': $vuetify.theme.dark,
 				}"
 			>
 				{{ title }}
@@ -25,8 +25,8 @@
 			<span
 				class="ma-0 pa-0 title font-weight-bold"
 				:class="{
-					'black--text ': !$vuetify.theme.dark,
-					'white--text': $vuetify.theme.dark,
+					'gray--text text--darken-3': !$vuetify.theme.dark,
+					'gray--text text--lighten-4': $vuetify.theme.dark,
 				}"
 			>
 				{{ value }}

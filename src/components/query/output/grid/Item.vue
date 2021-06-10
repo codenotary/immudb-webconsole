@@ -17,7 +17,7 @@
 				<span>
 					<span
 						v-if="timestamp"
-						class="ma-0 pa-0 caption grey--text text--lighten-1"
+						class="ma-0 pa-0 caption gray--text text--lighten-1"
 					>
 						{{ timestamp }}
 					</span>
@@ -61,8 +61,8 @@
 							<v-icon
 								class="gray--text text--lighten-3"
 								:class="{
-									'black--text ': !$vuetify.theme.dark,
-									'white--text': $vuetify.theme.dark,
+									'gray--text text--darken-3': !$vuetify.theme.dark,
+									'gray--text text--lighten-4': $vuetify.theme.dark,
 								}"
 								dense
 								:size="20"
@@ -83,7 +83,7 @@
 				/>
 				<span
 					v-else
-					class="ma-0 pa-0 caption grey--text text--lighten-1"
+					class="ma-0 pa-0 caption gray--text text--lighten-1"
 				>
 					message: {{ line }}
 				</span>

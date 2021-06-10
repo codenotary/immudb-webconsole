@@ -6,9 +6,10 @@
 		<v-card-title class="ma-0 py-0 py-sm-2 pl-3 pr-0 d-flex justify-start align-center">
 			<v-icon
 				:class="{
-					'black--text ': !$vuetify.theme.dark,
-					'white--text': $vuetify.theme.dark,
+					'gray--text text--darken-3': !$vuetify.theme.dark,
+					'gray--text text--lighten-4': $vuetify.theme.dark,
 				}"
+				:size="24"
 			>
 				{{ mdiDatabaseOutline }}
 			</v-icon>
@@ -23,8 +24,8 @@
 					<span
 						class="prepend ma-0 pa-0 subtitle-2 font-weight-bold"
 						:class="{
-							'black--text ': !$vuetify.theme.dark,
-							'white--text': $vuetify.theme.dark,
+							'gray--text text--darken-3': !$vuetify.theme.dark,
+							'gray--text text--lighten-4': $vuetify.theme.dark,
 						}"
 					>
 						{{ $t('query.tables.title') }}
@@ -75,8 +76,8 @@
 						<span
 							class="sql-column body-2"
 							:class="{
-								'grey--text text--darken-2': !$vuetify.theme.dark,
-								'grey--text text--lighten-4': $vuetify.theme.dark,
+								'gray--text text--darken-2': !$vuetify.theme.dark,
+								'gray--text text--lighten-4': $vuetify.theme.dark,
 							}"
 						>
 							{{ props.item.label }}

@@ -9,10 +9,10 @@
 			v-if="parsedItems && parsedItems.length > 0"
 			ref="databaseSelector"
 			v-model="value"
-			class="db-selector ma-0 pa-0 d-flex justify-start align-baseline"
+			class="db-selector ma-0 pa-0 bg d-flex justify-start align-baseline"
 			:class="{
-				'black--text ': !$vuetify.theme.dark,
-				'white--text': $vuetify.theme.dark,
+				'gray--text text--darken-3': !$vuetify.theme.dark,
+				'gray--text text--lighten-4': $vuetify.theme.dark,
 				'mt-3': !dense,
 				'no-line': dense,
 			}"

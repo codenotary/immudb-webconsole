@@ -6,11 +6,21 @@
 	>
 		<template #activator="{ on, attrs }">
 			<div
+				class="d-flex justify-start align-center"
 				v-bind="attrs"
 				v-on="on"
 			>
+				<span
+					class="ma-0 mr-2 pa-0 body-2"
+					:class="{
+						'gray--text text--darken-3': !$vuetify.theme.dark,
+						'gray--text text--lighten-4': $vuetify.theme.dark,
+					}"
+				>
+					{{ $t('users.action.hideNotActive.label') }}
+				</span>
 				<v-switch
-					class="ma-0 pa-0"
+					class="ma-0 ml-2 pa-0"
 					:value="!!value"
 					dense
 					hide-details
@@ -18,8 +28,11 @@
 				/>
 			</div>
 		</template>
-		<span>
-			{{ $t(`users.action.hideNotActive.tooltip.${ value ? 'show' : 'hide' }`) }}
+		<span class="body-2">
+			{{ $t(`users.action.hideNotActive.tooltip.${ value
+				? 'show'
+				: 'hide'
+			}`) }}
 		</span>
 	</v-tooltip>
 </template>

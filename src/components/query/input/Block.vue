@@ -9,6 +9,10 @@
 		>
 			<v-col
 				class="query-wrapper ma-0 pa-0"
+				:class="`query-wrapper ma-0 pa-0 theme--${ $vuetify.theme.dark
+					? 'dark'
+					: 'light'
+				}`"
 				cols="12"
 			>
 				<span
@@ -156,6 +160,20 @@ $font-size: 18;
 			span {
 				font-size: #{$font-size}px !important;
 				line-height: #{$font-size}px !important;
+			}
+		}
+
+		&.theme-- {
+			&light {
+				.prism-editor__line-number {
+					color: map-get($grey, lighten-2) !important;
+				}
+			}
+
+			&dark {
+				.prism-editor__line-number {
+					color: map-get($grey, lighten-1) !important;
+				}
 			}
 		}
 	}

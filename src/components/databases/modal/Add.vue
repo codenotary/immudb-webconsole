@@ -11,8 +11,8 @@
 			<v-card-title class="ma-0 mb-2 pa-0">
 				<v-icon
 					:class="{
-						'black--text ': !$vuetify.theme.dark,
-						'white--text': $vuetify.theme.dark,
+						'gray--text text--darken-3': !$vuetify.theme.dark,
+						'gray--text text--lighten-4': $vuetify.theme.dark,
 					}"
 				>
 					{{ mdiDatabasePlusOutline }}
@@ -28,8 +28,8 @@
 				>
 					<v-icon
 						:class="{
-							'black--text ': !$vuetify.theme.dark,
-							'white--text': $vuetify.theme.dark,
+							'gray--text text--darken-3': !$vuetify.theme.dark,
+							'gray--text text--lighten-4': $vuetify.theme.dark,
 						}"
 						:size="20"
 					>

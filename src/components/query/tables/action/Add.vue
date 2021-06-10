@@ -15,7 +15,7 @@
 				@click.native.stop="onSubmit(value)"
 			>
 				<v-icon
-					class="ma-0 mr-1 pa-0 grey--text text--lighten-5"
+					class="ma-0 mr-1 pa-0 gray--text text--lighten-5"
 					small
 				>
 					{{ mdiPlus }}

@@ -70,6 +70,16 @@ export default {
 			alt: 'Profile preferences',
 			tooltip: 'Profile preferences',
 		},
+		timezone: {
+			label: 'Timezone',
+			placeholder: 'Select favourite timezone',
+			values: {
+				local: 'Browser',
+				UTC: 'UTC',
+			},
+			tooltip: 'The timezone will influence how dates appear in the webconsole',
+			successMessage: 'Timezone preference updated successfully!',
+		},
 		themeToogle: {
 			title: 'Toggle theme',
 			label: 'Toggle {value} theme',
