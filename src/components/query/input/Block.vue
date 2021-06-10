@@ -13,11 +13,7 @@
 			>
 				<span
 					v-if="queryIsEmpty"
-					class="query-placeholder body-2"
-					:class="{
-						'black--text ': !$vuetify.theme.dark,
-						'white--text': $vuetify.theme.dark,
-					}"
+					class="query-placeholder white--text body-2"
 					@click="onFocus"
 				>
 					{{ PLACEHOLDER }}

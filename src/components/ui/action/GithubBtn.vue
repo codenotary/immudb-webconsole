@@ -62,7 +62,7 @@ export default {
 	data () {
 		return {
 			mdiGithub,
-			stars: '2828',
+			stars: '999999',
 		};
 	},
 	computed: {

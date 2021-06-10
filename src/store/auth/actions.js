@@ -44,7 +44,7 @@ export default {
 								show: true,
 								title: atob(warning),
 								color: 'primary',
-								persistent: true,
+								persistent: false,
 								icon: mdiShieldLock,
 							}, { root: true });
 						}

@@ -99,7 +99,6 @@ export default {
 			height: $spacer-12 !important;
 
 			.v-tabs-slider-wrapper {
-				bottom: -4px;
 				height: 4px !important;
 				z-index: 99 !important;
 

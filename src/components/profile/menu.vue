@@ -1,13 +1,14 @@
 <template>
 	<v-menu
 		v-if="isAuthenticated"
-		class="ma-0 pa-0 bg d-flex flex-column justify-center align-center outlined"
+		class="ma-0 pa-0 d-flex flex-column justify-center align-center outlined"
 		style="padding-bottom: 16px !important;"
 		top
-		offset-x
+		offset-y
 		:nudge-left="2"
 		:nudge-top="2"
 		open-on-hover
+		close-delay="300"
 	>
 		<template #activator="{ on, attrs }">
 			<v-list-item
@@ -16,7 +17,7 @@
 				v-on="on"
 			>
 				<v-avatar
-					color="accent elevation-2"
+					color="primary elevation-2"
 					:size="40"
 				>
 					<span

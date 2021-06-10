@@ -359,7 +359,7 @@ export default {
 		},
 		onCloseBanner () {
 			this.bannerOpen = false;
-			this.$cookies.set(BANNER_COOKIE, '1D');
+			this.$cookies.set(BANNER_COOKIE, '1H');
 		},
 	},
 };

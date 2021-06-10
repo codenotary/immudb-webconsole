@@ -9,7 +9,7 @@
 				class="ma-0 pa-0 subtitle-2 text-center font-weight-bold"
 				:class="{
 					'gray--text text--darken-3': !$vuetify.theme.dark,
-					'gray--text text--lighten-3': $vuetify.theme.dark,
+					'gray--text text--lighten-2': $vuetify.theme.dark,
 				}"
 			>
 				{{ title }}

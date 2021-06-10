@@ -76,11 +76,11 @@ export default {
 #QueryOutput {
 	&.v-card {
 		.v-card__title {
-			height: 80px;
+			height: $spacer-12;
 		}
 
 		.v-card__text {
-			height: calc(100% - 80px) !important;
+			height: calc(100% - #{$spacer-12}) !important;
 			margin-top: 0 !important;
 			overflow-y: auto;
 			overflow-x: hidden;

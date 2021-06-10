@@ -8,6 +8,10 @@
 		fixed
 		app
 	>
+		<v-spacer
+			v-if="!persistent"
+			class="ml-4"
+		/>
 		<slot>
 			<v-icon
 				class="ma-0 pa-0 white--text"
@@ -39,7 +43,7 @@
 		/>
 		<v-btn
 			v-if="!persistent"
-			class="ma-0 pa-0 text-center"
+			class="ma-0 mr-4 pa-0 text-center"
 			text
 			icon
 			dense
@@ -86,7 +90,7 @@ export default {
 	},
 	methods: {
 		onClose () {
-			this.$emit('input');
+			this.$emit('close');
 		},
 		onSubmit () {
 			this.$emit('submit');

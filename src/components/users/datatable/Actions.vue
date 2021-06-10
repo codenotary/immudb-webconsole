@@ -23,7 +23,9 @@
 					</v-icon>
 				</v-btn>
 			</template>
-			<v-list class="user-datatable-actions">
+			<v-list
+				class="ma-0 pa-0 bg primary-outlined"
+			>
 				<v-tooltip
 					v-if="!disabled"
 					content-class="ma-0 py-2 px-4 bg primary-outlined"
