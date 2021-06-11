@@ -75,7 +75,7 @@
 				<v-icon
 					class="ma-0 body-2 text-center"
 					:class="{
-						'gray--text text--darken-3': !$vuetify.theme.dark,
+						'gray--text text--lighten-2': !$vuetify.theme.dark,
 						'gray--text text--lighten-4': $vuetify.theme.dark,
 					}"
 					:size="20"
@@ -88,7 +88,7 @@
 					<span
 						class="body-2"
 						:class="{
-							'gray--text text--darken-3': !$vuetify.theme.dark,
+							'gray--text text--lighten-2': !$vuetify.theme.dark,
 							'gray--text text--lighten-4': $vuetify.theme.dark,
 						}"
 					>
@@ -112,7 +112,7 @@
 				<v-icon
 					class="ma-0 body-2 text-center"
 					:class="{
-						'gray--text text--darken-3': !$vuetify.theme.dark,
+						'gray--text text--lighten-2': !$vuetify.theme.dark,
 						'gray--text text--lighten-4': $vuetify.theme.dark,
 					}"
 					:size="20"
@@ -125,7 +125,7 @@
 					<span
 						class="body-2"
 						:class="{
-							'gray--text text--darken-3': !$vuetify.theme.dark,
+							'gray--text text--lighten-2': !$vuetify.theme.dark,
 							'gray--text text--lighten-4': $vuetify.theme.dark,
 						}"
 					>

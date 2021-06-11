@@ -22,7 +22,7 @@
 					<v-icon
 						class="ml-2 subtitle-1"
 						:class="{
-							'gray--text text--darken-3': !$vuetify.theme.dark,
+							'gray--text text--lighten-2': !$vuetify.theme.dark,
 							'gray--text text--lighten-4': $vuetify.theme.dark,
 						}"
 						dense
@@ -32,7 +32,7 @@
 					<span
 						class="ml-2 subtitle-1 font-weight-bold text-capitalize"
 						:class="{
-							'gray--text text--darken-3': !$vuetify.theme.dark,
+							'gray--text text--lighten-2': !$vuetify.theme.dark,
 							'gray--text text--lighten-4': $vuetify.theme.dark,
 						}"
 					>

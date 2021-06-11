@@ -12,7 +12,7 @@
 			>
 				<v-icon
 					:class="{
-						'gray--text text--darken-3': !$vuetify.theme.dark,
+						'gray--text text--lighten-2': !$vuetify.theme.dark,
 						'gray--text text--lighten-4': $vuetify.theme.dark,
 					}"
 					dense
