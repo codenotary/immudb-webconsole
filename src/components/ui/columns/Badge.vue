@@ -15,7 +15,7 @@ export default {
 	name: 'UiColumnsBadge',
 	props: {
 		value: { type: [String, Boolean], default: '' },
-		color: { type: String, default: 'accent' },
+		color: { type: String, default: 'primary' },
 	},
 };
 </script>

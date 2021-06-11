@@ -8,7 +8,7 @@
 			<template #activator="{ on, attrs }">
 				<v-btn
 					:loading="isLoading"
-					color="secondary"
+					color="primary"
 					icon
 					:disabled="disabled"
 					v-bind="attrs"
@@ -34,7 +34,7 @@
 		<!-- MODALS -->
 		<UiModalConfirm
 			v-model="showUseDatabaseModal"
-			color="success"
+			color="primary"
 			:title="$t('databases.table.modal.use.title', { databaseName })"
 			:confirm-text="$t('common.confirm')"
 			:cancel-text="$t('common.cancel')"
@@ -42,15 +42,19 @@
 		>
 			<template #icon>
 				<v-icon
-					:class="{
-						'gray--text text--darken-3': !$vuetify.theme.dark,
-						'gray--text text--lighten-4': $vuetify.theme.dark,
-					}"
+					class="bg--text"
+					:size="20"
 				>
 					{{ mdiDatabaseCheckOutline }}
 				</v-icon>
 			</template>
-			<p v-html="$t('databases.table.modal.use.sure')" />
+			<p
+				:class="{
+					'gray--text text--darken-3': !$vuetify.theme.dark,
+					'gray--text text--lighten-4': $vuetify.theme.dark,
+				}"
+				v-html="$t('databases.table.modal.use.sure')"
+			/>
 		</UiModalConfirm>
 	</span>
 </template>

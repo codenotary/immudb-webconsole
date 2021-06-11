@@ -38,7 +38,7 @@
 						>
 							<v-list-item-title
 								class="d-flex justify-start align-center"
-								color="secondary"
+								color="primary"
 								:alt="$t('users.table.action.deactivate.alt', { user })"
 								v-bind="attrs"
 								v-on="on"
@@ -74,7 +74,7 @@
 						>
 							<v-list-item-title
 								class="d-flex justify-start align-center"
-								color="secondary"
+								color="primary"
 								:alt="$t('users.table.action.activate.alt', { user })"
 								v-bind="attrs"
 								v-on="on"
@@ -109,7 +109,7 @@
 						>
 							<v-list-item-title
 								class="d-flex justify-start align-center"
-								color="secondary"
+								color="primary"
 								:alt="$t('users.table.action.updatePassword.alt')"
 								v-bind="attrs"
 								v-on="on"
@@ -139,7 +139,7 @@
 		<!-- MODALS -->
 		<UiModalConfirm
 			v-model="showDeactiveUserModal"
-			color="error"
+			color="primary"
 			:title="$t('users.table.modal.deactivate.title', { user })"
 			:confirm-text="$t('common.confirm')"
 			:cancel-text="$t('common.cancel')"
@@ -147,16 +147,19 @@
 		>
 			<template #icon>
 				<v-icon
-					:class="{
-						'gray--text text--darken-3': !$vuetify.theme.dark,
-						'gray--text text--lighten-4': $vuetify.theme.dark,
-					}"
+					class="bg--text"
 					:size="20"
 				>
 					{{ mdiAccountCancelOutline }}
 				</v-icon>
 			</template>
-			<p v-html="$t('users.table.modal.deactivate.sure')" />
+			<p
+				:class="{
+					'gray--text text--darken-3': !$vuetify.theme.dark,
+					'gray--text text--lighten-4': $vuetify.theme.dark,
+				}"
+				v-html="$t('users.table.modal.deactivate.sure')"
+			/>
 		</UiModalConfirm>
 		<UiModalConfirm
 			v-model="showActivateUserModal"
@@ -168,16 +171,19 @@
 		>
 			<template #icon>
 				<v-icon
-					:class="{
-						'gray--text text--darken-3': !$vuetify.theme.dark,
-						'gray--text text--lighten-4': $vuetify.theme.dark,
-					}"
+					class="bg--text"
 					:size="20"
 				>
 					{{ mdiAccountCheckOutline }}
 				</v-icon>
 			</template>
-			<p v-html="$t('users.table.modal.activate.sure')" />
+			<p
+				:class="{
+					'gray--text text--darken-3': !$vuetify.theme.dark,
+					'gray--text text--lighten-4': $vuetify.theme.dark,
+				}"
+				v-html="$t('users.table.modal.activate.sure')"
+			/>
 		</UiModalConfirm>
 		<UsersModalUpdatePassword
 			v-model="showUpdatePasswordModal"

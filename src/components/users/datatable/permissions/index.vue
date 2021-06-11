@@ -31,7 +31,7 @@
 								{{ mdiShapeCirclePlus }}
 							</v-icon>
 							<span
-								class="my-0 ml-2 text-capitalize"
+								class="my-0 ml-2 body-2 text-capitalize"
 							>
 								{{ $t('users.table.permissions.add.label') }}
 							</span>
@@ -43,7 +43,7 @@
 				</v-tooltip>
 			</p>
 			<v-divider
-				class="ma-0 mt-4 pa-0 primary"
+				class="ma-0 mt-4 pa-0 thick"
 			/>
 			<v-data-table
 				ref="datatable"

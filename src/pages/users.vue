@@ -1,7 +1,7 @@
 <template>
 	<v-card
 		id="Users"
-		class="ma-0 pa-0 pr-4 bg fill-height pane shadow"
+		class="ma-0 pa-0 pr-4 pb-3 bg fill-height pane shadow"
 		elevation="4"
 	>
 		<v-card-title class="ma-0 py-0 py-sm-2 pl-1 pr-0 d-flex justify-start align-center">

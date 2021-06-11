@@ -1,7 +1,7 @@
 <template>
 	<v-dialog
 		:value="value"
-		:content-class="`splash-screen theme--${ $vuetify.theme.dark ? 'dark' : 'light' }`"
+		:content-class="`splash-screen bg-secondary theme--${ $vuetify.theme.dark ? 'dark' : 'light' }`"
 		fullscreen
 		persistent
 		no-click-animation
@@ -135,24 +135,6 @@ export default {
 
 <style lang="scss">
 .splash-screen {
-	&.theme-- {
-		&dark {
-			background-color: #0d3049;
-
-			.immudb svg g {
-				color: #c1c1c1 !important;
-			}
-		}
-
-		&light {
-			background-color: #c1c1c1;
-
-			.immudb svg g {
-				color: #0d3049 !important;
-			}
-		}
-	}
-
 	.logo,
 	.immudb,
 	.mascotte {

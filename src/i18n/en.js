@@ -153,6 +153,7 @@ export default {
 				alt: 'Run SQL query',
 				tooltip: 'Run SQL query',
 				tooltipAll: 'Run All SQL queries',
+				tooltipDisabled: 'A SQL query is required',
 				loading: 'Running',
 				command: 'SQL Command executed successfully!',
 			},

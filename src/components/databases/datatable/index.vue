@@ -18,7 +18,7 @@
 					<UiColumnsBadge
 						v-if="!!item.active"
 						:value="item.active"
-						color="success"
+						color="primary"
 					/>
 				</template>
 				<template #[`item.actions`]="{ item }">

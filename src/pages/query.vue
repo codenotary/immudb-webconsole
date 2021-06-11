@@ -1,7 +1,7 @@
 <template>
 	<splitpanes
 		id="QueryMultipanes"
-		class="py-0 pr-4"
+		class="ma-0 pa-0 pr-4"
 		:class="`theme--${ $vuetify.theme.dark ? 'dark' : 'light' }`"
 		:horizontal="mobile"
 		:push-other-panes="true"

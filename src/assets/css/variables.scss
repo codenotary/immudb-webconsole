@@ -149,7 +149,7 @@ $border-color-light: #f9fcff;
 
 		.v-tooltip__content {
 			span {
-				color: red !important;
+				color: map-get($grey, lighten-3) !important;
 			}
 		}
 	}
@@ -168,7 +168,7 @@ $border-color-light: #f9fcff;
 
 		.v-tooltip__content {
 			span {
-				color: red !important;
+				color: map-get($grey, darken-2) !important;
 			}
 		}
 	}
@@ -176,6 +176,9 @@ $border-color-light: #f9fcff;
 
 // BORDER RADIUS
 $border-radius-root: 6px;
+
+// BORDER COLOR
+$row-border-color: rgba(0, 0, 0, 0.15);
 
 // TYPOGRAPHY
 $font-size-root: 14px;

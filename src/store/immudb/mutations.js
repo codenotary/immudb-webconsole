@@ -10,7 +10,7 @@ export default {
 	},
 	[SET_STATE](state, payload) {
 		if (payload) {
-			const { db, txId, txHash } = payload;
+			const { db, txId, txHash } = payload || {};
 			db && (state.state.db = db);
 			txHash && (state.state.txHash = txHash);
 			if (txId) {

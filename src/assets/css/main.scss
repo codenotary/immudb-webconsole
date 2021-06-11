@@ -317,6 +317,10 @@ a {
 
 	thead {
 		th {
+			span {
+				font-size: 0.875rem !important;
+			}
+
 			&.groupable {
 				span:last-of-type {
 					position: relative;
@@ -348,6 +352,7 @@ a {
 	tbody {
 		tr {
 			cursor: pointer;
+			margin-top: 6px !important;
 
 			&.striped {
 				background-color: #f9fcff;
@@ -363,6 +368,32 @@ a {
 			&.action-wrapper {
 				width: 1% !important;
 				white-space: nowrap !important;
+			}
+		}
+	}
+
+	thead,
+	tbody {
+		th,
+		td {
+			border-color: $row-border-color !important;
+			border-width: 2px !important;
+			position: relative;
+		}
+
+		th:not(:nth-last-of-type(-n+2)),
+		td:not(:nth-last-of-type(-n+2)) {
+			position: relative;
+
+			&::after {
+				content: '';
+				position: absolute;
+				width: 2px;
+				top: $spacer-2;
+				right: 0;
+				bottom: $spacer-2;
+				background-color: $row-border-color;
+				z-index: 10;
 			}
 		}
 	}
@@ -387,6 +418,13 @@ a {
 		&:hover {
 			background-color: transparent !important;
 		}
+	}
+}
+
+.v-divider {
+	&.thick {
+		border-color: $row-border-color !important;
+		border-width: 1px !important;
 	}
 }
 

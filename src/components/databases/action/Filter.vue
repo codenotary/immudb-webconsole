@@ -24,10 +24,6 @@
 			>
 				<template #activator="{ on, attrs }">
 					<v-icon
-						:class="{
-							'gray--text text--darken-3': !$vuetify.theme.dark,
-							'gray--text text--lighten-4': $vuetify.theme.dark,
-						}"
 						color="primary"
 						:size="24"
 						v-bind="attrs"

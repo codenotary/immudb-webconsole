@@ -1,23 +1,20 @@
 <template>
 	<v-dialog
-		class="confirm-modal-with-input"
+		content-class="primary-outlined"
 		:color="color"
 		:value="value"
 		max-width="600px"
 		:overlay-opacity="0.95"
 		@input="$emit('input', $event)"
 	>
-		<v-card class="ma-0 pa-4 bg">
+		<v-card class="ma-0 pa-0 bg">
 			<v-card-title
-				class="ma-0 mb-2 pa-0"
+				class="ma-0 mb-2 py-2 px-4 primary d-flex justify-start align-center"
 				:color="color"
 			>
 				<slot name="icon">
 					<v-icon
-						:class="{
-							'gray--text text--darken-3': !$vuetify.theme.dark,
-							'gray--text text--lighten-4': $vuetify.theme.dark,
-						}"
+						class="bg--text"
 						:size="20"
 					>
 						{{ mdiAlertCircleOutline }}
@@ -36,17 +33,14 @@
 					@click="onClose"
 				>
 					<v-icon
-						:class="{
-							'gray--text text--darken-3': !$vuetify.theme.dark,
-							'gray--text text--lighten-4': $vuetify.theme.dark,
-						}"
+						class="bg--text"
 						:size="20"
 					>
 						{{ mdiClose }}
 					</v-icon>
 				</v-btn>
 			</v-card-title>
-			<v-card-text class="ma-0 mb-2 pa-0">
+			<v-card-text class="ma-0 mb-2 pa-4 pt-2">
 				<slot>{{ text }}</slot>
 
 				<ValidationObserver
@@ -82,7 +76,7 @@
 					</v-form>
 				</ValidationObserver>
 			</v-card-text>
-			<v-card-actions class="ma-0 pa-0 d-flex justify-end">
+			<v-card-actions class="ma-0 pa-4 d-flex justify-end">
 				<v-btn
 					text
 					@click="onClose"
@@ -90,8 +84,8 @@
 					{{ cancelText || $t('cancel') }}
 				</v-btn>
 				<v-btn
-					:class="`ml-2 ${ color }-gradient`"
-					:color="color"
+					class="ml-2"
+					color="primary"
 					form="UiModalConfirmFormWithInput"
 					@click="onConfirm"
 				>
@@ -141,7 +135,7 @@ export default {
 	props: {
 		value: { type: Boolean, default: false },
 		title: { type: String, default: '' },
-		color: { type: String, default: 'error' },
+		color: { type: String, default: 'primary' },
 		text: { type: String, default: '' },
 		inputType: { type: String, default: 'text' },
 		confirmValidator: { type: String, default: '' },

@@ -1,7 +1,7 @@
 <template>
 	<v-card
 		id="Metrics"
-		class="ma-0 pa-0 pr-4 bg fill-height pane shadow"
+		class="ma-0 pa-0 pr-4 pb-3 bg fill-height pane shadow"
 		elevation="0"
 	>
 		<v-card-title class="ma-0 py-0 py-sm-2 pl-1 pr-5 d-flex justify-start align-center">
@@ -25,6 +25,7 @@
 				<template #activator="{ on, attrs }">
 					<div
 						class="db-select-wrapper ma-0 pa-0 d-flex"
+						style="opacity: 0.5;"
 						v-bind="attrs"
 						v-on="on"
 					>
