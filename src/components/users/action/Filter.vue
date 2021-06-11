@@ -33,7 +33,7 @@
 						{{ mdiFilterOutline }}
 					</v-icon>
 				</template>
-				<span>
+				<span class="body-2">
 					{{ $t('users.search.tooltip') }}
 				</span>
 			</v-tooltip>

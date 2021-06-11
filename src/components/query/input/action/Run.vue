@@ -56,10 +56,16 @@
 				</v-btn>
 			</div>
 		</template>
-		<span v-if="isDisabled">
+		<span
+			v-if="isDisabled"
+			class="body-2"
+		>
 			{{ $t('query.input.run.tooltipDisabled') }}
 		</span>
-		<span v-else>
+		<span
+			v-else
+			class="body-2"
+		>
 			{{ $t(`query.input.run.tooltip${ numberOfQueries > 1 ? 'All' : ''}`) }}
 		</span>
 	</v-tooltip>

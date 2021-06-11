@@ -18,7 +18,7 @@
 				}}
 			</v-icon>
 		</template>
-		<span>
+		<span class="body-2">
 			{{ $t(`users.${ value ? 'active' : 'notActive' }`) }}
 		</span>
 	</v-tooltip>

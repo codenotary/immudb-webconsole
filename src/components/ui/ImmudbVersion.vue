@@ -19,7 +19,9 @@
 				</span>
 			</span>
 		</template>
-		{{ $t('footer.version.tooltip') }}
+		<span class="body-2">
+			{{ $t('footer.version.tooltip') }}
+		</span>
 	</v-tooltip>
 </template>
 

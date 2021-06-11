@@ -132,7 +132,7 @@ export default {
 		.db-selector {
 			input {
 				padding-top: 2px !important;
-				color: $primary;
+				color: var(--v-primary-base);
 			}
 
 			.v-input__append-inner {
@@ -150,11 +150,11 @@ export default {
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
-			color: $primary;
+			color: var(--v-primary-base);
 		}
 
 		.v-input__append-inner span {
-			color: $primary !important;
+			color: var(--v-primary-base) !important;
 		}
 
 		.prepend,

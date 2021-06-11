@@ -31,7 +31,9 @@
 				</span>
 			</v-btn>
 		</template>
-		{{ $t('footer.feedback.tooltip') }}
+		<span class="body-2">
+			{{ $t('footer.feedback.tooltip') }}
+		</span>
 	</v-tooltip>
 </template>
 

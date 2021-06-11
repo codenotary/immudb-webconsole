@@ -296,7 +296,7 @@ export default {
 			bottom: 4px;
 			height: 0;
 			width: 4px;
-			background-color: $primary;
+			background-color: var(--v-primary-base);
 			border-radius: 0 4px 4px 0;
 			opacity: 1;
 			transition: none;
@@ -306,7 +306,7 @@ export default {
 			svg,
 			span {
 				font-weight: 900;
-				color: $primary;
+				color: var(--v-primary-base);
 			}
 
 			&::before {
@@ -317,15 +317,15 @@ export default {
 		&.theme-- {
 			&light {
 				&:hover {
-					background: map-get($blue, dark) !important;
-					color: $primary !important;
+					background: var(--v-primary-lighten3) !important;
+					color: var(--v-primary-base) !important;
 				}
 			}
 
 			&dark {
 				&:hover {
-					background: map-get($blue, light) !important;
-					color: $primary !important;
+					background: var(--v-primary-lighten1) !important;
+					color: var(--v-primary-base) !important;
 				}
 			}
 		}

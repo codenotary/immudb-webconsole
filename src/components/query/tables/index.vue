@@ -112,7 +112,7 @@
 											{{ mdiKey }}
 										</v-icon>
 									</template>
-									<span>
+									<span class="body-2">
 										{{ $t('query.tables.primaryKey') }}
 									</span>
 								</v-tooltip>
@@ -137,7 +137,7 @@
 											{{ mdiKeyLink }}
 										</v-icon>
 									</template>
-									<span>
+									<span class="body-2">
 										{{ $t('query.tables.foreignKey') }}
 									</span>
 								</v-tooltip>
@@ -392,7 +392,7 @@ export default {
 						}
 
 						&::before {
-							background-color: $primary;
+							background-color: var(--v-primary-base);
 						}
 
 						&::after {
@@ -422,7 +422,7 @@ export default {
 						}
 
 						&::before {
-							background-color: $primary;
+							background-color: var(--v-primary-base);
 						}
 
 						&::after {

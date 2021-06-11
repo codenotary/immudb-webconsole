@@ -43,7 +43,7 @@
 				</template>
 			</v-btn>
 		</template>
-		<span>
+		<span class="body-2">
 			{{ $t('databases.action.add.tooltip') }}
 		</span>
 	</v-tooltip>

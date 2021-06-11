@@ -38,7 +38,7 @@
 				/>
 			</div>
 		</template>
-		<span class="ma-0 pa-0">
+		<span class="body-2">
 			{{ $t('query.input.timetravelComingSoon') }}
 		</span>
 	</v-tooltip>

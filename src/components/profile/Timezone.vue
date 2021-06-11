@@ -19,7 +19,7 @@
 						{{ mdiInformationOutline }}
 					</v-icon>
 				</template>
-				<span>
+				<span class="body-2">
 					{{ $t('profile.timezone.tooltip') }}
 				</span>
 			</v-tooltip>

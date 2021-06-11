@@ -6,7 +6,7 @@
 			'gray--text text--darken-3': !$vuetify.theme.dark,
 			'gray--text text--lighten-4': $vuetify.theme.dark,
 		}"
-		color="grey darken-2"
+		color="bg"
 		:items="items"
 		:label="$t('users.modal.add.permission')"
 	/>

@@ -172,7 +172,7 @@ a {
 			right: 0;
 			bottom: 0;
 			left: 0;
-			border: 2px solid $primary;
+			border: 2px solid var(--v-primary-base);
 			border-radius: $border-radius-root;
 			pointer-events: none !important;
 		}
@@ -180,8 +180,50 @@ a {
 
 	&-thin {
 		&::after {
-			border: 1px solid $primary;
+			border: 1px solid var(--v-primary-base);
 		}
+	}
+}
+
+.v-menu__content {
+	border-radius: $border-radius-root !important;
+}
+
+.v-list.v-select-list {
+	padding: 0 !important;
+	background: var(--v-bg-base) !important;
+	border-radius: $border-radius-root !important;
+
+	.v-list-item.v-list-item--active {
+		&::before {
+			background-color: var(--v-bg-base) !important;
+		}
+	}
+
+	&.theme-- {
+		&light {
+			> div:not(:nth-last-of-type(-n-1)) {
+				border-bottom: 2px solid var(--v-primary-base);
+			}
+		}
+
+		&dark {
+			> div:not(:nth-last-of-type(-n-1)) {
+				border-bottom: 2px solid $row-border-reverse-color;
+			}
+		}
+	}
+
+	&::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		border: 2px solid var(--v-primary-base);
+		border-radius: $border-radius-root;
+		pointer-events: none !important;
 	}
 }
 

@@ -18,7 +18,9 @@
 				</v-chip>
 			</span>
 		</template>
-		{{ $t('footer.devMode.tooltip') }}
+		<span class="body-2">
+			{{ $t('footer.devMode.tooltip') }}
+		</span>
 	</v-tooltip>
 </template>
 

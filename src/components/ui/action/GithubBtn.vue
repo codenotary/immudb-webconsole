@@ -33,7 +33,7 @@
 				</span>
 			</v-btn>
 		</template>
-		<span>
+		<span class="body-2">
 			{{ $t('footer.github.tooltip') }}
 		</span>
 	</v-tooltip>

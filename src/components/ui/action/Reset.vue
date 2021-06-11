@@ -27,7 +27,7 @@
 				</v-icon>
 			</v-btn>
 		</template>
-		<span>
+		<span class="body-2">
 			{{ $t('query.input.clear') }}
 		</span>
 	</v-tooltip>

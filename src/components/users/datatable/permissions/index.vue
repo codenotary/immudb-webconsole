@@ -155,7 +155,7 @@ section.permissions-list-detail {
 	width: 98% !important;
 
 	.permissions-detail {
-		border: 1px solid $primary !important;
+		border: 1px solid var(--v-primary-base) !important;
 		border-radius: $border-radius-root;
 
 		table {

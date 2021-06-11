@@ -20,7 +20,7 @@
 				>
 					{{ mdiPlus }}
 				</v-icon>
-				<span>
+				<span class="body-2">
 					{{ $t('query.tables.add.button') }}
 				</span>
 			</v-btn>

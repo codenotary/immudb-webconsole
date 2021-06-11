@@ -53,7 +53,7 @@
 						</UiActionDatabaseSelect>
 					</div>
 				</template>
-				<span>
+				<span class="body-2">
 					{{ $t('metrics.multidatabaseComingSoon') }}
 				</span>
 			</v-tooltip>
@@ -74,7 +74,10 @@
 						{{ mdiInformationOutline }}
 					</v-icon>
 				</template>
-				<span v-html="$t('metrics.info', { value: getPeriod })" />
+				<span
+					class="body-2"
+					v-html="$t('metrics.info', { value: getPeriod })"
+				/>
 			</v-tooltip>
 		</v-card-title>
 		<v-card-text
