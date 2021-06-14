@@ -9,13 +9,14 @@
 				class="add-to-query ma-0 py-0 px-1 d-flex justify-start align-center"
 				color="primary"
 				dense
+				outlined
 				x-small
 				v-bind="attrs"
 				v-on="on"
 				@click.native.stop="onSubmit(value)"
 			>
 				<v-icon
-					class="ma-0 mr-1 pa-0 gray--text text--lighten-5"
+					class="ma-0 mr-1 pa-0 primary--text"
 					small
 				>
 					{{ mdiPlus }}

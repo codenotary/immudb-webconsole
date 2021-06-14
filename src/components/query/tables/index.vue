@@ -86,7 +86,7 @@
 						<div class="table-actions">
 							<div class="tags h-24 d-flex justify-start align-center">
 								<span
-									class="pl-1 accent--text caption"
+									class="pl-1 primary--text caption"
 									style="line-height: 1.25rem; text-overflow: ellipsis;"
 								>
 									{{ props.item.tags }}
@@ -102,8 +102,8 @@
 										<v-icon
 											class="ma-0 mt-n1 ml-1 pa-0"
 											:class="{
-												[`accent--text text--darken-0`]: !$vuetify.theme.dark,
-												[`accent--text text--lighten-3`]: $vuetify.theme.dark,
+												[`primary--text text--darken-0`]: !$vuetify.theme.dark,
+												[`primary--text text--lighten-3`]: $vuetify.theme.dark,
 											}"
 											small
 											v-bind="attrsPrimary"
@@ -127,8 +127,8 @@
 										<v-icon
 											class="ma-0 mt-n1 ml-1 pa-0"
 											:class="{
-												[`accent--text text--darken-0`]: !$vuetify.theme.dark,
-												[`accent--text text--lighten-3`]: $vuetify.theme.dark,
+												[`primary--text text--darken-0`]: !$vuetify.theme.dark,
+												[`primary--text text--lighten-3`]: $vuetify.theme.dark,
 											}"
 											small
 											v-bind="attrsForeign"
@@ -380,7 +380,7 @@ export default {
 		&.theme-- {
 			&light {
 				.v-treeview-node__toggle {
-					color: #191919 !important;
+					color: var(--v-primary-base) !important;
 				}
 
 				.v-treeview-node__label {
@@ -410,7 +410,7 @@ export default {
 
 			&dark {
 				.v-treeview-node__toggle {
-					color: #e6e6e6 !important;
+					color: var(--v-primary-base) !important;
 				}
 
 				.v-treeview-node__label {
