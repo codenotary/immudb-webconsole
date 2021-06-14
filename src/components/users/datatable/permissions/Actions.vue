@@ -72,7 +72,7 @@
 		/>
 		<UiModalConfirm
 			v-model="showDeletePermissionModal"
-			color="error"
+			color="primary"
 			:title="$t('users.table.permissions.remove.title', { value: `${ database }:${ parsedPermission }`, user })"
 			:confirm-text="$t('common.confirm')"
 			:cancel-text="$t('common.cancel')"

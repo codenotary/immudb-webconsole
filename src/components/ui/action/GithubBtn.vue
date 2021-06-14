@@ -52,7 +52,7 @@ export default {
 				.then((response) => {
 					if (response && response.data) {
 						const { data: { stargazers_count: stars } } = response || {};
-						stars && (this.stars = stars);
+						stars && (this.stars = `${ stars }`);
 					}
 				})
 				.catch((err) => {
@@ -62,7 +62,7 @@ export default {
 	data () {
 		return {
 			mdiGithub,
-			stars: '999999',
+			stars: '',
 		};
 	},
 	computed: {

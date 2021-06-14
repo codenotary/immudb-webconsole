@@ -350,7 +350,7 @@ export default {
 		METRICS_API_URL: IS_PROD
 			? '/'
 			: process.env.METRICS_API_URL || '/metrics-api/',
-		GITHUB_API_URL: '/github-api',
+		GITHUB_API_URL: 'https://api.github.com',
 	},
 
 	/*
@@ -393,13 +393,6 @@ export default {
 		'/demo/metrics-api/': {
 			target: process.env.DEMO_URL,
 			pathRewrite: { '^/demo/metrics-api/': '/' },
-			xfwd: true,
-			logLevel: 'debug',
-		},
-		// Github
-		'/github-api/': {
-			target: 'https://api.github.com',
-			pathRewrite: { '^/github-api/': '/' },
 			xfwd: true,
 			logLevel: 'debug',
 		},
