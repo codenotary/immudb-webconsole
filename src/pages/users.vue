@@ -158,7 +158,6 @@ export default {
 		this.$eventbus && this.$eventbus
 				// detecting update sysadmin password.
 				.$on('EVENT_BUS==>updateSysadminPassword', (data) => {
-					console.log('event bus');
 					this.showUpdateSysadminPasswordModal = true;
 				});
 	},
