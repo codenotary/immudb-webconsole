@@ -69,14 +69,16 @@ export default {
 
 <style lang="scss">
 #OutputGrid {
+	position: relative;
 	height: calc(100% - 16px) !important;
+	z-index: 10;
 
 	#GridFilter {
 		position: absolute;
-		top: $spacer-2;
+		top: -$spacer-4;
 		right: $spacer-2;
 		width: 96px;
-		z-index: 10;
+		z-index: 11;
 	}
 }
 </style>

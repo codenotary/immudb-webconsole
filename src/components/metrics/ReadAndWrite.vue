@@ -50,6 +50,7 @@ import {
 	VIEW_MODULE,
 	THEME,
 	MOBILE,
+	TIMEZONE,
 } from '@/store/view/constants';
 import {
 	DEFAULT_DB,
@@ -131,6 +132,7 @@ export default {
 		...mapGetters(VIEW_MODULE, {
 			theme: THEME,
 			mobile: MOBILE,
+			timezone: TIMEZONE,
 		}),
 		noData () {
 			return (this.reservedY && this.reservedY.length <= 0) &&
@@ -241,6 +243,7 @@ export default {
 		options () {
 			const getMaxReservedSteps = this.getMaxReservedSteps;
 			const getMaxInUseSteps = this.getMaxInUseSteps;
+			const timezone = this.timezone;
 			return {
 				responsive: true,
 				maintainAspectRatio: false,
@@ -277,7 +280,13 @@ export default {
 						stacked: true,
 						ticks: {
 							callback (value) {
-								return moment(value).format('hh:mm:ss A');
+								if (timezone === 'utc') {
+									return moment
+											.utc(value)
+											.format('hh:mm:ss A');
+								}
+								return moment(value)
+										.format('hh:mm:ss A');
 							},
 							padding: 16,
 							fontColor: this.$vuetify.theme.dark
@@ -297,8 +306,13 @@ export default {
 						},
 						label (tooltipItem) {
 							const { xLabel, yLabel } = tooltipItem;
-							const y = moment(xLabel)
+							let y = moment(xLabel)
 									.format('hh:mm:ss A');
+							if (timezone === 'utc') {
+								y = moment
+										.utc(xLabel)
+										.format('hh:mm:ss A');
+							}
 							const x = prettyBytes(parseInt(yLabel) || 0);
 							return `${ y }: ${ x }`;
 						},

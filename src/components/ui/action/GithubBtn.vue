@@ -27,6 +27,7 @@
 					{{ mdiGithub }}
 				</v-icon>
 				<span
+					v-if="parsedStars"
 					class="ml-1 pa-0 gray--text text--lighten-1 d-flex justify-start align-center font-weight-bold"
 				>
 					{{ parsedStars }}

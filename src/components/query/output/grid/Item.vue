@@ -17,7 +17,11 @@
 				<span>
 					<span
 						v-if="timestamp"
-						class="ma-0 pa-0 caption gray--text text--lighten-1"
+						class="ma-0 pa-0 caption"
+						:class="{
+							'gray--text text--lighten-2': !$vuetify.theme.dark,
+							'gray--text text--lighten-4': $vuetify.theme.dark,
+						}"
 					>
 						{{ timestamp }}
 					</span>
@@ -95,6 +99,10 @@
 <script>
 import { mapGetters } from 'vuex';
 import {
+	VIEW_MODULE,
+	TIMEZONE,
+} from '@/store/view/constants';
+import {
 	IMMUDB_MODULE,
 	TX,
 } from '@/store/immudb/constants';
@@ -116,6 +124,9 @@ export default {
 		};
 	},
 	computed: {
+		...mapGetters(VIEW_MODULE, {
+			timezone: TIMEZONE,
+		}),
 		...mapGetters(IMMUDB_MODULE, {
 			tx: TX,
 		}),
@@ -140,7 +151,11 @@ export default {
 					return this.timestampToString(timestamp * 1000);
 				}
 				else {
-					return this.now();
+					const moment = this.getMoment(this.now());
+					if (this.timezone === 'utc') {
+						return this.formatDate(moment.utc());
+					}
+					return this.formatDate(moment);
 				}
 			}
 			return '';

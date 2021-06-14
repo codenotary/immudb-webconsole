@@ -187,13 +187,13 @@
 		</UiModalConfirm>
 		<UsersModalUpdatePassword
 			v-model="showUpdatePasswordModal"
-			color="warning"
+			color="primary"
 			:user="user"
 			@submit="onUpdatePassword"
 		/>
 		<UsersModalUpdatePermissions
 			v-model="showUpdatePermissionsModal"
-			color="warning"
+			color="primary"
 			:user="user"
 			@submit="onUpdatePermissions"
 		/>
@@ -262,6 +262,7 @@ export default {
 			this.$emit('update:password', data);
 		},
 		onUpdatePermissions (data) {
+			console.log(data);
 			this.$emit('update:permissions', data);
 		},
 	},

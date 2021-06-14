@@ -47,6 +47,7 @@
 					</span>
 				</v-tab>
 			</v-tabs>
+			<v-spacer />
 		</v-card-text>
 	</v-card>
 </template>

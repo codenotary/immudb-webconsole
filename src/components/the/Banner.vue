@@ -24,12 +24,12 @@
 				class="ma-0 ml-2 pa-0 subtitle-2 white--text text-center font-weight-bold"
 			>
 				immudb user has the default password: please
-				<nuxt-link
-					class="white--text text-decoration-underline"
-					:to="localePath({ name: 'users' })"
+				<span
+					class="white--text text-decoration-underline cursor-pointer"
+					@click="onSubmit"
 				>
 					change it to ensure proper security!
-				</nuxt-link>
+				</span>
 			</span>
 			<span
 				v-else
@@ -93,7 +93,11 @@ export default {
 			this.$emit('close');
 		},
 		onSubmit () {
-			this.$emit('submit');
+			this.$router.push(this.localePath({ name: 'users' }));
+			setTimeout(() => {
+				this.$eventbus && this.$eventbus
+						.$emit('EVENT_BUS==>updateSysadminPassword');
+			}, 300);
 		},
 	},
 };

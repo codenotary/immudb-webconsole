@@ -65,6 +65,12 @@
 			color="success"
 			@submit="onAddUser"
 		/>
+		<UsersModalUpdatePassword
+			v-model="showUpdateSysadminPasswordModal"
+			color="primary"
+			user="immudb"
+			@submit="onUpdatePassword"
+		/>
 	</v-card>
 </template>
 
@@ -108,6 +114,7 @@ export default {
 			mdiAccountCogOutline,
 			filter: '',
 			showAddUser: false,
+			showUpdateSysadminPasswordModal: false,
 		};
 	},
 	computed: {
@@ -146,6 +153,14 @@ export default {
 				}
 			},
 		},
+	},
+	mounted () {
+		this.$eventbus && this.$eventbus
+				// detecting update sysadmin password.
+				.$on('EVENT_BUS==>updateSysadminPassword', (data) => {
+					console.log('event bus');
+					this.showUpdateSysadminPasswordModal = true;
+				});
 	},
 	methods: {
 		...mapActions(AUTH_MODULE, {
