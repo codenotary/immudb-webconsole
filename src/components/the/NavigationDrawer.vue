@@ -95,7 +95,7 @@
 									'gray--text': !item.disabled && !$vuetify.theme.dark,
 									'gray--text text--lighten-3': !item.disabled && $vuetify.theme.dark,
 									'gray--text text--lighten-3': item.disabled && !$vuetify.theme.dark,
-									'gray--text text--lighten-1': item.disabled && $vuetify.theme.dark,
+									'gray--text text--lighten-2': item.disabled && $vuetify.theme.dark,
 								}"
 							>
 								{{ item.icon }}
