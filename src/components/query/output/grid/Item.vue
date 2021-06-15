@@ -17,67 +17,75 @@
 				<span>
 					<span
 						v-if="timestamp"
-						class="ma-0 pa-0 caption"
-						:class="{
-							'gray--text text--lighten-2': !$vuetify.theme.dark,
-							'gray--text text--lighten-4': $vuetify.theme.dark,
-						}"
+						class="ma-0 pa-0 body-2"
 					>
 						{{ timestamp }}
 					</span>
 					<span
 						v-if="timestamp"
-						class="my-0 mx-2 pa-0"
+						class="my-0 mx-2 pa-0 body-2"
 					>
 						{{ separator }}
 					</span>
-					<span :class="`ma-0 mr-2 pa-0 caption stdx ${ flux }`">
+					<span :class="`ma-0 mr-2 pa-0 body-2 stdx ${ flux }`">
 						{{ flux }}
 					</span>
 				</span>
-				<span class="ma-0 pa-0 caption">
+				<span class="ma-0 pa-0 body-2">
 					TxID: <span class="font-weight-bold">{{ item.tx }}</span>
-					<v-chip
-						class="ma-0 ml-1 mb-1 py-0 px-2 caption"
-						color="accent"
-						small
-						dense
+					<v-tooltip
+						content-class="ma-0 py-2 px-4 bg primary-outlined"
+						bottom
+						:open-delay="300"
 					>
+						<template #activator="{ on, attrs }">
+							<v-chip
+								class="ma-0 ml-1 mb-1 py-0 px-2 caption"
+								color="primary"
+								outlined
+								small
+								dense
+								v-bind="attrs"
+								v-on="on"
+							>
+								<span
+									class="ma-0 pa-0 pr-1 d-flex justify-center align-center"
+								>
+									<v-icon
+										color="primary"
+										dense
+										:size="20"
+									>
+										{{ mdiHistory }}
+									</v-icon>
+									<span
+										v-if="item.timeTravel"
+										class="ma-0 ml-2 pa-0 caption"
+									>
+										{{ $t('query.output.grid.timeTravel') }}
+									</span>
+									<span
+										v-else
+										class="ma-0 ml-2 pa-0 caption"
+									>
+										{{ $t('query.output.grid.present') }}
+									</span>
+								</span>
+							</v-chip>
+						</template>
 						<span
 							v-if="item.timeTravel"
-							class="ma-0 pa-0 pr-1 d-flex justify-center align-center"
+							class="body-2"
 						>
-							<v-icon
-								class="gray--text text--lighten-3"
-								dense
-								:size="20"
-							>
-								{{ mdiHistory }}
-							</v-icon>
-							<span class="ma-0 ml-2 pa-0 caption">
-								{{ $t('query.output.grid.timeTravel') }}
-							</span>
+							{{ $t('query.timetravel.past') }}
 						</span>
 						<span
 							v-else
-							class="ma-0 pa-0 pr-1 d-flex justify-center align-center"
+							class="body-2"
 						>
-							<v-icon
-								class="gray--text text--lighten-3"
-								:class="{
-									'gray--text text--lighten-2': !$vuetify.theme.dark,
-									'gray--text text--lighten-4': $vuetify.theme.dark,
-								}"
-								dense
-								:size="20"
-							>
-								{{ mdiHistory }}
-							</v-icon>
-							<span class="ma-0 ml-2 pa-0 caption">
-								{{ $t('query.output.grid.present') }}
-							</span>
+							{{ $t('query.timetravel.present') }}
 						</span>
-					</v-chip>
+					</v-tooltip>
 				</span>
 			</div>
 			<p>

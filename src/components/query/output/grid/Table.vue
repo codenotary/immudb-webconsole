@@ -2,6 +2,10 @@
 	<div
 		id="OutputGridTable"
 		class="my-2 mx-0 pa-0 fill-height"
+		:class="`query-wrapper ma-0 pa-0 theme--${ $vuetify.theme.dark
+			? 'dark'
+			: 'light'
+		}`"
 	>
 		<v-simple-table class="sql-table ma-0 pa-0 bg-secondary custom-scrollbar">
 			<template #default>
@@ -87,17 +91,60 @@ export default {
 
 <style lang="scss">
 #OutputGridTable {
-	border: 1px solid rgba(255, 255, 255, 0.25);
 	border-radius: $spacer-1;
+
+	&.theme-- {
+		&light {
+			border: 1px solid rgba(0, 0, 0, 0.25) !important;
+		}
+
+		&dark {
+			border: 1px solid rgba(255, 255, 255, 0.45) !important;
+		}
+	}
 
 	.sql-table {
 		th {
 			font-weight: 700 !important;
 		}
 
+		&.theme-- {
+			&light {
+				thead tr,
+				tbody tr:not(:nth-last-of-type(-n+1)) {
+					th,
+					td {
+						border-bottom: 1px solid rgba(0, 0, 0, 0.25) !important;
+					}
+				}
+
+				th:not(:first-child),
+				td:not(:first-child) {
+					border-left: 1px solid rgba(0, 0, 0, 0.25) !important;
+				}
+			}
+
+			&dark {
+				thead tr,
+				tbody tr:not(:nth-last-of-type(-n+1)) {
+					th,
+					td {
+						border-bottom: 1px solid rgba(255, 255, 255, 0.45) !important;
+					}
+				}
+
+				th:not(:first-child),
+				td:not(:first-child) {
+					border-left: 1px solid rgba(255, 255, 255, 0.45) !important;
+				}
+			}
+		}
+
 		th,
 		td {
-			border-left: 1px solid rgba(255, 255, 255, 0.25);
+			&::after {
+				content: none !important;
+			}
 		}
 	}
 }

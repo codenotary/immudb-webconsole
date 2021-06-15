@@ -176,6 +176,10 @@ export default {
 				timeTravel: 'Travelled in time',
 			},
 		},
+		timetravel: {
+			past: 'This query has been made with a previous TxID',
+			present: 'This query has been made with the latest TxID',
+		},
 	},
 	databases: {
 		title: 'Manage databases',

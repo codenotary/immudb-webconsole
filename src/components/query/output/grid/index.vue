@@ -6,10 +6,6 @@
 		<div
 			v-if="output && output.length"
 		>
-			<QueryOutputGridFilter
-				id="GridFilter"
-				:filter.sync="filter"
-			/>
 			<QueryOutputGridItem
 				v-for="(item, idx) in filterOutput"
 				:key="`output-${ idx }`"
@@ -34,6 +30,7 @@ import { mapGetters } from 'vuex';
 import {
 	OUTPUT_MODULE,
 	CODE_OUTPUT,
+	FILTER,
 } from '@/store/output/constants';
 
 export default {
@@ -43,7 +40,6 @@ export default {
 	},
 	data () {
 		return {
-			filter: 'all',
 			plugins: [
 				'command-line',
 			],
@@ -52,6 +48,7 @@ export default {
 	computed: {
 		...mapGetters(OUTPUT_MODULE, {
 			output: CODE_OUTPUT,
+			filter: FILTER,
 		}),
 		filterOutput () {
 			if (this.output && this.output.length) {
@@ -70,15 +67,7 @@ export default {
 <style lang="scss">
 #OutputGrid {
 	position: relative;
+	overflow: auto;
 	height: calc(100% - 16px) !important;
-	z-index: 10;
-
-	#GridFilter {
-		position: absolute;
-		top: -$spacer-4;
-		right: $spacer-2;
-		width: 96px;
-		z-index: 11;
-	}
 }
 </style>

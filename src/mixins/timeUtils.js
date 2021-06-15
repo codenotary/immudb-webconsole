@@ -169,7 +169,6 @@ export default {
 			if (iso) {
 				return m.toISOString();
 			}
-			console.log(m, format);
 			return m.format(useFormat).split('+')[0];
 		},
 		parseComplexString (value) {

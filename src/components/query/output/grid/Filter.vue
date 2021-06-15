@@ -1,5 +1,6 @@
 <template>
 	<v-select
+		id="OutputFilter"
 		v-model="value"
 		class="ma-0 mt-1 pa-0"
 		:class="{
@@ -15,16 +16,25 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+import {
+	OUTPUT_MODULE,
+	SET_FILTER,
+	FILTER,
+} from '@/store/output/constants';
+
 export default {
 	name: 'QueryOutputGridFilter',
-	props: {
-		filter: { type: String, default: '' },
-	},
 	data () {
 		return {
 			value: '',
 			items: ['all', 'stdtable', 'stderr'],
 		};
+	},
+	computed: {
+		...mapGetters(OUTPUT_MODULE, {
+			filter: FILTER,
+		}),
 	},
 	watch: {
 		filter: {
@@ -36,8 +46,21 @@ export default {
 			},
 		},
 		value (newVal) {
-			this.$emit('update:filter', newVal);
+			this.setFilter(newVal);
 		},
+	},
+	methods: {
+		...mapActions(OUTPUT_MODULE, {
+			setFilter: SET_FILTER,
+		}),
 	},
 };
 </script>
+
+<style lang="scss">
+#OutputFilter {
+	width: $spacer-20;
+	max-width: $spacer-20;
+	z-index: 10;
+}
+</style>

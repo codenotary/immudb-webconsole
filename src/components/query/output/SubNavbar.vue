@@ -5,13 +5,13 @@
 		:elevation="0"
 	>
 		<v-card-text
-			class="ma-0 pa-0"
+			class="ma-0 pa-0 d-flex justify-start align-center"
 			style="box-shadow: none !important;"
 		>
 			<v-tabs
 				id="OutputSubNavbar"
 				v-model="activeTab"
-				class="sub-navbar"
+				class="sub-navbar d-flex justify-start align-center"
 				slider-color="primary"
 				show-arrows
 				dense
@@ -48,6 +48,9 @@
 				</v-tab>
 			</v-tabs>
 			<v-spacer />
+			<QueryOutputGridFilter
+				id="GridFilter"
+			/>
 		</v-card-text>
 	</v-card>
 </template>
@@ -90,6 +93,7 @@ export default {
 
 <style lang="scss">
 #OutputSubNavbar {
+	width: calc(100% - #{$spacer-20}) !important;
 	background-color: inherit !important;
 
 	.v-item-group {
