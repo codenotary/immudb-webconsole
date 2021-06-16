@@ -3,7 +3,7 @@
 		content-class="primary-outlined"
 		:value="value"
 		max-width="600px"
-		:overlay-opacity="0.95"
+		:overlay-opacity="0.55"
 		@input="$emit('input', $event)"
 	>
 		<v-card class="ma-0 pa-0 bg">
@@ -106,15 +106,17 @@
 					</v-form>
 				</ValidationObserver>
 			</v-card-text>
-			<v-card-actions class="ma-0 pa-4 d-flex justify-end">
+			<v-card-actions class="ma-0 pa-4 d-flex justify-center">
 				<v-btn
-					text
+					class="px-4"
+					outlined
+					color="primary"
 					@click="$emit('input', false)"
 				>
 					{{ $t('common.cancel') }}
 				</v-btn>
 				<v-btn
-					class="ml-2"
+					class="ml-2 px-4"
 					color="primary"
 					type="submit"
 					form="UpdatePasswordForm"

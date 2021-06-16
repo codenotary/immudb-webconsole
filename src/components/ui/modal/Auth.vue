@@ -5,7 +5,7 @@
 		:color="'primary'"
 		:value="value"
 		persistent
-		:overlay-opacity="0.95"
+		:overlay-opacity="0.55"
 	>
 		<v-card class="ma-0 pa-0 bg">
 			<v-card-title class="ma-0 mb-2 py-2 px-4 primary d-flex justify-start align-center">
@@ -75,8 +75,9 @@
 					</v-form>
 				</ValidationObserver>
 			</v-card-text>
-			<v-card-actions class="ma-0 pa-4 d-flex justify-end">
+			<v-card-actions class="ma-0 pa-4 d-flex justify-center">
 				<v-btn
+					class="px-4"
 					color="primary"
 					form="LoginForm"
 					type="submit"
