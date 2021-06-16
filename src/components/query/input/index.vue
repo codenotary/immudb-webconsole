@@ -59,7 +59,6 @@ import {
 import {
 	IMMUDB_MODULE,
 	SET_TX,
-	RUN_SQL_QUERY,
 	RUN_SQL_EXEC,
 } from '@/store/immudb/constants';
 import {
@@ -150,7 +149,6 @@ export default {
 	},
 	methods: {
 		...mapActions(IMMUDB_MODULE, {
-			runSqlQuery: RUN_SQL_QUERY,
 			runSqlExec: RUN_SQL_EXEC,
 			setTx: SET_TX,
 		}),

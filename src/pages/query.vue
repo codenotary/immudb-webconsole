@@ -195,6 +195,7 @@ export default {
 				}
 			}
 			catch (err) {
+				console.error(err);
 				this.showToastError(err);
 			}
 		},

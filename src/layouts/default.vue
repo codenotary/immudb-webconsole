@@ -286,6 +286,7 @@ export default {
 				this.setSplash(false);
 			}
 			catch (err) {
+				console.error(err);
 				this.showToastError(err);
 			}
 		},
