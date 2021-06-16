@@ -6,7 +6,7 @@
 		<v-card-title class="ma-0 py-0 py-sm-2 pl-3 pr-0 d-flex justify-start align-center">
 			<v-icon
 				:class="{
-					'gray--text text--lighten-2': !$vuetify.theme.dark,
+					'gray--text text--lighten-1': !$vuetify.theme.dark,
 					'gray--text text--lighten-4': $vuetify.theme.dark,
 				}"
 				:size="24"
@@ -24,7 +24,7 @@
 					<span
 						class="prepend ma-0 pa-0 subtitle-2 font-weight-bold"
 						:class="{
-							'gray--text text--lighten-2': !$vuetify.theme.dark,
+							'gray--text text--lighten-1': !$vuetify.theme.dark,
 							'gray--text text--lighten-4': $vuetify.theme.dark,
 						}"
 					>
@@ -76,8 +76,8 @@
 						<span
 							class="sql-column body-2"
 							:class="{
-								'gray--text text--lighten-2': !$vuetify.theme.dark,
-								'gray--text text--lighten-4': $vuetify.theme.dark,
+								'gray--text text--darken-3': !$vuetify.theme.dark,
+								'gray--text text--lighten-5': $vuetify.theme.dark,
 							}"
 						>
 							{{ props.item.label }}

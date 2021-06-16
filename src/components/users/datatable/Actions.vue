@@ -14,7 +14,7 @@
 				>
 					<v-icon
 						:class="{
-							'gray--text text--lighten-2': !$vuetify.theme.dark,
+							'gray--text text--lighten-1': !$vuetify.theme.dark,
 							'gray--text text--lighten-4': $vuetify.theme.dark,
 						}"
 						:size="20"
@@ -45,7 +45,7 @@
 							>
 								<v-icon
 									:class="{
-										'gray--text text--lighten-2': !$vuetify.theme.dark,
+										'gray--text text--lighten-1': !$vuetify.theme.dark,
 										'gray--text text--lighten-4': $vuetify.theme.dark,
 									}"
 									:size="20"
@@ -81,7 +81,7 @@
 							>
 								<v-icon
 									:class="{
-										'gray--text text--lighten-2': !$vuetify.theme.dark,
+										'gray--text text--lighten-1': !$vuetify.theme.dark,
 										'gray--text text--lighten-4': $vuetify.theme.dark,
 									}"
 									:size="20"
@@ -116,7 +116,7 @@
 							>
 								<v-icon
 									:class="{
-										'gray--text text--lighten-2': !$vuetify.theme.dark,
+										'gray--text text--lighten-1': !$vuetify.theme.dark,
 										'gray--text text--lighten-4': $vuetify.theme.dark,
 									}"
 									:size="20"
@@ -155,7 +155,7 @@
 			</template>
 			<p
 				:class="{
-					'gray--text text--lighten-2': !$vuetify.theme.dark,
+					'gray--text text--lighten-1': !$vuetify.theme.dark,
 					'gray--text text--lighten-4': $vuetify.theme.dark,
 				}"
 				v-html="$t('users.table.modal.deactivate.sure')"
@@ -179,7 +179,7 @@
 			</template>
 			<p
 				:class="{
-					'gray--text text--lighten-2': !$vuetify.theme.dark,
+					'gray--text text--lighten-1': !$vuetify.theme.dark,
 					'gray--text text--lighten-4': $vuetify.theme.dark,
 				}"
 				v-html="$t('users.table.modal.activate.sure')"

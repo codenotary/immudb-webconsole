@@ -8,7 +8,7 @@
 			<v-icon
 				class="ml-2"
 				:class="{
-					'gray--text text--lighten-2': !$vuetify.theme.dark,
+					'gray--text text--lighten-1': !$vuetify.theme.dark,
 					'gray--text text--lighten-3': $vuetify.theme.dark,
 				}"
 				:size="24"
@@ -43,7 +43,7 @@
 								<span
 									class="prepend ma-0 pa-0 subtitle-1 font-weight-bold"
 									:class="{
-										'gray--text text--lighten-2': !$vuetify.theme.dark,
+										'gray--text text--lighten-1': !$vuetify.theme.dark,
 										'gray--text text--lighten-4': $vuetify.theme.dark,
 									}"
 								>

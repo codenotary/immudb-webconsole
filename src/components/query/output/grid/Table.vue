@@ -15,6 +15,10 @@
 							v-for="(column, idx) in columns"
 							:key="`column-${ uid } }-${ idx }`"
 							class="text-left"
+							:class="{
+								'gray--text text--lighten-1': !$vuetify.theme.dark,
+								'gray--text text--lighten-4': $vuetify.theme.dark,
+							}"
 						>
 							{{ column }}
 						</th>
@@ -29,6 +33,10 @@
 						<td
 							v-for="(value, idx2) in row"
 							:key="`value-${ uid } }-${ idx2 }`"
+							:class="{
+								'gray--text text--darken-3': !$vuetify.theme.dark,
+								'gray--text text--lighten-5': $vuetify.theme.dark,
+							}"
 						>
 							{{ value }}
 						</td>

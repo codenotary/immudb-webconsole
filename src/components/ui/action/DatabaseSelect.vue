@@ -11,7 +11,7 @@
 			v-model="value"
 			class="db-selector ma-0 pa-0 bg d-flex justify-start align-baseline"
 			:class="{
-				'gray--text text--lighten-2': !$vuetify.theme.dark,
+				'gray--text text--lighten-1': !$vuetify.theme.dark,
 				'gray--text text--lighten-4': $vuetify.theme.dark,
 				'mt-3': !dense,
 				'no-line': dense,

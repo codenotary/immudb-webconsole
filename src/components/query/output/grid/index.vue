@@ -18,7 +18,7 @@
 			class="ma-4 pa-0"
 		>
 			<span
-				class="body-2"
+				class="body-1"
 			>
 				{{ $t(emptyMessage) }}
 			</span>

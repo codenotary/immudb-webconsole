@@ -29,7 +29,7 @@
 				<v-icon
 					class="headline"
 					:class="{
-						'gray--text text--lighten-2': !$vuetify.theme.dark,
+						'gray--text text--lighten-1': !$vuetify.theme.dark,
 						'gray--text text--lighten-4': $vuetify.theme.dark,
 					}"
 				>
@@ -92,8 +92,8 @@
 								:class="{
 									'mr-sm-0': mini,
 									'mr-sm-4': !mini,
-									'gray--text text--lighten-2': !item.disabled && !$vuetify.theme.dark,
-									'gray--text text--lighten-4': !item.disabled && $vuetify.theme.dark,
+									'gray--text text--lighten-1': !item.disabled && !$vuetify.theme.dark,
+									'gray--text text--lighten-3': !item.disabled && $vuetify.theme.dark,
 									'gray--text text--lighten-4': item.disabled && !$vuetify.theme.dark,
 									'gray--text text--lighten-2': item.disabled && $vuetify.theme.dark,
 								}"
@@ -111,7 +111,7 @@
 									v-if="item.title"
 									class="body-2"
 									:class="{
-										'gray--text text--lighten-2': !$vuetify.theme.dark,
+										'gray--text text--lighten-1': !$vuetify.theme.dark,
 										'gray--text text--lighten-4': $vuetify.theme.dark,
 									}"
 								>
@@ -121,7 +121,7 @@
 									v-if="item.subtitle"
 									class="caption"
 									:class="{
-										'gray--text text--lighten-2': !$vuetify.theme.dark,
+										'gray--text text--lighten-1': !$vuetify.theme.dark,
 										'gray--text text--lighten-4': $vuetify.theme.dark,
 									}"
 								>
