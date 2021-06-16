@@ -5,6 +5,7 @@
 	>
 		<div
 			v-if="output && output.length"
+			ref="outputList"
 		>
 			<QueryOutputGridItem
 				v-for="(item, idx) in filterOutput"
@@ -59,6 +60,27 @@ export default {
 						});
 			}
 			return [];
+		},
+	},
+	watch: {
+		filterOutput: {
+			deep: true,
+			handler (newVal) {
+				this.scrollToBottom();
+			},
+		},
+	},
+	methods: {
+		scrollToBottom () {
+			if (this.$refs && this.$refs.outputList) {
+				// scroll to latest row
+				const { outputList: { $el: el } } = this.$refs || {};
+				if (el) {
+					this.$nextTick(() => {
+						el.scrollTop = el.scrollHeight;
+					});
+				}
+			}
 		},
 	},
 };

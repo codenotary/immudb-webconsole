@@ -57,7 +57,7 @@
 			</v-card-text>
 			<v-card-actions class="ma-0 pa-4 d-flex justify-center">
 				<v-btn
-					class='px-4'
+					class="px-4"
 					outlined
 					color="primary"
 					@click="$emit('input', false)"

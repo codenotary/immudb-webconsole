@@ -145,21 +145,30 @@ $prism-font-size: 16;
 
 		.query-placeholder {
 			position: absolute;
-			top: #{$prism-font-size + 8}px;
-			left: calc(#{$spacer-14} + 1px);
+			top: #{$prism-font-size + 5}px;
+			left: $spacer-13;
 			font-size: #{$prism-font-size}px !important;
+			font-family: inherit !important;
 			line-height: #{$prism-font-size}px !important;
 		}
 
 		.prism-editor__line-numbers,
 		.query {
 			font-size: #{$prism-font-size}px !important;
-			line-height: 1.5 !important;
+			line-height: 1.5em !important;
 
-			code.language-sql,
-			span {
-				font-size: #{$prism-font-size}px !important;
-				line-height: #{$prism-font-size}px !important;
+			pre {
+				text-indent: 0 #{$prism-font-size + 4}px;
+			}
+
+			code {
+				&.language-sql {
+					&,
+					span {
+						font-size: #{$prism-font-size}px !important;
+						line-height: 1.5em !important;
+					}
+				}
 			}
 		}
 
