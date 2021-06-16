@@ -359,10 +359,6 @@ a {
 
 	thead {
 		th {
-			span {
-				font-size: 0.875rem !important;
-			}
-
 			&.groupable {
 				span:last-of-type {
 					position: relative;
@@ -421,6 +417,26 @@ a {
 			border-color: $row-border-color !important;
 			border-width: 2px !important;
 			position: relative;
+
+			&,
+			span {
+				font-size: $font-size-root !important;
+				font-weight: 400;
+			}
+		}
+
+		th {
+			&,
+			span {
+				font-weight: 700;
+			}
+		}
+
+		td {
+			&,
+			span {
+				font-weight: 400;
+			}
 		}
 
 		th:not(:nth-last-of-type(-n+2)),
