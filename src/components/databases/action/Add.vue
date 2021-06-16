@@ -6,7 +6,7 @@
 	>
 		<template #activator="{ on, attrs }">
 			<v-btn
-				class="px-4 white--text d-flex align-center"
+				class="px-2 white--text d-flex align-center"
 				color="primary"
 				depressed
 				small
@@ -37,7 +37,7 @@
 						:width="2"
 						:size="16"
 					/>
-					<span class="ma-0 ml-2 pa-0 caption font-weight-bold">
+					<span class="ma-0 ml-2 pa-0 caption text-capitalize">
 						{{ $t('common.loading') }}
 					</span>
 				</template>

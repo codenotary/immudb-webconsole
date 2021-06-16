@@ -1,6 +1,6 @@
 <template>
 	<v-tooltip
-		content-class="ma-0 py-2 px-4 bg primary-outlined"
+		content-class="ma-0 py-2 px-2 bg primary-outlined"
 		bottom
 		:open-delay="300"
 	>
@@ -49,8 +49,8 @@
 							:width="2"
 							:size="16"
 						/>
-						<span class="ma-0 ml-2 pa-0 caption">
-							{{ $t('query.input.run.loading') }}
+						<span class="ma-0 ml-2 pa-0 caption text-capitalize">
+							{{ $t('common.loading') }}
 						</span>
 					</template>
 				</v-btn>

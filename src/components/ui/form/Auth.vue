@@ -94,14 +94,18 @@
 		</v-card-text>
 		<v-card-actions class="ma-0 pa-0 d-flex justify-center">
 			<v-btn
-				class="px-16 elevation-4"
+				class="px-8 elevation-4"
 				color="primary"
 				form="LoginForm"
 				type="submit"
 				large
 				height="48"
 			>
-				{{ $t('login.submit') }}
+				<span
+					class="ma-0 text-capitalize subtitle-1"
+				>
+					{{ $t('login.submit') }}
+				</span>
 			</v-btn>
 		</v-card-actions>
 	</v-card>
