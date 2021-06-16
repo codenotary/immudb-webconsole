@@ -92,9 +92,9 @@
 								:class="{
 									'mr-sm-0': mini,
 									'mr-sm-4': !mini,
-									'gray--text': !item.disabled && !$vuetify.theme.dark,
-									'gray--text text--lighten-3': !item.disabled && $vuetify.theme.dark,
-									'gray--text text--lighten-3': item.disabled && !$vuetify.theme.dark,
+									'gray--text text--lighten-2': !item.disabled && !$vuetify.theme.dark,
+									'gray--text text--lighten-4': !item.disabled && $vuetify.theme.dark,
+									'gray--text text--lighten-4': item.disabled && !$vuetify.theme.dark,
 									'gray--text text--lighten-2': item.disabled && $vuetify.theme.dark,
 								}"
 							>
@@ -317,15 +317,21 @@ export default {
 		&.theme-- {
 			&light {
 				&:hover {
-					background: var(--v-primary-lighten3) !important;
 					color: var(--v-primary-base) !important;
+
+					svg {
+						fill: var(--v-primary-base) !important;
+					}
 				}
 			}
 
 			&dark {
 				&:hover {
-					background: var(--v-primary-lighten1) !important;
 					color: var(--v-primary-base) !important;
+
+					svg {
+						fill: var(--v-primary-base) !important;
+					}
 				}
 			}
 		}

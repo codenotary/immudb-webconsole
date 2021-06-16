@@ -131,7 +131,7 @@ export default {
 </script>
 
 <style lang="scss">
-$font-size: 18;
+$prism-font-size: 16;
 
 .query-block {
 	display: flex;
@@ -145,21 +145,21 @@ $font-size: 18;
 
 		.query-placeholder {
 			position: absolute;
-			top: #{$font-size + 4}px;
+			top: #{$prism-font-size + 8}px;
 			left: calc(#{$spacer-14} + 1px);
-			font-size: #{$font-size}px !important;
-			line-height: #{$font-size}px !important;
+			font-size: #{$prism-font-size}px !important;
+			line-height: #{$prism-font-size}px !important;
 		}
 
 		.prism-editor__line-numbers,
 		.query {
-			font-size: #{$font-size}px !important;
+			font-size: #{$prism-font-size}px !important;
 			line-height: 1.5 !important;
 
 			code.language-sql,
 			span {
-				font-size: #{$font-size}px !important;
-				line-height: #{$font-size}px !important;
+				font-size: #{$prism-font-size}px !important;
+				line-height: #{$prism-font-size}px !important;
 			}
 		}
 
