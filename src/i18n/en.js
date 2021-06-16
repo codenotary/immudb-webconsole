@@ -53,6 +53,10 @@ export default {
 			username: 'Insert immudb username',
 			password: 'Insert immudb password',
 		},
+		hint: {
+			username: 'Default username is: immudb',
+			password: 'Default password is: immudb',
+		},
 		submit: 'Login',
 	},
 	sidebar: {

@@ -3,13 +3,13 @@
 		class="ma-0 pa-4 bg-transparent fill-width"
 		elevation="0"
 	>
-		<v-card-title class="ma-0 mb-4 pa-0">
+		<v-card-title class="ma-0 mb-6 pa-0">
 			<v-row class="ma-0 pa-0 d-flex flex-column justify-center align-center">
 				<v-col
-					class="ma-0 mb-2 pa-0 d-flex justify-center align-center"
+					class="ma-0 pa-0 d-flex justify-center align-center"
 					cols="12"
 				>
-					<span class="ml-2 subtitle-1">
+					<span class="ml-2 title font-weight-regular">
 						{{ $t('login.subtitle') }}
 					</span>
 				</v-col>
@@ -31,7 +31,7 @@
 				>
 					<ValidationProvider
 						v-slot="{ errors }"
-						name="confirm"
+						name="user"
 						:rules="`required`"
 						mode="aggressive"
 						:debounce="300"
@@ -46,16 +46,22 @@
 							:dark="$vuetify.theme.dark"
 							:label="$t('login.label.username')"
 							:placeholder="$t('login.placeholder.username')"
+							:hint="isPlublicDemo
+								? $t('login.hint.username')
+								: undefined
+							"
+							:persistent-hint="isPlublicDemo"
 							autofocus
 							required
 							solo
 							type="text"
 							@click:append="show = !show"
+							@focus="onResetErrors"
 						/>
 					</ValidationProvider>
 					<ValidationProvider
 						v-slot="{ errors }"
-						name="confirm"
+						name="password"
 						:rules="`required`"
 						mode="aggressive"
 						:debounce="300"
@@ -70,11 +76,17 @@
 							:dark="$vuetify.theme.dark"
 							:label="$t('login.label.password')"
 							:placeholder="$t('login.placeholder.password')"
+							:hint="isPlublicDemo
+								? $t('login.hint.password')
+								: undefined
+							"
+							:persistent-hint="isPlublicDemo"
 							required
 							solo
 							:type="show ? 'text' : 'password'"
 							:append-icon="show ? mdiEye : mdiEyeOff"
 							@click:append="show = !show"
+							@focus="onResetErrors"
 						/>
 					</ValidationProvider>
 				</v-form>
@@ -139,6 +151,11 @@ export default {
 			},
 		};
 	},
+	computed: {
+		isPlublicDemo () {
+			return !!process.env.IS_PUBLIC_DEMO;
+		},
+	},
 	watch: {
 		value (newVal) {
 			this.form = {
@@ -152,6 +169,9 @@ export default {
 		},
 	},
 	methods: {
+		onResetErrors () {
+			this.$refs.observer.reset();
+		},
 		onLogin () {
 			this.$emit('submit', {
 				user: this.form.user,

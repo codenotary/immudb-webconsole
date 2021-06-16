@@ -9,17 +9,17 @@
 	>
 		<div class="ma-0 pa-0 d-flex flex-column justify-center align-center fill-height">
 			<v-img
-				class="mascotte mt-16 mx-0 pa-0"
+				class="mascotte mt-8 mt-sm-16 mx-0 pa-0"
 				src="/images/mascotte/immudb_mascot_shadowed.svg"
 				:alt="$t('common.gopher')"
 				height="10%"
-				min-height="245px"
-				max-height="320px"
+				:min-height="`${ $vuetify.breakpoint.smAndDown ? '185' : '245' }px`"
+				max-height="245px"
 				contain
 			/>
 			<v-row class="ma-0 pa-0 d-flex flex-grow-0 justify-center align-start fill-width">
 				<v-col
-					class="ma-0 py-8 d-flex justify-center align-center"
+					class="ma-0 pt-4 pb-2 d-flex justify-center align-center"
 					cols="12"
 					sm="6"
 					md="4"
@@ -71,7 +71,7 @@
 				</v-col>
 			</v-row>
 			<v-spacer />
-			<div class="ma-0 mb-4 pa-0 d-flex flex-column justify-center align-start fill-width">
+			<div class="ma-0 my-2 my-sm-4 pa-0 d-flex flex-column justify-center align-start fill-width">
 				<UiLogoCodeNotary
 					:height="64"
 				/>
