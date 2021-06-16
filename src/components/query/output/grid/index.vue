@@ -1,11 +1,11 @@
 <template>
 	<div
+		ref="outputList"
 		id="OutputGrid"
-		class="ma-0 pa-0 px-1 fill-height shadow"
+		class="ma-0 py-2 px-4 fill-height shadow custom-scrollbar"
 	>
 		<div
 			v-if="output && output.length"
-			ref="outputList"
 		>
 			<QueryOutputGridItem
 				v-for="(item, idx) in filterOutput"
@@ -72,14 +72,12 @@ export default {
 	},
 	methods: {
 		scrollToBottom () {
-			if (this.$refs && this.$refs.outputList) {
-				// scroll to latest row
-				const { outputList: { $el: el } } = this.$refs || {};
-				if (el) {
-					this.$nextTick(() => {
-						el.scrollTop = el.scrollHeight;
-					});
-				}
+			// scroll to latest row
+			const { outputList } = this.$refs || {};
+			if (outputList) {
+				this.$nextTick(() => {
+					outputList.scrollTop = outputList.scrollHeight;
+				});
 			}
 		},
 	},
@@ -90,6 +88,6 @@ export default {
 #OutputGrid {
 	position: relative;
 	overflow: auto;
-	height: calc(100% - 16px) !important;
+	height: 100% !important;
 }
 </style>

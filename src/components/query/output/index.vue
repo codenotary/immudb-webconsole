@@ -12,7 +12,7 @@
 		</v-card-title>
 		<v-card-text
 			ref="outputList"
-			class="ma-0 pa-2 bg-secondary custom-scrollbar"
+			class="ma-0 pa-0 bg-secondary custom-scrollbar"
 		>
 			<QueryOutputGrid
 				v-if="tab === 0"

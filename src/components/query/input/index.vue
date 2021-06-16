@@ -79,7 +79,7 @@ export default {
 		return {
 			mdiDatabaseSearchOutline,
 			id: 0,
-			query: '',
+			query: 'SELECT * FROM customers',
 		};
 	},
 	computed: {

@@ -1,7 +1,7 @@
 <template>
 	<div
 		id="OutputGridItem"
-		class="my-2 mx-0 pa-0 fill-height"
+		class="my-2 mx-0 pa-0"
 	>
 		<div v-if="divider">
 			<v-divider
