@@ -95,12 +95,12 @@ export default {
 			if (this.dense && this.value) {
 				const canvas = document.createElement('canvas');
 				const ctx = canvas.getContext('2d');
-				ctx.font = '18px Roboto';
+				ctx.font = '14px Roboto';
 				const { width } = ctx.measureText(this.value);
-				return `${ width + 128 }px`;
+				return `${ width + 96 }px`;
 			}
 			else if (this.dense) {
-				return '144px';
+				return '96px';
 			}
 			else {
 				return '100%';
@@ -127,7 +127,7 @@ export default {
 <style lang="scss">
 .db-selector-wrapper {
 	&.dense {
-		width: calc(100% - #{ $spacer-12 });
+		width: calc(100% - #{ $spacer-8 });
 
 		.db-selector {
 			input {
@@ -159,7 +159,7 @@ export default {
 
 		.prepend,
 		.append {
-			min-width: $spacer-18;
+			min-width: $spacer-14;
 		}
 	}
 }

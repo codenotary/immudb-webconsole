@@ -73,11 +73,11 @@ export default {
 			if (this.value) {
 				const canvas = document.createElement('canvas');
 				const ctx = canvas.getContext('2d');
-				ctx.font = '18px Roboto';
+				ctx.font = '14px Roboto';
 				const { width } = ctx.measureText(this.value);
-				return Math.max(144, width + 32 + 32);
+				return Math.max(96, width + 32 + 32);
 			}
-			return 144;
+			return 96;
 		},
 		parsedItems () {
 			return this.items

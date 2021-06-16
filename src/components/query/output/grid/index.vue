@@ -1,7 +1,7 @@
 <template>
 	<div
-		ref="outputList"
 		id="OutputGrid"
+		ref="outputList"
 		class="ma-0 py-2 px-4 fill-height shadow custom-scrollbar"
 	>
 		<div
