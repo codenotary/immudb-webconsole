@@ -253,6 +253,9 @@ export default {
 					height: 64,
 					labels: {
 						padding: 16,
+						fontColor: this.$vuetify.theme.dark
+							? '#c9c9c9'
+							: '#333',
 					},
 				},
 				scales: {
