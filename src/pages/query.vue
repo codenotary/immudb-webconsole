@@ -148,7 +148,7 @@ export default {
 	},
 	mounted () {
 		// track google analytics pageview
-		this.$gtag.pageview({
+		process.env.IS_PUBLIC_DEMO && this.$gtag.pageview({
 			page_title: 'Query',
 			page_location: window && window.location && window.location.href,
 			page_path: '/query',

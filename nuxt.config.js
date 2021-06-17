@@ -214,6 +214,7 @@ export default {
 		{ src: '~/plugins/vee-validate.js', ssr: false },
 		{ src: '~/plugins/vue-clipboards.js', ssr: false },
 		{ src: '~/plugins/vue-cookies.js', ssr: false },
+		{ src: '~/plugins/vue-gtag.js', ssr: false },
 		{ src: '~/plugins/vue-json-pretty.js', ssr: false },
 		{ src: '~/plugins/vue-prism-editor.js', ssr: false },
 		{ src: '~/plugins/vue-toasted.js', ssr: false },
