@@ -668,8 +668,20 @@ a {
 }
 
 .toasted {
-	font-family: Roboto, sans-serif;
+	font-family: $body-font-family, sans-serif;
 	font-weight: 700;
+
+	&.success {
+		background-color: var(--v-success-darken1) !important;
+	}
+
+	&.error {
+		background-color: var(--v-error-darken1) !important;
+	}
+
+	&.info {
+		background-color: var(--v-accent-darken1) !important;
+	}
 
 	.svg-inline--fa {
 		margin-right: $spacer-2 !important;
