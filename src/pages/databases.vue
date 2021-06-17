@@ -149,6 +149,14 @@ export default {
 			},
 		},
 	},
+	mounted () {
+		// track google analytics pageview
+		this.$gtag.pageview({
+			page_title: 'Databases',
+			page_location: window && window.location && window.location.href,
+			page_path: '/databases',
+		});
+	},
 	methods: {
 		...mapActions(IMMUDB_MODULE, {
 			fetchState: FETCH_STATE,

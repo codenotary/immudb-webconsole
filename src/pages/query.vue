@@ -146,6 +146,14 @@ export default {
 			}
 		},
 	},
+	mounted () {
+		// track google analytics pageview
+		this.$gtag.pageview({
+			page_title: 'Query',
+			page_location: window && window.location && window.location.href,
+			page_path: '/query',
+		});
+	},
 	methods: {
 		...mapActions(VIEW_MODULE, {
 			setPaneSizes: SET_PANE_SIZES,

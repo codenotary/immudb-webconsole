@@ -160,6 +160,13 @@ export default {
 				.$on('EVENT_BUS==>updateSysadminPassword', (data) => {
 					this.showUpdateSysadminPasswordModal = true;
 				});
+
+		// track google analytics pageview
+		this.$gtag.pageview({
+			page_title: 'Users',
+			page_location: window && window.location && window.location.href,
+			page_path: '/users',
+		});
 	},
 	methods: {
 		...mapActions(AUTH_MODULE, {

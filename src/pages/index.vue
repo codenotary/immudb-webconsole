@@ -206,6 +206,14 @@ export default {
 					.replace(/a /g, '');
 		},
 	},
+	mounted () {
+		// track google analytics pageview
+		this.$gtag.pageview({
+			page_title: 'Metrics',
+			page_location: window && window.location && window.location.href,
+			page_path: '/',
+		});
+	},
 	methods: {
 		onUpdateDatabase (data) {
 			this.database = data;
