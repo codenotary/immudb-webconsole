@@ -13,6 +13,10 @@
 		floating
 		app
 	>
+		<span
+			class="navigation-slider"
+			:style="`top: ${ getSliderTop }px !important;`"
+		/>
 		<!-- LOGO -->
 		<div
 			v-if="mobile"
@@ -77,10 +81,10 @@
 				>
 					<template #activator="{ on, attrs }">
 						<v-list-item
-							class="py-1 d-flex justify-xs-center"
+							class="py-1 d-flex justify-xs-center no-ripple-hover"
 							:to="item.to ? item.to : undefined"
 							:href="undefined"
-							:ripple="true"
+							:ripple="false"
 							nuxt
 							:title="item.alt"
 							:alt="item.alt"
@@ -181,6 +185,15 @@ export default {
 			collapsed: SIDEBAR_COLLAPSED,
 			mini: SIDEBAR_MINI,
 		}),
+		getSliderTop () {
+			const idx = this.items.findIndex((_) => {
+				const { to } = _;
+				console.log(to, this.$route.path);
+				return to === this.$route.path;
+			});
+			console.log(idx);
+			return (56 * idx) + 84;
+		},
 	},
 	watch: {
 		mobile: {
@@ -282,25 +295,25 @@ export default {
 		}
 	}
 
+	.navigation-slider {
+		position: absolute;
+		top: 84px;
+		left: 0;
+		width: 4px;
+		height: 48px;
+		background-color: var(--v-primary-base);
+		border-radius: 0 4px 4px 0;
+		opacity: 1;
+		transition: all ease-in 0.3s !important;
+		z-index: 5;
+	}
+
 	.v-list-item {
 		position: relative;
 		display: flex;
 		width: 100%;
 		align-items: center;
 		transition: background 0.3s ease, color 0.3s ease;
-
-		&::before {
-			content: '';
-			position: absolute;
-			top: 4px;
-			bottom: 4px;
-			height: 0;
-			width: 4px;
-			background-color: var(--v-primary-base);
-			border-radius: 0 4px 4px 0;
-			opacity: 1;
-			transition: none;
-		}
 
 		&.v-list-item--active {
 			svg,
@@ -317,20 +330,20 @@ export default {
 		&.theme-- {
 			&light {
 				&:hover {
-					color: var(--v-primary-base) !important;
-
+					&,
 					svg {
-						fill: var(--v-primary-base) !important;
+						color: var(--v-primary-darken1) !important;
+						fill: var(--v-primary-darken1) !important;
 					}
 				}
 			}
 
 			&dark {
 				&:hover {
-					color: var(--v-primary-base) !important;
-
+					&,
 					svg {
-						fill: var(--v-primary-base) !important;
+						color: var(--v-primary-darken1) !important;
+						fill: var(--v-primary-darken1) !important;
 					}
 				}
 			}

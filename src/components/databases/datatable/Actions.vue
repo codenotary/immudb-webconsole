@@ -7,10 +7,12 @@
 		>
 			<template #activator="{ on, attrs }">
 				<v-btn
+					class="no-ripple-hover"
 					:loading="isLoading"
 					color="primary"
 					icon
 					:disabled="disabled"
+					:ripple="false"
 					v-bind="attrs"
 					v-on="on"
 					@click="showUseDatabaseModal = true"

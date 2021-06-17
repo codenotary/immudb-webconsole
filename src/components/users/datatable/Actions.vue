@@ -7,8 +7,10 @@
 		>
 			<template #activator="{ on, attrs }">
 				<v-btn
-					color="secondary"
+					class="no-ripple-hover"
+					color="primary"
 					icon
+					:ripple="false"
 					v-bind="attrs"
 					v-on="on"
 				>
@@ -19,7 +21,7 @@
 						}"
 						:size="20"
 					>
-						{{ mdiCog }}
+						{{ mdiCogOutline }}
 					</v-icon>
 				</v-btn>
 			</template>
@@ -202,7 +204,7 @@
 
 <script>
 import {
-	mdiCog,
+	mdiCogOutline,
 	mdiCircle,
 	mdiAccountCancelOutline,
 	mdiAccountCheckOutline,
@@ -217,7 +219,7 @@ export default {
 	},
 	data() {
 		return {
-			mdiCog,
+			mdiCogOutline,
 			mdiCircle,
 			mdiAccountCancelOutline,
 			mdiAccountCheckOutline,

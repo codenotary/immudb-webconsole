@@ -7,9 +7,11 @@
 		>
 			<template #activator="{ on, attrs }">
 				<v-btn
+					class="no-ripple-hover"
 					:loading="isLoading"
 					color="secondary"
 					icon
+					:ripple="false"
 					v-bind="attrs"
 					v-on="on"
 					@click="showUpdatePermissionModal = true"
@@ -36,8 +38,10 @@
 		>
 			<template #activator="{ on, attrs }">
 				<v-btn
-					:loading="isLoading"
+					class="no-ripple-hover"
 					color="secondary"
+					:loading="isLoading"
+					:ripple="false"
 					icon
 					v-bind="attrs"
 					v-on="on"

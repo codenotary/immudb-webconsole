@@ -102,7 +102,7 @@ body.theme--light {
 
 a {
 	text-decoration: none;
-	transition: all ease-in-out 0.3s !important;
+	transition: all ease-in-out 0.1s !important;
 
 	&:hover,
 	&:focus {
@@ -526,7 +526,7 @@ a {
 }
 
 .v-avatar.primary {
-	transition: all ease-in-out 0.6s !important;
+	transition: all ease-in-out 0.1s !important;
 
 	&:hover,
 	&:focus {
@@ -539,23 +539,58 @@ a {
 	}
 }
 
-.v-btn.primary {
-	&::before,
-	&::after {
-		transition: all ease-in-out 0.6s !important;
-	}
-
-	&:hover,
-	&:focus {
-		&,
-		span {
-			color: #fff;
+.v-icon,
+.v-btn,
+.v-list-item {
+	&.no-ripple-hover {
+		&::before {
+			background-color: transparent !important;
 		}
+	}
+}
 
+.v-icon,
+.v-btn {
+	&.primary {
 		&::before,
 		&::after {
-			background-color: var(--v-primary-darken1) !important;
-			opacity: 1 !important;
+			transition: all ease-in-out 0.1s !important;
+		}
+
+		&:hover,
+		&:focus {
+			&,
+			span,
+			svg {
+				color: #fff !important;
+				fill: #fff !important;
+			}
+
+			&::before,
+			&::after {
+				background-color: transparent !important;
+				// background-color: var(--v-primary-darken1) !important;
+				opacity: 1 !important;
+			}
+		}
+	}
+
+	&.v-icon--link,
+	&.v-btn--icon {
+		&,
+		span,
+		svg {
+			transition: all ease-in-out 0.1s !important;
+		}
+
+		&:hover,
+		&:focus {
+			&,
+			span,
+			svg {
+				color: var(--v-primary-darken1) !important;
+				fill: var(--v-primary-darken1) !important;
+			}
 		}
 	}
 }
