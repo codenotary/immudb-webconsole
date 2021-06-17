@@ -102,6 +102,15 @@ body.theme--light {
 
 a {
 	text-decoration: none;
+	transition: all ease-in-out 0.3s !important;
+
+	&:hover,
+	&:focus {
+		&,
+		span {
+			color: var(--v-primary-darken1) !important;
+		}
+	}
 }
 
 .v-input {
@@ -514,6 +523,41 @@ a {
 
 .no-transition {
 	transition: none !important;
+}
+
+.v-avatar.primary {
+	transition: all ease-in-out 0.6s !important;
+
+	&:hover,
+	&:focus {
+		background-color: var(--v-primary-darken1) !important;
+
+		&,
+		span {
+			color: #fff;
+		}
+	}
+}
+
+.v-btn.primary {
+	&::before,
+	&::after {
+		transition: all ease-in-out 0.6s !important;
+	}
+
+	&:hover,
+	&:focus {
+		&,
+		span {
+			color: #fff;
+		}
+
+		&::before,
+		&::after {
+			background-color: var(--v-primary-darken1) !important;
+			opacity: 1 !important;
+		}
+	}
 }
 
 .no-click,
