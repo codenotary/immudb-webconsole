@@ -156,6 +156,7 @@
 				</v-icon>
 			</template>
 			<p
+				class="text-center"
 				:class="{
 					'gray--text text--lighten-1': !$vuetify.theme.dark,
 					'gray--text text--lighten-4': $vuetify.theme.dark,
@@ -180,6 +181,7 @@
 				</v-icon>
 			</template>
 			<p
+				class="text-center"
 				:class="{
 					'gray--text text--lighten-1': !$vuetify.theme.dark,
 					'gray--text text--lighten-4': $vuetify.theme.dark,

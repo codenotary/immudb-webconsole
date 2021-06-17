@@ -40,7 +40,10 @@
 					</v-icon>
 				</v-btn>
 			</v-card-title>
-			<v-card-text class="ma-0 mb-2 pa-4 pt-2">
+			<v-card-text
+				class="ma-0 pa-4"
+				style="overflow-x: hidden !important;"
+			>
 				<slot>{{ text }}</slot>
 
 				<v-form
@@ -48,7 +51,7 @@
 					@submit.prevent="onConfirm"
 				/>
 			</v-card-text>
-			<v-card-actions class="ma-0 pa-4 d-flex justify-center">
+			<v-card-actions class="ma-0 pa-4 pt-0 d-flex justify-center">
 				<v-btn
 					class="px-4"
 					outlined

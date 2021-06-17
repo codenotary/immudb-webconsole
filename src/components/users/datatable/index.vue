@@ -132,7 +132,7 @@ export default {
 					sortable: true,
 				},
 				{
-					text: this.$t('users.table.active'),
+					text: this.$t('users.table.status'),
 					value: 'active',
 					align: 'center',
 					sortable: true,

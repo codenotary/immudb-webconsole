@@ -40,7 +40,7 @@
 				</v-btn>
 			</v-card-title>
 			<v-card-text
-				class="ma-0 mb-2 pa-4 pt-2"
+				class="ma-0 mb-2 py-2 px-4 primary d-flex justify-start align-center"
 				style="overflow-x: hidden !important;"
 			>
 				<slot>{{ text }}</slot>
@@ -77,7 +77,7 @@
 					</v-form>
 				</ValidationObserver>
 			</v-card-text>
-			<v-card-actions class="ma-0 pa-4 d-flex justify-center">
+			<v-card-actions class="ma-0 pa-4 pt-0 d-flex justify-center">
 				<v-btn
 					class="px-4"
 					outlined

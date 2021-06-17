@@ -13,6 +13,7 @@ export default {
 		or: 'Or',
 		run: 'run',
 		active: 'Active',
+		deactive: 'Deactive',
 		clear: 'clear',
 		cancel: 'cancel',
 		confirm: 'confirm',
@@ -242,10 +243,10 @@ export default {
 				success: 'User added',
 			},
 			hideNotActive: {
-				label: 'Hide deactivated users',
+				label: 'Hide deactive users',
 				tooltip: {
-					hide: 'Hide deactivated users',
-					show: 'Show deactivated users',
+					hide: 'Hide deactive users',
+					show: 'Show deactive users',
 				},
 			},
 		},
@@ -262,7 +263,7 @@ export default {
 			user: 'User',
 			createdBy: 'Created by',
 			createdAt: 'Created at',
-			active: 'Active',
+			status: 'Status',
 			action: {
 				deactivate: {
 					label: 'Deactivate user',

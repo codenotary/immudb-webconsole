@@ -5,33 +5,21 @@
 		:open-delay="300"
 	>
 		<template #activator="{ on, attrs }">
-			<div
-				class="d-flex justify-center align-center"
+			<v-icon
+				class="ma-0 pa-0"
+				:color="value ? 'success' : 'error'"
 				v-bind="attrs"
 				v-on="on"
 			>
-				<v-icon
-					class="ma-0 pa-0"
-					:color="value ? 'success' : 'error'"
-					size="20"
-				>
-					{{
-						value
-							? mdiCheckCircleOutline
-							: mdiCloseCircleOutline
-					}}
-				</v-icon>
-				<span
-					class="ml-1 body-2"
-					:class="{
-						'success--text': value,
-						'error--text': !value,
-					}"
-					style="top: 3px;"
-				>
-					{{ $t(`common.${ value ? 'active' : 'deactive' }`) }}
-				</span>
-			</div>
+				{{
+					value
+						? mdiCheckCircleOutline
+						: mdiCloseCircleOutline
+				}}
+			</v-icon>
+			<span class="ml-2 body-2">
+				{{ $t(`common.${ value ? 'active' : 'deactive' }`) }}
+			</span>
 		</template>
 		<span class="body-2">
 			{{ $t(`common.${ value ? 'active' : 'deactive' }`) }}
