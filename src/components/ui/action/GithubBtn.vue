@@ -6,7 +6,7 @@
 	>
 		<template #activator="{ on, attrs }">
 			<v-btn
-				class="pa-0 pr-2 body-2 elevation-2"
+				class="github-btn pa-0 pr-2 body-2 elevation-2"
 				style="margin-left: 2px;"
 				color="grey lighten-5"
 				depressed
@@ -76,3 +76,28 @@ export default {
 	},
 };
 </script>
+
+<style lang="scss">
+.v-btn.github-btn {
+	&::before,
+	&::after {
+		transition: all ease-in-out 0.1s !important;
+	}
+
+	&:hover,
+	&:focus {
+		&,
+		span,
+		svg {
+			color: var(--v-grey-lighten5) !important;
+			fill: var(--v-grey-lighten5) !important;
+		}
+
+		&::before,
+		&::after {
+			background-color: var(--v-grey-lighten3) !important;
+			opacity: 1 !important;
+		}
+	}
+}
+</style>
