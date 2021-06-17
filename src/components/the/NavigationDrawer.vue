@@ -188,10 +188,8 @@ export default {
 		getSliderTop () {
 			const idx = this.items.findIndex((_) => {
 				const { to } = _;
-				console.log(to, this.$route.path);
 				return to === this.$route.path;
 			});
-			console.log(idx);
 			return (56 * idx) + 84;
 		},
 	},

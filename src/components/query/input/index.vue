@@ -57,6 +57,10 @@ import {
 	IS_LOADING,
 } from '@/store/view/constants';
 import {
+	AUTH_MODULE,
+	TOKEN,
+} from '@/store/auth/constants';
+import {
 	IMMUDB_MODULE,
 	SET_TX,
 	RUN_SQL_EXEC,
@@ -85,6 +89,9 @@ export default {
 	computed: {
 		...mapGetters(VIEW_MODULE, {
 			loading: IS_LOADING,
+		}),
+		...mapGetters(AUTH_MODULE, {
+			token: TOKEN,
 		}),
 		splittedQueries () {
 			if (!this.query) {
@@ -129,6 +136,12 @@ export default {
 					this.query = newVal;
 					this.id = uniqueId('id_');
 				}
+			},
+		},
+		token: {
+			deep: true,
+			handler (newVal) {
+				this.query = '';
 			},
 		},
 	},
