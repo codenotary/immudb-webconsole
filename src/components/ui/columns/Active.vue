@@ -6,7 +6,7 @@
 	>
 		<template #activator="{ on, attrs }">
 			<div
-				class="d-flex justify-center align-center"
+				class="d-flex justify-start align-center"
 				v-bind="attrs"
 				v-on="on"
 			>

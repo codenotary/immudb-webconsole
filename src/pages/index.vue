@@ -31,26 +31,15 @@
 					>
 						<UiActionDatabaseSelect
 							v-if="database"
-							class="ma-0 py-0 pt-1 px-2"
+							class="ma-0 py-0 pt-1 pl-2"
 							dense
 							:disabled="true"
 							:initial-value="database"
+							:prepend="$t('metrics.title')"
 							v-bind="attrs"
 							v-on="on"
 							@update="onUpdateDatabase"
-						>
-							<template #prepend>
-								<span
-									class="prepend ma-0 pa-0 subtitle-1 font-weight-bold"
-									:class="{
-										'gray--text text--lighten-1': !$vuetify.theme.dark,
-										'gray--text text--lighten-4': $vuetify.theme.dark,
-									}"
-								>
-									{{ $t('metrics.title') }}
-								</span>
-							</template>
-						</UiActionDatabaseSelect>
+						/>
 					</div>
 				</template>
 				<span class="body-2">
@@ -221,19 +210,3 @@ export default {
 	},
 };
 </script>
-
-<style lang="scss">
-#Metrics {
-	.db-select-wrapper {
-		min-width: 320px;
-
-		.db-selector {
-			.prepend,
-			.append {
-				min-width: 80px;
-				width: auto;
-			}
-		}
-	}
-}
-</style>

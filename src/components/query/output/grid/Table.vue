@@ -112,6 +112,8 @@ export default {
 	}
 
 	.sql-table {
+		overflow-x: hidden !important;
+
 		th {
 			font-weight: 700 !important;
 		}

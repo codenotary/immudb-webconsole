@@ -13,6 +13,7 @@
 		<v-card-text
 			ref="outputList"
 			class="ma-0 pa-0 bg-secondary custom-scrollbar"
+			style="overflow-x: hidden !imporant;"
 		>
 			<QueryOutputGrid
 				v-if="tab === 0"

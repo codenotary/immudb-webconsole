@@ -28,7 +28,18 @@
 			"
 		>
 			<template #prepend>
-				<slot name="prepend" />
+				<slot name="prepend">
+					<span
+						class="prepend ma-0 pa-0 subtitle-2 font-weight-bold"
+						:class="{
+							'gray--text text--lighten-1': !$vuetify.theme.dark,
+							'gray--text text--lighten-4': $vuetify.theme.dark,
+						}"
+						:style="`width: ${getPrependWidth}px !important;`"
+					>
+						{{ prepend }}
+					</span>
+				</slot>
 			</template>
 			<template #append>
 				<slot name="append-outer" />
@@ -60,6 +71,7 @@ export default {
 		disabled: { type: Boolean, default: false },
 		dense: { type: Boolean, default: false },
 		initialValue: { type: String, default: DEFAULT_DB },
+		prepend: { type: String, default: '' },
 	},
 	data () {
 		return {
@@ -91,16 +103,28 @@ export default {
 			}
 			return parsed;
 		},
+		getPrependWidth () {
+			if (this.prepend) {
+				const canvas = document.createElement('canvas');
+				const ctx = canvas.getContext('2d');
+				ctx.font = '12.5px Roboto';
+				const { width } = ctx.measureText(this.prepend);
+				return width + 4;
+			}
+			else {
+				return '100%';
+			}
+		},
 		getWidth () {
 			if (this.dense && this.value) {
 				const canvas = document.createElement('canvas');
 				const ctx = canvas.getContext('2d');
 				ctx.font = '14px Roboto';
 				const { width } = ctx.measureText(this.value);
-				return `${ width + 96 }px`;
+				return `${ this.getPrependWidth + width + 36 }px`;
 			}
 			else if (this.dense) {
-				return '96px';
+				return '100px';
 			}
 			else {
 				return '100%';
@@ -127,8 +151,6 @@ export default {
 <style lang="scss">
 .db-selector-wrapper {
 	&.dense {
-		width: calc(100% - #{ $spacer-8 });
-
 		.db-selector {
 			input {
 				padding-top: 2px !important;

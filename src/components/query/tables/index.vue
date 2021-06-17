@@ -15,23 +15,12 @@
 			</v-icon>
 			<UiActionDatabaseSelect
 				v-if="currentDB"
-				class="ma-0 py-0 pt-1 px-2"
+				class="ma-0 py-0 pt-1 pl-2"
 				dense
 				:initial-value="currentDB"
+				:prepend="$t('query.tables.title')"
 				@update="onUpdateDatabase"
-			>
-				<template #prepend>
-					<span
-						class="prepend ma-0 pa-0 subtitle-2 font-weight-bold"
-						:class="{
-							'gray--text text--lighten-1': !$vuetify.theme.dark,
-							'gray--text text--lighten-4': $vuetify.theme.dark,
-						}"
-					>
-						{{ $t('query.tables.title') }}
-					</span>
-				</template>
-			</UiActionDatabaseSelect>
+			/>
 		</v-card-title>
 		<v-card-text
 			class="ma-0 pa-0 bg-secondary custom-scrollbar"
