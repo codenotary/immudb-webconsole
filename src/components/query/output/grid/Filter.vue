@@ -7,7 +7,12 @@
 			'gray--text text--lighten-1': !$vuetify.theme.dark,
 			'gray--text text--lighten-4': $vuetify.theme.dark,
 		}"
-		color="grey darken-2"
+		:menu-props="{
+			'content-class': 'arrow-top-right',
+			'margin-top': 48,
+			'bottom': true,
+			'offset-y': true,
+		}"
 		:items="items"
 		:label="$t('query.output.filter.label')"
 		hide-details

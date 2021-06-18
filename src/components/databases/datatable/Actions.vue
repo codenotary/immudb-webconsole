@@ -4,7 +4,7 @@
 			content-class="ma-0 py-2 px-4 bg primary-outlined arrow-bottom-center"
 			top
 			:open-delay="100"
-			:nudge-top='6'
+			:nudge-top="6"
 		>
 			<template #activator="{ on, attrs }">
 				<v-btn

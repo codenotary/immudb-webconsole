@@ -27,7 +27,10 @@
 				: ''
 			"
 		>
-			<template #prepend>
+			<template
+				v-if="prepend"
+				#prepend
+			>
 				<slot name="prepend">
 					<span
 						class="prepend ma-0 pa-0 subtitle-2 font-weight-bold"

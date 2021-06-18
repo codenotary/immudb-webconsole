@@ -2,8 +2,10 @@
 	<span>
 		<v-menu
 			class="ma-0 pa-0 bg d-flex flex-column justify-center align-center outlined"
+			content-class="arrow-top-right primary-outlined"
 			left
-			:nudge-bottom="48"
+			:nudge-right="6"
+			:nudge-bottom="44"
 		>
 			<template #activator="{ on, attrs }">
 				<v-btn
@@ -26,7 +28,7 @@
 				</v-btn>
 			</template>
 			<v-list
-				class="ma-0 pa-0 bg primary-outlined"
+				class="ma-0 pa-0 bg rounded-1"
 			>
 				<v-tooltip
 					v-if="!disabled"
