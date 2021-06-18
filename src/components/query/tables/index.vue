@@ -43,9 +43,10 @@
 						class="ma-0 pa-0 d-flex justify-space-start align-center fill-width"
 					>
 						<v-tooltip
-							content-class="ma-0 py-2 px-4 bg primary-outlined"
+							content-class="ma-0 py-2 px-4 bg primary-outlined arrow-bottom-center"
 							top
 							:open-delay="300"
+							:nudge-top="6"
 						>
 							<template #activator="{ on, attrs }">
 								<v-icon
@@ -83,9 +84,10 @@
 								<v-tooltip
 									v-if="props.item.primary"
 									class="ma-0 ml-1 pa-0"
-									content-class="ma-0 py-2 px-4 bg primary-outlined"
+									content-class="ma-0 py-2 px-4 bg primary-outlined arrow-top-center"
 									top
 									:open-delay="300"
+									:nudge-top="6"
 								>
 									<template #activator="{ on: { onPrimary } , attrs: { attrsPrimary } }">
 										<v-icon
@@ -108,9 +110,10 @@
 								<v-tooltip
 									v-if="props.item.foreignKey"
 									class="ma-0 ml-1 pa-0"
-									content-class="ma-0 py-2 px-4 bg primary-outlined"
+									content-class="ma-0 py-2 px-4 bg primary-outlined arrow-top-center"
 									top
 									:open-delay="300"
+									:nudge-top="6"
 								>
 									<template #activator="{ on: { onForeign } , attrs: { attrsForeign } }">
 										<v-icon

@@ -2,11 +2,12 @@
 	<v-menu
 		v-if="isAuthenticated"
 		class="ma-0 pa-0 d-flex flex-column justify-center align-center outlined"
+		content-class="arrow-bottom-left primary-outlined"
 		style="padding-bottom: 16px !important;"
 		top
 		offset-y
 		:nudge-left="2"
-		:nudge-top="2"
+		:nudge-top="12"
 		open-on-hover
 		:close-on-click="false"
 		:close-on-content-click="false"
@@ -32,12 +33,12 @@
 			</v-list-item>
 		</template>
 		<v-list
-			class="ma-0 pa-0 bg primary-outlined"
+			class="ma-0 pa-0 bg rounded-1"
 		>
 			<v-list-item
 				class="ma-0 pa-0 primary d-flex justify-center align-center fill-width"
 				ripple
-				style="border-radius: 6px 6px 0 0;"
+				style="border-radius: 4px 4px 0 0;"
 				:title="$t('common.username')"
 				:alt="$t('common.username')"
 			>

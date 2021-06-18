@@ -74,10 +74,11 @@
 			>
 				<v-tooltip
 					v-if="item && !item.hidden"
-					content-class="ma-0 py-2 px-4 bg primary-outlined"
+					content-class="ma-0 py-2 px-4 bg primary-outlined arrow-left-center"
 					:disabled="!mini"
 					right
 					:open-delay="300"
+					:nudge-right="4"
 				>
 					<template #activator="{ on, attrs }">
 						<v-list-item

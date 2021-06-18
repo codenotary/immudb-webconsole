@@ -16,10 +16,10 @@
 				{{ mdiChartBoxOutline }}
 			</v-icon>
 			<v-tooltip
-				content-class="ma-0 py-2 px-4 bg primary-outlined"
+				content-class="ma-0 py-2 px-4 bg primary-outlined arrow-top-center"
 				bottom
 				:nudge-top="4"
-				:nudge-left="68"
+				:nudge-left="8"
 				:open-delay="300"
 			>
 				<template #activator="{ on, attrs }">
@@ -48,9 +48,10 @@
 			</v-tooltip>
 			<v-spacer />
 			<v-tooltip
-				content-class="ma-0 py-2 px-4 bg primary-outlined"
+				content-class="ma-0 py-2 px-4 bg primary-outlined arrow-right-center"
 				left
 				:open-delay="300"
+				:nudge-left="4"
 			>
 				<template #activator="{ on, attrs }">
 					<v-icon

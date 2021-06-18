@@ -3,9 +3,10 @@
 		<span class="my-2 mx-0 pa-0 subtitle-2">
 			{{ $t('profile.timezone.label') }}
 			<v-tooltip
-				content-class="ma-0 py-2 px-4 bg primary-outlined"
+				content-class="ma-0 py-2 px-4 bg primary-outlined arrow-left-center"
 				right
 				:open-delay="300"
+				:nudge-right="4"
 			>
 				<template #activator="{ on, attrs }">
 					<v-icon

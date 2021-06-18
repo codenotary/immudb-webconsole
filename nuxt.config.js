@@ -87,7 +87,11 @@ export default {
 			lang: 'scss',
 			ssr: false,
 		},
-
+		{
+			src: './assets/css/tooltip.scss',
+			lang: 'scss',
+			ssr: false,
+		},
 		{
 			src: 'vue-json-pretty/lib/styles.css',
 			lang: 'css',

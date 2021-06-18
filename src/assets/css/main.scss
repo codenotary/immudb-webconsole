@@ -11,13 +11,7 @@ body.theme--light {
 }
 
 .v-application {
-	&.theme--dark {
-		background: #153954 !important;
-	}
-
-	&.theme--light {
-		background: #fff !important;
-	}
+	background: var(--v-bg-base) !important;
 
 	.v-card {
 		@media (max-width: 480px) {
@@ -194,7 +188,8 @@ a {
 	}
 }
 
-.v-menu__content {
+.v-menu__content,
+.menuable__content__active {
 	border-radius: $border-radius-root !important;
 }
 
@@ -500,10 +495,6 @@ a {
 	max-height: 32px !important;
 }
 
-.v-tooltip {
-	z-index: 50;
-}
-
 .v-badge {
 	.v-badge__wrapper {
 		display: flex;
@@ -659,6 +650,10 @@ a {
 	&:hover {
 		filter: brightness(150%);
 	}
+}
+
+.rounded {
+	border-radius: 4px !important;
 }
 
 @for $i from 0 to 10 {

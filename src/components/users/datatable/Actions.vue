@@ -30,9 +30,10 @@
 			>
 				<v-tooltip
 					v-if="!disabled"
-					content-class="ma-0 py-2 px-4 bg primary-outlined"
+					content-class="ma-0 py-2 px-4 bg primary-outlined arrow-right-center"
 					left
 					:open-delay="100"
+					:nudge-right="4"
 				>
 					<template #activator="{ on, attrs }">
 						<v-list-item
@@ -66,9 +67,10 @@
 				</v-tooltip>
 				<v-tooltip
 					v-if="disabled"
-					content-class="ma-0 py-2 px-4 bg primary-outlined"
+					content-class="ma-0 py-2 px-4 bg primary-outlined arrow-right-center"
 					left
 					:open-delay="100"
+					:nudge-right="4"
 				>
 					<template #activator="{ on, attrs }">
 						<v-list-item
@@ -101,9 +103,10 @@
 					</span>
 				</v-tooltip>
 				<v-tooltip
-					content-class="ma-0 py-2 px-4 bg primary-outlined"
+					content-class="ma-0 py-2 px-4 bg primary-outlined arrow-right-center"
 					left
 					:open-delay="100"
+					:nudge-right="4"
 				>
 					<template #activator="{ on, attrs }">
 						<v-list-item

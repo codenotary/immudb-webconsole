@@ -17,10 +17,11 @@
 	>
 		<template #prepend>
 			<v-tooltip
-				content-class="ma-0 py-2 px-4 bg primary-outlined"
+				content-class="ma-0 py-2 px-4 bg primary-outlined arrow-top-center"
 				:disabled="active"
 				bottom
 				:open-delay="300"
+				:nudge-bottom="6"
 			>
 				<template #activator="{ on, attrs }">
 					<v-icon

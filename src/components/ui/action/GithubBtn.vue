@@ -1,8 +1,9 @@
 <template>
 	<v-tooltip
-		content-class="ma-0 py-2 px-4 bg primary-outlined"
+		content-class="ma-0 py-2 px-4 bg primary-outlined arrow-bottom-right"
 		top
 		:open-delay="300"
+		:nudge-top="6"
 	>
 		<template #activator="{ on, attrs }">
 			<v-btn
@@ -21,7 +22,7 @@
 			>
 				<v-icon
 					class="ma-0 grey lighten-1 white--text"
-					style="padding: 4px; margin-left: -2px !important; border-radius: 8px 0 0 8px;"
+					style="padding: 4px; margin-left: -2px !important; border-radius: 4px 0 0 4px;"
 					:size="28"
 				>
 					{{ mdiGithub }}

@@ -16,7 +16,7 @@ body {
 		background-color: $dark-thumb-color !important;
 		border: 1px solid rgba(0, 0, 0, 0) !important;
 		background-clip: padding-box !important;
-		border-radius: 8px !important;
+		border-radius: 4px !important;
 	}
 
 	.custom-scrollbar,
@@ -45,7 +45,7 @@ body {
 		&::-webkit-scrollbar-thumb {
 			border: 1px solid rgba(0, 0, 0, 0) !important;
 			background-clip: padding-box !important;
-			border-radius: 8px !important;
+			border-radius: 4px !important;
 		}
 
 		::-webkit-scrollbar-button {
