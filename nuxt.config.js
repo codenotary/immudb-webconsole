@@ -357,7 +357,6 @@ export default {
 			: process.env.METRICS_API_URL || '/metrics-api/',
 		GITHUB_API_URL: 'https://api.github.com',
 		GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID || '',
-		GOOGLE_ANALYTICS_SITEKEY: process.env.GOOGLE_ANALYTICS_SITEKEY || '',
 	},
 
 	/*
