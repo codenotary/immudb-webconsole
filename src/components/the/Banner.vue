@@ -2,53 +2,48 @@
 	<v-system-bar
 		v-if="value"
 		id="TheBanner"
-		class="primary darken-1 d-flex justify-center align-center"
+		class="ma-0 pa-0 d-flex justify-center align-center"
+		:height="32"
 		:color="color"
 		fixed
 		app
 	>
+		<v-spacer
+			v-if="!persistent"
+			class="ml-4"
+		/>
 		<slot>
 			<v-icon
-				class="ma-0 pa-0"
+				class="ma-0 pa-0 white--text"
 				:size="18"
 			>
-				{{ mdiAlert }}
+				{{ icon }}
 			</v-icon>
 			<span
-				class="ma-0 ml-2 pa-0 caption white--text text-center font-weight-bold"
+				v-if="title === CHANGE_SYSADMIN_PASSWORD"
+				class="ma-0 ml-2 pa-0 subtitle-2 white--text text-center font-weight-bold"
+			>
+				immudb user has the default password: please
+				<span
+					class="white--text text-decoration-underline cursor-pointer"
+					@click="onSubmit"
+				>
+					change it to ensure proper security!
+				</span>
+			</span>
+			<span
+				v-else
+				class="ma-0 ml-2 pa-0 subtitle-2 white--text text-center font-weight-bold"
 			>
 				{{ title }}
 			</span>
-			<!--<v-spacer />
-			<a
-				class="d-flex justify-center align-center"
-				:href="'https://github.com/codenotary/immudb'"
-				target="_blank"
-				rel="noopener"
-				:alt="$t('banner.title')"
-				@click="onSubmit"
-			>
-				<v-icon
-					class="ma-0 pa-0"
-					color="warning"
-					:size="18"
-				>
-					{{ mdiStar }}
-				</v-icon>
-				<span
-					class="ma-0 ml-2 pa-0 caption white--text font-weight-bold"
-					style="margin-top: 1px !important;"
-				>
-					{{ $t('banner.title') }}
-				</span>
-			</a> -->
 		</slot>
 		<v-spacer
 			v-if="!persistent"
 		/>
 		<v-btn
 			v-if="!persistent"
-			class="ma-0 pa-0 text-center"
+			class="ma-0 mr-4 pa-0 text-center"
 			text
 			icon
 			dense
@@ -72,6 +67,8 @@ import {
 	mdiClose,
 } from '@mdi/js';
 
+const CHANGE_SYSADMIN_PASSWORD = 'immudb user has the default password: please change it to ensure proper security';
+
 export default {
 	name: 'TheBanner',
 	props: {
@@ -80,21 +77,27 @@ export default {
 		subtitle: { type: String, default: '' },
 		color: { type: String, default: 'primary' },
 		persistent: { type: Boolean, default: false },
+		icon: { type: String, default: mdiAlert },
 	},
 	data () {
 		return {
 			mdiAlert,
 			mdiStar,
 			mdiClose,
+			CHANGE_SYSADMIN_PASSWORD,
 			height: 1,
 		};
 	},
 	methods: {
 		onClose () {
-			this.$emit('input');
+			this.$emit('close');
 		},
 		onSubmit () {
-			this.$emit('submit');
+			this.$router.push(this.localePath({ name: 'users' }));
+			setTimeout(() => {
+				this.$eventbus && this.$eventbus
+						.$emit('EVENT_BUS==>updateSysadminPassword');
+			}, 300);
 		},
 	},
 };

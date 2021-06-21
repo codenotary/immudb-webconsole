@@ -1,23 +1,21 @@
 <template>
 	<v-dialog
-		class="database-type-modal"
+		content-class="primary-outlined"
 		:value="value"
 		max-width="600px"
 		persistent
-		:overlay-opacity="0.95"
+		:overlay-opacity="0.55"
 		@input="$emit('input', $event)"
 	>
-		<v-card class="ma-0 pa-4 bg">
-			<v-card-title class="ma-0 mb-2 pa-0">
+		<v-card class="ma-0 pa-0 bg">
+			<v-card-title class="ma-0 mb-2 py-2 px-4 primary d-flex justify-start align-center">
 				<v-icon
-					:class="{
-						'gray--text text--darken-1': !$vuetify.theme.dark,
-						'gray--text text--lighten-1': $vuetify.theme.dark,
-					}"
+					class="bg--text"
+					:size="20"
 				>
 					{{ mdiDatabasePlusOutline }}
 				</v-icon>
-				<span class="ml-2">
+				<span class="ml-2 bg--text subtitle-1">
 					{{ $t('databases.action.add.title', { user }) }}
 				</span>
 				<v-spacer />
@@ -27,10 +25,7 @@
 					@click="onClose"
 				>
 					<v-icon
-						:class="{
-							'gray--text text--darken-1': !$vuetify.theme.dark,
-							'gray--text text--lighten-1': $vuetify.theme.dark,
-						}"
+						class="bg--text"
 						:size="20"
 					>
 						{{ mdiClose }}
@@ -38,7 +33,7 @@
 				</v-btn>
 			</v-card-title>
 			<v-card-text
-				class="ma-0 mb-2 pa-0"
+				class="ma-0 mb-2 pa-4 pt-2"
 				style="overflow-x: hidden !important;"
 			>
 				<ValidationObserver
@@ -72,16 +67,18 @@
 					</v-form>
 				</ValidationObserver>
 			</v-card-text>
-			<v-card-actions class="ma-0 pa-0 d-flex justify-end">
+			<v-card-actions class="ma-0 pa-4 d-flex justify-center">
 				<v-btn
-					text
+					class="px-4"
+					outlined
+					color="primary"
 					@click="$emit('input', false)"
 				>
 					{{ $t('common.cancel') }}
 				</v-btn>
 				<v-btn
-					class="ma-0 ml-2 py-0 px-2 success-gradient"
-					color="success"
+					class="ma-0 ml-2 py-0 px-4"
+					color="primary"
 					type="submit"
 					form="AddDatabaseForm"
 				>
@@ -165,31 +162,3 @@ export default {
 	},
 };
 </script>
-
-<style lang="scss">
-.database-type-modal {
-	.body {
-		display: flex;
-		align-items: center;
-		flex: 1;
-		padding-top: $spacer * 1.5 !important;
-		padding-bottom: $spacer * 1.5 !important;
-
-		.icon {
-			flex: 0;
-			font-size: 32px;
-			color: $error;
-		}
-
-		.content {
-			padding-top: 0 !important;
-			width: 100%;
-		}
-	}
-
-	.footer {
-		display: flex;
-		justify-content: flex-end;
-	}
-}
-</style>

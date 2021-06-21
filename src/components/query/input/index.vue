@@ -1,14 +1,14 @@
 <template>
 	<v-card
 		id="QueryInput"
-		class="ma-0 pa-0 bg fill-height pane shadow"
+		class="ma-0 pa-0 bg fill-height pane shadow-pane"
 		elevation="0"
 	>
 		<v-card-title class="ma-0 py-0 py-sm-2 px-0 d-flex justify-end align-center">
 			<v-icon
 				:class="{
-					'gray--text text--darken-1': !$vuetify.theme.dark,
-					'gray--text text--lighten-1': $vuetify.theme.dark,
+					'gray--text text--lighten-1': !$vuetify.theme.dark,
+					'gray--text text--lighten-4': $vuetify.theme.dark,
 				}"
 			>
 				{{ mdiDatabaseSearchOutline }}
@@ -16,8 +16,8 @@
 			<h4
 				class="ma-0 ml-2 pa-0 pt-1 subtitle-1 font-weight-bold"
 				:class="{
-					'gray--text text--darken-1': !$vuetify.theme.dark,
-					'gray--text text--lighten-1': $vuetify.theme.dark,
+					'gray--text text--lighten-1': !$vuetify.theme.dark,
+					'gray--text text--lighten-4': $vuetify.theme.dark,
 				}"
 			>
 				{{ $t('query.input.title') }}
@@ -57,9 +57,12 @@ import {
 	IS_LOADING,
 } from '@/store/view/constants';
 import {
+	AUTH_MODULE,
+	TOKEN,
+} from '@/store/auth/constants';
+import {
 	IMMUDB_MODULE,
 	SET_TX,
-	RUN_SQL_QUERY,
 	RUN_SQL_EXEC,
 } from '@/store/immudb/constants';
 import {
@@ -86,6 +89,9 @@ export default {
 	computed: {
 		...mapGetters(VIEW_MODULE, {
 			loading: IS_LOADING,
+		}),
+		...mapGetters(AUTH_MODULE, {
+			token: TOKEN,
 		}),
 		splittedQueries () {
 			if (!this.query) {
@@ -132,6 +138,12 @@ export default {
 				}
 			},
 		},
+		token: {
+			deep: true,
+			handler (newVal) {
+				this.query = '';
+			},
+		},
 	},
 	mounted() {
 		this._keyListener = function(e) {
@@ -150,7 +162,6 @@ export default {
 	},
 	methods: {
 		...mapActions(IMMUDB_MODULE, {
-			runSqlQuery: RUN_SQL_QUERY,
 			runSqlExec: RUN_SQL_EXEC,
 			setTx: SET_TX,
 		}),

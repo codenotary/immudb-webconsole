@@ -30,7 +30,7 @@
 							@click="onCollapse"
 						>
 							<v-icon
-								class="grey--text text--darken-2 headline"
+								class="gray--text text--darken-2 headline"
 								v-text="mdiMenu"
 							/>
 						</v-btn>

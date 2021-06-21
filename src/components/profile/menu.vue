@@ -1,26 +1,30 @@
 <template>
 	<v-menu
 		v-if="isAuthenticated"
-		class="ma-0 pa-0 bg d-flex flex-column justify-center align-center"
-		style="padding-bottom: 28px !important;"
+		class="ma-0 pa-0 d-flex flex-column justify-center align-center outlined"
+		content-class="arrow-bottom-left primary-outlined"
+		style="padding-bottom: 16px !important;"
 		top
-		offset-x
+		offset-y
 		:nudge-left="2"
-		:nudge-bottom="2"
+		:nudge-top="12"
 		open-on-hover
+		:close-on-click="false"
+		:close-on-content-click="false"
+		close-delay="300"
 	>
 		<template #activator="{ on, attrs }">
 			<v-list-item
-				class="ma-0 mb-4 pa-0"
+				class="ma-0 mb-8 pa-0"
 				v-bind="attrs"
 				v-on="on"
 			>
 				<v-avatar
-					color="accent"
-					:size="32"
+					color="primary elevation-2"
+					:size="40"
 				>
 					<span
-						class="ma-0 pa-0 white--text subtitle-2 text-uppercase"
+						class="ma-0 pa-0 white--text title text-uppercase font-weight-bold"
 						style="padding-top: 1px !important;"
 					>
 						{{ userInitials }}
@@ -28,15 +32,20 @@
 				</v-avatar>
 			</v-list-item>
 		</template>
-		<v-list class="user-menu bg">
+		<v-list
+			class="ma-0 pa-0 bg rounded-1"
+		>
 			<v-list-item
-				class="d-flex justify-start"
+				class="ma-0 pa-0 primary d-flex justify-center align-center fill-width"
 				ripple
+				style="border-radius: 4px 4px 0 0;"
 				:title="$t('common.username')"
 				:alt="$t('common.username')"
 			>
 				<v-list-item-content>
-					<v-list-item-title class="ma-0 mb-4 pa-0">
+					<v-list-item-title
+						class="ma-0 pa-0 bg--text text-center"
+					>
 						<span class="ma-0 pa-0 body-2">
 							{{ $t('common.username') }}
 						</span>
@@ -44,25 +53,35 @@
 							{{ user }}
 						</span>
 					</v-list-item-title>
-					<v-divider />
 				</v-list-item-content>
 			</v-list-item>
 			<v-list-item
-				v-if="false"
+				class="pb-2 d-flex justify-start"
+				ripple
+				:title="$t('profile.themeToogle.alt')"
+				:alt="$t('profile.themeToogle.alt')"
+			>
+				<ProfileTimezone />
+			</v-list-item>
+			<v-divider
+				class="my-0 mx-4 pa-0 bg-secondary"
+			/>
+			<v-list-item
 				class="d-flex justify-start"
 				ripple
-				:title="$t('profile.preferences.alt')"
-				:alt="$t('profile.preferences.alt')"
-				@click="onProfileOpen"
+				:title="$t('profile.themeToogle.alt')"
+				:alt="$t('profile.themeToogle.alt')"
+				@click="onThemeToggle"
 			>
 				<v-icon
 					class="ma-0 body-2 text-center"
 					:class="{
-						'gray--text text--darken-1': !$vuetify.theme.dark,
-						'gray--text text--lighten-1': $vuetify.theme.dark,
+						'gray--text text--lighten-1': !$vuetify.theme.dark,
+						'gray--text text--lighten-4': $vuetify.theme.dark,
 					}"
+					:size="20"
 				>
-					{{ mdiAccountSettingsOutline }}
+					{{ mdiBrightness6 }}
 				</v-icon>
 				<div
 					class="ma-0 ml-2 pa-0 d-flex flex-column justify-center align-start"
@@ -70,14 +89,20 @@
 					<span
 						class="body-2"
 						:class="{
-							'gray--text text--darken-1': !$vuetify.theme.dark,
-							'gray--text text--lighten-1': $vuetify.theme.dark,
+							'gray--text text--lighten-1': !$vuetify.theme.dark,
+							'gray--text text--lighten-4': $vuetify.theme.dark,
 						}"
 					>
-						{{ $t('profile.preferences.label') }}
+						{{ $t('profile.themeToogle.label', { value: theme === 'light'
+							? 'dark'
+							: 'light'
+						}) }}
 					</span>
 				</div>
 			</v-list-item>
+			<v-divider
+				class="my-0 mx-4 pa-0 bg-secondary"
+			/>
 			<v-list-item
 				class="d-flex justify-start"
 				ripple
@@ -88,9 +113,10 @@
 				<v-icon
 					class="ma-0 body-2 text-center"
 					:class="{
-						'gray--text text--darken-1': !$vuetify.theme.dark,
-						'gray--text text--lighten-1': $vuetify.theme.dark,
+						'gray--text text--lighten-1': !$vuetify.theme.dark,
+						'gray--text text--lighten-4': $vuetify.theme.dark,
 					}"
+					:size="20"
 				>
 					{{ mdiExitToApp }}
 				</v-icon>
@@ -100,8 +126,8 @@
 					<span
 						class="body-2"
 						:class="{
-							'gray--text text--darken-1': !$vuetify.theme.dark,
-							'gray--text text--lighten-1': $vuetify.theme.dark,
+							'gray--text text--lighten-1': !$vuetify.theme.dark,
+							'gray--text text--lighten-4': $vuetify.theme.dark,
 						}"
 					>
 						{{ $t('profile.logout.label') }}
@@ -123,6 +149,11 @@ import {
 	USER,
 } from '@/store/auth/constants';
 import {
+	VIEW_MODULE,
+	THEME,
+	TOGGLE_THEME,
+} from '@/store/view';
+import {
 	IMMUDB_MODULE,
 	SET_STATE,
 } from '@/store/immudb/constants';
@@ -137,7 +168,7 @@ import {
 	RESET_OUTPUT,
 } from '@/store/output/constants';
 import {
-	mdiAccountSettingsOutline,
+	mdiBrightness6,
 	mdiExitToApp,
 } from '@mdi/js';
 
@@ -145,7 +176,7 @@ export default {
 	name: 'ProfileMenu',
 	data() {
 		return {
-			mdiAccountSettingsOutline,
+			mdiBrightness6,
 			mdiExitToApp,
 		};
 	},
@@ -153,6 +184,9 @@ export default {
 		...mapGetters(AUTH_MODULE, {
 			isAuthenticated: AUTHENTICATED,
 			user: USER,
+		}),
+		...mapGetters(VIEW_MODULE, {
+			theme: THEME,
 		}),
 		userInitials () {
 			if (this.user) {
@@ -173,6 +207,9 @@ export default {
 			setUser: SET_USER,
 			setUserPermission: SET_USER_PERMISSION,
 		}),
+		...mapActions(VIEW_MODULE, {
+			toggleTheme: TOGGLE_THEME,
+		}),
 		...mapActions(IMMUDB_MODULE, {
 			setState: SET_STATE,
 		}),
@@ -183,8 +220,8 @@ export default {
 		...mapActions(OUTPUT_MODULE, {
 			resetOutput: RESET_OUTPUT,
 		}),
-		onProfileOpen () {
-			this.$emit('profile');
+		onThemeToggle () {
+			this.toggleTheme();
 		},
 		onLogout () {
 			this.$cookies.set('instance', undefined);

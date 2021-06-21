@@ -27,6 +27,14 @@ export const METRICS_API_CONFIG = {
 	},
 };
 
+export const GITHUB_API_CONFIG = {
+	headers: {
+		common: {
+			'content-type': 'application/json; charset=utf-8',
+		},
+	},
+};
+
 // Backend api proxy instance
 export const RootService = axios.create({
 	...API_CONFIG,
@@ -46,4 +54,10 @@ export const PrometheusApiService = axios.create({
 	baseURL: process.env.IS_PUBLIC_DEMO
 		? process.env.METRICS_API_URL
 		: window.location.protocol + '//' + window.location.hostname + ':9497',
+});
+
+// Github proxy instance
+export const GithubApiService = axios.create({
+	...GITHUB_API_CONFIG,
+	baseURL: process.env.GITHUB_API_URL,
 });

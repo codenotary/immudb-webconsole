@@ -42,6 +42,7 @@ export default {
 				color: '',
 				persistent: false,
 				subtitle: '',
+				icon: '',
 			};
 		}
 	},

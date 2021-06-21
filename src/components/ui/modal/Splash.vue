@@ -1,7 +1,7 @@
 <template>
 	<v-dialog
 		:value="value"
-		:content-class="`splash-screen theme--${ $vuetify.theme.dark ? 'dark' : 'light' }`"
+		:content-class="`splash-screen bg-secondary theme--${ $vuetify.theme.dark ? 'dark' : 'light' }`"
 		fullscreen
 		persistent
 		no-click-animation
@@ -9,25 +9,24 @@
 	>
 		<div class="ma-0 pa-0 d-flex flex-column justify-center align-center fill-height">
 			<v-img
-				class="mascotte mt-16 mx-0 pa-0"
-				lazy-src="/images/mascotte/mascotte_lazy.png"
-				src="/images/mascotte/mascotte.png"
+				class="mascotte mt-8 mt-sm-16 mx-0 pa-0"
+				src="/images/mascotte/immudb_mascot_shadowed.svg"
 				:alt="$t('common.gopher')"
 				height="10%"
-				min-height="144px"
-				max-height="320px"
+				:min-height="`${ $vuetify.breakpoint.smAndDown ? '185' : '245' }px`"
+				max-height="245px"
 				contain
 			/>
 			<v-row class="ma-0 pa-0 d-flex flex-grow-0 justify-center align-start fill-width">
 				<v-col
-					class="ma-0 py-8 d-flex justify-center align-center"
+					class="ma-0 pt-4 pb-2 d-flex justify-center align-center"
 					cols="12"
-					sm="8"
-					md="6"
-					lg="4"
+					sm="6"
+					md="4"
+					lg="3"
 				>
 					<UiLogoImmudb
-						:height="48"
+						:height="32"
 					/>
 				</v-col>
 			</v-row>
@@ -37,9 +36,9 @@
 					v-if="showAuthForm"
 					class="ma-0 pa-0 d-flex justify-center align-start fill-height"
 					cols="12"
-					sm="8"
-					md="6"
-					lg="4"
+					sm="6"
+					md="4"
+					lg="3"
 				>
 					<UiFormAuth
 						@submit="onSubmit"
@@ -49,21 +48,21 @@
 					v-else
 					class="ma-0 pa-0 d-flex justify-center align-center fill-height"
 					cols="12"
-					sm="8"
-					md="6"
-					lg="4"
+					sm="6"
+					md="4"
+					lg="3"
 				>
 					<v-progress-circular
 						class="ma-0 mt-4 pa-0 d-flex justify-center align-center fill-height"
 						:size="96"
-						color="accent"
+						color="primary"
 						indeterminate
 					>
 						<span
 							class="ma-0 pa-0 body-2 text-capitalize"
 							:class="{
-								'gray--text text--darken-1': !$vuetify.theme.dark,
-								'gray--text text--lighten-1': $vuetify.theme.dark,
+								'gray--text text--lighten-1': !$vuetify.theme.dark,
+								'gray--text text--lighten-4': $vuetify.theme.dark,
 							}"
 						>
 							{{ $t('common.loading') }}
@@ -72,7 +71,7 @@
 				</v-col>
 			</v-row>
 			<v-spacer />
-			<div class="ma-0 mb-4 pa-0 d-flex flex-column justify-center align-start fill-width">
+			<div class="ma-0 my-2 my-sm-4 pa-0 d-flex flex-column justify-center align-start fill-width">
 				<UiLogoCodeNotary
 					:height="64"
 				/>
@@ -136,24 +135,6 @@ export default {
 
 <style lang="scss">
 .splash-screen {
-	&.theme-- {
-		&dark {
-			background-color: #21222c;
-
-			.immudb svg g {
-				color: #fff !important;
-			}
-		}
-
-		&light {
-			background-color: #fff;
-
-			.immudb svg g {
-				color: #21222c !important;
-			}
-		}
-	}
-
 	.logo,
 	.immudb,
 	.mascotte {

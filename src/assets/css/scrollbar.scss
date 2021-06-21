@@ -1,8 +1,8 @@
 // Custom Scrollbar
-$dark-track-color: #23232f;
-$dark-thumb-color: #424353;
-$light-track-color: #dfe6ed;
-$light-thumb-color: #fff;
+$dark-track-color: #0d3049;
+$dark-thumb-color: #768e98;
+$light-track-color: #ebece9;
+$light-thumb-color: #c1c1c1;
 
 body {
 	&::-webkit-scrollbar-track,
@@ -16,7 +16,7 @@ body {
 		background-color: $dark-thumb-color !important;
 		border: 1px solid rgba(0, 0, 0, 0) !important;
 		background-clip: padding-box !important;
-		border-radius: 8px !important;
+		border-radius: 4px !important;
 	}
 
 	.custom-scrollbar,
@@ -29,6 +29,8 @@ body {
 	.v-date-picker-years,
 	.v-card__content,
 	.v-card__text {
+		scroll-behavior: smooth;
+
 		&::-webkit-scrollbar-track {
 			-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3) !important;
 			box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3) !important;
@@ -43,7 +45,7 @@ body {
 		&::-webkit-scrollbar-thumb {
 			border: 1px solid rgba(0, 0, 0, 0) !important;
 			background-clip: padding-box !important;
-			border-radius: 8px !important;
+			border-radius: 4px !important;
 		}
 
 		::-webkit-scrollbar-button {

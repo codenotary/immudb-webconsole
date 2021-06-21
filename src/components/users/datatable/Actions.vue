@@ -1,32 +1,41 @@
 <template>
 	<span>
 		<v-menu
+			class="ma-0 pa-0 bg d-flex flex-column justify-center align-center outlined"
+			content-class="arrow-top-right primary-outlined"
 			left
-			:nudge-bottom="48"
+			:nudge-right="6"
+			:nudge-bottom="44"
 		>
 			<template #activator="{ on, attrs }">
 				<v-btn
-					color="secondary"
+					class="no-ripple-hover"
+					color="primary"
 					icon
+					:ripple="false"
 					v-bind="attrs"
 					v-on="on"
 				>
 					<v-icon
 						:class="{
-							'gray--text text--darken-1': !$vuetify.theme.dark,
-							'gray--text text--lighten-1': $vuetify.theme.dark,
+							'gray--text text--lighten-1': !$vuetify.theme.dark,
+							'gray--text text--lighten-4': $vuetify.theme.dark,
 						}"
 						:size="20"
 					>
-						{{ mdiCog }}
+						{{ mdiCogOutline }}
 					</v-icon>
 				</v-btn>
 			</template>
-			<v-list class="user-datatable-actions">
+			<v-list
+				class="ma-0 pa-0 bg rounded-1"
+			>
 				<v-tooltip
 					v-if="!disabled"
+					content-class="ma-0 py-2 px-4 bg primary-outlined arrow-right-center"
 					left
 					:open-delay="100"
+					:nudge-right="4"
 				>
 					<template #activator="{ on, attrs }">
 						<v-list-item
@@ -34,15 +43,15 @@
 						>
 							<v-list-item-title
 								class="d-flex justify-start align-center"
-								color="secondary"
+								color="primary"
 								:alt="$t('users.table.action.deactivate.alt', { user })"
 								v-bind="attrs"
 								v-on="on"
 							>
 								<v-icon
 									:class="{
-										'gray--text text--darken-1': !$vuetify.theme.dark,
-										'gray--text text--lighten-1': $vuetify.theme.dark,
+										'gray--text text--lighten-1': !$vuetify.theme.dark,
+										'gray--text text--lighten-4': $vuetify.theme.dark,
 									}"
 									:size="20"
 								>
@@ -60,8 +69,10 @@
 				</v-tooltip>
 				<v-tooltip
 					v-if="disabled"
+					content-class="ma-0 py-2 px-4 bg primary-outlined arrow-right-center"
 					left
 					:open-delay="100"
+					:nudge-right="4"
 				>
 					<template #activator="{ on, attrs }">
 						<v-list-item
@@ -69,15 +80,15 @@
 						>
 							<v-list-item-title
 								class="d-flex justify-start align-center"
-								color="secondary"
+								color="primary"
 								:alt="$t('users.table.action.activate.alt', { user })"
 								v-bind="attrs"
 								v-on="on"
 							>
 								<v-icon
 									:class="{
-										'gray--text text--darken-1': !$vuetify.theme.dark,
-										'gray--text text--lighten-1': $vuetify.theme.dark,
+										'gray--text text--lighten-1': !$vuetify.theme.dark,
+										'gray--text text--lighten-4': $vuetify.theme.dark,
 									}"
 									:size="20"
 								>
@@ -94,8 +105,10 @@
 					</span>
 				</v-tooltip>
 				<v-tooltip
+					content-class="ma-0 py-2 px-4 bg primary-outlined arrow-right-center"
 					left
 					:open-delay="100"
+					:nudge-right="4"
 				>
 					<template #activator="{ on, attrs }">
 						<v-list-item
@@ -103,15 +116,15 @@
 						>
 							<v-list-item-title
 								class="d-flex justify-start align-center"
-								color="secondary"
+								color="primary"
 								:alt="$t('users.table.action.updatePassword.alt')"
 								v-bind="attrs"
 								v-on="on"
 							>
 								<v-icon
 									:class="{
-										'gray--text text--darken-1': !$vuetify.theme.dark,
-										'gray--text text--lighten-1': $vuetify.theme.dark,
+										'gray--text text--lighten-1': !$vuetify.theme.dark,
+										'gray--text text--lighten-4': $vuetify.theme.dark,
 									}"
 									:size="20"
 								>
@@ -133,7 +146,7 @@
 		<!-- MODALS -->
 		<UiModalConfirm
 			v-model="showDeactiveUserModal"
-			color="error"
+			color="primary"
 			:title="$t('users.table.modal.deactivate.title', { user })"
 			:confirm-text="$t('common.confirm')"
 			:cancel-text="$t('common.cancel')"
@@ -141,15 +154,20 @@
 		>
 			<template #icon>
 				<v-icon
-					:class="{
-						'gray--text text--darken-1': !$vuetify.theme.dark,
-						'gray--text text--lighten-1': $vuetify.theme.dark,
-					}"
+					class="bg--text"
+					:size="20"
 				>
 					{{ mdiAccountCancelOutline }}
 				</v-icon>
 			</template>
-			<p v-html="$t('users.table.modal.deactivate.sure')" />
+			<p
+				class="text-center"
+				:class="{
+					'gray--text text--lighten-1': !$vuetify.theme.dark,
+					'gray--text text--lighten-4': $vuetify.theme.dark,
+				}"
+				v-html="$t('users.table.modal.deactivate.sure')"
+			/>
 		</UiModalConfirm>
 		<UiModalConfirm
 			v-model="showActivateUserModal"
@@ -161,25 +179,30 @@
 		>
 			<template #icon>
 				<v-icon
-					:class="{
-						'gray--text text--darken-1': !$vuetify.theme.dark,
-						'gray--text text--lighten-1': $vuetify.theme.dark,
-					}"
+					class="bg--text"
+					:size="20"
 				>
 					{{ mdiAccountCheckOutline }}
 				</v-icon>
 			</template>
-			<p v-html="$t('users.table.modal.activate.sure')" />
+			<p
+				class="text-center"
+				:class="{
+					'gray--text text--lighten-1': !$vuetify.theme.dark,
+					'gray--text text--lighten-4': $vuetify.theme.dark,
+				}"
+				v-html="$t('users.table.modal.activate.sure')"
+			/>
 		</UiModalConfirm>
 		<UsersModalUpdatePassword
 			v-model="showUpdatePasswordModal"
-			color="warning"
+			color="primary"
 			:user="user"
 			@submit="onUpdatePassword"
 		/>
 		<UsersModalUpdatePermissions
 			v-model="showUpdatePermissionsModal"
-			color="warning"
+			color="primary"
 			:user="user"
 			@submit="onUpdatePermissions"
 		/>
@@ -188,7 +211,7 @@
 
 <script>
 import {
-	mdiCog,
+	mdiCogOutline,
 	mdiCircle,
 	mdiAccountCancelOutline,
 	mdiAccountCheckOutline,
@@ -203,7 +226,7 @@ export default {
 	},
 	data() {
 		return {
-			mdiCog,
+			mdiCogOutline,
 			mdiCircle,
 			mdiAccountCancelOutline,
 			mdiAccountCheckOutline,
@@ -248,6 +271,7 @@ export default {
 			this.$emit('update:password', data);
 		},
 		onUpdatePermissions (data) {
+			console.log(data);
 			this.$emit('update:permissions', data);
 		},
 	},

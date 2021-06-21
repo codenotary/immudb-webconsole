@@ -5,6 +5,12 @@ const IS_PROD = process.env.NODE_ENV === 'production';
 const IS_PUBLIC_DEMO = process.env.PUBLIC_DEMO;
 const EXPERIMENTAL = false && !IS_PROD;
 
+console.log('=======================================');
+console.log(`Running ${ IS_PUBLIC_DEMO
+	? 'public demo'
+	: 'local embedded' } client`);
+console.log('=======================================');
+
 export default {
 	/*
 	** Ssr propery
@@ -81,7 +87,11 @@ export default {
 			lang: 'scss',
 			ssr: false,
 		},
-
+		{
+			src: './assets/css/tooltip.scss',
+			lang: 'scss',
+			ssr: false,
+		},
 		{
 			src: 'vue-json-pretty/lib/styles.css',
 			lang: 'css',
@@ -208,6 +218,7 @@ export default {
 		{ src: '~/plugins/vee-validate.js', ssr: false },
 		{ src: '~/plugins/vue-clipboards.js', ssr: false },
 		{ src: '~/plugins/vue-cookies.js', ssr: false },
+		{ src: '~/plugins/vue-gtag.js', ssr: false },
 		{ src: '~/plugins/vue-json-pretty.js', ssr: false },
 		{ src: '~/plugins/vue-prism-editor.js', ssr: false },
 		{ src: '~/plugins/vue-toasted.js', ssr: false },
@@ -343,7 +354,10 @@ export default {
 		API_URL: process.env.API_URL || '/api',
 		METRICS_API_URL: IS_PROD
 			? '/'
-			: process.env.METRICS_API_URL || '/metrics-api/'
+			: process.env.METRICS_API_URL || '/metrics-api/',
+		GITHUB_API_URL: 'https://api.github.com',
+		GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID || '',
+		GOOGLE_ANALYTICS_SITEKEY: process.env.GOOGLE_ANALYTICS_SITEKEY || '',
 	},
 
 	/*
@@ -436,20 +450,20 @@ export default {
 			dark: true,
 			themes: {
 				light: {
-					primary: '#1976d2',
+					primary: '#24c4a1',
 					secondary: '#febf2d',
 					accent: '#7c4dff',
-					error: '#ff5252',
-					info: '#2196f3',
-					success: '#4caf50',
-					warning: '#fb8c00',
+					error: '#c06b6f',
+					info: '#9fefde',
+					success: '#7ec699',
+					warning: '#f08d49',
 					gray: '#616161',
 					grey: '#616161',
 					bg: '#fff',
-					'bg-secondary': '#f7f9fa',
+					'bg-secondary': '#ebece9',
 					'bg-tertiary': '#dfe6ed',
-					'bg-terminal': '#161616',
-					'bg-code': '#222',
+					'bg-terminal': '#768e98',
+					'bg-code': '#768e98',
 					'font-700': '#111',
 					'font-500': '#333',
 					'font-400': '#999',
@@ -458,20 +472,20 @@ export default {
 					'font-100': '#fff',
 				},
 				dark: {
-					primary: '#1976d2',
+					primary: '#24c4a1',
 					secondary: '#febf2d',
 					accent: '#7c4dff',
-					error: '#ff5252',
-					info: '#2196f3',
-					success: '#4caf50',
-					warning: '#fb8c00',
-					gray: '#9e9e9e',
-					grey: '#9e9e9e',
-					bg: '#21222c',
-					'bg-secondary': '#282a35',
+					error: '#c06b6f',
+					info: '#9fefde',
+					success: '#7ec699',
+					warning: '#f08d49',
+					gray: '#616161',
+					grey: '#616161',
+					bg: '#153954',
+					'bg-secondary': '#0d3049',
 					'bg-tertiary': '#45475b',
-					'bg-terminal': '#161616',
-					'bg-code': '#222',
+					'bg-terminal': '#1c273a',
+					'bg-code': '#1c273a',
 					'font-700': '#fff',
 					'font-500': '#f1f1f1',
 					'font-400': '#666',

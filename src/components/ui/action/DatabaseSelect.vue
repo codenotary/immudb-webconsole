@@ -9,16 +9,16 @@
 			v-if="parsedItems && parsedItems.length > 0"
 			ref="databaseSelector"
 			v-model="value"
-			class="db-selector ma-0 pa-0 d-flex justify-start align-baseline"
+			class="db-selector ma-0 pa-0 bg d-flex justify-start align-baseline"
 			:class="{
-				'gray--text text--darken-1': !$vuetify.theme.dark,
-				'gray--text text--lighten-1': $vuetify.theme.dark,
+				'gray--text text--lighten-1': !$vuetify.theme.dark,
+				'gray--text text--lighten-4': $vuetify.theme.dark,
 				'mt-3': !dense,
 				'no-line': dense,
 			}"
 			:style="`width: ${getWidth} !important;`"
 			:disabled="disabled"
-			color="grey darken-2"
+			color="primary"
 			:dense="dense"
 			:hide-details="dense"
 			:items="parsedItems"
@@ -27,8 +27,22 @@
 				: ''
 			"
 		>
-			<template #prepend>
-				<slot name="prepend" />
+			<template
+				v-if="prepend"
+				#prepend
+			>
+				<slot name="prepend">
+					<span
+						class="prepend ma-0 pa-0 subtitle-2 font-weight-bold"
+						:class="{
+							'gray--text text--lighten-1': !$vuetify.theme.dark,
+							'gray--text text--lighten-4': $vuetify.theme.dark,
+						}"
+						:style="`width: ${getPrependWidth}px !important;`"
+					>
+						{{ prepend }}
+					</span>
+				</slot>
 			</template>
 			<template #append>
 				<slot name="append-outer" />
@@ -60,6 +74,7 @@ export default {
 		disabled: { type: Boolean, default: false },
 		dense: { type: Boolean, default: false },
 		initialValue: { type: String, default: DEFAULT_DB },
+		prepend: { type: String, default: '' },
 	},
 	data () {
 		return {
@@ -91,16 +106,28 @@ export default {
 			}
 			return parsed;
 		},
+		getPrependWidth () {
+			if (this.prepend) {
+				const canvas = document.createElement('canvas');
+				const ctx = canvas.getContext('2d');
+				ctx.font = '12.5px Roboto';
+				const { width } = ctx.measureText(this.prepend);
+				return width + 4;
+			}
+			else {
+				return '100%';
+			}
+		},
 		getWidth () {
 			if (this.dense && this.value) {
 				const canvas = document.createElement('canvas');
 				const ctx = canvas.getContext('2d');
-				ctx.font = '18px Roboto';
+				ctx.font = '14px Roboto';
 				const { width } = ctx.measureText(this.value);
-				return `${ width + 128 }px`;
+				return `${ this.getPrependWidth + width + 36 }px`;
 			}
 			else if (this.dense) {
-				return '144px';
+				return '100px';
 			}
 			else {
 				return '100%';
@@ -127,11 +154,15 @@ export default {
 <style lang="scss">
 .db-selector-wrapper {
 	&.dense {
-		width: calc(100% - #{ $spacer-12 });
-
 		.db-selector {
 			input {
 				padding-top: 2px !important;
+				color: var(--v-primary-base);
+			}
+
+			.v-input__append-inner {
+				padding-left: 0;
+				margin-left: -$spacer-2;
 			}
 		}
 	}
@@ -144,11 +175,16 @@ export default {
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
+			color: var(--v-primary-base);
+		}
+
+		.v-input__append-inner span {
+			color: var(--v-primary-base) !important;
 		}
 
 		.prepend,
 		.append {
-			min-width: $spacer-18;
+			min-width: $spacer-14;
 		}
 	}
 }

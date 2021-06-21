@@ -1,28 +1,27 @@
 <template>
 	<v-dialog
-		class="ma-0 pa-0 bg d-flex justify-start align-center"
+		content-class="primary-outlined"
 		max-width="600px"
-		:color="'warning'"
+		:color="'primary'"
 		:value="value"
 		persistent
-		:overlay-opacity="0.95"
+		:overlay-opacity="0.55"
 	>
-		<v-card class="ma-0 pa-4">
-			<v-card-title class="ma-0 mb-2 pa-0">
+		<v-card class="ma-0 pa-0 bg">
+			<v-card-title class="ma-0 mb-2 py-2 px-4 primary d-flex justify-start align-center">
 				<v-icon
-					:class="{
-						'gray--text text--darken-1': !$vuetify.theme.dark,
-						'gray--text text--lighten-1': $vuetify.theme.dark,
-					}"
+					class="bg--text"
+
+					:size="20"
 				>
 					{{ mdiLocationEnter }}
 				</v-icon>
-				<span class="ml-2">
+				<span class="ml-2 bg--text subtitle-1">
 					{{ $t('login.title') }}
 				</span>
 			</v-card-title>
 			<v-card-text
-				class="ma-0 mb-2 pa-0"
+				class="ma-0 mb-2 pa-4 pt-2"
 				style="overflow-x: hidden !important;"
 			>
 				<ValidationObserver
@@ -76,9 +75,9 @@
 					</v-form>
 				</ValidationObserver>
 			</v-card-text>
-			<v-card-actions class="ma-0 pa-0 d-flex justify-end">
+			<v-card-actions class="ma-0 pa-4 d-flex justify-center">
 				<v-btn
-					class="primary-gradient"
+					class="px-4"
 					color="primary"
 					form="LoginForm"
 					type="submit"

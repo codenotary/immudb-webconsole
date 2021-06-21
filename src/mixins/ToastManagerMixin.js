@@ -59,9 +59,8 @@ export default {
 					icon: GENERIC_ERROR_ICON,
 					duration: DEFAULT_DURATION,
 				});
-				return;
 			}
-			if (err && err.response && err.response.data && err.response.data.error) {
+			else if (err && err.response && err.response.data && err.response.data.error) {
 				const { status } = err.response || {};
 				if ([406, 410].includes(status)) {
 					this.$toasted.info(this.$t(DOCKER_TOKEN_ERROR_I18N), {
@@ -71,8 +70,8 @@ export default {
 				}
 				else if (statuses.includes(status)) {
 					const message =
-						err.response.data.error.charAt(0).toUpperCase() +
-						err.response.data.error.slice(1) + '.';
+					err.response.data.error.charAt(0).toUpperCase() +
+					err.response.data.error.slice(1) + '.';
 					this.$toasted.error(message, {
 						icon: GENERIC_ERROR_ICON,
 						duration: DEFAULT_DURATION,
@@ -85,7 +84,7 @@ export default {
 					});
 				}
 			}
-			if (err && err.response && [406, 410].includes(err.response.status)) {
+			else if (err && err.response && [406, 410].includes(err.response.status)) {
 				this.$toasted.info(this.$t(DOCKER_TOKEN_ERROR_I18N), {
 					icon: DOCKER_TOKEN_ERROR_ICON,
 					duration: DEFAULT_DURATION,

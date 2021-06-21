@@ -12,6 +12,7 @@
 			:title="banner.title"
 			:persistent="banner.persistent"
 			:color="banner.color"
+			:icon="banner.icon"
 			@mouseenter.native="bannerHover = true"
 			@mouseleave.native="bannerHover = false"
 			@submit="onSubmitBanner"
@@ -285,6 +286,7 @@ export default {
 				this.setSplash(false);
 			}
 			catch (err) {
+				console.error(err);
 				this.showToastError(err);
 			}
 		},
@@ -358,7 +360,7 @@ export default {
 		},
 		onCloseBanner () {
 			this.bannerOpen = false;
-			this.$cookies.set(BANNER_COOKIE, '1D');
+			this.$cookies.set(BANNER_COOKIE, '1H');
 		},
 	},
 };
@@ -368,6 +370,7 @@ export default {
 #DefaulLayout {
 	.v-system-bar {
 		max-height: 0;
+		height: 0;
 		transition: max-height 0.15s ease-out;
 		overflow: hidden !important;
 	}
@@ -377,7 +380,7 @@ export default {
 	}
 
 	.v-main {
-		max-height: calc(100vh - #{$spacer-11});
+		max-height: calc(100vh - #{$footer-height} - 1px);
 		margin-top: $spacer-12;
 
 		@media (max-width: 480px) {
@@ -388,16 +391,27 @@ export default {
 
 	&.active {
 		.v-system-bar {
-			max-height: $spacer-6;
+			max-height: $banner-height;
+			height: $banner-height;
 			transition: max-height 0.25s ease-in;
 		}
 
 		.v-navigation-drawer {
-			top: $spacer-6 !important;
+			top: $banner-height !important;
 		}
 
 		.v-main {
-			padding-top: $spacer-6 !important;
+			padding-top: $banner-height !important;
+		}
+
+		.v-card {
+			&.shadow {
+				> .v-card__text {
+					&::after {
+						top: calc(#{$banner-height} + #{$header-height}) !important;
+					}
+				}
+			}
 		}
 	}
 }

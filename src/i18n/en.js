@@ -13,6 +13,7 @@ export default {
 		or: 'Or',
 		run: 'run',
 		active: 'Active',
+		deactive: 'Deactive',
 		clear: 'clear',
 		cancel: 'cancel',
 		confirm: 'confirm',
@@ -53,6 +54,10 @@ export default {
 			username: 'Insert immudb username',
 			password: 'Insert immudb password',
 		},
+		hint: {
+			username: 'Default username is: immudb',
+			password: 'Default password is: immudb',
+		},
 		submit: 'Login',
 	},
 	sidebar: {
@@ -70,10 +75,26 @@ export default {
 			alt: 'Profile preferences',
 			tooltip: 'Profile preferences',
 		},
+		timezone: {
+			label: 'Timezone',
+			placeholder: 'Select favourite timezone',
+			values: {
+				local: 'Browser',
+				UTC: 'UTC',
+			},
+			tooltip: 'The timezone will influence how dates appear in the webconsole',
+			successMessage: 'Timezone preference updated successfully!',
+		},
+		themeToogle: {
+			title: 'Toggle theme',
+			label: 'Toggle {value} theme',
+			alt: 'Toggle theme',
+			tooltip: 'Toggle theme',
+		},
 		logout: {
-			label: 'logout',
-			alt: 'Logout from immudb',
-			tooltip: 'Logout',
+			label: 'Log out',
+			alt: 'Log out from immudb webconsole',
+			tooltip: 'Log out',
 		},
 	},
 	metrics: {
@@ -137,6 +158,7 @@ export default {
 				alt: 'Run SQL query',
 				tooltip: 'Run SQL query',
 				tooltipAll: 'Run All SQL queries',
+				tooltipDisabled: 'A SQL query is required',
 				loading: 'Running',
 				command: 'SQL Command executed successfully!',
 			},
@@ -158,6 +180,10 @@ export default {
 				present: 'Present',
 				timeTravel: 'Travelled in time',
 			},
+		},
+		timetravel: {
+			past: 'This query has been made with a previous TxID',
+			present: 'This query has been made with the latest TxID',
 		},
 	},
 	databases: {
@@ -217,10 +243,10 @@ export default {
 				success: 'User added',
 			},
 			hideNotActive: {
-				label: 'Hide deactivated users',
+				label: 'Hide deactive users',
 				tooltip: {
-					hide: 'Hide deactivated users',
-					show: 'Show deactivated users',
+					hide: 'Hide deactive users',
+					show: 'Show deactive users',
 				},
 			},
 		},
@@ -237,7 +263,7 @@ export default {
 			user: 'User',
 			createdBy: 'Created by',
 			createdAt: 'Created at',
-			active: 'Active',
+			status: 'Status',
 			action: {
 				deactivate: {
 					label: 'Deactivate user',
@@ -306,7 +332,7 @@ export default {
 					success: 'User successfully activated!',
 				},
 				updatePassword: {
-					title: 'Change password of user {user}',
+					title: 'Change password for user {user}',
 					oldPassword: 'Old password',
 					newPassword: 'New password',
 					confirmPassword: 'Confirm password',
@@ -332,18 +358,22 @@ export default {
 	},
 	footer: {
 		text: 'Copyright © {date} {url} All rights reserved.',
-		devMode: 'Dev mode',
-		github: 'See OS code on github repository',
 		buildTime: 'Last build at {date}',
-		theme: {
-			toggle: {
-				dark: 'Toggle light theme',
-				light: 'Toggle dark theme',
-			},
+		version: {
+			prepend: 'v',
+			tooltip: 'immudb version',
 		},
 		feedback: {
 			text: 'Feedback',
 			tooltip: 'Something went wrong or have an idea in mind? Let us know on GitHub!',
+		},
+		devMode: {
+			label: 'Dev mode',
+			tooltip: 'The webconsole is running in development mode',
+		},
+		github: {
+			label: '1800',
+			tooltip: 'See OS code on github repository',
 		},
 	},
 	somethingWentWrong: 'Something went wrong',

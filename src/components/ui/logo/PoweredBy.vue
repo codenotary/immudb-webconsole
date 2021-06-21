@@ -3,8 +3,8 @@
 		<span
 			class="ma-0 mb-n5 pl-4 pa-0 caption d-flex justify-center  fill-width"
 			:class="{
-				'gray--text text--darken-1': !$vuetify.theme.dark,
-				'gray--text text--lighten-1': $vuetify.theme.dark,
+				'gray--text text--lighten-1': !$vuetify.theme.dark,
+				'gray--text text--lighten-4': $vuetify.theme.dark,
 			}"
 		>
 			{{ $t('common.poweredBy') }}

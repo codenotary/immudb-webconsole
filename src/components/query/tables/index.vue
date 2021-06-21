@@ -1,37 +1,26 @@
 <template>
 	<v-card
 		id="QueryTables"
-		class="ma-0 pa-0 bg fill-height pane shadow"
-		elevation="0"
+		class="ma-0 pa-0 bg fill-height pane shadow-pane"
 	>
 		<v-card-title class="ma-0 py-0 py-sm-2 pl-3 pr-0 d-flex justify-start align-center">
 			<v-icon
 				:class="{
-					'gray--text text--darken-1': !$vuetify.theme.dark,
-					'gray--text text--lighten-1': $vuetify.theme.dark,
+					'gray--text text--lighten-1': !$vuetify.theme.dark,
+					'gray--text text--lighten-4': $vuetify.theme.dark,
 				}"
+				:size="24"
 			>
 				{{ mdiDatabaseOutline }}
 			</v-icon>
 			<UiActionDatabaseSelect
 				v-if="currentDB"
-				class="ma-0 py-0 pt-1 px-2"
+				class="ma-0 py-0 pt-1 pl-2"
 				dense
 				:initial-value="currentDB"
+				:prepend="$t('query.tables.title')"
 				@update="onUpdateDatabase"
-			>
-				<template #prepend>
-					<span
-						class="prepend ma-0 pa-0 subtitle-2 font-weight-bold"
-						:class="{
-							'gray--text text--darken-1': !$vuetify.theme.dark,
-							'gray--text text--lighten-1': $vuetify.theme.dark,
-						}"
-					>
-						{{ $t('query.tables.title') }}
-					</span>
-				</template>
-			</UiActionDatabaseSelect>
+			/>
 		</v-card-title>
 		<v-card-text
 			class="ma-0 pa-0 bg-secondary custom-scrollbar"
@@ -54,17 +43,15 @@
 						class="ma-0 pa-0 d-flex justify-space-start align-center fill-width"
 					>
 						<v-tooltip
+							content-class="ma-0 py-2 px-4 bg primary-outlined arrow-bottom-center"
 							top
 							:open-delay="300"
+							:nudge-top="6"
 						>
 							<template #activator="{ on, attrs }">
 								<v-icon
 									v-if="props.item.type !== 'node'"
-									class="ma-0 mr-2 pa-0"
-									:class="{
-										[`${ getColor(props.item.type) }--text text--darken-0`]: !$vuetify.theme.dark,
-										[`${ getColor(props.item.type) }--text text--lighten-2`]: $vuetify.theme.dark,
-									}"
+									:class="`ma-0 mr-2 pa-0 ${ getColor(props.item.type) }`"
 									small
 									v-bind="attrs"
 									v-on="on"
@@ -77,10 +64,10 @@
 							</span>
 						</v-tooltip>
 						<span
-							class="sql-column caption"
+							class="sql-column body-2"
 							:class="{
-								'grey--text text--darken-0': !$vuetify.theme.dark,
-								'grey--text text--lighten-2': $vuetify.theme.dark,
+								'gray--text text--darken-3': !$vuetify.theme.dark,
+								'gray--text text--lighten-5': $vuetify.theme.dark,
 							}"
 						>
 							{{ props.item.label }}
@@ -89,23 +76,25 @@
 						<div class="table-actions">
 							<div class="tags h-24 d-flex justify-start align-center">
 								<span
-									class="pl-1 accent--text overline"
-									style="font-size: 0.675em !important; text-overflow: ellipsis;"
+									class="pl-1 primary--text caption"
+									style="line-height: 1.25rem; text-overflow: ellipsis;"
 								>
 									{{ props.item.tags }}
 								</span>
 								<v-tooltip
 									v-if="props.item.primary"
 									class="ma-0 ml-1 pa-0"
+									content-class="ma-0 py-2 px-4 bg primary-outlined arrow-top-center"
 									top
 									:open-delay="300"
+									:nudge-top="6"
 								>
 									<template #activator="{ on: { onPrimary } , attrs: { attrsPrimary } }">
 										<v-icon
 											class="ma-0 mt-n1 ml-1 pa-0"
 											:class="{
-												[`accent--text text--darken-0`]: !$vuetify.theme.dark,
-												[`accent--text text--lighten-2`]: $vuetify.theme.dark,
+												[`primary--text text--darken-0`]: !$vuetify.theme.dark,
+												[`primary--text text--lighten-3`]: $vuetify.theme.dark,
 											}"
 											small
 											v-bind="attrsPrimary"
@@ -114,22 +103,24 @@
 											{{ mdiKey }}
 										</v-icon>
 									</template>
-									<span>
+									<span class="body-2">
 										{{ $t('query.tables.primaryKey') }}
 									</span>
 								</v-tooltip>
 								<v-tooltip
 									v-if="props.item.foreignKey"
 									class="ma-0 ml-1 pa-0"
+									content-class="ma-0 py-2 px-4 bg primary-outlined arrow-top-center"
 									top
 									:open-delay="300"
+									:nudge-top="6"
 								>
 									<template #activator="{ on: { onForeign } , attrs: { attrsForeign } }">
 										<v-icon
 											class="ma-0 mt-n1 ml-1 pa-0"
 											:class="{
-												[`accent--text text--darken-0`]: !$vuetify.theme.dark,
-												[`accent--text text--lighten-2`]: $vuetify.theme.dark,
+												[`primary--text text--darken-0`]: !$vuetify.theme.dark,
+												[`primary--text text--lighten-3`]: $vuetify.theme.dark,
 											}"
 											small
 											v-bind="attrsForeign"
@@ -138,7 +129,7 @@
 											{{ mdiKeyLink }}
 										</v-icon>
 									</template>
-									<span>
+									<span class="body-2">
 										{{ $t('query.tables.foreignKey') }}
 									</span>
 								</v-tooltip>
@@ -296,10 +287,10 @@ export default {
 		},
 		getColor (data) {
 			if (data === 'table' || data === 'tab') {
-				return 'primary';
+				return 'primary--text';
 			}
 			else if (data === 'column' || data === 'col') {
-				return 'secondary';
+				return `primary--text ${ this.$vuetify.theme.dark ? 'text--lighten-3' : 'text--lighten-1' }`;
 			}
 			else {
 				return 'grey';
@@ -381,7 +372,7 @@ export default {
 		&.theme-- {
 			&light {
 				.v-treeview-node__toggle {
-					color: #191919 !important;
+					color: var(--v-primary-base) !important;
 				}
 
 				.v-treeview-node__label {
@@ -393,7 +384,7 @@ export default {
 						}
 
 						&::before {
-							background-color: $primary;
+							background-color: var(--v-primary-base);
 						}
 
 						&::after {
@@ -411,7 +402,7 @@ export default {
 
 			&dark {
 				.v-treeview-node__toggle {
-					color: #e6e6e6 !important;
+					color: var(--v-primary-base) !important;
 				}
 
 				.v-treeview-node__label {
@@ -423,7 +414,7 @@ export default {
 						}
 
 						&::before {
-							background-color: $primary;
+							background-color: var(--v-primary-base);
 						}
 
 						&::after {

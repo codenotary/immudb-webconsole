@@ -1,5 +1,5 @@
 <template>
-	<v-card class="ma-0 pa-0">
+	<v-card class="ma-0 pa-0 elevation-4">
 		<v-card-text class="ma-0 pa-0 bg fill-height">
 			<v-data-table
 				ref="datatable"
@@ -132,7 +132,7 @@ export default {
 					sortable: true,
 				},
 				{
-					text: this.$t('users.table.active'),
+					text: this.$t('users.table.status'),
 					value: 'active',
 					align: 'center',
 					sortable: true,

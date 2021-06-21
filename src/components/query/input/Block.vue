@@ -9,15 +9,15 @@
 		>
 			<v-col
 				class="query-wrapper ma-0 pa-0"
+				:class="`query-wrapper ma-0 pa-0 theme--${ $vuetify.theme.dark
+					? 'dark'
+					: 'light'
+				}`"
 				cols="12"
 			>
 				<span
 					v-if="queryIsEmpty"
-					class="query-placeholder body-2"
-					:class="{
-						'gray--text text--lighten-1': !$vuetify.theme.dark,
-						'gray--text text--darken-1': $vuetify.theme.dark,
-					}"
+					class="query-placeholder white--text body-2"
 					@click="onFocus"
 				>
 					{{ PLACEHOLDER }}
@@ -131,7 +131,7 @@ export default {
 </script>
 
 <style lang="scss">
-$font-size: 18;
+$prism-font-size: 16;
 
 .query-block {
 	display: flex;
@@ -145,21 +145,44 @@ $font-size: 18;
 
 		.query-placeholder {
 			position: absolute;
-			top: #{$font-size + 4}px;
-			left: calc(#{$spacer-14} + 1px);
-			font-size: #{$font-size}px !important;
-			line-height: #{$font-size}px !important;
+			top: #{$prism-font-size + 5}px;
+			left: $spacer-13;
+			font-size: #{$prism-font-size}px !important;
+			font-family: inherit !important;
+			line-height: #{$prism-font-size}px !important;
 		}
 
 		.prism-editor__line-numbers,
 		.query {
-			font-size: #{$font-size}px !important;
-			line-height: 1.5 !important;
+			font-size: #{$prism-font-size}px !important;
+			line-height: 1.5em !important;
 
-			code.language-sql,
-			span {
-				font-size: #{$font-size}px !important;
-				line-height: #{$font-size}px !important;
+			pre {
+				text-indent: 0 #{$prism-font-size + 4}px;
+			}
+
+			code {
+				&.language-sql {
+					&,
+					span {
+						font-size: #{$prism-font-size}px !important;
+						line-height: 1.5em !important;
+					}
+				}
+			}
+		}
+
+		&.theme-- {
+			&light {
+				.prism-editor__line-number {
+					color: map-get($grey, lighten-2) !important;
+				}
+			}
+
+			&dark {
+				.prism-editor__line-number {
+					color: map-get($grey, lighten-1) !important;
+				}
 			}
 		}
 	}

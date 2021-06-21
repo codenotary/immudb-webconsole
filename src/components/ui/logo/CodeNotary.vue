@@ -16,7 +16,7 @@ export default {
 	props: {
 		icon: { type: Boolean, default: false },
 		svg: { type: Boolean, default: true },
-		height: { type: [String, Number], default: 48 },
+		height: { type: [String, Number], default: 56 },
 	},
 	computed: {
 		getTheme () {

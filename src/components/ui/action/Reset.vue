@@ -1,7 +1,9 @@
 <template>
 	<v-tooltip
+		content-class="ma-0 py-2 px-4 bg primary-outlined arrow-top-center"
 		bottom
 		:open-delay="300"
+		:nudge-bottom="6"
 	>
 		<template #activator="{ on, attrs }">
 			<v-btn
@@ -17,15 +19,16 @@
 				<v-icon
 					class="title"
 					:class="{
-						'gray--text text--darken-2': !$vuetify.theme.dark,
-						'gray--text text--lighten-2': $vuetify.theme.dark,
+						'gray--text text--lighten-1': !$vuetify.theme.dark,
+						'gray--text text--lighten-4': $vuetify.theme.dark,
 					}"
+					:size="20"
 				>
 					{{ mdiBroom }}
 				</v-icon>
 			</v-btn>
 		</template>
-		<span>
+		<span class="body-2">
 			{{ $t('query.input.clear') }}
 		</span>
 	</v-tooltip>

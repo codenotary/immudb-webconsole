@@ -26,6 +26,9 @@ import 'prismjs/plugins/command-line/prism-command-line.css';
 import 'prismjs/plugins/line-highlight/prism-line-highlight';
 import 'prismjs/plugins/line-highlight/prism-line-highlight.css';
 
+// Include the normalize whitespace plugin: (optional)
+import 'prismjs/plugins/normalize-whitespace/prism-normalize-whitespace';
+
 // Include some other plugins: (optional)
 import 'prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard';
 import 'prismjs/plugins/highlight-keywords/prism-highlight-keywords';

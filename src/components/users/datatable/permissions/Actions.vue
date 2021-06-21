@@ -1,22 +1,26 @@
 <template>
 	<span>
 		<v-tooltip
+			content-class="ma-0 py-2 px-4 bg primary-outlined arrow-bottom-center"
 			top
 			:open-delay="100"
+			:nudge-top="6"
 		>
 			<template #activator="{ on, attrs }">
 				<v-btn
+					class="no-ripple-hover"
 					:loading="isLoading"
 					color="secondary"
 					icon
+					:ripple="false"
 					v-bind="attrs"
 					v-on="on"
 					@click="showUpdatePermissionModal = true"
 				>
 					<v-icon
 						:class="{
-							'gray--text text--darken-1': !$vuetify.theme.dark,
-							'gray--text text--lighten-1': $vuetify.theme.dark,
+							'gray--text text--lighten-1': !$vuetify.theme.dark,
+							'gray--text text--lighten-4': $vuetify.theme.dark,
 						}"
 						:size="20"
 					>
@@ -29,13 +33,17 @@
 			</span>
 		</v-tooltip>
 		<v-tooltip
+			content-class="ma-0 py-2 px-4 bg primary-outlined arrow-bottom-center"
 			top
 			:open-delay="100"
+			:nudge-top="6"
 		>
 			<template #activator="{ on, attrs }">
 				<v-btn
-					:loading="isLoading"
+					class="no-ripple-hover"
 					color="secondary"
+					:loading="isLoading"
+					:ripple="false"
 					icon
 					v-bind="attrs"
 					v-on="on"
@@ -43,8 +51,8 @@
 				>
 					<v-icon
 						:class="{
-							'gray--text text--darken-1': !$vuetify.theme.dark,
-							'gray--text text--lighten-1': $vuetify.theme.dark,
+							'gray--text text--lighten-1': !$vuetify.theme.dark,
+							'gray--text text--lighten-4': $vuetify.theme.dark,
 						}"
 						:size="20"
 					>
@@ -70,7 +78,7 @@
 		/>
 		<UiModalConfirm
 			v-model="showDeletePermissionModal"
-			color="error"
+			color="primary"
 			:title="$t('users.table.permissions.remove.title', { value: `${ database }:${ parsedPermission }`, user })"
 			:confirm-text="$t('common.confirm')"
 			:cancel-text="$t('common.cancel')"

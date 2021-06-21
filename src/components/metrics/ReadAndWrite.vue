@@ -2,13 +2,14 @@
 	<v-card
 		v-if="data"
 		class="metrics-card ma-0 pa-4 pt-2 bg fill-width"
+		elevation="4"
 	>
 		<v-card-title class="ma-0 mb-2 pa-0">
 			<span
 				class="ma-0 mb-2 pa-0 subtitle-1 font-weight-bold"
 				:class="{
-					'gray--text text--darken-1': !$vuetify.theme.dark,
-					'gray--text text--lighten-1': $vuetify.theme.dark,
+					'gray--text text--lighten-1': !$vuetify.theme.dark,
+					'gray--text text--lighten-4': $vuetify.theme.dark,
 				}"
 			>
 				{{ $t('metrics.readAndWrite.title', {
@@ -33,7 +34,7 @@
 					class="subtitle-2"
 					:class="{
 						'gray--text text--lighten-1': !$vuetify.theme.dark,
-						'gray--text text--darken-1': $vuetify.theme.dark,
+						'gray--text text--lighten-4': $vuetify.theme.dark,
 					}"
 				>
 					No data
@@ -49,6 +50,7 @@ import {
 	VIEW_MODULE,
 	THEME,
 	MOBILE,
+	TIMEZONE,
 } from '@/store/view/constants';
 import {
 	DEFAULT_DB,
@@ -68,34 +70,34 @@ const ANIMATION_DURATION = 1000;
 const CHART_COLORS = {
 	BACKGROUND: {
 		light: [
-			'rgba(76,	175,	80,		0.25)',	// success
+			'rgba(36,	196,	161,	0.25)',	// primary
 			'rgba(124,	77,		255,	0.25)',	// accent
-			'rgba(255,	82,		82,		0.25)',	// error
-			'rgba(251,	140,	0,		0.25)',	// warning
-			'rgba(32,	162,	219,	0.25)',	// primary
+			'rgba(192,	107,	111,	0.25)',	// error
+			'rgba(126,	198,	153,	0.25)',	// success
+			'rgba(240,	141,	73,		0.25)',	// warning
 		],
 		dark: [
-			'rgba(76,	175,	80,		0.15)',	// success
+			'rgba(36,	196,	161,	0.15)',	// primary
 			'rgba(124,	77,		255,	0.15)',	// accent
-			'rgba(255,	82,		82,		0.15)',	// error
-			'rgba(251,	140,	0,		0.15)',	// warning
-			'rgba(32,	162,	219,	0.15)',	// primary
+			'rgba(192,	107,	111,	0.25)',	// error
+			'rgba(126,	198,	153,	0.25)',	// success
+			'rgba(240,	141,	73,		0.25)',	// warning
 		],
 	},
 	BORDER: {
 		light: [
-			'rgba(76,	175,	80,		0.95)',	// success
+			'rgba(36,	196,	161,	0.95)',	// primary
 			'rgba(124,	77,		255,	0.95)',	// accent
-			'rgba(255,	82,		82,		0.95)',	// error
-			'rgba(251,	140,	0,		0.95)',	// warning
-			'rgba(32,	162,	219,	0.95)',	// primary
+			'rgba(192,	107,	111,	0.25)',	// error
+			'rgba(126,	198,	153,	0.25)',	// success
+			'rgba(240,	141,	73,		0.25)',	// warning
 		],
 		dark: [
-			'rgba(76,	175,	80,		0.75)',	// success
+			'rgba(36,	196,	161,	0.75)',	// primary
 			'rgba(124,	77,		255,	0.75)',	// accent
-			'rgba(255,	82,		82,		0.75)',	// error
-			'rgba(251,	140,	0,		0.75)',	// warning
-			'rgba(32,	162,	219,	0.75)',	// primary
+			'rgba(192,	107,	111,	0.25)',	// error
+			'rgba(126,	198,	153,	0.25)',	// success
+			'rgba(240,	141,	73,		0.25)',	// warning
 		],
 	},
 	POINT: {
@@ -130,6 +132,7 @@ export default {
 		...mapGetters(VIEW_MODULE, {
 			theme: THEME,
 			mobile: MOBILE,
+			timezone: TIMEZONE,
 		}),
 		noData () {
 			return (this.reservedY && this.reservedY.length <= 0) &&
@@ -240,6 +243,7 @@ export default {
 		options () {
 			const getMaxReservedSteps = this.getMaxReservedSteps;
 			const getMaxInUseSteps = this.getMaxInUseSteps;
+			const timezone = this.timezone;
 			return {
 				responsive: true,
 				maintainAspectRatio: false,
@@ -249,6 +253,9 @@ export default {
 					height: 64,
 					labels: {
 						padding: 16,
+						fontColor: this.$vuetify.theme.dark
+							? '#c9c9c9'
+							: '#333',
 					},
 				},
 				scales: {
@@ -263,6 +270,9 @@ export default {
 							padding: 16,
 							min: 0,
 							max: Math.max(getMaxReservedSteps, getMaxInUseSteps),
+							fontColor: this.$vuetify.theme.dark
+								? '#c9c9c9'
+								: '#333',
 						},
 						gridLines: {
 							display: true,
@@ -273,9 +283,18 @@ export default {
 						stacked: true,
 						ticks: {
 							callback (value) {
-								return moment(value).format('hh:mm:ss A');
+								if (timezone === 'utc') {
+									return moment
+											.utc(value)
+											.format('hh:mm:ss A');
+								}
+								return moment(value)
+										.format('hh:mm:ss A');
 							},
 							padding: 16,
+							fontColor: this.$vuetify.theme.dark
+								? '#c9c9c9'
+								: '#333',
 						},
 						gridLines: {
 							display: true,
@@ -290,8 +309,13 @@ export default {
 						},
 						label (tooltipItem) {
 							const { xLabel, yLabel } = tooltipItem;
-							const y = moment(xLabel)
+							let y = moment(xLabel)
 									.format('hh:mm:ss A');
+							if (timezone === 'utc') {
+								y = moment
+										.utc(xLabel)
+										.format('hh:mm:ss A');
+							}
 							const x = prettyBytes(parseInt(yLabel) || 0);
 							return `${ y }: ${ x }`;
 						},

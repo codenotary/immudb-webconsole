@@ -9,10 +9,14 @@
 		:width="224"
 		:mini-variant-width="64"
 		:disable-resize-watcher="true"
-		:elevation="0"
+		:elevation="4"
 		floating
 		app
 	>
+		<span
+			class="navigation-slider"
+			:style="`top: ${ getSliderTop }px !important;`"
+		/>
 		<!-- LOGO -->
 		<div
 			v-if="mobile"
@@ -29,8 +33,8 @@
 				<v-icon
 					class="headline"
 					:class="{
-						'gray--text text--darken-1': !$vuetify.theme.dark,
-						'gray--text text--lighten-1': $vuetify.theme.dark,
+						'gray--text text--lighten-1': !$vuetify.theme.dark,
+						'gray--text text--lighten-4': $vuetify.theme.dark,
 					}"
 				>
 					{{ mdiMenu }}
@@ -39,12 +43,12 @@
 		</div>
 		<v-btn
 			v-else
-			class="ma-0 pa-0 d-flex justify-start align-center no-hover no-active"
+			class="navigation-drawer-logo ma-2 mt-4 mb-0 pa-0 d-flex justify-center align-center no-hover no-active"
 			to="/"
 			:ripple="false"
-			:min-height="44"
-			:width="mini ? 64 : 214"
-			:min-width="mini ? 64 : 214"
+			:min-height="64"
+			:width="mini ? 48 : 214"
+			:min-width="mini ? 48 : 214"
 			depressed
 			text
 			nuxt
@@ -53,13 +57,15 @@
 				class="no-transation"
 				:class-name="`d-flex justify-${ mini ? 'center' : 'start' } align-center fill-width`"
 				align="center"
-				:size="mini ? 'small' : 'small'"
 				:mini="mini"
+			/>
+			<UiLogoImmudb
+				:height="14"
 			/>
 		</v-btn>
 
 		<v-list
-			class="px-0 pt-16 pt-sm-4 ma-0 custom-scrollbar"
+			class="px-0 pt-16 pt-sm-0 ma-0 custom-scrollbar"
 		>
 			<div
 				v-for="(item, idx) in items"
@@ -68,16 +74,18 @@
 			>
 				<v-tooltip
 					v-if="item && !item.hidden"
+					content-class="ma-0 py-2 px-4 bg primary-outlined arrow-left-center"
 					:disabled="!mini"
 					right
 					:open-delay="300"
+					:nudge-right="4"
 				>
 					<template #activator="{ on, attrs }">
 						<v-list-item
-							class="py-1 d-flex justify-xs-center"
+							class="py-1 d-flex justify-xs-center no-ripple-hover"
 							:to="item.to ? item.to : undefined"
 							:href="undefined"
-							:ripple="true"
+							:ripple="false"
 							nuxt
 							:title="item.alt"
 							:alt="item.alt"
@@ -89,10 +97,10 @@
 								:class="{
 									'mr-sm-0': mini,
 									'mr-sm-4': !mini,
-									'gray--text text--darken-1': !item.disabled && !$vuetify.theme.dark,
-									'gray--text text--lighten-1': !item.disabled && $vuetify.theme.dark,
-									'gray--text text--lighten-3': item.disabled && !$vuetify.theme.dark,
-									'gray--text text--darken-3': item.disabled && $vuetify.theme.dark,
+									'gray--text text--lighten-1': !item.disabled && !$vuetify.theme.dark,
+									'gray--text text--lighten-3': !item.disabled && $vuetify.theme.dark,
+									'gray--text text--lighten-4': item.disabled && !$vuetify.theme.dark,
+									'gray--text text--lighten-2': item.disabled && $vuetify.theme.dark,
 								}"
 							>
 								{{ item.icon }}
@@ -108,8 +116,8 @@
 									v-if="item.title"
 									class="body-2"
 									:class="{
-										'gray--text text--darken-1': !$vuetify.theme.dark,
-										'gray--text text--lighten-1': $vuetify.theme.dark,
+										'gray--text text--lighten-1': !$vuetify.theme.dark,
+										'gray--text text--lighten-4': $vuetify.theme.dark,
 									}"
 								>
 									{{ $t(item.title) }}
@@ -118,8 +126,8 @@
 									v-if="item.subtitle"
 									class="caption"
 									:class="{
-										'gray--text text--darken-3': !$vuetify.theme.dark,
-										'gray--text text--lighten-3': $vuetify.theme.dark,
+										'gray--text text--lighten-1': !$vuetify.theme.dark,
+										'gray--text text--lighten-4': $vuetify.theme.dark,
 									}"
 								>
 									{{ $t(item.subtitle) }}
@@ -134,14 +142,7 @@
 			</div>
 		</v-list>
 		<template #append>
-			<ProfileMenu
-				@profile="profileOpen = true"
-			/>
-
-			<ProfileModal
-				v-model="profileOpen"
-				@submit="onProfile"
-			/>
+			<ProfileMenu />
 		</template>
 	</v-navigation-drawer>
 </template>
@@ -177,7 +178,6 @@ export default {
 			mdiCogOutline,
 			mdiBookOpenOutline,
 			items: [],
-			profileOpen: false,
 		};
 	},
 	computed: {
@@ -186,6 +186,13 @@ export default {
 			collapsed: SIDEBAR_COLLAPSED,
 			mini: SIDEBAR_MINI,
 		}),
+		getSliderTop () {
+			const idx = this.items.findIndex((_) => {
+				const { to } = _;
+				return to === this.$route.path;
+			});
+			return (56 * idx) + 84;
+		},
 	},
 	watch: {
 		mobile: {
@@ -266,7 +273,7 @@ export default {
 			});
 		},
 		onProfile (data) {
-			console.log(data);
+			//
 		},
 	},
 };
@@ -279,6 +286,27 @@ export default {
 		width: 100%;
 	}
 
+	.navigation-drawer-logo {
+		.v-btn__content {
+			flex-direction: column;
+			max-width: 100%;
+			max-height: 64px !important;
+		}
+	}
+
+	.navigation-slider {
+		position: absolute;
+		top: 84px;
+		left: 0;
+		width: 4px;
+		height: 48px;
+		background-color: var(--v-primary-base);
+		border-radius: 0 4px 4px 0;
+		opacity: 1;
+		transition: all ease-in 0.3s !important;
+		z-index: 5;
+	}
+
 	.v-list-item {
 		position: relative;
 		display: flex;
@@ -286,23 +314,11 @@ export default {
 		align-items: center;
 		transition: background 0.3s ease, color 0.3s ease;
 
-		&::before {
-			content: '';
-			position: absolute;
-			top: 4px;
-			bottom: 4px;
-			height: 0;
-			width: 4px;
-			background-color: $primary;
-			border-radius: 0 4px 4px 0;
-			opacity: 1;
-			transition: none;
-		}
-
 		&.v-list-item--active {
 			svg,
 			span {
 				font-weight: 900;
+				color: var(--v-primary-base);
 			}
 
 			&::before {
@@ -313,22 +329,20 @@ export default {
 		&.theme-- {
 			&light {
 				&:hover {
-					background: map-get($blue, dark) !important;
-					color: #e6e6e6 !important;
-
+					&,
 					svg {
-						color: #e6e6e6 !important;
+						color: var(--v-primary-darken1) !important;
+						fill: var(--v-primary-darken1) !important;
 					}
 				}
 			}
 
 			&dark {
 				&:hover {
-					background: map-get($blue, light) !important;
-					color: #e6e6e6 !important;
-
+					&,
 					svg {
-						color: #e6e6e6 !important;
+						color: var(--v-primary-darken1) !important;
+						fill: var(--v-primary-darken1) !important;
 					}
 				}
 			}

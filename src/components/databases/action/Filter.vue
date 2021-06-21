@@ -17,16 +17,16 @@
 	>
 		<template #prepend>
 			<v-tooltip
+				content-class="ma-0 py-2 px-4 bg primary-outlined arrow-top-center"
 				:disabled="active"
 				bottom
 				:open-delay="300"
+				:nudge-bottom="6"
 			>
 				<template #activator="{ on, attrs }">
 					<v-icon
-						:class="{
-							'gray--text text--darken-1': !$vuetify.theme.dark,
-							'gray--text text--lighten-1': $vuetify.theme.dark,
-						}"
+						color="primary"
+						:size="24"
 						v-bind="attrs"
 						v-on="on"
 						@click="onOpen"
@@ -34,7 +34,7 @@
 						{{ mdiFilterOutline }}
 					</v-icon>
 				</template>
-				<span>
+				<span class="body-2">
 					{{ $t('databases.search.tooltip') }}
 				</span>
 			</v-tooltip>

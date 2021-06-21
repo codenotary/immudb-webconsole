@@ -1,23 +1,27 @@
 <template>
 	<span>
 		<v-tooltip
+			content-class="ma-0 py-2 px-4 bg primary-outlined arrow-bottom-center"
 			top
 			:open-delay="100"
+			:nudge-top="6"
 		>
 			<template #activator="{ on, attrs }">
 				<v-btn
+					class="no-ripple-hover"
 					:loading="isLoading"
-					color="secondary"
+					color="primary"
 					icon
 					:disabled="disabled"
+					:ripple="false"
 					v-bind="attrs"
 					v-on="on"
 					@click="showUseDatabaseModal = true"
 				>
 					<v-icon
 						:class="{
-							'gray--text text--darken-1': !$vuetify.theme.dark,
-							'gray--text text--lighten-1': $vuetify.theme.dark,
+							'gray--text text--lighten-1': !$vuetify.theme.dark,
+							'gray--text text--lighten-4': $vuetify.theme.dark,
 						}"
 						:size="20"
 					>
@@ -33,7 +37,7 @@
 		<!-- MODALS -->
 		<UiModalConfirm
 			v-model="showUseDatabaseModal"
-			color="success"
+			color="primary"
 			:title="$t('databases.table.modal.use.title', { databaseName })"
 			:confirm-text="$t('common.confirm')"
 			:cancel-text="$t('common.cancel')"
@@ -41,15 +45,20 @@
 		>
 			<template #icon>
 				<v-icon
-					:class="{
-						'gray--text text--darken-1': !$vuetify.theme.dark,
-						'gray--text text--lighten-1': $vuetify.theme.dark,
-					}"
+					class="bg--text"
+					:size="20"
 				>
 					{{ mdiDatabaseCheckOutline }}
 				</v-icon>
 			</template>
-			<p v-html="$t('databases.table.modal.use.sure')" />
+			<p
+				class="text-center"
+				:class="{
+					'gray--text text--lighten-1': !$vuetify.theme.dark,
+					'gray--text text--lighten-4': $vuetify.theme.dark,
+				}"
+				v-html="$t('databases.table.modal.use.sure')"
+			/>
 		</UiModalConfirm>
 	</span>
 </template>

@@ -26,11 +26,18 @@ $text-muted: (
 	"trans": transparentize(#333, 0.5)
 );
 
+$brand: (
+	"base": #24c4a1,
+	"light": lighten(#24c4a1, 15%),
+	"dark": darken(#24c4a1, 15%),
+	"trans": transparentize(#24c4a1, 0.5)
+);
+
 $green: (
-	"base": #4caf50,
-	"light": lighten(#4caf50, 15%),
-	"dark": darken(#4caf50, 15%),
-	"trans": transparentize(#4caf50, 0.5)
+	"base": #7ec699,
+	"light": lighten(#7ec699, 15%),
+	"dark": darken(#7ec699, 15%),
+	"trans": transparentize(#7ec699, 0.5)
 );
 
 $purple: (
@@ -41,17 +48,24 @@ $purple: (
 );
 
 $red: (
-	"base": #ff5252,
-	"light": lighten(#ff5252, 15%),
-	"dark": darken(#ff5252, 15%),
-	"trans": transparentize(#ff5252, 0.5)
+	"base": #c06b6f,
+	"light": lighten(#c06b6f, 15%),
+	"dark": darken(#c06b6f, 15%),
+	"trans": transparentize(#c06b6f, 0.5)
 );
 
 $orange: (
-	"base": #fb8c00,
-	"light": lighten(#fb8c00, 15%),
-	"dark": darken(#fb8c00, 15%),
-	"trans": transparentize(#fb8c00, 0.5)
+	"base": #f08d49,
+	"light": lighten(#f08d49, 15%),
+	"dark": darken(#f08d49, 15%),
+	"trans": transparentize(#f08d49, 0.5)
+);
+
+$yellow: (
+	"base": #febf2d,
+	"light": lighten(#febf2d, 15%),
+	"dark": darken(#febf2d, 15%),
+	"trans": transparentize(#febf2d, 0.5)
 );
 
 $blue: (
@@ -74,8 +88,8 @@ $grey: (
 	"darken-4": #212121,
 );
 
-$primary: map-get($blue, base);
-$secondary: map-get($blue, light);
+$primary: map-get($brand, base);
+$secondary: map-get($yellow, base);
 $accent: map-get($purple, light);
 $link: map-get($blue, light);
 $success: map-get($green, base);
@@ -84,9 +98,9 @@ $warning: map-get($orange, base);
 $error: map-get($red, base);
 
 // BACKGROUND
-$body-background-light: #f9f9f9;
-$body-background-light-primary: #f9fcff;
-$border-color-light: #f9fcff;
+$bg: #f9f9f9;
+$bg-secondary-light: #f9fcff;
+$bg-tertiary-light: #f9fcff;
 
 .bg-transparent {
 	background-color: transparent !important;
@@ -99,7 +113,7 @@ $border-color-light: #f9fcff;
 
 .secondary-gradient {
 	background-color: transparent;
-	background-image: linear-gradient(180deg, map-get($blue, light), map-get($blue, base)) !important;
+	background-image: linear-gradient(180deg, map-get($yellow, light), map-get($yellow, base)) !important;
 }
 
 .accent-gradient {
@@ -128,8 +142,16 @@ $border-color-light: #f9fcff;
 			background-color: transparent;
 			background-image: linear-gradient(180deg, map-get($grey, lighten-3), map-get($grey, darken-3)) !important;
 
-			i {
+			i,
+			span {
 				color: #f1f1f1;
+			}
+		}
+
+		.v-tooltip__content {
+			&,
+			span {
+				color: map-get($grey, lighten-3) !important;
 			}
 		}
 	}
@@ -145,8 +167,25 @@ $border-color-light: #f9fcff;
 				color: #333;
 			}
 		}
+
+		.v-tooltip__content {
+			&,
+			span {
+				color: map-get($grey, darken-2) !important;
+			}
+		}
 	}
 }
 
-$font-size-root: 18px;
-$input-font-size: 18px;
+// BORDER RADIUS
+$border-radius-root: 4px;
+
+// BORDER COLOR
+$row-border-color: rgba(0, 0, 0, 0.15);
+$row-border-reverse-color: rgba(255, 255, 255, 0.15);
+
+// TYPOGRAPHY
+$font-size-root: 14px;
+$input-font-size: 14px;
+
+$box-shadow: inset 0 0 8px 4px rgba(0, 0, 0, 0.25);

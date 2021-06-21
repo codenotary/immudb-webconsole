@@ -1,5 +1,5 @@
 <template>
-	<div class="ma-0 mb-4 pa-0 d-flex flex-column justify-center align-start fill-width">
+	<div class="immudb-logo ma-0 mb-4 pa-0 d-flex flex-column justify-center align-start fill-width">
 		<v-img
 			class="immudb"
 			:src="getAsset"
@@ -31,3 +31,13 @@ export default {
 	},
 };
 </script>
+
+<style lang="scss">
+.immudb-logo {
+	max-width: 100%;
+
+	.immudb {
+		max-width: 100%;
+	}
+}
+</style>

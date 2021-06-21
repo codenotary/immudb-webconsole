@@ -1,15 +1,12 @@
 <template>
 	<div
 		id="OutputGrid"
-		class="ma-0 pa-0 px-1 fill-height"
+		ref="outputList"
+		class="ma-0 py-2 px-4 fill-height shadow custom-scrollbar"
 	>
 		<div
 			v-if="output && output.length"
 		>
-			<QueryOutputGridFilter
-				id="GridFilter"
-				:filter.sync="filter"
-			/>
 			<QueryOutputGridItem
 				v-for="(item, idx) in filterOutput"
 				:key="`output-${ idx }`"
@@ -21,7 +18,7 @@
 			class="ma-4 pa-0"
 		>
 			<span
-				class="body-2"
+				class="body-1"
 			>
 				{{ $t(emptyMessage) }}
 			</span>
@@ -34,6 +31,7 @@ import { mapGetters } from 'vuex';
 import {
 	OUTPUT_MODULE,
 	CODE_OUTPUT,
+	FILTER,
 } from '@/store/output/constants';
 
 export default {
@@ -43,7 +41,6 @@ export default {
 	},
 	data () {
 		return {
-			filter: 'all',
 			plugins: [
 				'command-line',
 			],
@@ -52,6 +49,7 @@ export default {
 	computed: {
 		...mapGetters(OUTPUT_MODULE, {
 			output: CODE_OUTPUT,
+			filter: FILTER,
 		}),
 		filterOutput () {
 			if (this.output && this.output.length) {
@@ -64,19 +62,32 @@ export default {
 			return [];
 		},
 	},
+	watch: {
+		filterOutput: {
+			deep: true,
+			handler (newVal) {
+				this.scrollToBottom();
+			},
+		},
+	},
+	methods: {
+		scrollToBottom () {
+			// scroll to latest row
+			const { outputList } = this.$refs || {};
+			if (outputList) {
+				this.$nextTick(() => {
+					outputList.scrollTop = outputList.scrollHeight;
+				});
+			}
+		},
+	},
 };
 </script>
 
 <style lang="scss">
 #OutputGrid {
-	height: calc(100% - 16px) !important;
-
-	#GridFilter {
-		position: absolute;
-		top: $spacer-2;
-		right: $spacer-2;
-		width: 96px;
-		z-index: 10;
-	}
+	position: relative;
+	overflow: auto;
+	height: 100% !important;
 }
 </style>

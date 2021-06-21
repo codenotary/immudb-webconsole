@@ -1,24 +1,25 @@
 <template>
 	<v-card
 		id="Databases"
-		class="ma-0 pa-0 pr-4 bg fill-height pane shadow"
+		class="ma-0 pa-0 pr-4 pb-3 bg fill-height pane shadow"
 		elevation="0"
 	>
 		<v-card-title class="ma-0 py-0 py-sm-2 pl-1 pr-0 d-flex justify-start align-center">
 			<v-icon
 				class="ml-2"
 				:class="{
-					'gray--text text--darken-1': !$vuetify.theme.dark,
-					'gray--text text--lighten-1': $vuetify.theme.dark,
+					'gray--text text--lighten-1': !$vuetify.theme.dark,
+					'gray--text text--lighten-4': $vuetify.theme.dark,
 				}"
+				:size="24"
 			>
 				{{ mdiDatabaseCogOutline }}
 			</v-icon>
 			<h4
 				class="ma-0 ml-2 pa-0 pt-1 subtitle-1 font-weight-bold"
 				:class="{
-					'gray--text text--darken-1': !$vuetify.theme.dark,
-					'gray--text text--lighten-1': $vuetify.theme.dark,
+					'gray--text text--lighten-1': !$vuetify.theme.dark,
+					'gray--text text--lighten-4': $vuetify.theme.dark,
 				}"
 			>
 				{{ $t('databases.title') }}
@@ -148,6 +149,14 @@ export default {
 			},
 		},
 	},
+	mounted () {
+		// track google analytics pageview
+		process.env.IS_PUBLIC_DEMO && this.$gtag.pageview({
+			page_title: 'Databases',
+			page_location: window && window.location && window.location.href,
+			page_path: '/databases',
+		});
+	},
 	methods: {
 		...mapActions(IMMUDB_MODULE, {
 			fetchState: FETCH_STATE,
@@ -171,6 +180,7 @@ export default {
 				}
 			}
 			catch (err) {
+				console.error(err);
 				this.showToastError(err);
 			}
 		},
@@ -187,6 +197,7 @@ export default {
 				}
 			}
 			catch (err) {
+				console.error(err);
 				this.showToastError(err);
 			}
 		},
@@ -200,7 +211,7 @@ export default {
 		&::after {
 			content: '';
 			position: absolute;
-			top: calc(#{$spacer-12} + 1px);
+			top: calc(#{$header-height} + 1px);
 			right: calc(#{$spacer-4} + 1px);
 			bottom: 0;
 			left: 1px;

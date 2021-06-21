@@ -3,50 +3,25 @@ html {
 }
 
 body.theme--dark {
-	background-color: #21222c;
+	background-color: #0d3049;
 }
 
 body.theme--light {
-	background-color: #fff;
+	background-color: #c1c1c1;
 }
 
 .v-application {
-	&.theme--dark {
-		background: #21222c !important;
-	}
-
-	&.theme--light {
-		background: #fff !important;
-	}
+	background: var(--v-bg-base) !important;
 
 	.v-card {
 		@media (max-width: 480px) {
 			height: auto !important;
 		}
 
-		&.theme-- {
-			&light.shadow > .v-card__title,
-			&dark.shadow > .v-card__title {
-				padding-top: $spacer-1 * 1.5 !important;
-			}
-
-			&light.shadow > .v-card__title {
-				&::after {
-					background-color: #b9bbbc;
-				}
-			}
-
-			&dark.shadow > .v-card__title {
-				&::after {
-					background-color: #1e2028;
-				}
-			}
-		}
-
 		&.pane {
 			> .v-card__title {
-				min-height: $spacer-11 !important;
-				height: $spacer-11 !important;
+				min-height: $header-height !important;
+				height: $header-height !important;
 
 				@media (max-width: 480px) {
 					height: 32px !important;
@@ -54,22 +29,50 @@ body.theme--light {
 			}
 
 			> .v-card__text {
-				height: calc(100% - 48px) !important;
-				margin-top: 4px !important;
+				height: calc(100% - #{$footer-height}) !important;
 			}
 		}
 
 		&.shadow {
-			> .v-card__title {
+			> .v-card__text {
+				position: relative;
+
+				&::after {
+					content: '';
+					position: fixed;
+					top: $header-height;
+					right: $spacer-4;
+					bottom: $footer-height;
+					left: $sidebar-height;
+					box-shadow: $box-shadow;
+					z-index: 1;
+					pointer-events: none !important;
+				}
+			}
+		}
+
+		&.shadow-pane {
+			> .v-card__text {
 				position: relative;
 
 				&::after {
 					content: '';
 					position: absolute;
-					top: $spacer-11;
-					left: 0;
+					top: 0;
 					right: 0;
-					height: 4px;
+					bottom: 0;
+					left: 0;
+					box-shadow: $box-shadow;
+					z-index: 1;
+					pointer-events: none !important;
+				}
+			}
+		}
+
+		&.pane.shadow-pane {
+			> .v-card__text {
+				&::after {
+					height: calc(100% - #{$spacer-3}) !important;
 				}
 			}
 		}
@@ -93,6 +96,15 @@ body.theme--light {
 
 a {
 	text-decoration: none;
+	transition: all ease-in-out 0.1s !important;
+
+	&:hover,
+	&:focus {
+		&,
+		span {
+			color: var(--v-primary-darken1) !important;
+		}
+	}
 }
 
 .v-input {
@@ -148,6 +160,75 @@ a {
 .fill-width {
 	width: 100% !important;
 	max-width: 100% !important;
+}
+
+.primary-outlined {
+	position: relative;
+	border-radius: $border-radius-root;
+
+	&,
+	&-thin {
+		&::after {
+			content: '';
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			border: 1px solid var(--v-primary-base);
+			border-radius: $border-radius-root;
+			pointer-events: none !important;
+		}
+	}
+
+	&-thin {
+		&::after {
+			border: 1px solid var(--v-primary-base);
+		}
+	}
+}
+
+.v-menu__content,
+.menuable__content__active {
+	border-radius: $border-radius-root !important;
+}
+
+.v-list.v-select-list {
+	padding: 0 !important;
+	background: var(--v-bg-base) !important;
+	border-radius: $border-radius-root !important;
+
+	.v-list-item.v-list-item--active {
+		&::before {
+			background-color: var(--v-bg-base) !important;
+		}
+	}
+
+	&.theme-- {
+		&light {
+			> div:not(:nth-last-of-type(-n-1)) {
+				border-bottom: 1px solid var(--v-primary-base);
+			}
+		}
+
+		&dark {
+			> div:not(:nth-last-of-type(-n-1)) {
+				border-bottom: 1px solid $row-border-reverse-color;
+			}
+		}
+	}
+
+	&::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		border: 1px solid var(--v-primary-base);
+		border-radius: $border-radius-root;
+		pointer-events: none !important;
+	}
 }
 
 .h- {
@@ -313,6 +394,7 @@ a {
 	tbody {
 		tr {
 			cursor: pointer;
+			margin-top: 6px !important;
 
 			&.striped {
 				background-color: #f9fcff;
@@ -328,6 +410,52 @@ a {
 			&.action-wrapper {
 				width: 1% !important;
 				white-space: nowrap !important;
+			}
+		}
+	}
+
+	thead,
+	tbody {
+		th,
+		td {
+			border-color: $row-border-color !important;
+			border-width: 2px !important;
+			position: relative;
+
+			&,
+			span {
+				font-size: $font-size-root !important;
+				font-weight: 400;
+			}
+		}
+
+		th {
+			&,
+			span {
+				font-weight: 700;
+			}
+		}
+
+		td {
+			&,
+			span {
+				font-weight: 400;
+			}
+		}
+
+		th:not(:nth-last-of-type(-n+2)),
+		td:not(:nth-last-of-type(-n+2)) {
+			position: relative;
+
+			&::after {
+				content: '';
+				position: absolute;
+				width: 2px;
+				top: $spacer-2;
+				right: 0;
+				bottom: $spacer-2;
+				background-color: $row-border-color;
+				z-index: 10;
 			}
 		}
 	}
@@ -355,13 +483,16 @@ a {
 	}
 }
 
+.v-divider {
+	&.thick {
+		border-color: $row-border-color !important;
+		border-width: 1px !important;
+	}
+}
+
 .v-text-field--box .v-input__slot,
 .v-text-field--outline .v-input__slot {
 	max-height: 32px !important;
-}
-
-.v-tooltip {
-	z-index: 50;
 }
 
 .v-badge {
@@ -383,6 +514,76 @@ a {
 
 .no-transition {
 	transition: none !important;
+}
+
+.v-avatar.primary {
+	transition: all ease-in-out 0.1s !important;
+
+	&:hover,
+	&:focus {
+		background-color: var(--v-primary-darken1) !important;
+
+		&,
+		span {
+			color: #fff;
+		}
+	}
+}
+
+.v-icon,
+.v-btn,
+.v-list-item {
+	&.no-ripple-hover {
+		&::before {
+			background-color: transparent !important;
+		}
+	}
+}
+
+.v-icon,
+.v-btn {
+	&.primary {
+		&::before,
+		&::after {
+			transition: all ease-in-out 0.1s !important;
+		}
+
+		&:hover,
+		&:focus {
+			&,
+			span,
+			svg {
+				color: #fff !important;
+				fill: #fff !important;
+			}
+
+			&::before,
+			&::after {
+				background-color: transparent !important;
+				// background-color: var(--v-primary-darken1) !important;
+				opacity: 1 !important;
+			}
+		}
+	}
+
+	&.v-icon--link,
+	&.v-btn--icon {
+		&,
+		span,
+		svg {
+			transition: all ease-in-out 0.1s !important;
+		}
+
+		&:hover,
+		&:focus {
+			&,
+			span,
+			svg {
+				color: var(--v-primary-darken1) !important;
+				fill: var(--v-primary-darken1) !important;
+			}
+		}
+	}
 }
 
 .no-click,
@@ -451,6 +652,10 @@ a {
 	}
 }
 
+.rounded {
+	border-radius: 4px !important;
+}
+
 @for $i from 0 to 10 {
 	.rounded-#{$i} {
 		border-radius: ($i * 4) * 1px !important;
@@ -458,8 +663,20 @@ a {
 }
 
 .toasted {
-	font-family: Roboto, sans-serif;
+	font-family: $body-font-family, sans-serif;
 	font-weight: 700;
+
+	&.success {
+		background-color: var(--v-success-darken1) !important;
+	}
+
+	&.error {
+		background-color: var(--v-error-darken1) !important;
+	}
+
+	&.info {
+		background-color: var(--v-accent-darken1) !important;
+	}
 
 	.svg-inline--fa {
 		margin-right: $spacer-2 !important;

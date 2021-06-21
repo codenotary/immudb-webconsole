@@ -1,80 +1,73 @@
 <template>
 	<v-card
 		id="Metrics"
-		class="ma-0 pa-0 pr-4 bg fill-height pane shadow"
+		class="ma-0 pa-0 pr-4 pb-3 bg fill-height pane shadow"
 		elevation="0"
 	>
 		<v-card-title class="ma-0 py-0 py-sm-2 pl-1 pr-5 d-flex justify-start align-center">
 			<v-icon
 				class="ml-2"
 				:class="{
-					'gray--text text--darken-1': !$vuetify.theme.dark,
-					'gray--text text--lighten-1': $vuetify.theme.dark,
+					'gray--text text--lighten-1': !$vuetify.theme.dark,
+					'gray--text text--lighten-3': $vuetify.theme.dark,
 				}"
+				:size="24"
 			>
 				{{ mdiChartBoxOutline }}
 			</v-icon>
 			<v-tooltip
+				content-class="ma-0 py-2 px-4 bg primary-outlined arrow-top-center"
 				bottom
 				:nudge-top="4"
-				:nudge-left="68"
+				:nudge-left="8"
 				:open-delay="300"
 			>
 				<template #activator="{ on, attrs }">
 					<div
 						class="db-select-wrapper ma-0 pa-0 d-flex"
+						style="opacity: 0.5;"
 						v-bind="attrs"
 						v-on="on"
 					>
 						<UiActionDatabaseSelect
 							v-if="database"
-							class="ma-0 py-0 pt-1 px-2"
+							class="ma-0 py-0 pt-1 pl-2"
 							dense
 							:disabled="true"
 							:initial-value="database"
+							:prepend="$t('metrics.title')"
 							v-bind="attrs"
 							v-on="on"
 							@update="onUpdateDatabase"
-						>
-							<template #prepend>
-								<span
-									class="prepend ma-0 pa-0 subtitle-2 font-weight-bold"
-									:class="{
-										'gray--text text--darken-1': !$vuetify.theme.dark,
-										'gray--text text--lighten-1': $vuetify.theme.dark,
-									}"
-								>
-									{{ $t('metrics.title') }}
-								</span>
-							</template>
-						</UiActionDatabaseSelect>
+						/>
 					</div>
 				</template>
-				<span>
+				<span class="body-2">
 					{{ $t('metrics.multidatabaseComingSoon') }}
 				</span>
 			</v-tooltip>
 			<v-spacer />
 			<v-tooltip
-				bottom
+				content-class="ma-0 py-2 px-4 bg primary-outlined arrow-right-center"
+				left
 				:open-delay="300"
+				:nudge-left="4"
 			>
 				<template #activator="{ on, attrs }">
 					<v-icon
 						class="ma-0 mt-n1 ml-1 pa-0"
-						:class="{
-							[`accent--text text--darken-0`]: !$vuetify.theme.dark,
-							[`accent--text text--lighten-2`]: $vuetify.theme.dark,
-						}"
-						color="info"
-						small
+						color="primary"
+						:size="20"
 						v-bind="attrs"
 						v-on="on"
 					>
 						{{ mdiInformationOutline }}
 					</v-icon>
 				</template>
-				<span v-html="$t('metrics.info', { value: getPeriod })" />
+				<span
+					class="body-2"
+					v-html="$t('metrics.info', { value: getPeriod })"
+				/>
 			</v-tooltip>
 		</v-card-title>
 		<v-card-text
@@ -203,6 +196,14 @@ export default {
 					.replace(/a /g, '');
 		},
 	},
+	mounted () {
+		// track google analytics pageview
+		process.env.IS_PUBLIC_DEMO && this.$gtag.pageview({
+			page_title: 'Metrics',
+			page_location: window && window.location && window.location.href,
+			page_path: '/',
+		});
+	},
 	methods: {
 		onUpdateDatabase (data) {
 			this.database = data;
@@ -210,39 +211,3 @@ export default {
 	},
 };
 </script>
-
-<style lang="scss">
-#Metrics {
-	&.pane {
-		&::after {
-			content: '';
-			position: absolute;
-			top: calc(#{$spacer-12} + 1px);
-			right: calc(#{$spacer-4} + 1px);
-			bottom: 0;
-			left: 1px;
-			pointer-events: none !important;
-		}
-
-		&.theme-- {
-			&light {
-				&::after {
-					outline: 1px solid rgba(0, 0, 0, 0.05);
-				}
-			}
-		}
-	}
-
-	.db-select-wrapper {
-		min-width: 320px;
-
-		.db-selector {
-			.prepend,
-			.append {
-				min-width: 80px;
-				width: auto;
-			}
-		}
-	}
-}
-</style>

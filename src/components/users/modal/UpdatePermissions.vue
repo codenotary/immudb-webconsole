@@ -3,28 +3,26 @@
 		class="user-type-modal"
 		:value="value"
 		max-width="600px"
-		:overlay-opacity="0.95"
+		:overlay-opacity="0.55"
 		@input="$emit('input', $event)"
 	>
-		<v-card class="ma-0 pa-4 bg">
-			<v-card-title class="ma-0 mb-2 pa-0">
+		<v-card class="ma-0 pa-0 bg">
+			<v-card-title class="ma-0 mb-2 py-2 px-4 primary d-flex justify-start align-center">
 				<v-icon
-					:class="{
-						'gray--text text--darken-1': !$vuetify.theme.dark,
-						'gray--text text--lighten-1': $vuetify.theme.dark,
-					}"
+					class="bg--text"
+					:size="20"
 				>
 					{{ mdiAccountCheckOutline }}
 				</v-icon>
 				<span
 					v-if="add"
-					class="ml-2"
+					class="ml-2 bg--text"
 				>
 					{{ $t('users.table.permissions.add.title', { user }) }}
 				</span>
 				<span
 					v-else
-					class="pl-2"
+					class="pl-2 bg--text"
 				>
 					{{ $t('users.table.permissions.edit.title', { user }) }}
 				</span>
@@ -35,10 +33,7 @@
 					@click="onClose"
 				>
 					<v-icon
-						:class="{
-							'gray--text text--darken-1': !$vuetify.theme.dark,
-							'gray--text text--lighten-1': $vuetify.theme.dark,
-						}"
+						class="bg--text"
 						:size="20"
 					>
 						{{ mdiClose }}
@@ -46,7 +41,7 @@
 				</v-btn>
 			</v-card-title>
 			<v-card-text
-				class="ma-0 mb-2 pa-0"
+				class="ma-0 mb-2 pa-4 pt-2"
 				style="overflow-x: hidden !important;"
 			>
 				<UiActionDatabaseSelect
@@ -60,16 +55,18 @@
 					@update="onUpdatePermission"
 				/>
 			</v-card-text>
-			<v-card-actions class="ma-0 pa-0 d-flex justify-end">
+			<v-card-actions class="ma-0 pa-4 d-flex justify-center">
 				<v-btn
-					text
+					class="px-4"
+					outlined
+					color="primary"
 					@click="$emit('input', false)"
 				>
 					{{ $t('common.cancel') }}
 				</v-btn>
 				<v-btn
-					class="ml-2 success-gradient"
-					color="success"
+					class="ml-2 px-4"
+					color="primary"
 					@click="onSubmit"
 				>
 					<span v-if="add">

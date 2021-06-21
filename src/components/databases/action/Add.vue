@@ -1,12 +1,14 @@
 <template>
 	<v-tooltip
+		content-class="ma-0 py-2 px-4 bg primary-outlined arrow-top-center"
 		bottom
 		:open-delay="300"
+		:nudge-bottom="6"
 	>
 		<template #activator="{ on, attrs }">
 			<v-btn
-				class="px-4 success-gradient white--text d-flex align-center"
-				color="blue"
+				class="px-2 white--text d-flex align-center"
+				color="primary"
 				depressed
 				small
 				primary
@@ -36,13 +38,13 @@
 						:width="2"
 						:size="16"
 					/>
-					<span class="ma-0 ml-2 pa-0 caption font-weight-bold">
+					<span class="ma-0 ml-2 pa-0 caption text-capitalize">
 						{{ $t('common.loading') }}
 					</span>
 				</template>
 			</v-btn>
 		</template>
-		<span>
+		<span class="body-2">
 			{{ $t('databases.action.add.tooltip') }}
 		</span>
 	</v-tooltip>

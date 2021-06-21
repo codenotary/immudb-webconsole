@@ -2,6 +2,7 @@ import {
 	RESET_OUTPUT,
 	SET_CODE_OUTPUT,
 	APPEND_CODE_OUTPUT,
+	SET_FILTER,
 } from './constants';
 
 export default {
@@ -32,5 +33,8 @@ export default {
 				];
 			}
 		}
+	},
+	[SET_FILTER](state, payload) {
+		state.filter = payload;
 	},
 };

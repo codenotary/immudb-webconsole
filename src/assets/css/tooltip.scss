@@ -1,0 +1,303 @@
+$arrow-height: 16;
+$arrow-width: 16;
+
+.v-application {
+	.menuable__content__active {
+		&.v-menu__content,
+		&.v-tooltip__content {
+			&.arrow- {
+				&top-left,
+				&top-center-left,
+				&top-center,
+				&top-center-right,
+				&top-right,
+				&right-top,
+				&right-center-top,
+				&right-center,
+				&right-center-bottom,
+				&right-bottom,
+				&bottom-left,
+				&bottom-center-left,
+				&bottom-center,
+				&bottom-center-right,
+				&bottom-right,
+				&left-top,
+				&left-center-top,
+				&left-center,
+				&left-center-bottom,
+				&left-bottom {
+					overflow: inherit !important;
+					z-index: 20 !important;
+					contain: inherit !important;
+
+					&::before {
+						content: '';
+						position: absolute;
+						width: #{$arrow-width}px !important;
+						height: #{$arrow-height}px !important;
+						background-repeat: no-repeat !important;
+						z-index: 21 !important;
+					}
+				}
+
+				&top-left,
+				&top-center-left,
+				&top-center,
+				&top-center-right,
+				&top-right {
+					&::before {
+						top: calc(-#{$arrow-height}px + 5px);
+					}
+				}
+
+				&top-left {
+					&::before {
+						left: #{$arrow-width}px;
+					}
+				}
+
+				&top-center-left {
+					&::before {
+						left: calc(25% - #{$arrow-width * 2}px);
+					}
+				}
+
+				&top-center {
+					&::before {
+						left: calc(50% - #{$arrow-width / 2}px);
+					}
+				}
+
+				&top-center-right {
+					&::before {
+						left: calc(75% - #{$arrow-width * 2}px);
+					}
+				}
+
+				&top-right {
+					&::before {
+						left: calc(100% - #{$arrow-width * 2}px);
+					}
+				}
+
+				&right-top,
+				&right-center-top,
+				&right-center,
+				&right-center-bottom,
+				&right-bottom {
+					&::before {
+						right: calc(-#{$arrow-width}px + 1px);
+					}
+				}
+
+				&right-top {
+					&::before {
+						top: #{$arrow-height * 2}px;
+					}
+				}
+
+				&right-center-top {
+					&::before {
+						top: calc(25% - #{$arrow-height * 2}px);
+					}
+				}
+
+				&right-center {
+					&::before {
+						top: calc(50% - #{$arrow-height / 2}px);
+					}
+				}
+
+				&right-center-bottom {
+					&::before {
+						top: calc(75% - #{$arrow-height * 2}px);
+					}
+				}
+
+				&right-bottom {
+					&::before {
+						top: calc(100% - #{$arrow-height * 2}px);
+					}
+				}
+
+				&bottom-left,
+				&bottom-center-left,
+				&bottom-center,
+				&bottom-center-right,
+				&bottom-right {
+					&::before {
+						bottom: calc(-#{$arrow-height}px + 1px);
+					}
+				}
+
+				&bottom-left {
+					&::before {
+						left: #{$arrow-width}px;
+					}
+				}
+
+				&bottom-center-left {
+					&::before {
+						left: calc(25% - #{$arrow-width * 2}px);
+					}
+				}
+
+				&bottom-center {
+					&::before {
+						left: calc(50% - #{$arrow-width / 2}px);
+					}
+				}
+
+				&bottom-center-right {
+					&::before {
+						left: calc(75% - #{$arrow-width * 2}px);
+					}
+				}
+
+				&bottom-right {
+					&::before {
+						left: calc(100% - #{$arrow-width * 2}px);
+					}
+				}
+
+				&left-top,
+				&left-center-top,
+				&left-center,
+				&left-center-top,
+				&left-bottom {
+					&::before {
+						left: calc(-#{$arrow-width}px + 5px);
+					}
+				}
+
+				&left-top {
+					&::before {
+						top: #{$arrow-height * 2}px;
+					}
+				}
+
+				&left-center-top {
+					&::before {
+						top: calc(25% - #{$arrow-height * 2}px);
+					}
+				}
+
+				&left-center {
+					&::before {
+						top: calc(50% - #{$arrow-height / 2}px);
+					}
+				}
+
+				&left-center-bottom {
+					&::before {
+						top: calc(75% - #{$arrow-height * 2}px);
+					}
+				}
+
+				&left-bottom {
+					&::before {
+						top: calc(100% - #{$arrow-height * 2}px);
+					}
+				}
+			}
+		}
+	}
+
+	&.theme--dark {
+		.menuable__content__active {
+			&.v-menu__content,
+			&.v-tooltip__content {
+				&.arrow- {
+					&top-left,
+					&top-center-left,
+					&top-center,
+					&top-center-right,
+					&top-right {
+						&::before {
+							background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='12' viewBox='0 0 4.233 3.175' stroke-width='.265' xmlns:v='https://vecta.io/nano'%3e%3cpath d='M.132 3.175h3.969z' fill='%23fff' stroke='%23153954'/%3e%3cpath d='M4.101 3.175L2.117.132.132 3.175' fill='%23153954' stroke='%2324c4a1' stroke-linecap='round' stroke-linejoin='round' paint-order='markers fill stroke'/%3e%3c/svg%3e");
+						}
+					}
+
+					&right-top,
+					&right-center-top,
+					&right-center,
+					&right-center-bottom,
+					&right-bottom {
+						&::before {
+							background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='16' viewBox='0 0 3.175 4.233' xmlns:v='https://vecta.io/nano'%3e%3cg transform='matrix(0 -1 -1 0 3.306864 4.233833)' stroke-width='.265'%3e%3cpath d='M.132 3.174h3.969z' fill='%23fff' stroke='%23153954'/%3e%3cpath d='M4.101 3.174L2.117.131.132 3.174' fill='%23153954' stroke='%2324c4a1' stroke-linecap='round' stroke-linejoin='round' paint-order='markers fill stroke'/%3e%3c/g%3e%3c/svg%3e");
+						}
+					}
+
+					&bottom-left,
+					&bottom-center-left,
+					&bottom-center,
+					&bottom-center-right,
+					&bottom-right {
+						&::before {
+							background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='12' viewBox='0 0 4.233 3.175' stroke-width='.265' xmlns:v='https://vecta.io/nano'%3e%3cpath d='M.132.133h3.969z' fill='%23fff' stroke='%23153954'/%3e%3cpath d='M4.101.133L2.117 3.175.132.133' fill='%23153954' stroke='%2324c4a1' stroke-linecap='round' stroke-linejoin='round' paint-order='markers fill stroke'/%3e%3c/svg%3e");
+						}
+					}
+
+					&left-top,
+					&left-center-top,
+					&left-center,
+					&left-center-bottom,
+					&left-bottom {
+						&::before {
+							background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='16' viewBox='0 0 3.175 4.233' xmlns:v='https://vecta.io/nano'%3e%3cg transform='matrix(0 -1 1 0 .000875 4.233833)' stroke-width='.265'%3e%3cpath d='M.132 3.174h3.969z' fill='%23fff' stroke='%23153954'/%3e%3cpath d='M4.101 3.174L2.117.131.132 3.174' fill='%23153954' stroke='%2324c4a1' stroke-linecap='round' stroke-linejoin='round' paint-order='markers fill stroke'/%3e%3c/g%3e%3c/svg%3e");
+						}
+					}
+				}
+			}
+		}
+	}
+
+	&.theme--light {
+		.menuable__content__active {
+			&.v-menu__content,
+			&.v-tooltip__content {
+				&.arrow- {
+					&top-left,
+					&top-center-left,
+					&top-center,
+					&top-center-right,
+					&top-right {
+						&::before {
+							background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='12' viewBox='0 0 4.233 3.175' fill='%23fff' stroke-width='.265' xmlns:v='https://vecta.io/nano'%3e%3cpath d='M.132 3.175h3.969z' stroke='%23fff'/%3e%3cpath d='M4.101 3.175L2.117.132.132 3.175' stroke='%2324c4a1' stroke-linecap='round' stroke-linejoin='round' paint-order='markers fill stroke'/%3e%3c/svg%3e");
+						}
+					}
+
+					&right-top,
+					&right-center-top,
+					&right-center,
+					&right-center-bottom,
+					&right-bottom {
+						&::before {
+							background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='16' viewBox='0 0 3.175 4.233' xmlns:v='https://vecta.io/nano'%3e%3cg transform='matrix(0 -1 1 0 .000875 4.233833)' fill='%23fff' stroke-width='.265'%3e%3cpath d='M.132.132h3.969z' stroke='%23fff'/%3e%3cpath d='M4.101.132L2.117 3.175.132.132' stroke='%2324c4a1' stroke-linecap='round' stroke-linejoin='round' paint-order='markers fill stroke'/%3e%3c/g%3e%3c/svg%3e");
+						}
+					}
+
+					&bottom-left,
+					&bottom-center-left,
+					&bottom-center,
+					&bottom-center-right,
+					&bottom-right {
+						&::before {
+							background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='12' viewBox='0 0 4.233 3.175' fill='%23fff' stroke-width='.265' xmlns:v='https://vecta.io/nano'%3e%3cpath d='M.132.132h3.969z' stroke='%23fff'/%3e%3cpath d='M4.101.132L2.117 3.175.132.132' stroke='%2324c4a1' stroke-linecap='round' stroke-linejoin='round' paint-order='markers fill stroke'/%3e%3c/svg%3e");
+						}
+					}
+
+					&left-top,
+					&left-center-top,
+					&left-center,
+					&left-center-bottomr,
+					&left-bottom {
+						&::before {
+							background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='16' viewBox='0 0 3.175 4.233' xmlns:v='https://vecta.io/nano'%3e%3cg transform='matrix(0 -1 1 0 .000875 4.233833)' fill='%23fff' stroke-width='.265'%3e%3cpath d='M.132 3.174h3.969z' stroke='%23fff'/%3e%3cpath d='M4.101 3.174L2.117.131.132 3.174' stroke='%2324c4a1' stroke-linecap='round' stroke-linejoin='round' paint-order='markers fill stroke'/%3e%3c/g%3e%3c/svg%3e");
+						}
+					}
+				}
+			}
+		}
+	}
+}

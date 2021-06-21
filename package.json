@@ -91,6 +91,7 @@
 		"stylelint-config-standard": "^18.3.0",
 		"stylelint-scss": "^3.18.0",
 		"vue-clipboards": "^1.3.0",
+		"vue-gtag": "^1.16.1",
 		"vue-template-compiler": "^2.6.11"
 	},
 	"resolutions": {

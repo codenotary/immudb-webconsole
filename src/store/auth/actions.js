@@ -1,6 +1,9 @@
 import { ApiService } from '@/services';
 import { ImmudbService } from '@/services/immudb';
 import {
+	mdiShieldLock,
+} from '@mdi/js';
+import {
 	VIEW_MODULE,
 	PUSH_LOADING,
 	POP_LOADING,
@@ -27,8 +30,6 @@ export default {
 					password: btoa(password),
 				});
 
-				console.log(response);
-
 				if (response && response.data) {
 					const { token, warning } = response.data;
 					if (token) {
@@ -42,8 +43,9 @@ export default {
 							commit(`${ VIEW_MODULE }/${ SET_BANNER }`, {
 								show: true,
 								title: atob(warning),
-								color: 'warning',
-								persistent: true,
+								color: 'primary',
+								persistent: false,
+								icon: mdiShieldLock,
 							}, { root: true });
 						}
 						else {
