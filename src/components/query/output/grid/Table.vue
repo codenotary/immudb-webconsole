@@ -63,7 +63,7 @@ export default {
 				return columns && columns
 						.slice()
 						.map((_) => {
-							return _ && _.name
+							return _ && _.name && _.name
 									.slice(1, -1)
 									.replace(/\.([^.]+)$/, ':$1')
 									.split(':')
@@ -75,7 +75,7 @@ export default {
 		rows () {
 			if (this.item) {
 				const { rows } = this.item;
-				return rows
+				return rows && rows
 						.slice()
 						.map(_ => _ && _ && _.values
 								.map(value => this.extractValue(value)));
