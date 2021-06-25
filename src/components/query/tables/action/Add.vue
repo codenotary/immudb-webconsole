@@ -1,6 +1,6 @@
 <template>
 	<v-tooltip
-		content-class="ma-0 py-2 px-4 bg primary-outlined arrow-top-center"
+		content-class="ma-0 py-2 px-4 bg primary-outlined arrow-bottom-center"
 		top
 		:open-delay="300"
 		:nudge-top="6"

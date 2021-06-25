@@ -57,8 +57,8 @@
 				style="height: 40px !important;"
 			/>
 			<QueryOutputGridFilter
-				class="ml-2"
 				id="GridFilter"
+				class="ml-2"
 			/>
 		</v-card-text>
 	</v-card>

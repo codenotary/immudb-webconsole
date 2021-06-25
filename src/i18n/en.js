@@ -132,7 +132,9 @@ export default {
 			col: 'Column',
 			column: 'Column',
 			view: 'View',
-			primaryKey: 'Primary key',
+			primaryKey: 'Column is Primary key',
+			foreignKey: 'Column is Foreign key',
+			nullable: 'Column is Nullable',
 			activeDB: 'Database:',
 			add: {
 				button: 'add',

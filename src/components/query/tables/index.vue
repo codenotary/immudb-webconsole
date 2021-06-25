@@ -64,81 +64,21 @@
 							</span>
 						</v-tooltip>
 						<span
-							class="sql-column body-2"
+							class="h-32 sql-column body-2 d-flex align-center fill-width"
 							:class="{
 								'gray--text text--darken-3': !$vuetify.theme.dark,
 								'gray--text text--lighten-5': $vuetify.theme.dark,
 							}"
 						>
-							{{ props.item.label }}
+							<span class="h-32 d-flex align-center">
+								{{ props.item.label }}
+							</span>
 						</span>
 						<v-spacer />
-						<div class="table-actions">
-							<div class="tags h-24 d-flex justify-start align-center">
-								<span
-									class="pl-1 primary--text caption"
-									style="line-height: 1.25rem; text-overflow: ellipsis;"
-								>
-									{{ props.item.tags }}
-								</span>
-								<v-tooltip
-									v-if="props.item.primary"
-									class="ma-0 ml-1 pa-0"
-									content-class="ma-0 py-2 px-4 bg primary-outlined arrow-top-center"
-									top
-									:open-delay="300"
-									:nudge-top="6"
-								>
-									<template #activator="{ on: { onPrimary } , attrs: { attrsPrimary } }">
-										<v-icon
-											class="ma-0 mt-n1 ml-1 pa-0"
-											:class="{
-												[`primary--text text--darken-0`]: !$vuetify.theme.dark,
-												[`primary--text text--lighten-3`]: $vuetify.theme.dark,
-											}"
-											small
-											v-bind="attrsPrimary"
-											v-on="onPrimary"
-										>
-											{{ mdiKey }}
-										</v-icon>
-									</template>
-									<span class="body-2">
-										{{ $t('query.tables.primaryKey') }}
-									</span>
-								</v-tooltip>
-								<v-tooltip
-									v-if="props.item.foreignKey"
-									class="ma-0 ml-1 pa-0"
-									content-class="ma-0 py-2 px-4 bg primary-outlined arrow-top-center"
-									top
-									:open-delay="300"
-									:nudge-top="6"
-								>
-									<template #activator="{ on: { onForeign } , attrs: { attrsForeign } }">
-										<v-icon
-											class="ma-0 mt-n1 ml-1 pa-0"
-											:class="{
-												[`primary--text text--darken-0`]: !$vuetify.theme.dark,
-												[`primary--text text--lighten-3`]: $vuetify.theme.dark,
-											}"
-											small
-											v-bind="attrsForeign"
-											v-on="onForeign"
-										>
-											{{ mdiKeyLink }}
-										</v-icon>
-									</template>
-									<span class="body-2">
-										{{ $t('query.tables.foreignKey') }}
-									</span>
-								</v-tooltip>
-							</div>
-							<QueryTablesActionAdd
-								:value="props.item.value"
-								@submit="onQueryUpdate"
-							/>
-						</div>
+						<QueryTablesInfo
+							:item="props.item"
+							@update="onQueryUpdate"
+						/>
 					</span>
 				</template>
 			</v-treeview>
@@ -174,8 +114,6 @@ import {
 	mdiDatabaseOutline,
 	mdiTable,
 	mdiTableColumn,
-	mdiKey,
-	mdiKeyLink,
 } from '@mdi/js';
 
 export default {
@@ -188,8 +126,6 @@ export default {
 			mdiDatabaseOutline,
 			mdiTable,
 			mdiTableColumn,
-			mdiKey,
-			mdiKeyLink,
 			open: [],
 			items: [],
 		};
@@ -260,7 +196,7 @@ export default {
 					return _data
 							.slice()
 							.sort((a, b) => a.label < b.label ? -1 : 1)
-							.sort((a, b) => a.primary && !b.primary ? -1 : 1)
+							.sort((a, b) => a.primaryKey && !b.primaryKey ? -1 : 1)
 							.sort((a, b) => a.foreignKey && !b.foreignKey ? -1 : 1)
 							.map((_) => {
 								const t = _;
@@ -445,7 +381,7 @@ export default {
 				}
 
 				.tags {
-					display: block !important;
+					display: flex !important;
 					opacity: 1;
 				}
 
@@ -456,13 +392,13 @@ export default {
 			}
 
 			&:hover {
-				.tags {
-					display: none !important;
-					opacity: 0;
-				}
+				// .tags {
+				// 	display: none !important;
+				// 	opacity: 0;
+				// }
 
 				.add-to-query {
-					display: block !important;
+					display: flex !important;
 					opacity: 1;
 				}
 			}
