@@ -117,12 +117,8 @@ export default {
 		},
 		onFocus () {
 			try {
-				const { prism, prism: { $el: { children } } } = this.$refs;
-				const queryLength = this.query ? this.query.length : 0;
+				const { prism: { $el: { children } } } = this.$refs;
 				children[1].focus();
-				setTimeout(() => {
-					this.moveCaret(prism, queryLength);
-				}, 300);
 			}
 			catch (err) {
 				console.error(err);
