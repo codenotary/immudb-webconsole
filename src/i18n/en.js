@@ -180,6 +180,12 @@ export default {
 				present: 'Present',
 				timeTravel: 'Travelled in time',
 			},
+			clear: {
+				button: 'Clear',
+				alt: 'Clear output',
+				tooltip: 'Clear output',
+				success: 'Output cleared',
+			},
 		},
 		timetravel: {
 			past: 'This query has been made with a previous TxID',

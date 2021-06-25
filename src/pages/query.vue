@@ -84,6 +84,7 @@ import {
 } from '@/store/database/constants';
 import {
 	IMMUDB_MODULE,
+	FETCH_STATE,
 	RUN_SQL_QUERY,
 	RUN_SQL_EXEC,
 	RUN_SQL_TYPE,
@@ -170,6 +171,7 @@ export default {
 			useDatabase: USE_DATABASE,
 		}),
 		...mapActions(IMMUDB_MODULE, {
+			fetchState: FETCH_STATE,
 			runSqlQuery: RUN_SQL_QUERY,
 			runSqlExec: RUN_SQL_EXEC,
 		}),
@@ -229,6 +231,9 @@ export default {
 								this.popLoading({ label: BATCH_LABEL });
 								await this.fetchTables(true);
 							}
+
+							// updated txID
+							await this.fetchState(true);
 						}
 						catch (err) {
 							console.error(err);

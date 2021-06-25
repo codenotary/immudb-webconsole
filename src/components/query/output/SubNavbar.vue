@@ -48,7 +48,16 @@
 				</v-tab>
 			</v-tabs>
 			<v-spacer />
+			<UiActionReset
+				@reset="onReset"
+			/>
+			<v-divider
+				class="mx-4 pa-0"
+				vertical
+				style="height: 40px !important;"
+			/>
 			<QueryOutputGridFilter
+				class="ml-2"
 				id="GridFilter"
 			/>
 		</v-card-text>
@@ -56,6 +65,12 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+import {
+	OUTPUT_MODULE,
+	RESET_OUTPUT,
+} from '@/store/output/constants';
+
 import {
 	mdiGrid,
 	mdiAlertCircleOutline,
@@ -80,12 +95,18 @@ export default {
 		},
 	},
 	methods: {
+		...mapActions(OUTPUT_MODULE, {
+			resetOutput: RESET_OUTPUT,
+		}),
 		dismissUpdate (data) {
 			if (this.tabHasUpdates[data]) {
 				const _tabHasUpdates = this.tabHasUpdates;
 				_tabHasUpdates[data] = 0;
 				this.$emit('update:tabHasUpdates', _tabHasUpdates);
 			}
+		},
+		onReset () {
+			this.resetOutput();
 		},
 	},
 };
