@@ -7,6 +7,8 @@
 	>
 		<template #activator="{ on, attrs }">
 			<v-btn
+				class="no-hover no-ripple-hover"
+				:ripple="false"
 				depressed
 				small
 				icon
@@ -17,7 +19,6 @@
 				@click="onSubmit"
 			>
 				<v-icon
-					class="title"
 					:class="{
 						'gray--text text--lighten-1': !$vuetify.theme.dark,
 						'gray--text text--lighten-4': $vuetify.theme.dark,

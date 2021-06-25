@@ -23,6 +23,7 @@
 						v-on="on"
 					>
 						<v-icon
+							class="no-hover no-ripple-hover"
 							:class="{
 								[`primary--text text--darken-0`]: !$vuetify.theme.dark,
 								[`primary--text text--lighten-3`]: $vuetify.theme.dark,
@@ -55,6 +56,7 @@
 						v-on="on"
 					>
 						<v-icon
+							class="no-hover no-ripple-hover"
 							:class="{
 								[`primary--text text--darken-0`]: !$vuetify.theme.dark,
 								[`primary--text text--lighten-3`]: $vuetify.theme.dark,
@@ -87,6 +89,7 @@
 						v-on="on"
 					>
 						<v-icon
+							class="no-hover no-ripple-hover"
 							:class="{
 								[`primary--text text--darken-0`]: !$vuetify.theme.dark,
 								[`primary--text text--lighten-3`]: $vuetify.theme.dark,

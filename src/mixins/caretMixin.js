@@ -5,10 +5,8 @@ export const caretMixin = {
 			try {
 				const { selection } = el;
 				if (selection) {
-					return {
-						start: selection.start,
-						end: selection.end,
-					};
+					const { start, end } = selection;
+					return { start, end };
 				}
 				else {
 					return 0;
@@ -21,12 +19,14 @@ export const caretMixin = {
 		moveCaret(el, position) {
 			try {
 				const { selection } = el;
-				if (selection) {
-					selection && (el.selection.start = el.selection.end = position);
-				}
-				else {
-					el.selection = window.getSelection();
-				}
+				setTimeout(() => {
+					if (selection) {
+						el.selection.start = el.selection.end = position;
+					}
+					else {
+						el.selection = window.getSelection();
+					}
+				}, 300);
 			}
 			catch (err) {
 				console.error(err);

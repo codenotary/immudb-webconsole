@@ -111,7 +111,6 @@ export default {
 										if (cols && cols.length) {
 											tables[idx].children = cols.map((row) => {
 												if (row) {
-													console.log(typeof row.values[2].b, row.values[2].b);
 													return {
 														label: row.values[0] && row.values[0].s,
 														value: row.values[0] && row.values[0].s,
