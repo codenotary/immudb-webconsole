@@ -72,6 +72,39 @@
 				</span>
 			</v-tooltip>
 			<v-tooltip
+				v-if="item.indexed"
+				class="ma-0 ml-2 pa-0"
+				content-class="ma-0 py-2 px-4 bg primary-outlined arrow-bottom-center"
+				top
+				:open-delay="300"
+				:nudge-top="6"
+			>
+				<template #activator="{ on, attrs }">
+					<v-btn
+						class="ma-0 pa-0 no-hover no-ripple-hover"
+						icon
+						x-small
+						:ripple="false"
+						v-bind="attrs"
+						v-on="on"
+					>
+						<v-icon
+							class="no-hover no-ripple-hover"
+							:class="{
+								[`primary--text text--darken-0`]: !$vuetify.theme.dark,
+								[`primary--text text--lighten-3`]: $vuetify.theme.dark,
+							}"
+							:size="14"
+						>
+							{{ mdiBookmarkOutline }}
+						</v-icon>
+					</v-btn>
+				</template>
+				<span class="body-2">
+					{{ $t('query.tables.indexed') }}
+				</span>
+			</v-tooltip>
+			<v-tooltip
 				v-if="item.nullable"
 				class="ma-0 ml-2 pa-0"
 				content-class="ma-0 py-2 px-4 bg primary-outlined arrow-bottom-center"
@@ -118,6 +151,7 @@
 import {
 	mdiKey,
 	mdiKeyLink,
+	mdiBookmarkOutline,
 	mdiDiameterVariant,
 } from '@mdi/js';
 
@@ -130,6 +164,7 @@ export default {
 		return {
 			mdiKey,
 			mdiKeyLink,
+			mdiBookmarkOutline,
 			mdiDiameterVariant,
 		};
 	},

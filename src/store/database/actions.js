@@ -117,6 +117,7 @@ export default {
 														tags: row.values[1] && row.values[1].s,
 														nullable: row.values[2] && row.values[2].b,
 														primaryKey: row.values[3] && row.values[3].s === 'PRIMARY KEY',
+														indexed: row.values[3] && row.values[3].s === 'YES',
 														foreignKey: row.values[3] && row.values[3].s === 'FOREIGN KEY',
 														type: 'col',
 													};

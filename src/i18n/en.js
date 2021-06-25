@@ -134,6 +134,7 @@ export default {
 			view: 'View',
 			primaryKey: 'Column is Primary key',
 			foreignKey: 'Column is Foreign key',
+			indexed: 'Column is indexed',
 			nullable: 'Column is Nullable',
 			activeDB: 'Database:',
 			add: {
