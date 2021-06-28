@@ -163,7 +163,7 @@ $arrow-width: 16;
 				&left-top,
 				&left-center-top,
 				&left-center,
-				&left-center-top,
+				&left-center-bottom,
 				&left-bottom {
 					&::before {
 						left: calc(-#{$arrow-width}px + 5px);
