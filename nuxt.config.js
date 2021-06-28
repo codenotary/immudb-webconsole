@@ -215,7 +215,6 @@ export default {
 		{ src: '~/plugins/event-bus.js', ssr: false },
 		{ src: '~/plugins/global-mixins.js', ssr: false },
 		{ src: '~/plugins/route.js', ssr: false },
-		{ src: '~/plugins/smartlook.js', ssr: false },
 		{ src: '~/plugins/vee-validate.js', ssr: false },
 		{ src: '~/plugins/vue-clipboards.js', ssr: false },
 		{ src: '~/plugins/vue-cookies.js', ssr: false },
@@ -340,6 +339,11 @@ export default {
 		// ],
 		// Doc: https://github.com/geeogi/nuxt-responsive-loader
 		'nuxt-responsive-loader',
+		// Doc: https://github.com/f00b4r/nuxt-smartlook
+		['nuxt-smartlook', {
+			id: '62d7564b7fef3c36e74d0dc5ec76b8452043021e',
+			enabled: IS_PROD,
+		}],
 	],
 
 	/*
