@@ -250,7 +250,7 @@ export default {
 				/* eslint-disable quotes */
 				// create and fill customers table with random data
 				await this.runSqlExec("CREATE TABLE customers (id INTEGER, customer_name VARCHAR, email VARCHAR, address VARCHAR, city VARCHAR, ip VARCHAR, country VARCHAR, age INTEGER, active BOOLEAN, PRIMARY KEY id);");
-				await this.runSqlExec("UPSERT INTO customers (id, customer_name, email, address, city, ip, country, age, active) values (1, 'Isidro Behnen', 'ibehnen0@mail.ru', 'ibehnen0@chronoengine.com', 'Arvika', '2.124.67.107', 'SE', 24 true);");
+				await this.runSqlExec("UPSERT INTO customers (id, customer_name, email, address, city, ip, country, age, active) values (1, 'Isidro Behnen', 'ibehnen0@mail.ru', 'ibehnen0@chronoengine.com', 'Arvika', '2.124.67.107', 'SE', 24, true);");
 				await this.runSqlExec("UPSERT INTO customers (id, customer_name, email, address, city, ip, country, age, active) values (2, 'Claudianus Boldt', 'cboldt1@adobe.com', 'cboldt1@elpais.com', 'Kimhae', '125.89.31.130', 'KR', 30, true);");
 				await this.runSqlExec("UPSERT INTO customers (id, customer_name, email, address, city, ip, country, age, active) values (3, 'Ginny Kelshaw', 'gkelshaw2@bbb.org', 'gkelshaw2@123-reg.co.uk', 'Nova Lima', '231.174.212.41', 'BR', 32, true);");
 				await this.runSqlExec("UPSERT INTO customers (id, customer_name, email, address, city, ip, country, age, active) values (4, 'Paola Elverston', 'pelverston3@ox.ac.uk', 'pelverston3@cdc.gov', 'Morales', '114.130.229.206', 'GT', 33, true);");
