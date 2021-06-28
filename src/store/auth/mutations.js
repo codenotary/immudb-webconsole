@@ -16,7 +16,7 @@ export default {
 		try {
 			if (payload) {
 				const { users } = payload;
-				const current = users.filter(_ => _.user === state.user)[0];
+				const current = users && users.filter(_ => _.user === state.user)[0];
 				if (current && current.permissions) {
 					let permissions = [];
 					current && current.permissions
