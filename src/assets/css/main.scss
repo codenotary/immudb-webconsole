@@ -52,28 +52,18 @@ body.theme--light {
 		}
 
 		&.shadow-pane {
-			> .v-card__text {
-				position: relative;
+			position: relative;
 
-				&::after {
-					content: '';
-					position: absolute;
-					top: 0;
-					right: 0;
-					bottom: 0;
-					left: 0;
-					box-shadow: $box-shadow;
-					z-index: 1;
-					pointer-events: none !important;
-				}
-			}
-		}
-
-		&.pane.shadow-pane {
-			> .v-card__text {
-				&::after {
-					height: calc(100% - #{$spacer-3}) !important;
-				}
+			&::after {
+				content: '';
+				position: absolute;
+				top: $header-height;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				box-shadow: $box-shadow;
+				z-index: 1;
+				pointer-events: none !important;
 			}
 		}
 

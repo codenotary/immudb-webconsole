@@ -122,7 +122,7 @@ export default {
 		z-index: 2;
 
 		.v-slide-group__content {
-			height: $spacer-12 !important;
+			height: $tabs-height !important;
 
 			.v-tabs-slider-wrapper {
 				height: 4px !important;

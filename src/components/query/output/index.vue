@@ -1,7 +1,7 @@
 <template>
 	<v-card
 		id="QueryOutput"
-		class="ma-0 pa-0 bg fill-height shadow-pane"
+		class="ma-0 pa-0 bg shadow-pane"
 		elevation="0"
 	>
 		<v-card-title class="ma-0 pa-0 d-flex justify-start align-center">
@@ -13,7 +13,7 @@
 		<v-card-text
 			ref="outputList"
 			class="ma-0 pa-0 bg-secondary custom-scrollbar"
-			style="overflow-x: hidden !imporant;"
+			style="overflow: hidden !imporant;"
 		>
 			<QueryOutputGrid
 				v-if="tab === 0"
@@ -75,13 +75,24 @@ export default {
 
 <style lang="scss">
 #QueryOutput {
+	height: calc(100% - 4px) !important;
+	overflow: hidden !important;
+
+	&.shadow-pane {
+		&::after {
+			height: calc(100% - #{$tabs-height}) !important;
+			top: $tabs-height !important;
+		}
+	}
+
 	&.v-card {
 		.v-card__title {
-			height: $spacer-12;
+			height: $tabs-height;
+			overflow: hidden !important;
 		}
 
 		.v-card__text {
-			height: calc(100% - #{$spacer-12}) !important;
+			height: calc(100% - #{$tabs-height}) !important;
 			margin-top: 0 !important;
 			overflow-y: auto;
 			overflow-x: hidden;
