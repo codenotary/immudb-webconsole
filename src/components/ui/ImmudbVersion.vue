@@ -31,7 +31,7 @@
 export default {
 	name: 'UiImmudbVersion',
 	props: {
-		value: { type: String, default: '1.0.1' },
+		value: { type: String, default: '1.0.5' },
 	},
 };
 </script>
