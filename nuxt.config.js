@@ -1,6 +1,6 @@
-const SITE_NAME = 'immudb webconsole';
 import * as qs from 'qs';
 import Sass from 'sass';
+const SITE_NAME = 'immudb webconsole';
 const IS_PROD = process.env.NODE_ENV === 'production';
 const IS_PUBLIC_DEMO = process.env.PUBLIC_DEMO;
 const EXPERIMENTAL = false && !IS_PROD;
@@ -109,30 +109,30 @@ export default {
 		cache: EXPERIMENTAL,
 		hardSource: EXPERIMENTAL,
 		publicPath: '/nuxt_embedded/',
+		extractCSS: IS_PROD,
 		filenames: {
 			app: IS_PROD ? '[chunkhash].js' : '[name].[hash].js',
 			chunk: IS_PROD ? '[chunkhash].js' : '[name].[hash].js',
 			css: IS_PROD ? '[name].[contenthash].css' : '[name].js',
 		},
-		extractCSS: IS_PROD,
 		// Extend webpack config
-		extend(config, {isDev, isClient}) {
+		extend(config, { isDev, isClient }) {
 			// image-webpack-loader
-			config.module.rules.forEach(rule => {
+			config.module.rules.forEach((rule) => {
 				if (String(rule.test) === String(/\.(png|jpe?g|gif|svg|webp)$/)) {
 					// add a second loader when loading images
 					rule.use.push({
 						loader: 'image-webpack-loader',
 						options: {
 							svgo: {
-							plugins: [
+								plugins: [
 								// use these settings for internet explorer for proper scalable SVGs
 								// https://css-tricks.com/scale-svg/
-								{ removeViewBox: false },
-								{ removeDimensions: true }
-							]
-							}
-						}
+									{ removeViewBox: false },
+									{ removeDimensions: true },
+								],
+							},
+						},
 					});
 				}
 			});
@@ -163,7 +163,7 @@ export default {
 		},
 		babel: {
 			plugins: [
-				['@babel/plugin-proposal-private-methods', { loose: true }]
+				['@babel/plugin-proposal-private-methods', { loose: true }],
 			],
 		},
 		postcss: {
@@ -171,14 +171,14 @@ export default {
 				'postcss-url': false,
 				'postcss-nested': {},
 				'postcss-responsive-type': {},
-				'postcss-hexrgba': {}
+				'postcss-hexrgba': {},
 			},
 			preset: {
-			  autoprefixer: {
-				grid: true
-			  }
-			}
-		  }
+				autoprefixer: {
+					grid: true,
+				},
+			},
+		},
 	},
 
 	/*
@@ -251,17 +251,17 @@ export default {
 		['nuxt-compress',
 			{
 				gzip: {
-					cache: true
+					cache: true,
 				},
 				brotli: {
-					threshold: 10240
-				}
-			}
+					threshold: 10240,
+				},
+			},
 		],
 		// Doc: https://gitlab.com/broj42/nuxt-cookie-control
 		'nuxt-cookie-control',
 		// Doc: https://github.com/GrabarzUndPartner/nuxt-font-loader-strategy
-		['nuxt-font-loader-strategy', { 
+		['nuxt-font-loader-strategy', {
 			useWorker: false,
 			ignoreLighthouse: true,
 			ignoredEffectiveTypes: ['2g', 'slow-2g'],
@@ -276,43 +276,43 @@ export default {
 							preload: false,
 							src: 'typeface-roboto/files/roboto-latin-100',
 							fontWeight: 100,
-							fontStyle: 'normal'
+							fontStyle: 'normal',
 						},
 						// Font-Face
 						{
 							preload: false,
 							src: 'typeface-roboto/files/roboto-latin-300',
 							fontWeight: 300,
-							fontStyle: 'normal'
+							fontStyle: 'normal',
 						},
 						// Font-Face
 						{
 							preload: true,
 							src: 'typeface-roboto/files/roboto-latin-400',
 							fontWeight: 400,
-							fontStyle: 'normal'
+							fontStyle: 'normal',
 						},
 						// Font-Face
 						{
 							preload: true,
 							src: 'typeface-roboto/files/roboto-latin-500',
 							fontWeight: 500,
-							fontStyle: 'normal'
+							fontStyle: 'normal',
 						},
 						// Font-Face
 						{
 							preload: true,
 							src: 'typeface-roboto/files/roboto-latin-700',
 							fontWeight: 700,
-							fontStyle: 'normal'
+							fontStyle: 'normal',
 						},
 						// Font-Face
 						{
 							preload: false,
 							src: 'typeface-roboto/files/roboto-latin-900',
 							fontWeight: 900,
-							fontStyle: 'normal'
-						},																														
+							fontStyle: 'normal',
+						},
 					],
 				},
 			],
@@ -422,8 +422,8 @@ export default {
 				'Access-Control-Allow-Origin': '*',
 				'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
 				'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type, Authorization',
-				'Pragma': 'no-cache',
-				'Accept': 'application/json',
+				Pragma: 'no-cache',
+				Accept: 'application/json',
 			},
 		},
 	},
