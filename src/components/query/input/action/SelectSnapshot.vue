@@ -56,7 +56,7 @@ import {
 } from '@mdi/js';
 
 export default {
-	name: 'QueryInputActionsSelectTransaction',
+	name: 'QueryInputActionsSelectSnapshot',
 	data () {
 		return {
 			mdiHistory,
@@ -93,23 +93,7 @@ export default {
 			deep: true,
 			immediate: true,
 			handler (newVal) {
-				if (newVal) {
-					const { txPresent } = newVal;
-					if (txPresent) {
-						const lastId = parseInt(txPresent);
-						let items = [];
-						for (let i = 1; i <= lastId; i++) {
-							items = [...items, {
-								text: i === lastId
-									? `${ i } (${ this.$t('query.input.present') })`
-									: `${ i }`,
-								value: `${ i }`,
-							}];
-						}
-						this.items = items;
-						!this.value && (this.value = txPresent);
-					}
-				}
+				newVal && this.onStateUpdate(newVal);
 			},
 		},
 	},
@@ -119,6 +103,25 @@ export default {
 			this.$nextTick(() => {
 				this.$refs.snapshotSelector.blur();
 			});
+		},
+		async onStateUpdate (data) {
+			if (data) {
+				const { txPresent } = data;
+				await new Promise((resolve) => {
+					if (txPresent) {
+						const lastId = parseInt(txPresent);
+						this.items = Array.from(Array(lastId), (_, i) => {
+							return {
+								text: (i + 1) === lastId
+									? `${ i + 1 } (${ this.$t('query.input.present') })`
+									: `${ i + 1 }`,
+								value: `${ i + 1 }`,
+							};
+						});
+						!this.value && (this.value = txPresent);
+					}
+				});
+			}
 		},
 	},
 };

@@ -91,7 +91,6 @@ export const workers = {
 			if (!this.workers) {
 				this.workers = await this.initWorkers();
 			}
-			console.log('INPUT', data);
 			return this.workers.postMessage(TABLES_TREE_WORKER, [{
 				data,
 				showPerformance: SHOW_TABLES_TREE_PERFORMANCE,

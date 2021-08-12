@@ -81,6 +81,7 @@ import {
 	SET_ACTIVE_DATABASE,
 	ADD_DATABASE,
 	USE_DATABASE,
+	ACTIVE_DATABASE,
 } from '@/store/database/constants';
 import {
 	IMMUDB_MODULE,
@@ -107,6 +108,9 @@ export default {
 			mobile: MOBILE,
 			sizes: PANE_SIZES,
 			isFetchPending: IS_FETCH_PENDING,
+		}),
+		...mapGetters(DATABASE_MODULE, {
+			activeDatabase: ACTIVE_DATABASE,
 		}),
 		getConstraints () {
 			if (this.mobile) {
@@ -194,8 +198,10 @@ export default {
 		},
 		async onUseDatabase (data) {
 			try {
-				await this.setActiveDatabase({ active: data });
-				await this.useDatabase(data);
+				if (data !== this.activeDatabase) {
+					await this.setActiveDatabase({ active: data });
+					await this.useDatabase(data);
+				}
 				await this.fetchDatabaseList();
 				if (!this.splash) {
 					this.$toasted.success(this.$t('databases.table.action.use.success'), {
