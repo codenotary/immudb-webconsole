@@ -110,14 +110,21 @@ export default {
 				await new Promise((resolve) => {
 					if (txPresent) {
 						const lastId = parseInt(txPresent);
-						this.items = Array.from(Array(lastId), (_, i) => {
-							return {
-								text: (i + 1) === lastId
-									? `${ i + 1 } (${ this.$t('query.input.present') })`
-									: `${ i + 1 }`,
-								value: `${ i + 1 }`,
-							};
-						});
+						// TODO:
+						// this.items = Array.from(Array(lastId), (_, i) => {
+						// 	return {
+						// 		text: (i + 1) === lastId
+						// 			? `${ i + 1 } (${ this.$t('query.input.present') })`
+						// 			: `${ i + 1 }`,
+						// 		value: `${ i + 1 }`,
+						// 	};
+						// });
+						this.items = [
+							{
+								text: `${ lastId } (${ this.$t('query.input.present') })`,
+								value: `${ lastId }`,
+							},
+						];
 						!this.value && (this.value = txPresent);
 					}
 				});
