@@ -30,8 +30,9 @@ export default {
 					stackInUseBytes: parsed.find(_ => _ && _.name === 'go_memstats_stack_inuse_bytes'),
 					grpcServerHandlingSeconds: parsed.filter(_ => _ && _.name === 'grpc_server_handling_seconds'),
 				});
-				commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
 			}
+
+			commit(`${ VIEW_MODULE }/${ POP_LOADING }`, { label: LOADING_LABEL }, { root: true });
 
 			return false;
 		}
