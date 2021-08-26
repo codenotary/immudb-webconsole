@@ -177,6 +177,7 @@ export default {
 			immediate: true,
 			handler (newVal) {
 				if (newVal) {
+					console.log(newVal);
 					const children = this.parseTables(newVal);
 					if (children) {
 						this.items = children;

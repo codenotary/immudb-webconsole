@@ -339,6 +339,10 @@ export default {
 		// ],
 		// Doc: https://github.com/geeogi/nuxt-responsive-loader
 		'nuxt-responsive-loader',
+		// Doc: https://github.com/victor-perez/nuxt-helmet
+		'nuxt-helmet',
+		// Doc: https://github.com/potato4d/nuxt-client-init-module
+		'nuxt-client-init-module',
 		// Doc: https://github.com/f00b4r/nuxt-smartlook
 		['nuxt-smartlook', {
 			id: '62d7564b7fef3c36e74d0dc5ec76b8452043021e',
