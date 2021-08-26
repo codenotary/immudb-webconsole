@@ -245,6 +245,8 @@ export default {
 	** Nuxt.js modules
 	*/
 	modules: [
+		// Doc: https://github.com/victor-perez/nuxt-helmet
+		'nuxt-helmet',
 		// Doc: https://axios.nuxtjs.org/setup
 		'@nuxtjs/axios',
 		// Doc: https://github.com/robcresswell/nuxt-compress
@@ -339,8 +341,6 @@ export default {
 		// ],
 		// Doc: https://github.com/geeogi/nuxt-responsive-loader
 		'nuxt-responsive-loader',
-		// Doc: https://github.com/victor-perez/nuxt-helmet
-		'nuxt-helmet',
 		// Doc: https://github.com/potato4d/nuxt-client-init-module
 		'nuxt-client-init-module',
 		// Doc: https://github.com/f00b4r/nuxt-smartlook
