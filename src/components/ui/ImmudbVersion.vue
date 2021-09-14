@@ -90,7 +90,7 @@ export default {
 	},
 	mounted () {
 		try {
-			const { data } = this.EmbeddedService.version();
+			const { data } = EmbeddedService.version();
 			if (data) {
 				if (!this.webconsole.version) {
 					this.webconsole.version = data[0].version;
