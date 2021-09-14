@@ -344,7 +344,7 @@ export default {
 	env: {
 		IS_PROD,
 		IS_PUBLIC_DEMO,
-		VUE_APP_GIT_COMMIT_HASH: process.env.VUE_APP_GIT_COMMIT_HASH || 'nocommit',
+		VUE_APP_GIT_COMMIT_HASH: process.env.VUE_APP_GIT_COMMIT_HASH,
 		DOCKER_API_URL: IS_PROD
 			? '/'
 			: process.env.DOCKER_API_URL || '/docker-api/',
