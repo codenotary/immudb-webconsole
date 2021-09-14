@@ -44,6 +44,7 @@ import {
 	IMMUDB_MODULE,
 	HEALTH,
 } from '@/store/immudb';
+import { EmbeddedService } from '@/services/embedded';
 import { version } from './../../../package';
 
 export default {
@@ -72,6 +73,7 @@ export default {
 			immediate: true,
 			handler (newVal) {
 				try {
+					console.log(process.env.WEBCONSOLE_VERSION);
 					if (newVal) {
 						const { version } = newVal;
 						if (version) {
@@ -85,6 +87,22 @@ export default {
 				}
 			},
 		},
+	},
+	mounted () {
+		try {
+			const { data } = this.EmbeddedService.version();
+			if (data) {
+				if (!this.webconsole.version) {
+					this.webconsole.version = data[0].version;
+				}
+				if (!this.immudb.version) {
+					this.immudb.version = data[1].version;
+				}
+			}
+		}
+		catch (err) {
+			console.error(err);
+		}
 	},
 };
 </script>

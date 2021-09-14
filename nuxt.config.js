@@ -105,7 +105,7 @@ export default {
 	*/
 	build: {
 		analyze: false,
-		parallel: EXPERIMENTAL,
+		parallel: true,
 		cache: EXPERIMENTAL,
 		hardSource: EXPERIMENTAL,
 		publicPath: '/nuxt_embedded/',
@@ -345,6 +345,7 @@ export default {
 		IS_PROD,
 		IS_PUBLIC_DEMO,
 		VUE_APP_GIT_COMMIT_HASH: process.env.VUE_APP_GIT_COMMIT_HASH,
+		WEBCONSOLE_VERSION: process.env.WEBCONSOLE_VERSION,
 		DOCKER_API_URL: IS_PROD
 			? '/'
 			: process.env.DOCKER_API_URL || '/docker-api/',

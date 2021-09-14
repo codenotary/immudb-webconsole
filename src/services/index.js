@@ -47,6 +47,12 @@ export const ApiService = axios.create({
 	baseURL: process.env.API_URL,
 });
 
+// Nuxt embedded api proxy instance
+export const EmbeddedApiService = axios.create({
+	...API_CONFIG,
+	baseURL: 'nuxt_embedded',
+});
+
 // Prometheus api proxy instance
 export const PrometheusApiService = axios.create({
 	timeout: 5000,
