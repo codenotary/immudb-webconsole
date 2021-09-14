@@ -7,6 +7,7 @@
 		"prebuild": "./scripts/update_git_hash.sh",
 		"build": "nuxt build --modern=client",
 		"start": "nuxt start",
+		"pregenerate": "./scripts/update_git_hash.sh",
 		"generate": "nuxt generate --modern=client",
 		"embed": "sudo ./scripts/embed_in_immudb.sh",
 		"immudb:mock": "sudo ./scripts/generate_immudb_entries.sh",
