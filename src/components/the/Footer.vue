@@ -50,7 +50,7 @@
 					class="ma-0 ml-2 pa-0 d-flex justify-space-between align-center text-left font-weight-normal"
 					cols="auto"
 				>
-					<UiImmudbVersion :value="version" />
+					<UiImmudbVersion />
 				</v-col>
 				<v-col
 					class="ma-0 ml-2 pa-0 d-flex justify-space-between text-left font-weight-normal"
@@ -83,7 +83,6 @@ import {
 } from '@/store/view';
 import timeUtils from '@/mixins/timeUtils';
 import LayoutMixin from '@/mixins/LayoutMixin';
-import { version } from './../../../package';
 
 export default {
 	name: 'TheFooter',
@@ -91,11 +90,6 @@ export default {
 		timeUtils,
 		LayoutMixin,
 	],
-	data () {
-		return {
-			version,
-		};
-	},
 	computed: {
 		...mapGetters(VIEW_MODULE, {
 			mobile: MOBILE,

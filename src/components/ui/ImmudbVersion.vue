@@ -17,26 +17,54 @@
 			>
 				{{ $t('footer.version.prepend') }}
 				<span class="caption d-flex justify-start align-center">
-					{{ value }}
+					{{ webconsole && webconsole.version }}
 				</span>
 			</span>
 		</template>
 		<span class="body-2">
-			{{ $t('footer.version.tooltip', { hash: gitHash }) }}
+			<p
+				v-if="immudb && immudb.version"
+				class="my-1 mx-0 pa-0"
+			>
+				{{ $t(`footer.version.tooltip.immudb${ immudb.hash ? 'WithHash' : '' }`, { version: immudb.version, hash: immudb.hash }) }}
+			</p>
+			<p
+				v-if="webconsole && webconsole.version"
+				class="my-1 mx-0 pa-0"
+			>
+				{{ $t(`footer.version.tooltip.webconsole${ webconsole.hash ? 'WithHash' : '' }`, { version: webconsole.version, hash: webconsole.hash }) }}
+			</p>
 		</span>
 	</v-tooltip>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import {
+	IMMUDB_MODULE,
+	HEALTH,
+} from '@/store/immudb';
+import { version } from './../../../package';
+
 export default {
 	name: 'UiImmudbVersion',
-	props: {
-		value: { type: String, default: '1.0.5' },
-	},
 	data () {
 		return {
-			gitHash: process.env.VUE_APP_GIT_COMMIT_HASH,
+			immudb: {
+				version: (this.health && this.health.version) || '1.0.5',
+				hash: '',
+			},
+			webconsole: {
+				version,
+				hash: process.env.VUE_APP_GIT_COMMIT_HASH,
+			},
+
 		};
+	},
+	comupted: {
+		...mapGetters(IMMUDB_MODULE, {
+			health: HEALTH,
+		}),
 	},
 };
 </script>
