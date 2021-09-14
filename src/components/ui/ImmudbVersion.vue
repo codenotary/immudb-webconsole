@@ -22,7 +22,7 @@
 			</span>
 		</template>
 		<span class="body-2">
-			{{ $t('footer.version.tooltip') }}
+			{{ $t('footer.version.tooltip', { hash: gitHash }) }}
 		</span>
 	</v-tooltip>
 </template>
@@ -32,6 +32,11 @@ export default {
 	name: 'UiImmudbVersion',
 	props: {
 		value: { type: String, default: '1.0.5' },
+	},
+	data () {
+		return {
+			gitHash: process.env.VUE_APP_GIT_COMMIT_HASH,
+		};
 	},
 };
 </script>

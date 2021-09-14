@@ -4,6 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "nuxt",
+		"prebuild": "./scripts/update_git_hash.sh",
 		"build": "nuxt build --modern=client",
 		"start": "nuxt start",
 		"generate": "nuxt generate --modern=client",
@@ -82,6 +83,7 @@
 		"babel-preset-vue-app": "^2.0.0",
 		"eslint": "^7.5.0",
 		"eslint-plugin-nuxt": "^1.0.0",
+		"git-describe": "^4.1.0",
 		"image-webpack-loader": "^7.0.1",
 		"jest": "^26.1.0",
 		"lodash.filter": "^4.6.0",

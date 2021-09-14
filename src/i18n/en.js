@@ -370,7 +370,7 @@ export default {
 		buildTime: 'Last build at {date}',
 		version: {
 			prepend: 'v',
-			tooltip: 'immudb version',
+			tooltip: 'immudb version (git hash: {hash})',
 		},
 		feedback: {
 			text: 'Feedback',
