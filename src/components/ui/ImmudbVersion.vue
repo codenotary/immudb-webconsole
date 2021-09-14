@@ -61,10 +61,30 @@ export default {
 
 		};
 	},
-	comupted: {
+	computed: {
 		...mapGetters(IMMUDB_MODULE, {
 			health: HEALTH,
 		}),
+	},
+	watch: {
+		health: {
+			deep: true,
+			immediate: true,
+			handler (newVal) {
+				try {
+					if (newVal) {
+						const { version } = newVal;
+						if (version) {
+							this.immudb.version = version.split('-')[0];
+							this.immudb.hash = version.split('-')[1].slice(0, 7);
+						}
+					}
+				}
+				catch (err) {
+					console.error(err);
+				}
+			},
+		},
 	},
 };
 </script>

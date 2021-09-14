@@ -372,7 +372,7 @@ export default {
 			prepend: 'v',
 			tooltip: {
 				immudb: 'immudb: {version}',
-				immudbwithHash: 'immudb: {version} (git {hash})',
+				immudbWithHash: 'immudb: {version} (git {hash})',
 				webconsole: 'webconsole: {version}',
 				webconsoleWithHash: 'webconsole: {version} (git {hash})',
 			},
