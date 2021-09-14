@@ -83,6 +83,7 @@ import {
 } from '@/store/view';
 import timeUtils from '@/mixins/timeUtils';
 import LayoutMixin from '@/mixins/LayoutMixin';
+import { version } from './../../../package';
 
 export default {
 	name: 'TheFooter',
@@ -92,7 +93,7 @@ export default {
 	],
 	data () {
 		return {
-			version: '1.0.5',
+			version,
 		};
 	},
 	computed: {
