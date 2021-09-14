@@ -3,7 +3,7 @@ import Sass from 'sass';
 const SITE_NAME = 'immudb webconsole';
 const IS_PROD = process.env.NODE_ENV === 'production';
 const IS_PUBLIC_DEMO = process.env.PUBLIC_DEMO;
-const EXPERIMENTAL = false && !IS_PROD;
+const EXPERIMENTAL = true;
 
 console.log('=======================================');
 console.log(`Running ${ IS_PUBLIC_DEMO
@@ -105,7 +105,7 @@ export default {
 	*/
 	build: {
 		analyze: false,
-		parallel: true,
+		parallel: EXPERIMENTAL,
 		cache: EXPERIMENTAL,
 		hardSource: EXPERIMENTAL,
 		publicPath: '/nuxt_embedded/',
