@@ -271,7 +271,6 @@ export default {
 			this.$emit('update:password', data);
 		},
 		onUpdatePermissions (data) {
-			console.log(data);
 			this.$emit('update:permissions', data);
 		},
 	},

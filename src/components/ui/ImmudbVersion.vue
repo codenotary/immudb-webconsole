@@ -73,7 +73,6 @@ export default {
 			immediate: true,
 			handler (newVal) {
 				try {
-					console.log(process.env.WEBCONSOLE_VERSION);
 					if (newVal) {
 						const { version } = newVal;
 						if (version) {
@@ -92,11 +91,11 @@ export default {
 		try {
 			const { data } = EmbeddedService.version();
 			if (data) {
-				if (!this.webconsole.version) {
-					this.webconsole.version = data[0].version;
+				if (!this.webconsole.hash) {
+					this.webconsole.hash = data[0].version;
 				}
-				if (!this.immudb.version) {
-					this.immudb.version = data[1].version;
+				if (!this.immudb.hash) {
+					this.immudb.hash = data[1].version;
 				}
 			}
 		}
