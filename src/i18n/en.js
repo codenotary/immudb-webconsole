@@ -371,10 +371,16 @@ export default {
 		version: {
 			prepend: 'v',
 			tooltip: {
-				immudb: 'immudb: {version}',
-				immudbWithHash: 'immudb: {version} (git {hash})',
-				webconsole: 'webconsole: {version}',
-				webconsoleWithHash: 'webconsole: {version} (git {hash})',
+				immudb: {
+					short: 'immudb: v{version}',
+					normal: 'immudb: v{version}',
+					withHash: 'immudb: v{version} (git {hash})',
+				},
+				webconsole: {
+					short: 'ws: v{version}',
+					normal: 'webconsole: v{version}',
+					withHash: 'webconsole: v{version} (git {hash})',
+				},
 			},
 		},
 		feedback: {

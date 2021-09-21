@@ -15,10 +15,18 @@
 				v-bind="attrs"
 				v-on="on"
 			>
-				{{ $t('footer.version.prepend') }}
-				<span class="caption d-flex justify-start align-center">
-					{{ webconsole && webconsole.version }}
-				</span>
+				<p
+					v-if="immudb && immudb.version"
+					class="my-1 ml-0 mr-2 pa-0"
+				>
+					{{ $t('footer.version.tooltip.immudb.short', { version: immudb.version }) }}
+				</p>
+				<p
+					v-if="webconsole && webconsole.version"
+					class="my-1 mx-0 pa-0"
+				>
+					{{ $t('footer.version.tooltip.webconsole.short', { version: webconsole.version }) }}
+				</p>
 			</span>
 		</template>
 		<span class="body-2">
@@ -26,13 +34,13 @@
 				v-if="immudb && immudb.version"
 				class="my-1 mx-0 pa-0"
 			>
-				{{ $t(`footer.version.tooltip.immudb${ immudb.hash ? 'WithHash' : '' }`, { version: immudb.version, hash: immudb.hash }) }}
+				{{ $t(`footer.version.tooltip.immudb.${ immudb.hash ? 'withHash' : 'normal' }`, { version: immudb.version, hash: immudb.hash }) }}
 			</p>
 			<p
 				v-if="webconsole && webconsole.version"
 				class="my-1 mx-0 pa-0"
 			>
-				{{ $t(`footer.version.tooltip.webconsole${ webconsole.hash ? 'WithHash' : '' }`, { version: webconsole.version, hash: webconsole.hash }) }}
+				{{ $t(`footer.version.tooltip.webconsole.${ webconsole.hash ? 'withHash' : 'normal' }`, { version: webconsole.version, hash: webconsole.hash }) }}
 			</p>
 		</span>
 	</v-tooltip>
