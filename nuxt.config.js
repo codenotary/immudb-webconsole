@@ -3,7 +3,7 @@ import Sass from 'sass';
 const SITE_NAME = 'immudb webconsole';
 const IS_PROD = process.env.NODE_ENV === 'production';
 const IS_PUBLIC_DEMO = process.env.PUBLIC_DEMO;
-const EXPERIMENTAL = true;
+const EXPERIMENTAL = false;
 
 console.log('=======================================');
 console.log(`Running ${ IS_PUBLIC_DEMO
