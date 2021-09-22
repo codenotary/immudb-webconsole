@@ -1,6 +1,6 @@
 {
 	"name": "immudb-webconsole",
-	"version": "1.0.9",
+	"version": "1.0.11",
 	"private": true,
 	"scripts": {
 		"dev": "nuxt",
