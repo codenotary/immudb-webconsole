@@ -97,17 +97,17 @@ export default {
 			if (!this.query) {
 				return [''];
 			}
-			// if (this.query
-			// 		.toLowerCase()
-			// 		.includes(TRANSACTION_LABEL)
-			// ) {
-			// 	return [
-			// 		{
-			// 			sql: this.query.replace(/\r?\n|\r/g, ' '),
-			// 			type: sqlParser(this.query),
-			// 		},
-			// 	];
-			// }
+			if (this.query
+					.toLowerCase()
+					.includes(TRANSACTION_LABEL)
+			) {
+				return [
+					{
+						sql: this.query.replace(/\r?\n|\r/g, ' '),
+						type: sqlParser(this.query),
+					},
+				];
+			}
 			return this.query
 					.split(';')
 					.filter((_) => {
