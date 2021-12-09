@@ -389,13 +389,13 @@ export default {
 			logLevel: 'debug',
 		},
 		'/demo/api/': {
-			target: process.env.DEMO_URL,
+			target: `${ process.env.DEMO_URL }`,
 			pathRewrite: { '^/demo/api/': '/api/' },
 			xfwd: true,
 			logLevel: 'debug',
 		},
 		'/demo/metrics-api/': {
-			target: process.env.DEMO_URL,
+			target: `${ process.env.DEMO_URL }`,
 			pathRewrite: { '^/demo/metrics-api/': '/' },
 			xfwd: true,
 			logLevel: 'debug',
@@ -404,7 +404,7 @@ export default {
 
 	axios: {
 		baseURL: process.env.API_URL || '/api',
-		proxy: true,
+		proxy: !IS_PROD,
 		returnRejectedPromiseOnError: true,
 		timeout: 30000,
 		paramsSerializer: params => qs.stringify(params, { indices: false }),
