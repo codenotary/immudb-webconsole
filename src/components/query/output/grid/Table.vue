@@ -48,8 +48,11 @@
 </template>
 
 <script>
+import timeUtils from '@/mixins/timeUtils';
+
 export default {
 	name: 'QueryOutputGridTable',
+	mixins: [timeUtils],
 	props: {
 		item: { type: Object, default: () => {} },
 	},
@@ -86,6 +89,9 @@ export default {
 	methods: {
 		extractValue (data) {
 			try {
+				if (data.ts) {
+					return this.printDate(data.ts / 1000000);
+				}
 				return data.n || data.s || data.f || data.b || data.d || data.bs;
 			}
 			catch (err) {
