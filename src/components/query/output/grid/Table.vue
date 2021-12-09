@@ -86,7 +86,7 @@ export default {
 	methods: {
 		extractValue (data) {
 			try {
-				return data.n || data.s || data.f || data.b || data.d || data.bs;
+				return data.n || data.s || data.f || data.b || data.d || data.ts || data.bs;
 			}
 			catch (err) {
 				console.error(err);
