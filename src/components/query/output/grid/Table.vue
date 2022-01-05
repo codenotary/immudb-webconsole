@@ -92,7 +92,7 @@ export default {
 				if (data.ts) {
 					return this.printDate(data.ts / 1000000);
 				}
-				return data.n || data.s || data.f || data.b || data.d || data.bs;
+				return data.n || data.s || data.f || (data.b === false ? 'false' : data.b) || data.d || data.bs;
 			}
 			catch (err) {
 				console.error(err);
