@@ -44,7 +44,7 @@ export const RootService = axios.create({
 // Backend api proxy instance
 export const ApiService = axios.create({
 	...API_CONFIG,
-	baseURL: process.env.API_URL,
+	baseURL: process.env.SERVER_URL,
 });
 
 // Nuxt embedded api proxy instance
@@ -57,9 +57,9 @@ export const EmbeddedApiService = axios.create({
 export const PrometheusApiService = axios.create({
 	timeout: 5000,
 	...(process.env.IS_PUBLIC_DEMO ? METRICS_API_CONFIG : {}),
-	baseURL: process.env.IS_PUBLIC_DEMO
-		? process.env.METRICS_API_URL
-		: window.location.protocol + '//' + window.location.hostname + ':9497',
+	baseURL: process.env.IS_PUBLIC_DEMO || process.env.TARGET === 'demo'
+		? `${ process.env.METRICS_URL }`
+		: `${ process.env.METRICS_URL }:9497`,
 });
 
 // Github proxy instance

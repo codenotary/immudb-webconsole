@@ -1,15 +1,21 @@
 import * as qs from 'qs';
 import Sass from 'sass';
-const SITE_NAME = 'immudb webconsole';
-const IS_PROD = process.env.NODE_ENV === 'production';
-const IS_PUBLIC_DEMO = process.env.PUBLIC_DEMO;
-const EXPERIMENTAL = false;
-
-console.log('=======================================');
-console.log(`Running ${ IS_PUBLIC_DEMO
-	? 'public demo'
-	: 'local embedded' } client`);
-console.log('=======================================');
+import {
+	HOST,
+	PORT,
+	CERTS,
+	TARGET,
+	IS_PROD,
+	IS_STAGING,
+	IS_LOCAL,
+	IS_SSL,
+	EXPERIMENTAL,
+	CLIENT_URL,
+	SERVER_URL,
+	METRICS_URL,
+	IS_PUBLIC_DEMO,
+} from './src/helpers/env';
+import { meta, DEFAULT_META } from './src/helpers/meta';
 
 export default {
 	/*
@@ -29,8 +35,9 @@ export default {
 	** See https://nuxtjs.org/api/configuration-server
 	*/
 	server: {
-		host: '0.0.0.0',
-		port: 8081,
+		host: HOST || '0.0.0.0',
+		port: PORT || 8080,
+		https: IS_LOCAL && IS_SSL && CERTS,
 	},
 
 	/*
@@ -47,11 +54,11 @@ export default {
 	*/
 	srcDir: 'src/',
 
-	/*
-	** Devtools enabled
-	** See https://https://nuxtjs.org/api/configuration-srcdir
-	*/
-	devtools: !IS_PROD,
+	// Doc: Production tip enabled
+	productionTip: !IS_PROD,
+
+	// Doc: turn off telemetry
+	telemetry: false,
 
 	/*
 	** Headers of the page
@@ -59,17 +66,24 @@ export default {
 	*/
 	head: {
 		htmlAttrs: { lang: 'en-GB' },
-		title: SITE_NAME,
+		title: DEFAULT_META.TITLE,
 		meta: [
 			{ charset: 'utf-8' },
+			...meta(),
 			{ name: 'HandheldFriendly', content: 'True' },
 			{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
+			// Open Graph Data
+			{ property: 'og:site_name', content: DEFAULT_META.SITE_NAME },
+			// Twitter Card
+			{ name: 'twitter:site', content: DEFAULT_META.HANDLE },
+			{ name: 'twitter:card', content: 'summary_large_image' },
 		],
 		link: [
 			{ rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
 			{ rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
 			{ rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },
 			{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+			{ hid: 'canonical', rel: 'canonical', href: DEFAULT_META.SITE_URL },
 		],
 	},
 
@@ -108,15 +122,32 @@ export default {
 		parallel: EXPERIMENTAL,
 		cache: EXPERIMENTAL,
 		hardSource: EXPERIMENTAL,
-		publicPath: '/nuxt_embedded/',
 		extractCSS: IS_PROD,
+		optimizeCSS: IS_PROD,
 		filenames: {
 			app: IS_PROD ? '[chunkhash].js' : '[name].[hash].js',
 			chunk: IS_PROD ? '[chunkhash].js' : '[name].[hash].js',
 			css: IS_PROD ? '[name].[contenthash].css' : '[name].js',
 		},
+		terser: {
+			// https://github.com/terser/terser#compress-options
+			terserOptions: {
+				compress: {
+					drop_console: IS_PROD,
+				},
+			},
+		},
 		// Extend webpack config
 		extend(config, { isDev, isClient }) {
+			if (isDev) {
+				config.devtool = isClient ? 'source-map' : 'inline-source-map';
+			}
+
+			// allowing usage of fs
+			config.node = {
+				fs: 'empty',
+			};
+
 			// image-webpack-loader
 			config.module.rules.forEach((rule) => {
 				if (String(rule.test) === String(/\.(png|jpe?g|gif|svg|webp)$/)) {
@@ -168,6 +199,10 @@ export default {
 		},
 	},
 
+	generate: {
+		minify: IS_PROD,
+	},
+
 	/*
 	** Serve static assets with cache policy
 	** Doc: https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-render/
@@ -192,6 +227,32 @@ export default {
 		mode: 'history',
 		middleware: [],
 		base: '/',
+	},
+
+	/*
+	** The env Property
+	** https://nuxtjs.org/api/configuration-env/
+	*/
+	env: {
+		IS_PROD,
+		IS_STAGING,
+		IS_LOCAL,
+		TARGET,
+		CLIENT_URL,
+		SERVER_URL,
+		METRICS_URL,
+		IS_PUBLIC_DEMO,
+		VUE_APP_GIT_COMMIT_HASH: process.env.VUE_APP_GIT_COMMIT_HASH,
+		WEBCONSOLE_VERSION: process.env.WEBCONSOLE_VERSION,
+		DOCKER_API_URL: IS_PROD
+			? '/'
+			: process.env.DOCKER_API_URL || '/docker/',
+		API_URL: process.env.API_URL || '/api',
+		METRICS_API_URL: IS_PROD
+			? '/'
+			: process.env.METRICS_API_URL || '/metrics-api/',
+		GITHUB_API_URL: 'https://api.github.com',
+		GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID || '',
 	},
 
 	/*
@@ -236,17 +297,6 @@ export default {
 		'nuxt-helmet',
 		// Doc: https://axios.nuxtjs.org/setup
 		'@nuxtjs/axios',
-		// Doc: https://github.com/robcresswell/nuxt-compress
-		['nuxt-compress',
-			{
-				gzip: {
-					cache: true,
-				},
-				brotli: {
-					threshold: 10240,
-				},
-			},
-		],
 		// Doc: https://gitlab.com/broj42/nuxt-cookie-control
 		'nuxt-cookie-control',
 		// Doc: https://github.com/GrabarzUndPartner/nuxt-font-loader-strategy
@@ -306,56 +356,24 @@ export default {
 				},
 			],
 		}],
-		// Doc: https://github.com/Developmint/nuxt-purgecss
-		// [
-		// 	'nuxt-purgecss', {
-		// 		paths: [
-		// 			'node_modules/@nuxtjs/vuetify/**/*.ts',
-		// 			'node_modules/@nuxt/vue-app/template/**/*.html',
-		// 			'node_modules/@nuxt/vue-app/template/**/*.vue',
-		// 		],
-		// 		whitelist: [
-		// 			'v-application',
-		// 			'v-application--wrap',
-		// 		],
-		// 		whitelistPatterns: () => [
-		// 			/^v-((?!application).)*$/,
-		// 			/^\.theme--light*/,
-		// 			/.*-transition/,
-		// 		],
-		// 		whitelistPatternsChildren: [/^v-((?!application).)*$/, /^theme--light*/],
-		// 	},
-		// ],
 		// Doc: https://github.com/geeogi/nuxt-responsive-loader
 		'nuxt-responsive-loader',
-		// Doc: https://github.com/potato4d/nuxt-client-init-module
-		'nuxt-client-init-module',
-		// Doc: https://github.com/f00b4r/nuxt-smartlook
-		['nuxt-smartlook', {
-			id: '62d7564b7fef3c36e74d0dc5ec76b8452043021e',
-			enabled: IS_PROD,
-		}],
-	],
-
-	/*
-	** The env Property
-	** https://nuxtjs.org/api/configuration-env/
-	*/
-	env: {
-		IS_PROD,
-		IS_PUBLIC_DEMO,
-		VUE_APP_GIT_COMMIT_HASH: process.env.VUE_APP_GIT_COMMIT_HASH,
-		WEBCONSOLE_VERSION: process.env.WEBCONSOLE_VERSION,
-		DOCKER_API_URL: IS_PROD
-			? '/'
-			: process.env.DOCKER_API_URL || '/docker-api/',
-		API_URL: process.env.API_URL || '/api',
-		METRICS_API_URL: IS_PROD
-			? '/'
-			: process.env.METRICS_API_URL || '/metrics-api/',
-		GITHUB_API_URL: 'https://api.github.com',
-		GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID || '',
-	},
+	].concat(
+		IS_PROD
+			? [
+				// Doc: https://github.com/robcresswell/nuxt-compress
+				'nuxt-compress',
+				{
+					gzip: {
+						cache: true,
+					},
+					brotli: {
+						threshold: 10240,
+					},
+				},
+			]
+			: [],
+	),
 
 	/*
 	** Development proxies
@@ -363,47 +381,47 @@ export default {
 	*/
 	proxy: {
 		// LOCAL ----------
-		'/docker-api/': {
+		'/docker/': {
 			target: 'http://localhost:8080',
-			pathRewrite: { '^/docker-api/': '/' },
+			pathRewrite: { '^/docker/': '/' },
 			xfwd: true,
-			logLevel: 'debug',
+			secure: false,
 		},
 		'/api/': {
 			target: 'http://localhost:8080',
 			pathRewrite: { '^/api/': '/api/' },
 			xfwd: true,
-			logLevel: 'debug',
+			secure: false,
 		},
 		'/metrics-api/': {
 			target: 'http://localhost:8080',
 			pathRewrite: { '^/metrics-api/': '/' },
 			xfwd: true,
-			logLevel: 'debug',
+			secure: false,
 		},
 		// DEMO ----------
-		'/demo/docker-api/': {
-			target: process.env.DEMO_URL,
-			pathRewrite: { '^/demo/docker-api/': '/' },
+		'/demo/docker/': {
+			target: `${ process.env.DEMO_URL }`,
+			pathRewrite: { '^/demo/docker/': '/' },
 			xfwd: true,
-			logLevel: 'debug',
+			secure: false,
 		},
 		'/demo/api/': {
 			target: `${ process.env.DEMO_URL }`,
 			pathRewrite: { '^/demo/api/': '/api/' },
 			xfwd: true,
-			logLevel: 'debug',
+			secure: false,
 		},
 		'/demo/metrics-api/': {
 			target: `${ process.env.DEMO_URL }`,
 			pathRewrite: { '^/demo/metrics-api/': '/' },
 			xfwd: true,
-			logLevel: 'debug',
+			secure: false,
 		},
 	},
 
 	axios: {
-		baseURL: process.env.API_URL || '/api',
+		baseURL: SERVER_URL,
 		proxy: !IS_PROD,
 		returnRejectedPromiseOnError: true,
 		timeout: 30000,
