@@ -12,6 +12,7 @@ const WRITE_COMMANDS = [
 	'BEGIN TRANSACTION',
 	'COMMIT',
 	'ROLLBACK',
+	'ALTER',
 ];
 
 const containsWord = (str, word) => {
