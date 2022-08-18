@@ -40,7 +40,7 @@
 								target="_blank"
 								rel="noopener"
 							>
-								CodeNotary, Inc.
+								Codenotary Inc.
 							</a>
 						</template>
 					</i18n>
