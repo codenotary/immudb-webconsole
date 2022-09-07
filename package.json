@@ -97,10 +97,6 @@
 		"vue-gtag": "^1.16.1",
 		"vue-template-compiler": "^2.6.11"
 	},
-	"resolutions": {
-		"@babel/core": "7.13.15",
-		"@babel/preset-env": "7.13.15",
-		"@nuxtjs/vuetify/**/sass": "1.32.12"
-	},
+	"resolutions": {},
 	"_id": "immudb-webconsole@1.0.0"
 }
