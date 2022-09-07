@@ -18,7 +18,8 @@
 		"lint:style:fix": "stylelint **/*.{vue,css} --fix --ignore-path .gitignore",
 		"lint:all": "npm run lint:js && npm run lint:style",
 		"lint:all:fix": "npm run lint:js:fix && npm run lint:style:fix",
-		"test": "jest"
+		"test": "jest",
+		"preinstall": "npx npm-force-resolutions"
 	},
 	"dependencies": {
 		"@mdi/js": "^5.9.55",
