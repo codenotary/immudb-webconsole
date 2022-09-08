@@ -106,7 +106,8 @@
 		"scss-tokenizer": "^0.4.3",
 		"semver-regex": "^3.1.4",
 		"got": "^11.8.5",
-		"trim": "^0.0.3"
+		"trim": "^0.0.3",
+		"trim-newlines": "^3.0.1"
 	},
 	"_id": "immudb-webconsole@1.0.0"
 }
