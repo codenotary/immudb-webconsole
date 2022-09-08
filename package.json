@@ -108,7 +108,8 @@
 		"got": "^11.8.5",
 		"trim": "^0.0.3",
 		"trim-newlines": "^3.0.1",
-		"yargs-parser": "5.0.1"
+		"yargs-parser": "5.0.1",
+		"parse-path": "^5.0.0"
 	},
 	"_id": "immudb-webconsole@1.0.0"
 }
