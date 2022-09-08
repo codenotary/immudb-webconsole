@@ -98,7 +98,8 @@
 		"vue-template-compiler": "^2.6.11"
 	},
 	"resolutions": {
-		"glob-parent": "^5.1.2"
+		"glob-parent": "^5.1.2",
+		"ansi-regex": "^5.0.1"
 	},
 	"_id": "immudb-webconsole@1.0.0"
 }
