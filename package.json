@@ -97,6 +97,8 @@
 		"vue-gtag": "^1.16.1",
 		"vue-template-compiler": "^2.6.11"
 	},
-	"resolutions": {},
+	"resolutions": {
+		"glob-parent": "^5.1.2"
+	},
 	"_id": "immudb-webconsole@1.0.0"
 }
