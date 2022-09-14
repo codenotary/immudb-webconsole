@@ -115,6 +115,7 @@ export default {
 			chunk: IS_PROD ? '[chunkhash].js' : '[name].[hash].js',
 			css: IS_PROD ? '[name].[contenthash].css' : '[name].js',
 		},
+		postcss: null,
 		// Extend webpack config
 		extend(config, { isDev, isClient }) {
 			// image-webpack-loader
