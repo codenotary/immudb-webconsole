@@ -252,10 +252,10 @@ export default {
 				success: 'User added',
 			},
 			hideNotActive: {
-				label: 'Hide deactive users',
+				label: 'Hide inactive users',
 				tooltip: {
-					hide: 'Hide deactive users',
-					show: 'Show deactive users',
+					hide: 'Hide inactive users',
+					show: 'Show inactive users',
 				},
 			},
 		},
