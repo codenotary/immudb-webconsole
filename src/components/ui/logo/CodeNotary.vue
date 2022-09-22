@@ -1,5 +1,5 @@
 <template>
-	<div class="ma-0 mb-4 pa-0 d-flex flex-column justify-center align-start fill-width">
+	<div class="ma-0 mb-4 pa-0 d-flex flex-column justify-center align-center fill-width">
 		<v-img
 			class="immudb"
 			:src="getAsset"
