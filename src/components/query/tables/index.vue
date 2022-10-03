@@ -280,11 +280,13 @@ export default {
 				await this.runSqlExec("UPSERT INTO orders (id, customerID, productID) VALUES (4, 3, 4);");
 				await this.runSqlExec("UPSERT INTO orders (id, customerID, productID) VALUES (5, 2, 5);");
 				/* eslint-enable quotes */
-
-				this.$emit('update:end');
 			}
 			catch (err) {
 				console.error(err);
+				this.showToastError(err);
+			}
+			finally {
+				this.$emit('update:end');
 			}
 		},
 		onUpdateDatabase (data) {
