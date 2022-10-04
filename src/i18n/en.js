@@ -398,4 +398,5 @@ export default {
 	},
 	somethingWentWrong: 'Something went wrong',
 	dockerTokenExpired: 'Session expired, starting a new one',
+	unabletoCommunicateWithImmudb: 'Unable to communicate with immudb. Is it down?',
 };

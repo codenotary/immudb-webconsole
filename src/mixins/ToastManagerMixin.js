@@ -90,6 +90,11 @@ export default {
 					duration: DEFAULT_DURATION,
 				});
 			}
+			else if (err?.response?.status === 504) {
+				this.$toasted.error(this.$t('unabletoCommunicateWithImmudb'), {
+					duration: DEFAULT_DURATION,
+				});
+			}
 			else {
 				this.$toasted.error(this.$t(GENERIC_ERROR_I18N), {
 					icon: GENERIC_ERROR_ICON,
