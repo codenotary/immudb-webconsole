@@ -70,6 +70,12 @@
 				>
 					<UiActionGithubBtn />
 				</v-col>
+				<v-col
+					class="ma-0 ml-2 pa-0 d-flex justify-space-between text-left font-weight-normal"
+					cols="auto"
+				>
+					<UiActionDiscordBtn />
+				</v-col>
 			</v-row>
 		</v-container>
 	</v-footer>

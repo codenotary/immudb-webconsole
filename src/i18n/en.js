@@ -395,6 +395,9 @@ export default {
 			label: '1800',
 			tooltip: 'See OS code on github repository',
 		},
+		discord: {
+			tooltip: 'Ask for help in our Discord channel.',
+		},
 	},
 	somethingWentWrong: 'Something went wrong',
 	dockerTokenExpired: 'Session expired, starting a new one',
