@@ -7,26 +7,23 @@
 	>
 		<template #activator="{ on, attrs }">
 			<v-btn
-				class="github-btn pa-0 pr-2 body-2 elevation-2"
-				style="margin-left: 2px;"
-				color="grey lighten-5"
-				depressed
-				small
 				href="https://discord.gg/ThSJxNEHhZ"
+				class="ma-0 pl-2 text-none d-flex white--text caption align-center elevation-2"
+				color="grey"
 				target="_blank"
-				:title="$t('footer.github')"
-				:alt="$t('footer.github')"
 				rel="noopener"
+				small
 				v-bind="attrs"
 				v-on="on"
 			>
-				<v-icon
-					class="ma-0 grey lighten-1 white--text"
-					style="padding: 4px; margin-left: -2px !important; border-radius: 4px 0 0 4px;"
-					:size="28"
-				>
+				<v-icon :size="18">
 					{{ mdiDiscord }}
 				</v-icon>
+				<v-divider
+					class="my-0 ml-2 pa-0"
+					vertical
+				/>
+				<span class="ml-2 d-flex justify-start align-center">Discord</span>
 			</v-btn>
 		</template>
 		<span class="body-2">
