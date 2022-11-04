@@ -36,6 +36,7 @@
 import { mdiDiscord } from '@mdi/js';
 
 export default {
+	name: 'UiActionDiscordBtn',
 	data: () => ({ mdiDiscord }),
 };
 </script>
