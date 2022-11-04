@@ -8,7 +8,7 @@
 		<template #activator="{ on, attrs }">
 			<v-btn
 				href="https://discord.gg/ThSJxNEHhZ"
-				class="ma-0 pl-2 text-none d-flex white--text caption align-center elevation-2"
+				class="ma-0 pl-2 text-none white--text caption elevation-2"
 				color="grey"
 				target="_blank"
 				rel="noopener"
@@ -16,14 +16,17 @@
 				v-bind="attrs"
 				v-on="on"
 			>
-				<v-icon :size="18">
+				<v-icon
+					:size="18"
+					color="white"
+				>
 					{{ mdiDiscord }}
 				</v-icon>
 				<v-divider
 					class="my-0 ml-2 pa-0"
 					vertical
 				/>
-				<span class="ml-2 d-flex justify-start align-center">Discord</span>
+				<span class="ml-2 d-flex justify-start align-center white--text">Discord</span>
 			</v-btn>
 		</template>
 		<span class="body-2">
