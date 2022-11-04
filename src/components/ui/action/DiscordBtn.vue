@@ -34,3 +34,15 @@
 		</span>
 	</v-tooltip>
 </template>
+
+<script>
+import { mdiDiscord } from '@mdi/js';
+
+export default {
+	data() {
+		return {
+			mdiDiscord,
+		};
+	},
+};
+</script>
