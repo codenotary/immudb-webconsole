@@ -39,10 +39,6 @@
 import { mdiDiscord } from '@mdi/js';
 
 export default {
-	data() {
-		return {
-			mdiDiscord,
-		};
-	},
+	data: () => ({ mdiDiscord }),
 };
 </script>
