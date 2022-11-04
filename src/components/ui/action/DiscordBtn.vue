@@ -30,7 +30,7 @@
 			</v-btn>
 		</template>
 		<span class="body-2">
-			{{ $t('footer.github.tooltip') }}
+			{{ $t('footer.discord.tooltip') }}
 		</span>
 	</v-tooltip>
 </template>
