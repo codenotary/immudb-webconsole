@@ -13,6 +13,7 @@ const WRITE_COMMANDS = [
 	'COMMIT',
 	'ROLLBACK',
 	'ALTER',
+	'DROP',
 ];
 
 const containsWord = (str, word) => {

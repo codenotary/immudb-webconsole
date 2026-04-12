@@ -65,6 +65,7 @@ export default {
 		query: 'Query',
 		databases: 'Databases',
 		users: 'Users',
+		audit: 'Audit Log',
 		settings: 'Settings - coming soon',
 		guide: 'Guide - coming soon',
 	},
@@ -122,6 +123,40 @@ export default {
 		readAndWrite: {
 			title: 'Reads and writes: {reads}/{writes} ',
 		},
+	},
+	audit: {
+		title: 'Audit Log',
+		subtitle: 'Immutable audit trail of all server operations',
+		filters: {
+			eventType: 'Event type',
+			user: 'User',
+			method: 'Method',
+			dateRange: 'Date range',
+			all: 'All events',
+		},
+		columns: {
+			timestamp: 'Timestamp',
+			user: 'User',
+			ip: 'IP Address',
+			method: 'Method',
+			eventType: 'Event Type',
+			success: 'Status',
+			duration: 'Duration',
+			error: 'Error',
+		},
+		eventTypes: {
+			AUTH: 'Authentication',
+			ADMIN: 'Administration',
+			WRITE: 'Write',
+			READ: 'Read',
+			SYSTEM: 'System',
+		},
+		status: {
+			success: 'Success',
+			failure: 'Failure',
+		},
+		empty: 'No audit events found',
+		loading: 'Loading audit events...',
 	},
 	query: {
 		tables: {

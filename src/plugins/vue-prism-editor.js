@@ -8,7 +8,8 @@ import '@/assets/css/prism.scss';
 
 // Include additional languages
 import 'prismjs/components/prism-bash.js';
-import 'prismjs/components/prism-sql';
+// Custom immudb SQL language with extended keywords, functions, and type aliases
+import '@/helpers/immudbSql';
 
 // Include the toolbar plugin: (optional)
 import 'prismjs/plugins/toolbar/prism-toolbar';

@@ -164,6 +164,7 @@ import {
 	mdiAccountCogOutline,
 	mdiCogOutline,
 	mdiBookOpenOutline,
+	mdiShieldCheckOutline,
 } from '@mdi/js';
 
 export default {
@@ -177,6 +178,7 @@ export default {
 			mdiAccountCogOutline,
 			mdiCogOutline,
 			mdiBookOpenOutline,
+			mdiShieldCheckOutline,
 			items: [],
 		};
 	},
@@ -232,6 +234,13 @@ export default {
 					icon: mdiAccountCogOutline,
 					to: this.localePath({ path: '/users' }),
 					alt: 'Users',
+				},
+				{
+					title: 'sidebar.audit',
+					tooltip: 'sidebar.audit',
+					icon: mdiShieldCheckOutline,
+					to: this.localePath({ path: '/audit' }),
+					alt: 'Audit Log',
 				},
 				{
 					title: 'sidebar.settings',
