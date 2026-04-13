@@ -100,7 +100,6 @@ export default {
 	},
 	metrics: {
 		title: 'Metrics of:',
-		multidatabaseComingSoon: 'Multidatabase metrics coming soon',
 		info: 'The following metrics are updated every {value}',
 		dbUptimeHours: {
 			title: 'Uptime',

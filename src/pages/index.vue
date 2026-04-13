@@ -15,37 +15,16 @@
 			>
 				{{ mdiChartBoxOutline }}
 			</v-icon>
-			<v-tooltip
-				content-class="ma-0 py-2 px-4 bg primary-outlined arrow-top-center"
-				bottom
-				:nudge-top="4"
-				:nudge-left="8"
-				:open-delay="300"
-			>
-				<template #activator="{ on, attrs }">
-					<div
-						class="db-select-wrapper ma-0 pa-0 d-flex"
-						style="opacity: 0.5;"
-						v-bind="attrs"
-						v-on="on"
-					>
-						<UiActionDatabaseSelect
-							v-if="database"
-							class="ma-0 py-0 pt-1 pl-2"
-							dense
-							:disabled="true"
-							:initial-value="database"
-							:prepend="$t('metrics.title')"
-							v-bind="attrs"
-							v-on="on"
-							@update="onUpdateDatabase"
-						/>
-					</div>
-				</template>
-				<span class="body-2">
-					{{ $t('metrics.multidatabaseComingSoon') }}
-				</span>
-			</v-tooltip>
+			<div class="db-select-wrapper ma-0 pa-0 d-flex">
+				<UiActionDatabaseSelect
+					v-if="database"
+					class="ma-0 py-0 pt-1 pl-2"
+					dense
+					:initial-value="database"
+					:prepend="$t('metrics.title')"
+					@update="onUpdateDatabase"
+				/>
+			</div>
 			<v-spacer />
 			<v-tooltip
 				content-class="ma-0 py-2 px-4 bg primary-outlined arrow-right-center"
